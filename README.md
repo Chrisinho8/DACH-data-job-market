@@ -1,4 +1,4 @@
-# How stale is the German-speaking data job market?
+# Whats up with the Data job market in Austria/Germany/Switzerland?
 
 ![tests](https://github.com/Chrisinho8/german-data-job-market/actions/workflows/tests.yml/badge.svg)
 
@@ -7,6 +7,14 @@
 **[Live tracker](https://Chrisinho8.github.io/german-data-job-market/)**
 : maps, country comparisons and role breakdowns, rebuilt every Monday.
 
+## What the tracker does
+Every Monday at 06:00 it queries the Adzuna API for 12 job titles in
+Germany, Austria and Switzerland, nationally, paginating until each
+search is exhausted. Results are deduplicated, classified, filtered to
+data roles, aggregated and published to the site automatically.
+
+
+**Current stats (29/07/2026):**
 | | Germany | Austria | Switzerland |
 |---|---|---|---|
 | Live postings | 3,774 | 276 | 357 |
@@ -17,24 +25,22 @@
 | Advertised in English | 29.6% | 37.7% | 62.2% |
 | Disclosing a salary | 4.2% | 5.8% | 2.0% |
 
-Snapshot of **29 July 2026**. The live tracker always shows current numbers.
-
 ---
 
-## What the data says
+## What the data says (Main insights)
 
 **Junior roles barely exist.** 159 of 4,407 postings, **3.6%**, carry a
 junior title. Ten senior openings for every junior one. `data architect`
 has zero.
 
+**Jobs seniority comparison**
 | Seniority | Postings | Share |
 |---|---|---|
 | Junior | 159 | 3.6% |
 | Mid | 2,619 | 59.4% |
 | Senior | 1,629 | 37.0% |
 
-**AI/ML is now the largest family**, ahead of data engineering.
-
+**Job offerings per job-field**
 | Role family | Postings |
 |---|---|
 | AI / ML | 1,520 |
@@ -48,16 +54,7 @@ has zero.
 | Data governance | 99 |
 | Analytics engineer | 71 |
 
-
-## What the tracker does
-
-Every Monday at 06:00 it queries the Adzuna API for 12 job titles in
-Germany, Austria and Switzerland, nationally, paginating until each
-search is exhausted. Results are deduplicated, classified, filtered to
-data roles, aggregated and published to the site automatically.
-
 ### Titles searched
-
 | | |
 |---|---|
 | `data engineer` | `data analyst` |
@@ -65,7 +62,7 @@ data roles, aggregated and published to the site automatically.
 | `bi developer` | `machine learning engineer` |
 | `ai engineer` | `data architect` |
 | `etl developer` | `big data engineer` |
-| `mlops engineer` | `data warehouse` |
+| `mlops engineer` | 
 
 The search parameter is a keyword match, not a title match, so these
 queries overlap heavily and also drag in unrelated roles. Every posting
@@ -96,6 +93,7 @@ query that found it.
 | Runtime | Under 10 minutes end to end |
 | Infrastructure cost | EUR 0 |
 
+**Important note**
 Because every weekly snapshot is retained, the dataset gets more useful
 over time: after a few weeks it shows which roles and tools are rising
 or falling, rather than a single picture of one day.
@@ -140,7 +138,7 @@ One Databricks Workflow, weekly. Bronze keeps every snapshot, so the
 whole history can be reprocessed with better logic without re-calling
 the API.
 
-## Method
+## Methods used:
 
 **Deduplication.** The same role is republished under new IDs
 constantly. Postings are hashed on title, company, city and the first
