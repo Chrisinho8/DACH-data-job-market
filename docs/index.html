@@ -809,7 +809,8 @@ get("city_breakdown").then(raw => {
   }
 
   /* ranking table */
-  const top = d.slice().sort((a, b) => b.n_postings - a.n_postings)
+const top = d.filter(r => r.city !== "not specified")
+               .sort((a, b) => b.n_postings - a.n_postings)
                .slice(0, 14);
   const mx = top[0].n_postings;
   document.getElementById("cityrank").innerHTML = top.map(r => `
