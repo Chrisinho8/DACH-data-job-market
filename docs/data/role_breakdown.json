@@ -1,38 +1,45 @@
 [
  {
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n_postings": 245,
+  "avg_age_days": 56.6,
+  "pct_english": 5.3
+ },
+ {
   "role_family": "data engineer",
   "seniority": "mid",
-  "n_postings": 180,
-  "avg_age_days": 51.1,
-  "pct_english": 28.9
+  "n_postings": 239,
+  "avg_age_days": 56.3,
+  "pct_english": 27.6
+ },
+ {
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n_postings": 197,
+  "avg_age_days": 41.2,
+  "pct_english": 30.5
+ },
+ {
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n_postings": 166,
+  "avg_age_days": 46.9,
+  "pct_english": 30.1
+ },
+ {
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n_postings": 165,
+  "avg_age_days": 52.3,
+  "pct_english": 44.2
  },
  {
   "role_family": "bi developer",
-  "seniority": "mid",
-  "n_postings": 163,
-  "avg_age_days": 64.0,
-  "pct_english": 7.4
- },
- {
-  "role_family": "ai engineer",
-  "seniority": "mid",
-  "n_postings": 162,
-  "avg_age_days": 44.4,
-  "pct_english": 31.5
- },
- {
-  "role_family": "ai engineer",
   "seniority": "senior",
-  "n_postings": 135,
-  "avg_age_days": 54.9,
-  "pct_english": 45.9
- },
- {
-  "role_family": "data engineer",
-  "seniority": "senior",
-  "n_postings": 128,
-  "avg_age_days": 52.7,
-  "pct_english": 34.4
+  "n_postings": 115,
+  "avg_age_days": 36.0,
+  "pct_english": 7.0
  },
  {
   "role_family": "data architect",
@@ -42,95 +49,95 @@
   "pct_english": 21.9
  },
  {
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n_postings": 86,
+  "avg_age_days": 40.2,
+  "pct_english": 24.4
+ },
+ {
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n_postings": 85,
+  "avg_age_days": 58.8,
+  "pct_english": 38.8
+ },
+ {
   "role_family": "data architect",
   "seniority": "senior",
-  "n_postings": 65,
-  "avg_age_days": 90.9,
-  "pct_english": 12.3
+  "n_postings": 66,
+  "avg_age_days": 90.7,
+  "pct_english": 12.1
+ },
+ {
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n_postings": 63,
+  "avg_age_days": 69.4,
+  "pct_english": 54.0
+ },
+ {
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n_postings": 58,
+  "avg_age_days": 40.8,
+  "pct_english": 56.9
  },
  {
   "role_family": "bi developer",
-  "seniority": "senior",
-  "n_postings": 59,
-  "avg_age_days": 49.7,
-  "pct_english": 10.2
+  "seniority": "junior",
+  "n_postings": 55,
+  "avg_age_days": 71.5,
+  "pct_english": 5.5
  },
  {
-  "role_family": "data scientist",
+  "role_family": "ml engineer",
   "seniority": "mid",
-  "n_postings": 52,
-  "avg_age_days": 61.5,
-  "pct_english": 51.9
- },
- {
-  "role_family": "data scientist",
-  "seniority": "senior",
-  "n_postings": 51,
-  "avg_age_days": 80.5,
-  "pct_english": 60.8
- },
- {
-  "role_family": "data analyst",
-  "seniority": "mid",
-  "n_postings": 47,
-  "avg_age_days": 40.3,
-  "pct_english": 23.4
+  "n_postings": 54,
+  "avg_age_days": 75.4,
+  "pct_english": 40.7
  },
  {
   "role_family": "dwh / etl",
   "seniority": "mid",
-  "n_postings": 47,
-  "avg_age_days": 130.1,
-  "pct_english": 2.1
- },
- {
-  "role_family": "bi developer",
-  "seniority": "junior",
-  "n_postings": 42,
-  "avg_age_days": 52.1,
-  "pct_english": 4.8
- },
- {
-  "role_family": "ml engineer",
-  "seniority": "senior",
-  "n_postings": 41,
-  "avg_age_days": 45.7,
-  "pct_english": 61.0
- },
- {
-  "role_family": "ml engineer",
-  "seniority": "mid",
-  "n_postings": 34,
-  "avg_age_days": 85.2,
-  "pct_english": 35.3
+  "n_postings": 53,
+  "avg_age_days": 117.6,
+  "pct_english": 1.9
  },
  {
   "role_family": "data analyst",
   "seniority": "senior",
-  "n_postings": 26,
-  "avg_age_days": 25.2,
-  "pct_english": 38.5
+  "n_postings": 44,
+  "avg_age_days": 30.6,
+  "pct_english": 31.8
  },
  {
   "role_family": "data engineer",
   "seniority": "junior",
-  "n_postings": 26,
-  "avg_age_days": 73.1,
-  "pct_english": 11.5
+  "n_postings": 35,
+  "avg_age_days": 82.2,
+  "pct_english": 14.3
  },
  {
-  "role_family": "analytics engineer",
-  "seniority": "senior",
-  "n_postings": 17,
-  "avg_age_days": 33.1,
-  "pct_english": 70.6
+  "role_family": "data scientist",
+  "seniority": "junior",
+  "n_postings": 25,
+  "avg_age_days": 117.5,
+  "pct_english": 12.0
  },
  {
   "role_family": "analytics engineer",
   "seniority": "mid",
-  "n_postings": 15,
-  "avg_age_days": 103.7,
-  "pct_english": 66.7
+  "n_postings": 24,
+  "avg_age_days": 88.9,
+  "pct_english": 45.8
+ },
+ {
+  "role_family": "analytics engineer",
+  "seniority": "senior",
+  "n_postings": 19,
+  "avg_age_days": 31.1,
+  "pct_english": 63.2
  },
  {
   "role_family": "dwh / etl",
@@ -140,45 +147,38 @@
   "pct_english": 7.1
  },
  {
-  "role_family": "data scientist",
-  "seniority": "junior",
-  "n_postings": 11,
-  "avg_age_days": 68.2,
-  "pct_english": 18.2
- },
- {
   "role_family": "ai engineer",
   "seniority": "junior",
-  "n_postings": 11,
-  "avg_age_days": 20.8,
-  "pct_english": 27.3
+  "n_postings": 13,
+  "avg_age_days": 20.7,
+  "pct_english": 23.1
  },
  {
   "role_family": "data analyst",
   "seniority": "junior",
-  "n_postings": 6,
-  "avg_age_days": 112.5,
-  "pct_english": 16.7
- },
- {
-  "role_family": "ml engineer",
-  "seniority": "junior",
-  "n_postings": 5,
-  "avg_age_days": 27.2,
-  "pct_english": 40.0
+  "n_postings": 9,
+  "avg_age_days": 81.8,
+  "pct_english": 22.2
  },
  {
   "role_family": "analytics engineer",
   "seniority": "junior",
-  "n_postings": 4,
-  "avg_age_days": 57.8,
+  "n_postings": 6,
+  "avg_age_days": 53.7,
   "pct_english": 0.0
+ },
+ {
+  "role_family": "ml engineer",
+  "seniority": "junior",
+  "n_postings": 6,
+  "avg_age_days": 64.8,
+  "pct_english": 50.0
  },
  {
   "role_family": "dwh / etl",
   "seniority": "junior",
-  "n_postings": 2,
-  "avg_age_days": 156.5,
+  "n_postings": 4,
+  "avg_age_days": 79.3,
   "pct_english": 0.0
  }
 ]
