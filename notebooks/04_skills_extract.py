@@ -30,8 +30,7 @@ import re
 # COMMAND ----------
 
 # MAGIC %md ## The dictionary
-# MAGIC Read 30 real postings and add what you actually see. This is a
-# MAGIC starting point, not a finished artefact.
+# MAGIC
 
 # COMMAND ----------
 

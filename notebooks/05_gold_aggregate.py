@@ -2,7 +2,6 @@
 # MAGIC %md
 # MAGIC # 05 - Gold: the tables that become the website
 # MAGIC
-# MAGIC Primary story: **how stale is the German data job market?**
 # MAGIC Every table here is built only from fields the API actually fills
 # MAGIC reliably: title, company, city, id, created date.
 
@@ -292,3 +291,69 @@ age_max = p.agg(F.max("age_days")).first()[0]
 assert age_max < 2000, "implausible age, check date parsing"
 
 print(f"validation passed: {n:,} postings, {q:,} quarantined")
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC -- 1. add country to city_breakdown
+# MAGIC CREATE OR REPLACE TABLE jobs.gold.city_breakdown AS
+# MAGIC SELECT country, city,
+# MAGIC        COUNT(*) AS n_postings,
+# MAGIC        ROUND(AVG(age_days), 1) AS avg_age_days,
+# MAGIC        ROUND(100 * AVG(CASE WHEN language='en' THEN 1 ELSE 0 END), 1)
+# MAGIC          AS pct_english,
+# MAGIC        ROUND(100 * AVG(CASE WHEN is_agency THEN 1 ELSE 0 END), 1)
+# MAGIC          AS pct_agency
+# MAGIC FROM postings
+# MAGIC GROUP BY country, city
+# MAGIC ORDER BY n_postings DESC;
+# MAGIC
+# MAGIC
+# MAGIC
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC
+# MAGIC -- 2. add country to role_breakdown
+# MAGIC CREATE OR REPLACE TABLE jobs.gold.role_breakdown AS
+# MAGIC SELECT country, role_family, seniority,
+# MAGIC        COUNT(*) AS n_postings,
+# MAGIC        ROUND(AVG(age_days), 1) AS avg_age_days,
+# MAGIC        ROUND(100 * AVG(CASE WHEN language='en' THEN 1 ELSE 0 END), 1)
+# MAGIC          AS pct_english
+# MAGIC FROM postings
+# MAGIC GROUP BY country, role_family, seniority
+# MAGIC ORDER BY n_postings DESC;
+# MAGIC
+# MAGIC
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC
+# MAGIC
+# MAGIC CREATE OR REPLACE TABLE jobs.gold.country_breakdown AS
+# MAGIC SELECT
+# MAGIC   country,
+# MAGIC   COUNT(*)                                    AS n_postings,
+# MAGIC   COUNT(DISTINCT company)                     AS employers,
+# MAGIC   ROUND(AVG(age_days), 1)                     AS avg_age_days,
+# MAGIC   percentile_approx(age_days, 0.5)            AS median_age_days,
+# MAGIC   ROUND(100*AVG(CASE WHEN age_days>30 THEN 1 ELSE 0 END),1)
+# MAGIC     AS pct_over_30d,
+# MAGIC   ROUND(100*AVG(CASE WHEN age_days>60 THEN 1 ELSE 0 END),1)
+# MAGIC     AS pct_over_60d,
+# MAGIC   ROUND(100*AVG(CASE WHEN age_days>90 THEN 1 ELSE 0 END),1)
+# MAGIC     AS pct_over_90d,
+# MAGIC   ROUND(100*AVG(CASE WHEN language='en' THEN 1 ELSE 0 END),1)
+# MAGIC     AS pct_english,
+# MAGIC   ROUND(100*AVG(CASE WHEN salary_min IS NOT NULL THEN 1 ELSE 0 END),1)
+# MAGIC     AS pct_with_salary,
+# MAGIC   ROUND(100*AVG(CASE WHEN is_agency THEN 1 ELSE 0 END),1)
+# MAGIC     AS pct_agency
+# MAGIC FROM jobs.silver.postings
+# MAGIC GROUP BY country
+# MAGIC ORDER BY n_postings DESC;
+# MAGIC
+# MAGIC SELECT * FROM jobs.gold.country_breakdown;

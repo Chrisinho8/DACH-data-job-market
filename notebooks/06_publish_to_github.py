@@ -65,11 +65,13 @@ EXPORTS = [
     (f"{GOLD}.market_summary",    "market_summary",    10),
     (f"{GOLD}.age_distribution",  "age_distribution",  10),
     (f"{GOLD}.agency_comparison", "agency_comparison", 10),
-    (f"{GOLD}.role_breakdown",    "role_breakdown",   100),
-    (f"{GOLD}.city_breakdown",    "city_breakdown",    50),
-    (f"{GOLD}.stale_by_company",  "stale_by_company",  40),
     (f"{GOLD}.skill_demand",      "skill_demand",      60),
     (f"{GOLD}.history",           "history",         5000),
+    (f"{GOLD}.country_breakdown", "country_breakdown", 10),
+    (f"{GOLD}.city_breakdown",   "city_breakdown",   400),
+    (f"{GOLD}.stale_by_company", "stale_by_company",  60),
+    (f"{GOLD}.role_breakdown",   "role_breakdown",   200),
+    (f"{GOLD}.history", "history", 500000)
 ]
 
 for table, name, limit in EXPORTS:
@@ -109,3 +111,6 @@ meta = {
 
 commit_json("docs/data/meta.json", meta, f"meta {STAMP}")
 print(json.dumps(meta, indent=2))
+commit_json("docs/data/city_breakdown.json",
+            records(f"{GOLD}.city_breakdown", 100000),
+            f"city refresh {STAMP}")

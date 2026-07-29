@@ -2,12 +2,15 @@
 # MAGIC %md
 # MAGIC # 02 - Bronze: Auto Loader
 # MAGIC
-# MAGIC Incrementally ingests the cached JSON files into Delta. Append only,
+# MAGIC Incrementally ingests the cached JSON into Delta. Append only,
 # MAGIC nothing cleaned, `_rescued_data` preserved.
 # MAGIC
 # MAGIC `trigger(availableNow=True)` processes everything waiting and then
 # MAGIC **stops**. That is what keeps this inside the Free Edition compute
 # MAGIC budget. A continuous stream would drain it overnight.
+# MAGIC
+# MAGIC Filenames follow `country__role__pN__date.json`, so the query that
+# MAGIC produced each row is recoverable without storing it separately.
 
 # COMMAND ----------
 
@@ -54,21 +57,21 @@ print("bronze load complete")
 
 raw = spark.table(f"{BRONZE}.responses_raw")
 
-# Filename encodes the query: role__city__pN__date.json
+# filename: country__role__pN__YYYY-MM-DD.json
 fname = F.element_at(F.split(F.col("source_file"), "/"), -1)
 parts = F.split(F.regexp_replace(fname, r"\.json$", ""), "__")
 
 flat = (raw
+    .withColumn("country", F.element_at(parts, 1))
     .withColumn("query_role", F.regexp_replace(
-        F.element_at(parts, 1), "-", " "))
-    .withColumn("query_city", F.element_at(parts, 2))
+        F.element_at(parts, 2), "-", " "))
     .withColumn("query_page", F.regexp_replace(
         F.element_at(parts, 3), "p", "").cast("int"))
     .withColumn("pull_date", F.to_date(F.element_at(parts, 4)))
     .withColumn("r", F.explode("results"))
     .select(
         "ingest_ts", "source_file", "_rescued_data",
-        "query_role", "query_city", "query_page", "pull_date",
+        "country", "query_role", "query_page", "pull_date",
         F.col("r.*")))
 
 (flat.write
@@ -81,9 +84,22 @@ print(f"{flat.count():,} raw posting rows")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Inspect what the API actually gave 
-# MAGIC
+# MAGIC ## Guard: did the filename parse work?
+# MAGIC If any row has a country outside de/at/ch, a file is misnamed and
+# MAGIC everything downstream will silently mislabel it.
 
 # COMMAND ----------
 
-spark.table(f"{BRONZE}.postings_flat").printSchema()
+bad = (spark.table(f"{BRONZE}.postings_flat")
+            .filter(~F.col("country").isin("de", "at", "ch")))
+
+n_bad = bad.count()
+if n_bad:
+    display(bad.select("country", "source_file").distinct())
+assert n_bad == 0, f"{n_bad} rows with an unexpected country code"
+
+display(spark.table(f"{BRONZE}.postings_flat")
+             .groupBy("country", "pull_date")
+             .agg(F.count("*").alias("rows"),
+                  F.countDistinct("id").alias("unique_ids"))
+             .orderBy("pull_date", "country"))
