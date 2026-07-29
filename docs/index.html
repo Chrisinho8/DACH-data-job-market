@@ -412,6 +412,86 @@
   </section>
 
 
+
+  <!-- ===================================================== -->
+  <!-- ========== NEW BATCH 2: 7 MORE CHARTS =============== -->
+  <!-- ===================================================== -->
+
+  <section>
+    <h2>Which roles are advertised in English?</h2>
+    <p class="note">
+      Share of each role family's postings written in English,
+      weighted by volume. Language is detected from German stopwords in
+      the description.
+    </p>
+    <canvas id="n8_roleen" height="220"></canvas>
+  </section>
+
+  <section>
+    <h2>Where do recruitment agencies dominate?</h2>
+    <p class="note">
+      Share of each city's postings that look like they come from a
+      recruitment agency rather than the employer directly. Detection
+      is keyword based and undercounts everywhere, so read the
+      differences between cities rather than the absolute levels.
+    </p>
+    <canvas id="n9_agencity" height="240"></canvas>
+  </section>
+
+  <section>
+    <h2>How concentrated is each market?</h2>
+    <p class="note">
+      Average number of live postings per employer. A higher number
+      means fewer, larger employers doing the hiring; closer to 1 means
+      a long tail of companies each advertising a single role.
+    </p>
+    <canvas id="n10_fragment" height="180"></canvas>
+  </section>
+
+  <section>
+    <h2>Who publishes a salary?</h2>
+    <p class="note">
+      Share of postings stating any salary figure. The EU pay
+      transparency directive had a transposition deadline of June 2026.
+      Swiss postings quote francs and German and Austrian ones euros,
+      so only the disclosure rate is comparable, never the amounts.
+    </p>
+    <canvas id="n11_salary" height="180"></canvas>
+  </section>
+
+  <section>
+    <h2>Which tool categories sit in stale postings?</h2>
+    <p class="note">
+      Average days open for postings mentioning each category of tool.
+      If legacy tooling clusters at the top, that is a signal about
+      which stacks are hard to hire for. Same truncation caveat as
+      every tool chart here.
+    </p>
+    <canvas id="n12_catage" height="220"></canvas>
+  </section>
+
+  <section>
+    <h2>How the market ages, in absolute numbers</h2>
+    <p class="note">
+      Bars are the number of live postings in each age band. The line
+      is the running total, so you can read straight off it how many
+      postings are older than any given band.
+    </p>
+    <canvas id="n13_agecum" height="210"></canvas>
+  </section>
+
+  <section>
+    <h2>This pipeline's own error rates</h2>
+    <p class="note">
+      Most dashboards do not publish how wrong they might be. These are
+      measured on every run: the share of records rejected by quality
+      rules, the share of source descriptions the API truncated, and
+      the accuracy of the tool matcher where it has been measured.
+    </p>
+    <div id="n14_quality" class="stats"></div>
+  </section>
+
+
   <!-- ============ CAVEATS ============ -->
   <section class="caveats">
     <h2>What this does not tell you</h2>
@@ -1274,6 +1354,184 @@ get("history").then(h => {
         [ds("Days the oldest posting has been live",
             rows.map(r => r.oldest_days),
             rows.map(r => ageColour(r.oldest_days)))], true);
+  });
+})();
+</script>
+
+
+<!-- ===================================================== -->
+<!-- ==== NEW BATCH 2: script for the 7 more charts ====== -->
+<!-- Self-contained IIFE, declares nothing globally.       -->
+<!-- ===================================================== -->
+<script>
+(function () {
+  const IND = "#6B6E9B", ROSE = "#B5657F", OLIVE = "#8C9455";
+
+  /* ---- 8: English share by role family ---- */
+  get("role_breakdown").then(d => {
+    if (!d || !d.length) return;
+    const agg = {};
+    d.forEach(r => {
+      const k = r.role_family;
+      agg[k] = agg[k] || { n: 0, wen: 0 };
+      agg[k].n   += r.n_postings;
+      agg[k].wen += r.n_postings * (r.pct_english || 0);
+    });
+    const rows = Object.entries(agg)
+      .map(([role, v]) => ({ role, n: v.n,
+                             en: +(v.wen / v.n).toFixed(1) }))
+      .sort((a, b) => b.en - a.en);
+
+    bar("n8_roleen", rows.map(r => `${r.role} (n=${r.n})`),
+        [ds("% in English", rows.map(r => r.en),
+            rows.map(r => r.en >= 50 ? IND : STEEL))], true);
+  });
+
+  /* ---- 9: agency share by city ---- */
+  get("city_breakdown").then(raw => {
+    if (!raw || !raw.length) return;
+
+    const key = s => String(s).toLowerCase()
+      .replace(/\s*\(.*?\)\s*$/g, "")
+      .replace(/[-\s](umgebung|umland|land|stadt)$/g, "")
+      .replace(/^(region|regionalverband)\s+/, "")
+      .replace(/\s+/g, " ").trim();
+
+    const acc = {};
+    raw.forEach(r => {
+      const c = r.country || "de";
+      const k = `${c}|${key(r.city)}`;
+      acc[k] = acc[k] || { country: c, city: key(r.city),
+                           n: 0, wag: 0 };
+      acc[k].n   += r.n_postings;
+      acc[k].wag += r.n_postings * (r.pct_agency || 0);
+    });
+
+    const rows = Object.values(acc)
+      .filter(m => m.city !== "unknown" && m.n >= 15)
+      .map(m => ({ city: m.city, country: m.country, n: m.n,
+                   ag: +(m.wag / m.n).toFixed(1) }))
+      .sort((a, b) => b.ag - a.ag)
+      .slice(0, 16);
+    if (!rows.length) return;
+
+    bar("n9_agencity",
+        rows.map(r => `${cap(r.city)} (${r.country}, n=${r.n})`),
+        [ds("% posted by agencies", rows.map(r => r.ag),
+            rows.map(r => r.ag === 0 ? "#D8D3C7" : ROSE))], true);
+  });
+
+  /* ---- 10 & 11: fragmentation and salary disclosure ---- */
+  get("country_breakdown").then(d => {
+    if (!d || !d.length) return;
+    const byC = {};
+    d.forEach(r => byC[r.country] = r);
+    const rows = CORDER.filter(c => byC[c]).map(c => byC[c]);
+    if (!rows.length) return;
+
+    bar("n10_fragment", rows.map(r => CNAME[r.country] || r.country),
+        [ds("postings per employer",
+            rows.map(r => r.employers
+              ? +(r.n_postings / r.employers).toFixed(2) : 0),
+            rows.map(r => CCOL[r.country] || CORAL))]);
+
+    bar("n11_salary", rows.map(r => CNAME[r.country] || r.country),
+        [ds("% stating a salary",
+            rows.map(r => r.pct_with_salary ?? 0),
+            rows.map(r => CCOL[r.country] || CORAL))]);
+  });
+
+  /* ---- 12: staleness by tool category ---- */
+  get("skill_demand").then(d => {
+    if (!d || !d.length) return;
+    const agg = {};
+    d.forEach(r => {
+      const c = r.skill_category || "other";
+      agg[c] = agg[c] || { n: 0, wage: 0 };
+      agg[c].n    += r.n_postings;
+      agg[c].wage += r.n_postings * (r.avg_age_days || 0);
+    });
+    const rows = Object.entries(agg)
+      .map(([cat, v]) => ({ cat, n: v.n,
+                            age: Math.round(v.wage / v.n) }))
+      .sort((a, b) => b.age - a.age);
+
+    bar("n12_catage", rows.map(r => `${r.cat} (n=${r.n})`),
+        [ds("avg days open", rows.map(r => r.age),
+            rows.map(r => ageColour(r.age)))], true);
+  });
+
+  /* ---- 13: age distribution, counts plus running total ---- */
+  get("age_distribution").then(d => {
+    if (!d || !d.length) return;
+    const el = document.getElementById("n13_agecum");
+    if (!el) return;
+
+    const order = ["0-7 days", "8-14 days", "15-30 days",
+                   "31-60 days", "61-90 days", "90+ days"];
+    const rows = d.slice().sort(
+      (a, b) => order.indexOf(a.bucket) - order.indexOf(b.bucket));
+
+    const total = rows.reduce((s, r) => s + r.n_postings, 0);
+    let run = 0;
+    const cum = rows.map(r => {
+      run += r.n_postings;
+      return +(100 * run / total).toFixed(1);
+    });
+
+    new Chart(el, {
+      data: {
+        labels: rows.map(r => r.bucket),
+        datasets: [
+          { type: "bar", label: "postings in band",
+            data: rows.map(r => r.n_postings),
+            backgroundColor: [MOSS, "#9DA97E", AMBER,
+                              CLAY, DEEP, "#8C3A22"],
+            borderRadius: 3, barPercentage: 0.82, order: 2 },
+          { type: "line", label: "cumulative %",
+            data: cum, yAxisID: "y1", order: 1,
+            borderColor: SLATE, backgroundColor: SLATE,
+            tension: 0.25, pointRadius: 3, fill: false }
+        ]
+      },
+      options: {
+        plugins: { legend: { position: "bottom",
+                             labels: { boxWidth: 12 } } },
+        scales: {
+          x:  { grid: { display: false } },
+          y:  { position: "left", grid: { color: LINE },
+                title: { display: true, text: "postings" } },
+          y1: { position: "right", min: 0, max: 100,
+                grid: { display: false },
+                title: { display: true, text: "cumulative %" } }
+        }
+      }
+    });
+  });
+
+  /* ---- 14: this pipeline's own error rates ---- */
+  get("meta").then(m => {
+    if (!m) return;
+    const el = document.getElementById("n14_quality");
+    if (!el) return;
+
+    const pct = v => (v == null ? null : v);
+    const cards = [
+      ["Records rejected by quality rules",
+       m.quarantine_rate != null
+         ? (100 * m.quarantine_rate).toFixed(1) + "%"
+         : (m.quarantined != null ? m.quarantined : "–")],
+      ["Source descriptions truncated",
+       m.desc_truncated_pct != null
+         ? m.desc_truncated_pct + "%" : "–"],
+      ["Tool matcher precision",
+       pct(m.matcher_precision) ?? "not measured"],
+      ["Tool matcher recall",
+       pct(m.matcher_recall) ?? "not measured"],
+    ];
+
+    el.innerHTML = cards.map(([k, v]) =>
+      `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join("");
   });
 })();
 </script>
