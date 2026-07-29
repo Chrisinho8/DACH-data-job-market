@@ -7,9 +7,9 @@ one has been open for 59 days. The median, 17. That gap is the finding:
 half the market moves in under three weeks, while more than 1 in 4
 postings has been sitting open for over two months.**
 
-**Live tracker including maps, stats etc.**
-**[Live tracker](https://Chrisinho8.github.io/german-data-job-market/)**
 
+**[Live tracker](https://Chrisinho8.github.io/german-data-job-market/)**
+**: Live tracker including maps, stats etc.**
 
 ---
 
