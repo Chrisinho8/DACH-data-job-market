@@ -1,159 +1,254 @@
 [
  {
+  "country": "de",
   "role_family": "ai / ml",
   "seniority": "mid",
-  "n_postings": 866,
-  "avg_age_days": 41.6,
-  "pct_english": 41.8
+  "n_postings": 697,
+  "avg_age_days": 39.9,
+  "pct_english": 37.6
  },
  {
+  "country": "de",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n_postings": 653,
-  "avg_age_days": 51.5,
-  "pct_english": 24.5
+  "n_postings": 522,
+  "avg_age_days": 50.1,
+  "pct_english": 21.3
  },
  {
+  "country": "de",
   "role_family": "ai / ml",
   "seniority": "senior",
-  "n_postings": 598,
-  "avg_age_days": 52.7,
-  "pct_english": 56.7
+  "n_postings": 521,
+  "avg_age_days": 49.6,
+  "pct_english": 55.7
  },
  {
+  "country": "de",
   "role_family": "data engineer",
   "seniority": "senior",
-  "n_postings": 329,
-  "avg_age_days": 49.1,
-  "pct_english": 32.2
+  "n_postings": 294,
+  "avg_age_days": 46.3,
+  "pct_english": 29.6
  },
  {
+  "country": "de",
   "role_family": "bi developer",
   "seniority": "mid",
-  "n_postings": 253,
-  "avg_age_days": 53.2,
-  "pct_english": 9.1
+  "n_postings": 240,
+  "avg_age_days": 54.6,
+  "pct_english": 7.9
  },
  {
-  "role_family": "data analyst",
-  "seniority": "mid",
-  "n_postings": 205,
-  "avg_age_days": 55.6,
-  "pct_english": 30.7
- },
- {
+  "country": "de",
   "role_family": "data scientist",
-  "seniority": "mid",
-  "n_postings": 195,
-  "avg_age_days": 57.3,
-  "pct_english": 42.6
- },
- {
-  "role_family": "data scientist",
-  "seniority": "senior",
-  "n_postings": 178,
-  "avg_age_days": 74.1,
-  "pct_english": 45.5
- },
- {
-  "role_family": "dwh / etl",
   "seniority": "mid",
   "n_postings": 158,
-  "avg_age_days": 73.6,
-  "pct_english": 3.8
+  "avg_age_days": 59.4,
+  "pct_english": 39.2
  },
  {
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n_postings": 155,
+  "avg_age_days": 81.4,
+  "pct_english": 44.5
+ },
+ {
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n_postings": 148,
+  "avg_age_days": 55.0,
+  "pct_english": 21.6
+ },
+ {
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "mid",
+  "n_postings": 145,
+  "avg_age_days": 72.8,
+  "pct_english": 2.1
+ },
+ {
+  "country": "de",
   "role_family": "bi developer",
   "seniority": "senior",
-  "n_postings": 131,
-  "avg_age_days": 37.7,
-  "pct_english": 11.5
+  "n_postings": 126,
+  "avg_age_days": 37.8,
+  "pct_english": 9.5
  },
  {
-  "role_family": "data architect",
-  "seniority": "mid",
-  "n_postings": 131,
-  "avg_age_days": 45.3,
-  "pct_english": 26.7
- },
- {
+  "country": "de",
   "role_family": "data architect",
   "seniority": "senior",
-  "n_postings": 128,
-  "avg_age_days": 50.9,
-  "pct_english": 9.4
+  "n_postings": 124,
+  "avg_age_days": 50.4,
+  "pct_english": 7.3
  },
  {
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n_postings": 116,
+  "avg_age_days": 43.4,
+  "pct_english": 24.1
+ },
+ {
+  "country": "ch",
+  "role_family": "ai / ml",
+  "seniority": "mid",
+  "n_postings": 97,
+  "avg_age_days": 45.8,
+  "pct_english": 68.0
+ },
+ {
+  "country": "de",
   "role_family": "data consultant",
   "seniority": "mid",
-  "n_postings": 91,
-  "avg_age_days": 85.5,
-  "pct_english": 22.0
+  "n_postings": 83,
+  "avg_age_days": 91.0,
+  "pct_english": 20.5
  },
  {
+  "country": "at",
+  "role_family": "ai / ml",
+  "seniority": "mid",
+  "n_postings": 72,
+  "avg_age_days": 52.9,
+  "pct_english": 47.2
+ },
+ {
+  "country": "de",
   "role_family": "data analyst",
   "seniority": "senior",
-  "n_postings": 74,
-  "avg_age_days": 52.8,
-  "pct_english": 35.1
+  "n_postings": 70,
+  "avg_age_days": 45.0,
+  "pct_english": 32.9
  },
  {
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n_postings": 66,
+  "avg_age_days": 47.7,
+  "pct_english": 54.5
+ },
+ {
+  "country": "at",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n_postings": 65,
+  "avg_age_days": 66.6,
+  "pct_english": 20.0
+ },
+ {
+  "country": "de",
   "role_family": "data consultant",
   "seniority": "senior",
-  "n_postings": 66,
-  "avg_age_days": 63.2,
-  "pct_english": 34.8
+  "n_postings": 58,
+  "avg_age_days": 61.1,
+  "pct_english": 32.8
  },
  {
+  "country": "de",
   "role_family": "data governance",
   "seniority": "senior",
-  "n_postings": 61,
-  "avg_age_days": 109.5,
-  "pct_english": 34.4
+  "n_postings": 58,
+  "avg_age_days": 114.9,
+  "pct_english": 32.8
  },
  {
+  "country": "de",
   "role_family": "ai / ml",
   "seniority": "junior",
-  "n_postings": 58,
-  "avg_age_days": 21.3,
-  "pct_english": 17.2
+  "n_postings": 54,
+  "avg_age_days": 20.1,
+  "pct_english": 13.0
  },
  {
-  "role_family": "data governance",
-  "seniority": "mid",
-  "n_postings": 37,
-  "avg_age_days": 36.4,
-  "pct_english": 43.2
+  "country": "ch",
+  "role_family": "ai / ml",
+  "seniority": "senior",
+  "n_postings": 42,
+  "avg_age_days": 77.7,
+  "pct_english": 64.3
  },
  {
-  "role_family": "analytics engineer",
-  "seniority": "mid",
-  "n_postings": 36,
-  "avg_age_days": 70.9,
-  "pct_english": 33.3
+  "country": "at",
+  "role_family": "ai / ml",
+  "seniority": "senior",
+  "n_postings": 35,
+  "avg_age_days": 68.7,
+  "pct_english": 62.9
  },
  {
+  "country": "de",
   "role_family": "dwh / etl",
   "seniority": "senior",
-  "n_postings": 36,
-  "avg_age_days": 100.3,
+  "n_postings": 32,
+  "avg_age_days": 89.0,
+  "pct_english": 12.5
+ },
+ {
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n_postings": 30,
+  "avg_age_days": 38.0,
+  "pct_english": 70.0
+ },
+ {
+  "country": "de",
+  "role_family": "analytics engineer",
+  "seniority": "mid",
+  "n_postings": 29,
+  "avg_age_days": 81.5,
+  "pct_english": 34.5
+ },
+ {
+  "country": "de",
+  "role_family": "data governance",
+  "seniority": "mid",
+  "n_postings": 28,
+  "avg_age_days": 44.6,
+  "pct_english": 50.0
+ },
+ {
+  "country": "de",
+  "role_family": "analytics engineer",
+  "seniority": "senior",
+  "n_postings": 28,
+  "avg_age_days": 37.6,
+  "pct_english": 46.4
+ },
+ {
+  "country": "at",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n_postings": 27,
+  "avg_age_days": 78.2,
+  "pct_english": 37.0
+ },
+ {
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "junior",
+  "n_postings": 27,
+  "avg_age_days": 59.5,
   "pct_english": 11.1
  },
  {
+  "country": "ch",
   "role_family": "data engineer",
-  "seniority": "junior",
-  "n_postings": 33,
-  "avg_age_days": 65.5,
-  "pct_english": 21.2
- },
- {
-  "role_family": "analytics engineer",
   "seniority": "senior",
-  "n_postings": 31,
-  "avg_age_days": 35.1,
-  "pct_english": 48.4
+  "n_postings": 22,
+  "avg_age_days": 93.9,
+  "pct_english": 63.6
  },
  {
+  "country": "de",
   "role_family": "data scientist",
   "seniority": "junior",
   "n_postings": 22,
@@ -161,6 +256,31 @@
   "pct_english": 9.1
  },
  {
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n_postings": 21,
+  "avg_age_days": 20.2,
+  "pct_english": 52.4
+ },
+ {
+  "country": "at",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n_postings": 19,
+  "avg_age_days": 42.3,
+  "pct_english": 47.4
+ },
+ {
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n_postings": 18,
+  "avg_age_days": 54.7,
+  "pct_english": 66.7
+ },
+ {
+  "country": "de",
   "role_family": "bi developer",
   "seniority": "junior",
   "n_postings": 15,
@@ -168,20 +288,111 @@
   "pct_english": 0.0
  },
  {
-  "role_family": "data analyst",
-  "seniority": "junior",
-  "n_postings": 14,
-  "avg_age_days": 51.4,
-  "pct_english": 21.4
+  "country": "at",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n_postings": 13,
+  "avg_age_days": 36.1,
+  "pct_english": 38.5
  },
  {
+  "country": "at",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n_postings": 9,
+  "avg_age_days": 32.9,
+  "pct_english": 33.3
+ },
+ {
+  "country": "at",
+  "role_family": "dwh / etl",
+  "seniority": "mid",
+  "n_postings": 9,
+  "avg_age_days": 106.1,
+  "pct_english": 33.3
+ },
+ {
+  "country": "de",
   "role_family": "data consultant",
   "seniority": "junior",
-  "n_postings": 10,
-  "avg_age_days": 49.1,
+  "n_postings": 9,
+  "avg_age_days": 53.9,
   "pct_english": 0.0
  },
  {
+  "country": "ch",
+  "role_family": "data governance",
+  "seniority": "mid",
+  "n_postings": 7,
+  "avg_age_days": 6.3,
+  "pct_english": 14.3
+ },
+ {
+  "country": "ch",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n_postings": 7,
+  "avg_age_days": 88.4,
+  "pct_english": 57.1
+ },
+ {
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "junior",
+  "n_postings": 7,
+  "avg_age_days": 94.9,
+  "pct_english": 0.0
+ },
+ {
+  "country": "at",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n_postings": 7,
+  "avg_age_days": 48.9,
+  "pct_english": 28.6
+ },
+ {
+  "country": "ch",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n_postings": 6,
+  "avg_age_days": 5.2,
+  "pct_english": 33.3
+ },
+ {
+  "country": "ch",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n_postings": 6,
+  "avg_age_days": 101.2,
+  "pct_english": 66.7
+ },
+ {
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "junior",
+  "n_postings": 5,
+  "avg_age_days": 27.6,
+  "pct_english": 80.0
+ },
+ {
+  "country": "ch",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n_postings": 5,
+  "avg_age_days": 27.0,
+  "pct_english": 60.0
+ },
+ {
+  "country": "at",
+  "role_family": "analytics engineer",
+  "seniority": "mid",
+  "n_postings": 5,
+  "avg_age_days": 24.8,
+  "pct_english": 20.0
+ },
+ {
+  "country": "de",
   "role_family": "analytics engineer",
   "seniority": "junior",
   "n_postings": 4,
@@ -189,6 +400,39 @@
   "pct_english": 0.0
  },
  {
+  "country": "ch",
+  "role_family": "ai / ml",
+  "seniority": "junior",
+  "n_postings": 4,
+  "avg_age_days": 37.5,
+  "pct_english": 75.0
+ },
+ {
+  "country": "at",
+  "role_family": "data analyst",
+  "seniority": "junior",
+  "n_postings": 4,
+  "avg_age_days": 1.5,
+  "pct_english": 0.0
+ },
+ {
+  "country": "ch",
+  "role_family": "bi developer",
+  "seniority": "senior",
+  "n_postings": 4,
+  "avg_age_days": 30.3,
+  "pct_english": 75.0
+ },
+ {
+  "country": "ch",
+  "role_family": "dwh / etl",
+  "seniority": "mid",
+  "n_postings": 4,
+  "avg_age_days": 29.0,
+  "pct_english": 0.0
+ },
+ {
+  "country": "de",
   "role_family": "dwh / etl",
   "seniority": "junior",
   "n_postings": 3,
@@ -196,10 +440,163 @@
   "pct_english": 0.0
  },
  {
+  "country": "ch",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n_postings": 3,
+  "avg_age_days": 70.7,
+  "pct_english": 100.0
+ },
+ {
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "junior",
+  "n_postings": 3,
+  "avg_age_days": 16.7,
+  "pct_english": 100.0
+ },
+ {
+  "country": "at",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n_postings": 3,
+  "avg_age_days": 250.7,
+  "pct_english": 66.7
+ },
+ {
+  "country": "at",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n_postings": 3,
+  "avg_age_days": 248.0,
+  "pct_english": 0.0
+ },
+ {
+  "country": "at",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n_postings": 3,
+  "avg_age_days": 30.7,
+  "pct_english": 0.0
+ },
+ {
+  "country": "at",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n_postings": 2,
+  "avg_age_days": 73.5,
+  "pct_english": 50.0
+ },
+ {
+  "country": "ch",
+  "role_family": "data governance",
+  "seniority": "senior",
+  "n_postings": 2,
+  "avg_age_days": 5.5,
+  "pct_english": 100.0
+ },
+ {
+  "country": "at",
+  "role_family": "data governance",
+  "seniority": "mid",
+  "n_postings": 2,
+  "avg_age_days": 27.5,
+  "pct_english": 50.0
+ },
+ {
+  "country": "at",
+  "role_family": "analytics engineer",
+  "seniority": "senior",
+  "n_postings": 2,
+  "avg_age_days": 6.0,
+  "pct_english": 50.0
+ },
+ {
+  "country": "ch",
+  "role_family": "analytics engineer",
+  "seniority": "mid",
+  "n_postings": 2,
+  "avg_age_days": 32.5,
+  "pct_english": 50.0
+ },
+ {
+  "country": "at",
+  "role_family": "data consultant",
+  "seniority": "junior",
+  "n_postings": 1,
+  "avg_age_days": 6.0,
+  "pct_english": 0.0
+ },
+ {
+  "country": "ch",
+  "role_family": "analytics engineer",
+  "seniority": "senior",
+  "n_postings": 1,
+  "avg_age_days": 24.0,
+  "pct_english": 100.0
+ },
+ {
+  "country": "at",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n_postings": 1,
+  "avg_age_days": 53.0,
+  "pct_english": 0.0
+ },
+ {
+  "country": "ch",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n_postings": 1,
+  "avg_age_days": 19.0,
+  "pct_english": 0.0
+ },
+ {
+  "country": "de",
   "role_family": "data governance",
   "seniority": "junior",
   "n_postings": 1,
   "avg_age_days": 9.0,
   "pct_english": 100.0
+ },
+ {
+  "country": "at",
+  "role_family": "bi developer",
+  "seniority": "senior",
+  "n_postings": 1,
+  "avg_age_days": 55.0,
+  "pct_english": 0.0
+ },
+ {
+  "country": "at",
+  "role_family": "data engineer",
+  "seniority": "junior",
+  "n_postings": 1,
+  "avg_age_days": 418.0,
+  "pct_english": 0.0
+ },
+ {
+  "country": "at",
+  "role_family": "data governance",
+  "seniority": "senior",
+  "n_postings": 1,
+  "avg_age_days": 4.0,
+  "pct_english": 0.0
+ },
+ {
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n_postings": 1,
+  "avg_age_days": 7.0,
+  "pct_english": 100.0
+ },
+ {
+  "country": "at",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n_postings": 1,
+  "avg_age_days": 6.0,
+  "pct_english": 0.0
  }
 ]
