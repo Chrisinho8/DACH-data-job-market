@@ -1,4 +1,4 @@
-# credentials - never commit these
+# credentials 
 .env
 *.key
 adzuna.json
@@ -10,8 +10,7 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 
-# local data - the pipeline writes to a Databricks volume,
-# not to the repo. Only docs/data/*.json is committed.
+
 raw/
 data/raw/
 *.parquet
