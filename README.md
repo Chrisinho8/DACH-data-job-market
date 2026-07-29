@@ -136,7 +136,7 @@ Adzuna API (de, at, ch)
 
 One Databricks Workflow, weekly. Bronze keeps every snapshot, so the
 whole history can be reprocessed with better logic without re-calling
-the API.
+the API.(Detailed/Visualized architecture can be found under assets/architecture)
 
 ## Methods used:
 
