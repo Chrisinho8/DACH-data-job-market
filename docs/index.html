@@ -5,26 +5,70 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>German Data Job Market Tracker</title>
 <meta name="description"
-      content="How stale is the German data job market? Live postings
-               tracked weekly through a Delta Lake pipeline.">
+      content="How stale is the German data job market? 2,500+ live
+               postings tracked weekly through a Delta Lake pipeline.">
 <meta property="og:title" content="German Data Job Market Tracker">
 <meta property="og:description"
-      content="How many 'live' German data jobs have been open for months?">
+      content="The average German data job posting has been open for
+               59 days. The median, 17. Updated weekly.">
 <meta property="og:type" content="website">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="style.css">
+<style>
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+
+  .maprow{display:grid;grid-template-columns:1.05fr .95fr;
+          gap:28px;align-items:start}
+  @media(max-width:720px){.maprow{grid-template-columns:1fr}}
+
+  #map{width:100%;height:auto;display:block}
+  #map .outline{fill:#F0EEE6;stroke:#DCD6C8;stroke-width:1.4}
+  #map .bub{stroke:#FAF9F5;stroke-width:1.2;cursor:pointer;
+            transition:opacity .15s}
+  #map .bub:hover{opacity:.75}
+  #map .lbl{font:600 11px system-ui,sans-serif;fill:#26241F;
+            paint-order:stroke;stroke:#FAF9F5;stroke-width:3px}
+
+  .legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;
+          font-size:12.5px;color:#5C5A54;align-items:center}
+  .legend .sw{display:inline-block;width:12px;height:12px;
+              border-radius:50%;margin-right:6px;vertical-align:-1px}
+  .legend .dots{display:inline-flex;align-items:center;gap:6px}
+
+  .rank{width:100%;border-collapse:collapse;font-size:13.5px}
+  .rank td{padding:5px 8px;border-bottom:1px solid #EAE6DC}
+  .rank td:first-child{color:#191919;font-weight:600}
+  .rank .barcell{width:52%}
+  .rank .b{height:9px;border-radius:2px;display:block}
+
+  .subh{font-size:14px;margin:0 0 10px;color:#5C5A54;font-weight:600}
+
+  .pill{display:inline-block;padding:2px 9px;border-radius:99px;
+        font-size:11px;font-weight:600;background:#F0EEE6;
+        color:#8A4A2E;margin-left:8px;vertical-align:2px}
+
+  /* heatmap */
+  .hm{display:grid;gap:3px;font-size:12px;margin-top:6px}
+  .hm div{padding:9px 6px;text-align:center;border-radius:3px;
+          color:#fff;font-weight:600}
+  .hm .hd{background:none;color:#5C5A54;font-weight:600;
+          padding:4px 6px}
+  .hm .rw{background:none;color:#191919;text-align:left;
+          font-weight:600;padding:9px 8px 9px 0}
+</style>
 </head>
 <body>
 
 <header>
   <div class="wrap">
-    <p class="eyebrow">Updated weekly &middot; open data</p>
+    <p class="eyebrow">Updated every Monday &middot; open data</p>
     <h1>How stale is the German
         <em>data job market</em>?</h1>
     <p class="sub">
-      Every week I pull live data-job postings from a public API,
-      run them through a Delta Lake pipeline on Databricks, and
-      measure one thing nobody publishes: <strong>how long these
+      Every week I pull live data-job postings from a public API, run
+      them through a Delta Lake pipeline on Databricks, and measure the
+      one thing job boards never show you: <strong>how long these
       "live" jobs have actually been open.</strong>
     </p>
     <p class="meta" id="meta">Loading&hellip;</p>
@@ -35,103 +79,274 @@
 
   <section id="stats" class="stats"></section>
 
+  <!-- ========== AGE ========== -->
   <section>
     <h2>How old is a "live" posting?</h2>
     <p class="note">
       Days between the posting date and today, for jobs currently
-      listed as open.
+      listed as open. <strong>The average is 59 days. The median is
+      17.</strong> That gap is the whole story: half the market moves
+      in under three weeks, and a long tail of very old listings drags
+      the average up by a factor of three.
     </p>
-    <canvas id="age" height="200"></canvas>
+    <canvas id="age" height="190"></canvas>
   </section>
 
   <section>
+    <h2>How many are still open after N days?</h2>
+    <p class="note">
+      A survival curve. Read it as: of every 100 live postings, how
+      many have already been open at least this long. The steep drop in
+      the first month is healthy churn. The flat tail after 60 days is
+      what the average is really measuring.
+    </p>
+    <canvas id="surv" height="180"></canvas>
+  </section>
+
+  <!-- ========== MAP ========== -->
+  <section>
+    <h2>Where the jobs are</h2>
+    <p class="note">
+      Bubble size is the number of live postings. Colour is how stale
+      they are, from fresh to long-open. Hover for exact numbers.
+    </p>
+    <div class="maprow">
+      <div>
+        <svg id="map" viewBox="0 0 560 760"
+             xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="legend">
+          <span class="dots">
+            <svg width="64" height="20">
+              <circle cx="7"  cy="10" r="4"  fill="#B8B2A4"/>
+              <circle cx="26" cy="10" r="7"  fill="#B8B2A4"/>
+              <circle cx="50" cy="10" r="11" fill="#B8B2A4"/>
+            </svg>
+            postings
+          </span>
+          <span><i class="sw" style="background:#6E9384"></i>fresh</span>
+          <span><i class="sw" style="background:#D9A05B"></i>middling</span>
+          <span><i class="sw" style="background:#A8462A"></i>long open</span>
+        </div>
+      </div>
+      <div>
+        <h3 class="subh">Top cities by volume</h3>
+        <table class="rank"><tbody id="cityrank"></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Big market, or slow market?</h2>
+    <p class="note">
+      Each bubble is a city. Right means more postings, up means they
+      sit open longer. A city high and to the left has few roles and
+      they linger; low and to the right is a large, fast-moving market.
+    </p>
+    <canvas id="cityscatter" height="230"></canvas>
+  </section>
+
+  <section>
+    <h2>Which cities hire in English?</h2>
+    <p class="note">
+      Share of postings written in English, by city. Detected from
+      German stopwords in the description.
+    </p>
+    <canvas id="cityen" height="240"></canvas>
+  </section>
+
+  <!-- ========== ROLES ========== -->
+  <section>
+    <h2>Which data role is which?</h2>
+    <p class="note">
+      Roles are classified from the job title. Volume tells you where
+      the demand is; average age tells you which roles employers
+      struggle to fill.
+    </p>
+    <div class="grid2">
+      <div>
+        <h3 class="subh">Live postings</h3>
+        <canvas id="rolevol" height="230"></canvas>
+      </div>
+      <div>
+        <h3 class="subh">Average days open</h3>
+        <canvas id="roleage" height="230"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Seniority mix by role</h2>
+    <p class="note">
+      Junior, mid and senior share of postings. Seniority is inferred
+      from title keywords, so "mid" really means "neither junior nor
+      senior stated".
+    </p>
+    <canvas id="roles" height="210"></canvas>
+  </section>
+
+  <section>
+    <h2>Role and seniority, side by side</h2>
+    <p class="note">
+      The same data as a heatmap. Darker means more postings. Useful
+      for spotting where the junior openings actually are.
+    </p>
+    <div id="heat" class="hm"></div>
+  </section>
+
+  <section>
+    <h2>Does seniority change how long a job stays open?</h2>
+    <p class="note">
+      Overall split, and average days open by level.
+    </p>
+    <div class="grid2">
+      <div>
+        <h3 class="subh">Share of all postings</h3>
+        <canvas id="sendonut" height="230"></canvas>
+      </div>
+      <div>
+        <h3 class="subh">Average days open</h3>
+        <canvas id="senage" height="230"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>German or English?</h2>
+    <p class="note">
+      Only a third of German data roles are advertised in English.
+      Worth knowing if you are considering a move.
+    </p>
+    <canvas id="lang" height="190"></canvas>
+  </section>
+
+  <!-- ========== EMPLOYERS ========== -->
+  <section>
     <h2>Agencies vs direct employers</h2>
     <p class="note">
-      Average age of postings, split by whether the poster looks
-      like a recruitment agency.
+      Split by whether the poster looks like a recruitment agency.
+      <strong>Detection is keyword based and currently flags only 5.4%
+      as agencies, which is almost certainly an undercount.</strong>
+      Treat this as a lower bound.
     </p>
     <canvas id="agency" height="150"></canvas>
   </section>
 
   <section>
-    <h2>Roles</h2>
-    <p class="note">Live postings by role family and seniority.</p>
-    <canvas id="roles" height="220"></canvas>
-  </section>
-
-  <section>
-    <h2>Cities</h2>
+    <h2>Who is posting the most?</h2>
     <p class="note">
-      Where the postings are, and how stale they are in each place.
+      Employers by number of live postings, among those with at least
+      five. Bar colour shows how stale their listings are on average.
     </p>
-    <canvas id="cities" height="240"></canvas>
+    <canvas id="empvol" height="260"></canvas>
   </section>
 
   <section>
     <h2>Longest-running advertisers</h2>
     <p class="note">
       Employers with at least 5 live postings, ranked by average
-      posting age.
+      posting age. A long average is not an accusation: it can mean a
+      hard-to-fill role just as easily as a listing nobody took down.
     </p>
     <div id="stale-table"></div>
   </section>
 
+  <!-- ========== TOOLS ========== -->
   <section>
-    <h2>Most mentioned tools</h2>
+    <h2>Most mentioned tools
+        <span class="pill">read the caveat</span></h2>
     <p class="note">
-      <strong>Read this carefully.</strong> The API truncates
-      descriptions to about 450 characters, so this measures tools
-      mentioned in the <em>title or opening paragraph</em>, not
-      tools required. It is a floor, not a count.
+      The API hard-caps descriptions at <strong>500 characters</strong>
+      and <strong>99.6%</strong> of postings are truncated. So this
+      measures tools mentioned in the <em>title or opening
+      paragraph</em>, not tools required. These are floors, not
+      requirement rates. The truncation window is identical for every
+      posting, so comparisons between tools hold; absolute percentages
+      do not.
     </p>
-    <canvas id="skills" height="240"></canvas>
+    <canvas id="skills" height="250"></canvas>
   </section>
 
+  <section>
+    <h2>Tools by category</h2>
+    <p class="note">
+      The same mentions grouped into cloud, database, BI, processing
+      and so on. Same truncation caveat applies.
+    </p>
+    <canvas id="skillcat" height="200"></canvas>
+  </section>
+
+  <section>
+    <h2>Which tools appear in the jobs that sit longest?</h2>
+    <p class="note">
+      Each point is a tool. Right means mentioned more often, up means
+      it appears in postings that have been open longer. Tools in the
+      top-left are niche and slow to fill; bottom-right are common and
+      move quickly.
+    </p>
+    <canvas id="skillscatter" height="230"></canvas>
+  </section>
+
+  <!-- ========== TREND ========== -->
   <section id="trend-section" hidden>
     <h2>Week over week</h2>
     <p class="note">
-      Change in average posting age since tracking began.
+      Tracked metrics since collection began. Appears once there are
+      three or more weekly snapshots.
     </p>
-    <canvas id="trend" height="180"></canvas>
+    <canvas id="trend" height="190"></canvas>
   </section>
 
+  <!-- ========== CAVEATS ========== -->
   <section class="caveats">
     <h2>What this does not tell you</h2>
     <ul>
-      <li><strong>Postings are not hires.</strong> An old posting
-          may be a real unfilled role, a pipeline-building advert,
-          or a listing nobody took down.</li>
-      <li><strong>One job board is not the whole market.</strong>
-          This is Adzuna's German index, which aggregates many
-          boards but not all of them.</li>
-      <li><strong>Reposts are detected by content hash</strong>
-          (title, company, city, first 200 characters). Genuinely
-          distinct roles with identical wording would be merged.</li>
+      <li><strong>Postings are not hires.</strong> An old posting may be
+          a real unfilled role, a pipeline-building advert, or a listing
+          nobody took down.</li>
+      <li><strong>One aggregator is not the whole market.</strong> This
+          is Adzuna's German index, which covers many boards but not
+          all of them.</li>
+      <li><strong>The posting date is Adzuna's</strong>, which may be
+          when it indexed the job rather than when the employer
+          published it.</li>
+      <li><strong>Reposts are detected by content hash</strong> (title,
+          company, city, first 200 characters). Genuinely distinct roles
+          with identical wording would be merged.</li>
+      <li><strong>Seniority and role are inferred from the title</strong>
+          with keyword rules, so both carry classification error.</li>
       <li><strong>Agency detection is keyword based</strong> and
-          will miss agencies with neutral names.</li>
-      <li><strong>Tool mentions are dictionary based</strong> and
-          limited by description truncation, as noted above.</li>
+          undercounts.</li>
+      <li><strong>Tool mentions are limited by truncation</strong>, as
+          described above.</li>
+      <li><strong>Only aggregates are published here.</strong>
+          Individual listings are not redistributed.</li>
     </ul>
   </section>
 
   <footer>
     <p>
-      Built by <a href="https://linkedin.com/in/YOURNAME">your name</a>
+      Built by
+      <a href="https://linkedin.com/in/YOURNAME">Chrisinho</a>
       &middot;
-      <a href="https://github.com/YOURUSER/german-data-job-market">
+      <a href="https://github.com/Chrisinho8/german-data-job-market">
       source, method and full limitations</a>
+      &middot;
+      data from <a href="https://developer.adzuna.com">Adzuna</a>
     </p>
   </footer>
 
 </main>
 
 <script>
-const INK   = "#191919";
-const CORAL = "#D97757";
-const CLAY  = "#CC785C";
-const SAGE  = "#7C9885";
-const LINE  = "#E3DFD5";
-const SLATE = "#5C5A54";
+/* ---------------- palette ---------------- */
+const CORAL = "#D97757", CLAY = "#CC785C", SAGE = "#7C9885",
+      SLATE = "#5C5A54", LINE = "#E3DFD5",
+      DEEP  = "#A8462A", AMBER = "#D9A05B", TEAL = "#5F9EA0",
+      PLUM  = "#9B7B9B", STEEL = "#6E8CA0", MOSS = "#6E9384",
+      SAND  = "#C7A87C";
+
+const CATS = [CORAL, STEEL, SAGE, AMBER, PLUM, TEAL,
+              CLAY, SAND, MOSS, DEEP];
 
 Chart.defaults.font.family =
   "system-ui, -apple-system, Segoe UI, sans-serif";
@@ -140,6 +355,14 @@ Chart.defaults.borderColor = LINE;
 
 const get = f =>
   fetch(`data/${f}.json`).then(r => r.json()).catch(() => null);
+
+const cyc = i => CATS[i % CATS.length];
+const cap = s => String(s).charAt(0).toUpperCase() + String(s).slice(1);
+
+function ds(label, data, colour) {
+  return { label, data, backgroundColor: colour,
+           borderRadius: 3, barPercentage: 0.82 };
+}
 
 function bar(id, labels, datasets, horizontal, stacked) {
   const el = document.getElementById(id);
@@ -162,12 +385,43 @@ function bar(id, labels, datasets, horizontal, stacked) {
   });
 }
 
-function ds(label, data, colour) {
-  return { label, data, backgroundColor: colour,
-           borderRadius: 3, barPercentage: 0.82 };
+function scatter(id, points, xLabel, yLabel, colourFn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el, {
+    type: "bubble",
+    data: { datasets: [{
+      data: points,
+      backgroundColor: points.map(p => colourFn(p)),
+      borderColor: "#FAF9F5", borderWidth: 1
+    }]},
+    options: {
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c =>
+          `${c.raw.name}: ${c.raw.x} / ${c.raw.y}` } }
+      },
+      scales: {
+        x: { title: { display: true, text: xLabel },
+             grid: { color: LINE } },
+        y: { title: { display: true, text: yLabel },
+             grid: { color: LINE } }
+      }
+    }
+  });
 }
 
-/* ---------- header stats ---------- */
+/* age -> colour ramp: green through amber to deep coral */
+function ageColour(d) {
+  if (d == null) return "#B8B2A4";
+  if (d < 25) return MOSS;
+  if (d < 40) return "#9DA97E";
+  if (d < 55) return AMBER;
+  if (d < 75) return CLAY;
+  return DEEP;
+}
+
+/* ---------------- header ---------------- */
 get("meta").then(m => {
   if (!m) return;
   document.getElementById("meta").textContent =
@@ -176,62 +430,323 @@ get("meta").then(m => {
     `last updated ${m.updated}`;
 
   const cards = [
-    ["Live postings", m.live_postings.toLocaleString()],
-    ["Median age", m.median_age_days + " days"],
+    ["Live postings",     m.live_postings.toLocaleString()],
+    ["Median age",        m.median_age_days + " days"],
+    ["Mean age",          Math.round(m.avg_age_days) + " days"],
     ["Open over 60 days", m.pct_over_60d + "%"],
-    ["Employers", m.employers.toLocaleString()],
   ];
   document.getElementById("stats").innerHTML = cards.map(
     ([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`
   ).join("");
 });
 
-/* ---------- age distribution ---------- */
+/* ---------------- age distribution ---------------- */
 get("age_distribution").then(d => {
   if (!d) return;
+  const order = ["0-7 days","8-14 days","15-30 days",
+                 "31-60 days","61-90 days","90+ days"];
+  d.sort((a, b) => order.indexOf(a.bucket) - order.indexOf(b.bucket));
+  const cols = [MOSS, "#9DA97E", AMBER, CLAY, DEEP, "#8C3A22"];
   bar("age", d.map(r => r.bucket),
-      [ds("% of live postings", d.map(r => r.pct), CORAL)]);
+      [ds("% of live postings", d.map(r => r.pct), cols)]);
 });
 
-/* ---------- agency comparison ---------- */
+/* ---------------- survival curve ---------------- */
+get("market_summary").then(ms => {
+  if (!ms || !ms.length) return;
+  const m = ms[0];
+  const pts = [
+    { x: 0,  y: 100 },
+    { x: 7,  y: m.pct_over_7d },
+    { x: 30, y: m.pct_over_30d },
+    { x: 60, y: m.pct_over_60d },
+    { x: 90, y: m.pct_over_90d },
+  ];
+  new Chart(document.getElementById("surv"), {
+    type: "line",
+    data: { datasets: [{
+      data: pts, borderColor: CORAL, backgroundColor: "#D9775722",
+      fill: true, tension: .25, pointRadius: 4,
+      pointBackgroundColor: CORAL }]},
+    options: {
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c =>
+          `${c.raw.y}% still open after ${c.raw.x} days` } }
+      },
+      scales: {
+        x: { type: "linear", title: { display: true,
+             text: "days since posted" }, grid: { color: LINE } },
+        y: { title: { display: true, text: "% still listed" },
+             min: 0, max: 100, grid: { color: LINE } }
+      }
+    }
+  });
+});
+
+/* ---------------- map ---------------- */
+const GEO = {
+  berlin:[13.40,52.52], hamburg:[9.99,53.55], muenchen:[11.58,48.14],
+  koeln:[6.96,50.94], frankfurt:[8.68,50.11], stuttgart:[9.18,48.78],
+  duesseldorf:[6.77,51.23], leipzig:[12.37,51.34],
+  dortmund:[7.47,51.51], essen:[7.01,51.46], bremen:[8.80,53.08],
+  dresden:[13.74,51.05], hannover:[9.73,52.38], nuernberg:[11.08,49.45],
+  duisburg:[6.76,51.43], bochum:[7.22,51.48], wuppertal:[7.15,51.26],
+  bielefeld:[8.53,52.03], bonn:[7.10,50.73], muenster:[7.63,51.96],
+  karlsruhe:[8.40,49.01], mannheim:[8.47,49.49], augsburg:[10.90,48.37],
+  wiesbaden:[8.24,50.08], mainz:[8.27,49.99],
+  braunschweig:[10.53,52.27], kiel:[10.14,54.32], aachen:[6.08,50.78],
+  halle:[11.97,51.48], magdeburg:[11.63,52.13], freiburg:[7.85,47.99],
+  krefeld:[6.56,51.33], luebeck:[10.69,53.87], erfurt:[11.03,50.98],
+  rostock:[12.14,54.09], kassel:[9.50,51.31], potsdam:[13.06,52.40],
+  saarbruecken:[6.99,49.24], heidelberg:[8.69,49.40],
+  darmstadt:[8.65,49.87], regensburg:[12.10,49.02],
+  ingolstadt:[11.43,48.76], ulm:[9.99,48.40], jena:[11.59,50.93],
+  osnabrueck:[8.05,52.28], walldorf:[8.64,49.31],
+  heilbronn:[9.22,49.14], wolfsburg:[10.79,52.42],
+  paderborn:[8.75,51.72], koblenz:[7.59,50.36], trier:[6.64,49.76],
+  wuerzburg:[9.93,49.79], chemnitz:[12.92,50.83], hamm:[7.82,51.68],
+  moenchengladbach:[6.44,51.19], gelsenkirchen:[7.10,51.52],
+  oldenburg:[8.21,53.14], ludwigshafen:[8.44,49.48],
+  leverkusen:[7.00,51.03], solingen:[7.08,51.17], neuss:[6.69,51.20],
+  siegen:[8.02,50.87], hildesheim:[9.95,52.15], gera:[12.08,50.88],
+  schwerin:[11.42,53.63], reutlingen:[9.21,48.49], fuerth:[10.99,49.48],
+  bremerhaven:[8.58,53.55], offenbach:[8.77,50.10],
+  esslingen:[9.31,48.74], boeblingen:[9.01,48.69],
+  friedrichshafen:[9.48,47.65], konstanz:[9.17,47.66],
+  passau:[13.46,48.57], bayreuth:[11.58,49.95], bamberg:[10.89,49.89],
+  goettingen:[9.94,51.53], marburg:[8.77,50.80], giessen:[8.68,50.59],
+  fulda:[9.68,50.55], cottbus:[14.33,51.76], greifswald:[13.38,54.09],
+  erlangen:[11.00,49.60], tuebingen:[9.06,48.52],
+  sindelfingen:[9.00,48.71], ratingen:[6.85,51.30]
+};
+
+const DE = [
+ [9.4,54.83],[8.6,54.90],[8.3,54.30],[8.5,53.90],[8.1,53.60],
+ [8.6,53.55],[8.2,53.40],[7.2,53.40],[7.0,52.60],[6.7,52.40],
+ [6.1,51.90],[5.95,51.80],[6.2,51.40],[6.0,50.90],[6.4,50.30],
+ [6.1,50.10],[6.5,49.80],[6.35,49.45],[7.0,49.10],[7.6,49.05],
+ [8.2,48.95],[7.6,48.60],[7.6,48.10],[8.0,47.70],[8.6,47.80],
+ [9.2,47.65],[9.8,47.55],[10.2,47.40],[10.9,47.50],[11.3,47.45],
+ [12.2,47.70],[13.0,47.50],[13.0,47.90],[12.8,48.10],[13.4,48.40],
+ [13.85,48.77],[13.55,48.95],[12.5,49.90],[12.1,50.30],[12.9,50.40],
+ [14.4,50.90],[14.8,51.05],[15.0,51.30],[14.7,52.10],[14.55,52.60],
+ [14.15,52.90],[14.4,53.30],[14.28,53.70],[13.8,53.90],[13.4,54.10],
+ [12.5,54.50],[11.5,54.20],[11.0,54.40],[10.8,54.00],[10.2,54.40],
+ [9.9,54.50]
+];
+
+const W = 560, H = 760;
+const LON0 = 5.4, LON1 = 15.4, LAT0 = 47.0, LAT1 = 55.4;
+const px = lon => (lon - LON0) / (LON1 - LON0) * W;
+const py = lat => (LAT1 - lat) / (LAT1 - LAT0) * H;
+
+get("city_breakdown").then(d => {
+  if (!d || !d.length) return;
+
+  const svg = document.getElementById("map");
+  const ns  = "http://www.w3.org/2000/svg";
+
+  const path = document.createElementNS(ns, "path");
+  path.setAttribute("class", "outline");
+  path.setAttribute("d",
+    "M" + DE.map(p => `${px(p[0]).toFixed(1)},${py(p[1]).toFixed(1)}`)
+            .join("L") + "Z");
+  svg.appendChild(path);
+
+  const known = d.filter(r => GEO[r.city])
+                 .sort((a, b) => b.n_postings - a.n_postings);
+
+  if (known.length) {
+    const max = known[0].n_postings;
+    const R = n => 6 + 30 * Math.sqrt(n / max);
+
+    known.forEach(r => {
+      const [lon, lat] = GEO[r.city];
+      const c = document.createElementNS(ns, "circle");
+      c.setAttribute("class", "bub");
+      c.setAttribute("cx", px(lon));
+      c.setAttribute("cy", py(lat));
+      c.setAttribute("r", R(r.n_postings));
+      c.setAttribute("fill", ageColour(r.avg_age_days));
+      c.setAttribute("fill-opacity", .82);
+      const t = document.createElementNS(ns, "title");
+      t.textContent = `${cap(r.city)}: ${r.n_postings} postings, ` +
+                      `avg ${r.avg_age_days} days open`;
+      c.appendChild(t);
+      svg.appendChild(c);
+    });
+
+    known.slice(0, 8).forEach(r => {
+      const [lon, lat] = GEO[r.city];
+      const tx = document.createElementNS(ns, "text");
+      tx.setAttribute("class", "lbl");
+      tx.setAttribute("x", px(lon) + R(r.n_postings) + 5);
+      tx.setAttribute("y", py(lat) + 4);
+      tx.textContent = cap(r.city);
+      svg.appendChild(tx);
+    });
+  }
+
+  /* ranking table */
+  const top = d.slice().sort((a, b) => b.n_postings - a.n_postings)
+               .slice(0, 12);
+  const mx = top[0].n_postings;
+  document.getElementById("cityrank").innerHTML = top.map((r, i) => `
+    <tr>
+      <td>${cap(r.city)}</td>
+      <td class="barcell">
+        <span class="b" style="width:${100 * r.n_postings / mx}%;
+              background:${cyc(i)}"></span>
+      </td>
+      <td style="text-align:right">${r.n_postings}</td>
+      <td style="text-align:right;color:${ageColour(r.avg_age_days)};
+                 font-weight:600">${Math.round(r.avg_age_days)}d</td>
+    </tr>`).join("");
+
+  /* volume vs staleness scatter */
+  const big = d.slice().sort((a, b) => b.n_postings - a.n_postings)
+               .slice(0, 25);
+  const mxn = big[0].n_postings;
+  scatter("cityscatter",
+    big.map(r => ({ x: r.n_postings,
+                    y: Math.round(r.avg_age_days),
+                    r: 5 + 16 * Math.sqrt(r.n_postings / mxn),
+                    name: cap(r.city) })),
+    "live postings", "average days open",
+    p => ageColour(p.y));
+
+  /* english share by city */
+  const en = d.slice().sort((a, b) => b.n_postings - a.n_postings)
+              .slice(0, 15)
+              .sort((a, b) => b.pct_english - a.pct_english);
+  bar("cityen", en.map(r => cap(r.city)),
+      [ds("% English", en.map(r => r.pct_english),
+          en.map((_, i) => cyc(i)))], true);
+
+  const missing = d.filter(r => !GEO[r.city]);
+  if (missing.length) {
+    console.log("cities without coordinates:",
+                missing.map(r => r.city).join(", "));
+  }
+});
+
+/* ---------------- roles ---------------- */
+get("role_breakdown").then(d => {
+  if (!d || !d.length) return;
+
+  const agg = {};
+  d.forEach(r => {
+    const k = r.role_family;
+    agg[k] = agg[k] || { n: 0, wage: 0 };
+    agg[k].n    += r.n_postings;
+    agg[k].wage += r.n_postings * r.avg_age_days;
+  });
+
+  const rows = Object.entries(agg)
+    .map(([role, v]) => ({ role, n: v.n, age: v.wage / v.n }))
+    .sort((a, b) => b.n - a.n);
+
+  bar("rolevol", rows.map(r => r.role),
+      [ds("Live postings", rows.map(r => r.n),
+          rows.map((_, i) => cyc(i)))], true);
+
+  const byAge = rows.slice().sort((a, b) => b.age - a.age);
+  bar("roleage", byAge.map(r => r.role),
+      [ds("Avg days open", byAge.map(r => Math.round(r.age)),
+          byAge.map(r => ageColour(r.age)))], true);
+
+  /* stacked seniority */
+  const roles  = rows.map(r => r.role);
+  const levels = ["junior", "mid", "senior"];
+  const cols   = { junior: SAGE, mid: STEEL, senior: CORAL };
+  const cell = (rf, lv) => {
+    const hit = d.find(r => r.role_family === rf && r.seniority === lv);
+    return hit ? hit.n_postings : 0;
+  };
+  bar("roles", roles,
+      levels.map(lv => ds(lv, roles.map(rf => cell(rf, lv)), cols[lv])),
+      true, true);
+
+  /* heatmap */
+  const hm = document.getElementById("heat");
+  hm.style.gridTemplateColumns = `minmax(90px,1fr) repeat(3, 1fr)`;
+  const maxCell = Math.max(...roles.flatMap(
+    rf => levels.map(lv => cell(rf, lv))));
+  let html = `<div class="hd"></div>` +
+             levels.map(l => `<div class="hd">${l}</div>`).join("");
+  roles.forEach(rf => {
+    html += `<div class="rw">${rf}</div>`;
+    levels.forEach(lv => {
+      const v = cell(rf, lv);
+      const a = v / maxCell;
+      const bg = `rgba(217,119,87,${(0.12 + 0.88 * a).toFixed(2)})`;
+      const fg = a > 0.45 ? "#fff" : "#26241F";
+      html += `<div style="background:${bg};color:${fg}">${v}</div>`;
+    });
+  });
+  hm.innerHTML = html;
+
+  /* seniority totals */
+  const sen = levels.map(lv => {
+    const rs = d.filter(r => r.seniority === lv);
+    const n  = rs.reduce((s, r) => s + r.n_postings, 0);
+    const ag = n ? rs.reduce((s, r) =>
+                 s + r.n_postings * r.avg_age_days, 0) / n : 0;
+    return { lv, n, ag };
+  });
+
+  new Chart(document.getElementById("sendonut"), {
+    type: "doughnut",
+    data: { labels: sen.map(s => s.lv),
+      datasets: [{ data: sen.map(s => s.n),
+        backgroundColor: [SAGE, STEEL, CORAL],
+        borderColor: "#FAF9F5", borderWidth: 2 }] },
+    options: { cutout: "58%",
+      plugins: { legend: { position: "bottom",
+                           labels: { boxWidth: 12 } } } }
+  });
+
+  bar("senage", sen.map(s => s.lv),
+      [ds("Avg days open", sen.map(s => Math.round(s.ag)),
+          sen.map(s => ageColour(s.ag)))]);
+
+  /* language by role */
+  const lang = rows.map(({ role, n }) => {
+    const rs = d.filter(r => r.role_family === role);
+    const e  = rs.reduce((s, r) =>
+                 s + r.n_postings * (r.pct_english || 0), 0) / n;
+    return { role, en: Math.round(e), de: Math.round(100 - e) };
+  });
+  bar("lang", lang.map(r => r.role),
+      [ds("English %", lang.map(r => r.en), STEEL),
+       ds("German %",  lang.map(r => r.de), SAND)], true, true);
+});
+
+/* ---------------- agency ---------------- */
 get("agency_comparison").then(d => {
   if (!d) return;
   bar("agency", d.map(r => r.poster_type),
-      [ds("Avg age (days)", d.map(r => r.avg_age_days), CLAY),
-       ds("% open > 60 days", d.map(r => r.pct_over_60d), SAGE)]);
+      [ds("Avg days open", d.map(r => r.avg_age_days), CLAY),
+       ds("% open over 60 days", d.map(r => r.pct_over_60d), TEAL)]);
 });
 
-/* ---------- roles ---------- */
-get("role_breakdown").then(d => {
-  if (!d) return;
-  const roles = [...new Set(d.map(r => r.role_family))];
-  const levels = ["junior", "mid", "senior"];
-  const colours = { junior: SAGE, mid: CLAY, senior: CORAL };
-  const sets = levels.map(lv => ds(lv,
-    roles.map(rf => {
-      const hit = d.find(r => r.role_family === rf &&
-                              r.seniority === lv);
-      return hit ? hit.n_postings : 0;
-    }), colours[lv]));
-  bar("roles", roles, sets, true, true);
-});
-
-/* ---------- cities ---------- */
-get("city_breakdown").then(d => {
-  if (!d) return;
-  const top = d.slice(0, 15);
-  bar("cities", top.map(r => r.city),
-      [ds("Postings", top.map(r => r.n_postings), CORAL)], true);
-});
-
-/* ---------- stale employers ---------- */
+/* ---------------- employers ---------------- */
 get("stale_by_company").then(d => {
-  if (!d) return;
+  if (!d || !d.length) return;
+
+  const vol = d.slice().sort((a, b) => b.n_postings - a.n_postings)
+               .slice(0, 15);
+  bar("empvol", vol.map(r => r.company),
+      [ds("Live postings", vol.map(r => r.n_postings),
+          vol.map(r => ageColour(r.avg_age_days)))], true);
+
   const rows = d.slice(0, 15).map(r => `
     <tr><td>${r.company}</td>
         <td>${r.is_agency ? "agency" : "direct"}</td>
         <td class="num">${r.n_postings}</td>
-        <td class="num">${r.avg_age_days}</td>
+        <td class="num" style="color:${ageColour(r.avg_age_days)};
+            font-weight:600">${r.avg_age_days}</td>
         <td class="num">${r.oldest_days}</td></tr>`).join("");
   document.getElementById("stale-table").innerHTML = `
     <table><thead><tr>
@@ -240,33 +755,73 @@ get("stale_by_company").then(d => {
     </tr></thead><tbody>${rows}</tbody></table>`;
 });
 
-/* ---------- skills ---------- */
+/* ---------------- tools ---------------- */
 get("skill_demand").then(d => {
-  if (!d) return;
+  if (!d || !d.length) return;
+
   const top = d.slice(0, 20);
   bar("skills", top.map(r => r.skill),
       [ds("% of postings mentioning",
-          top.map(r => r.pct_postings), CLAY)], true);
+          top.map(r => r.pct_postings),
+          top.map((_, i) => cyc(i)))], true);
+
+  /* by category */
+  const byCat = {};
+  d.forEach(r => {
+    const c = r.skill_category || "other";
+    byCat[c] = (byCat[c] || 0) + r.n_postings;
+  });
+  const cats = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
+  bar("skillcat", cats.map(c => c[0]),
+      [ds("Mentions", cats.map(c => c[1]),
+          cats.map((_, i) => cyc(i)))]);
+
+  /* mentions vs staleness */
+  const mx = Math.max(...d.map(r => r.pct_postings));
+  scatter("skillscatter",
+    d.slice(0, 30).map(r => ({
+      x: r.pct_postings,
+      y: Math.round(r.avg_age_days),
+      r: 5 + 14 * Math.sqrt(r.pct_postings / mx),
+      name: r.skill })),
+    "% of postings mentioning it", "average days open",
+    p => ageColour(p.y));
 });
 
-/* ---------- trend, appears once there are 3+ snapshots ---------- */
+/* ---------------- trend ---------------- */
 get("history").then(h => {
   if (!h) return;
-  const rows = h.filter(r => r.metric === "avg_age_days");
-  const weeks = [...new Set(rows.map(r => r.snapshot_date))].sort();
+  const pick = m => h.filter(r => r.metric === m &&
+                                  r.dimension === "all");
+  const ages = pick("avg_age_days");
+  const weeks = [...new Set(ages.map(r => r.snapshot_date))].sort();
   if (weeks.length < 3) return;
+
   document.getElementById("trend-section").hidden = false;
+  const series = (m, colour, axis) => ({
+    label: m.replace(/_/g, " "),
+    data: weeks.map(w =>
+      (pick(m).find(r => r.snapshot_date === w) || {}).value),
+    borderColor: colour, backgroundColor: colour,
+    tension: .3, pointRadius: 3, fill: false, yAxisID: axis
+  });
+
   new Chart(document.getElementById("trend"), {
     type: "line",
-    data: { labels: weeks,
-      datasets: [{ label: "Average posting age (days)",
-        data: weeks.map(w =>
-          (rows.find(r => r.snapshot_date === w) || {}).value),
-        borderColor: CORAL, backgroundColor: CORAL,
-        tension: 0.3, pointRadius: 3 }] },
-    options: { plugins: { legend: { display: false } },
-      scales: { x: { grid: { display: false } },
-                y: { grid: { color: LINE } } } }
+    data: { labels: weeks.map(w => String(w).slice(0, 10)),
+      datasets: [series("avg_age_days", CORAL, "y"),
+                 series("live_postings", STEEL, "y1")] },
+    options: {
+      plugins: { legend: { position: "bottom",
+                           labels: { boxWidth: 12 } } },
+      scales: {
+        x:  { grid: { display: false } },
+        y:  { position: "left",  grid: { color: LINE },
+              title: { display: true, text: "avg days open" } },
+        y1: { position: "right", grid: { display: false },
+              title: { display: true, text: "live postings" } }
+      }
+    }
   });
 });
 </script>
