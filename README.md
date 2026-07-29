@@ -1,4 +1,4 @@
-# How stale is the German data job market?
+# Whats up with the German data job market?
 
 ![tests](https://github.com/Chrisinho8/german-data-job-market/actions/workflows/tests.yml/badge.svg)
 
@@ -8,7 +8,7 @@ half the market moves in under three weeks, while more than 1 in 4
 postings has been sitting open for over two months.**
 
 **[Live tracker](https://Chrisinho8.github.io/german-data-job-market/)**
-— rebuilt automatically every Monday.
+- rebuilt automatically every Monday.
 
 | | |
 |---|---|
