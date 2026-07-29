@@ -188,12 +188,6 @@
  {
   "snapshot_date": "2026-07-29T00:00:00.000",
   "metric": "skill_pct",
-  "dimension": "flink",
-  "value": 0.1
- },
- {
-  "snapshot_date": "2026-07-29T00:00:00.000",
-  "metric": "skill_pct",
   "dimension": "looker",
   "value": 0.1
  },
@@ -201,6 +195,12 @@
   "snapshot_date": "2026-07-29T00:00:00.000",
   "metric": "skill_pct",
   "dimension": "synapse",
+  "value": 0.1
+ },
+ {
+  "snapshot_date": "2026-07-29T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "flink",
   "value": 0.1
  },
  {
@@ -267,7 +267,7 @@
   "snapshot_date": "2026-07-29T00:00:00.000",
   "metric": "role_count",
   "dimension": "ai / ml",
-  "value": 1522.0
+  "value": 1520.0
  },
  {
   "snapshot_date": "2026-07-29T00:00:00.000",
@@ -309,7 +309,7 @@
   "snapshot_date": "2026-07-29T00:00:00.000",
   "metric": "role_count",
   "dimension": "data analyst",
-  "value": 293.0
+  "value": 290.0
  },
  {
   "snapshot_date": "2026-07-29T00:00:00.000",
@@ -321,24 +321,24 @@
   "snapshot_date": "2026-07-29T00:00:00.000",
   "metric": "role_count",
   "dimension": "data engineer",
-  "value": 1015.0
+  "value": 1010.0
  },
  {
   "snapshot_date": "2026-07-29T00:00:00.000",
   "metric": "live_postings",
   "dimension": "all",
-  "value": 4417.0
+  "value": 4407.0
  },
  {
   "snapshot_date": "2026-07-29T00:00:00.000",
   "metric": "avg_age_days",
   "dimension": "all",
-  "value": 52.9
+  "value": 53.0
  },
  {
   "snapshot_date": "2026-07-29T00:00:00.000",
   "metric": "pct_over_60d",
   "dimension": "all",
-  "value": 25.2
+  "value": 25.3
  }
 ]
