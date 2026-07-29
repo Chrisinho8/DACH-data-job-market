@@ -5,7 +5,7 @@
 **4,407 live data-job postings across Germany, Austria and Switzerland. 159 of them, 3.6%, are advertised as junior. That is ten senior openings for every junior one, and zero junior roles for data architects. Meanwhile the average posting has been open 53 days against a median of 14, so the market is not just top-heavy, it is slow at the top.**
 
 **[Live tracker](https://Chrisinho8.github.io/german-data-job-market/)**
-— maps, country comparisons and role breakdowns, rebuilt every Monday.
+: maps, country comparisons and role breakdowns, rebuilt every Monday.
 
 | | Germany | Austria | Switzerland |
 |---|---|---|---|
@@ -17,7 +17,7 @@
 | Advertised in English | 29.6% | 37.7% | 62.2% |
 | Disclosing a salary | 4.2% | 5.8% | 2.0% |
 
-Snapshot of 29 July 2026. The live tracker always shows current numbers.
+Snapshot of **29 July 2026**. The live tracker always shows current numbers.
 
 ---
 
@@ -48,26 +48,6 @@ has zero.
 | Data governance | 99 |
 | Analytics engineer | 71 |
 
-**The mean is misleading.** 53-day average against a 14-day median. A
-long tail of very old listings drags the average up nearly fourfold.
-One employer has a posting that has been live for **911 days**.
-
-**Switzerland hires in English, Germany does not.** 62.2% of Swiss
-postings are in English versus 29.6% in Germany. Relevant if you are
-considering a move.
-
-**Austria is the slowest market.** A median of 26 days, double
-Germany's 13, on a much smaller base.
-
-**Almost nobody publishes pay.** Between 2% and 6% state a salary,
-across all three countries.
-
-## Why this exists
-
-Job boards show you what is *listed*, not what is *live*. A posting up
-for 90 days is a very different signal from one posted yesterday, and
-nothing on the board tells you which is which. This pipeline measures
-it weekly across all three German-speaking markets.
 
 ## What the tracker does
 
