@@ -1,4 +1,4 @@
-# Whats up with the Data job market in Austria/Germany/Switzerland?
+# Whats up with the data-job-market in Austria/Germany/Switzerland?
 
 ![tests](https://github.com/Chrisinho8/german-data-job-market/actions/workflows/tests.yml/badge.svg)
 
