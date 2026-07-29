@@ -2,11 +2,7 @@
 
 ![tests](https://github.com/Chrisinho8/german-data-job-market/actions/workflows/tests.yml/badge.svg)
 
-**4,407 live data-job postings across Germany, Austria and Switzerland,
-from 1,771 employers. The average one has been open for 53 days. The
-median, 14. That gap is the finding: half the market moves inside two
-weeks, while one in four postings has been sitting open for more than
-two months.**
+**4,407 live data-job postings across Germany, Austria and Switzerland. 159 of them, 3.6%, are advertised as junior. That is ten senior openings for every junior one, and zero junior roles for data architects. Meanwhile the average posting has been open 53 days against a median of 14, so the market is not just top-heavy, it is slow at the top.**
 
 **[Live tracker](https://Chrisinho8.github.io/german-data-job-market/)**
 — maps, country comparisons and role breakdowns, rebuilt every Monday.
