@@ -21,7 +21,6 @@ postings has been sitting open for over two months.**
 | Open > 90 days | 14.5% |
 | Advertised in English | 33.4% |
 | Disclosing a salary | 4.8% |
-
 ---
 
 ## Why this exists
