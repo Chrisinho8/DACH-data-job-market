@@ -2,93 +2,91 @@
 
 ![tests](https://github.com/Chrisinho8/german-data-job-market/actions/workflows/tests.yml/badge.svg)
 
-**[N] live German data-job postings analysed. [THE FINDING — one
-sentence, with a number in it. e.g. "One in four postings advertised as
-open has been live for more than 60 days."]**
+**2,514 live German data-job postings from 1,140 employers. The average
+one has been open for 59 days. The median, 17. That gap is the finding:
+half the market moves in under three weeks, while more than 1 in 4
+postings has been sitting open for over two months.**
 
-**[Live tracker](https://Chrisinho8.github.io/german-data-job-market/)** —
-refreshed automatically every Monday.
+**[Live tracker](https://Chrisinho8.github.io/german-data-job-market/)**
+— rebuilt automatically every Monday.
 
-![key chart](assets/chart_age.png)
+| | |
+|---|---|
+| Live postings | 2,514 |
+| Employers | 1,140 |
+| Median age | 17 days |
+| Mean age | 59 days |
+| Open > 30 days | 40.5% |
+| Open > 60 days | 27.5% |
+| Open > 90 days | 14.5% |
+| Advertised in English | 33.4% |
+| Disclosing a salary | 4.8% |
 
 ---
 
 ## Why this exists
 
-Job boards show you what is *listed*, not what is *live*. A posting that
-has been up for 90 days is a very different signal from one posted
-yesterday, but nothing on the board tells you which is which.
+Job boards show you what is *listed*, not what is *live*. A posting up
+for 90 days is a very different signal from one posted yesterday, and
+nothing on the board tells you which is which. This pipeline measures
+it weekly.
 
-This pipeline pulls the German data-job market every week and measures
-the thing nobody publishes: how long these roles have actually been
-advertised, who is advertising them, and how much of the board is the
-same job posted over and over.
+## What the data says
+
+- **The mean is misleading.** 59-day average, 17-day median. A long tail
+  of very old listings drags the average up by a factor of three.
+- **Two thirds of German data roles are advertised in German.** Only
+  33.4% are in English, which matters if you are considering a move.
+- **Almost nobody publishes pay.** 4.8% of postings state a salary,
+  weeks after the EU pay transparency deadline.
 
 ## Architecture
 
-![architecture](assets/architecture.png)
-
 ```
 Adzuna DE API
-   -> raw JSON cached in a Unity Catalog volume
-   -> Auto Loader (trigger availableNow)
-   -> BRONZE  append-only, payload preserved
-   -> SILVER  parsed, deduplicated, quality-gated
-   -> GOLD    aggregates + weekly history
-   -> JSON committed to this repo
-   -> GitHub Pages
+  -> raw JSON cached in a Unity Catalog volume
+  -> Auto Loader (trigger availableNow)
+  -> BRONZE   append-only, every snapshot preserved
+  -> SILVER   parsed, deduplicated, quality-gated
+  -> GOLD     aggregates + weekly history
+  -> JSON committed to this repo
+  -> GitHub Pages
 ```
 
-Orchestrated as a single Databricks Workflow running weekly.
-Total infrastructure cost: **EUR 0**.
+One Databricks Workflow, weekly. Infrastructure cost: **EUR 0**.
 
-## Data
-
-| | |
-|---|---|
-| Source | Adzuna DE public API |
-| Postings analysed | [N] |
-| Distinct employers | [N] |
-| Collection window | weekly snapshots since [date] |
-| Roles covered | data engineer, data analyst, data scientist, analytics engineer, BI developer, ML engineer |
+Bronze keeps every weekly snapshot, so the whole history can be
+reprocessed with better logic without re-calling the API.
 
 ## Method
 
-**Deduplication.** The same role is republished constantly under new
-IDs. Postings are hashed on title, company, city and the first 200
-characters of the description, and the earliest listing is kept. This
-removed **[X]%** of raw rows.
+**Source.** Adzuna DE public API, 13 role queries, national coverage,
+deep pagination.
+
+**Deduplication.** The same role is republished under new IDs
+constantly. Postings are hashed on title, company, city and the first
+200 characters of the description; the earliest listing is kept.
 
 **Posting age.** Days between the API's `created` date and the snapshot
-date. Only postings still returned as live are counted.
+date, for postings still returned as live.
 
-**Agency detection.** Keyword match against known recruitment-agency
-name patterns. Imperfect by construction, see Limitations.
-
-**Skill extraction.** A curated dictionary of [N] terms, not an LLM, so
+**Skill extraction.** A curated dictionary of 47 terms, not an LLM, so
 results are reproducible and every match points at a specific string.
 See `src/matcher.py`.
 
 ## Validation
 
-This is the part most portfolio projects skip, so here are the numbers.
-
 | Check | Result |
 |---|---|
-| Duplicate rate removed | **[X]%** |
-| Quality-rule quarantine rate | **[X]%** |
-| Skill matcher precision | **[P]** |
-| Skill matcher recall | **[R]** |
-| Postings with truncated descriptions | **[X]%** |
-| Postings with a stated salary | **[N]** |
-
-Matcher precision and recall were measured against **100 postings
-labelled by hand**. The labelled sample is in `tests/`.
+| Quality-rule quarantine rate | 1.9% |
+| Descriptions truncated by the API | 99.6% |
+| Postings with a stated salary | 164 (4.8%) |
+| Genuine repost rate | _pending_ |
+| Skill matcher precision / recall | _pending_ |
+| Matcher unit tests | 15, green in CI |
 
 A deliberately corrupted record (salary of 9,999,999, date of 2019) is
-injected on every run to prove the quality gate actually fires:
-
-![quality gate catching a bad record](assets/quality_gate.png)
+injected on every run to prove the quality gate actually fires.
 
 ## Limitations
 
@@ -96,56 +94,48 @@ injected on every run to prove the quality gate actually fires:
   role, a pipeline-building advert, or a listing nobody took down. This
   measures advertising behaviour, not hiring outcomes.
 - **One aggregator is not the whole market.** Adzuna indexes many German
-  boards but not all of them, and coverage varies by employer size.
-- **The API truncates descriptions** to roughly 450 characters. Skill
-  counts therefore measure *mentioned in the title or opening
-  paragraph*, which is a floor, not a true requirement count. They are
-  labelled as such everywhere they appear.
-- **Salary data is almost entirely absent** from the German index, so no
-  salary analysis is published here.
-- **Agency detection is keyword based** and will miss agencies with
-  neutral names.
-- **Reposts are detected by content hash.** Genuinely distinct roles
-  with identical wording would be incorrectly merged.
+  boards, not all of them, and coverage varies by employer size.
+- **`created` is Adzuna's date**, which may be when it indexed the
+  posting rather than when the employer published it.
+- **Descriptions are hard-capped at 500 characters** and 99.6% are
+  truncated. Skill counts therefore measure *mentioned in the title or
+  opening paragraph*, which is a floor, not a requirement rate. The
+  truncation window is identical for every posting, so relative
+  comparisons between tools hold; absolute rates do not.
+- **Salary data is almost entirely absent**, so no salary analysis is
+  published beyond the disclosure rate itself.
+- **Agency detection is keyword based** and currently flags only 5.4%,
+  which is implausibly low. Treat it as a lower bound.
+- **Reposts are detected by content hash**, so genuinely distinct roles
+  with identical wording would be merged.
+
+Only aggregates are published here. Individual listings are not
+redistributed.
 
 ## Running it
 
-1. Register at `developer.adzuna.com` for an `app_id` and `app_key`.
-2. Create a Databricks workspace (Free Edition is enough).
-3. Create the catalog and volumes:
+1. Get an `app_id` and `app_key` from `developer.adzuna.com`.
+2. Create a Databricks workspace (Free Edition is enough) and run
+   `notebooks/setup_uc.py` to create the catalog, schemas and volumes.
+3. Put credentials in the `conf` volume, outside this repo:
 
-   ```sql
-   CREATE CATALOG IF NOT EXISTS jobs;
-   CREATE SCHEMA  IF NOT EXISTS jobs.bronze;
-   CREATE SCHEMA  IF NOT EXISTS jobs.silver;
-   CREATE SCHEMA  IF NOT EXISTS jobs.gold;
-   CREATE VOLUME  IF NOT EXISTS jobs.bronze.raw;
-   CREATE VOLUME  IF NOT EXISTS jobs.bronze.conf;
-   CREATE VOLUME  IF NOT EXISTS jobs.bronze.checkpoints;
-   ```
+```python
+pathlib.Path("/Volumes/jobs/bronze/conf/adzuna.json").write_text(
+    json.dumps({"app_id": "...", "app_key": "..."}))
+```
 
-4. Store credentials outside the repo:
+4. Import `notebooks/` and run 01 to 06 in order.
+5. Chain them into a weekly Databricks Workflow.
 
-   ```bash
-   databricks secrets create-scope jobs
-   databricks secrets put-secret jobs adzuna_app_id  --string-value "..."
-   databricks secrets put-secret jobs adzuna_app_key --string-value "..."
-   databricks secrets put-secret jobs github_token   --string-value "..."
-   ```
-
-5. Import `notebooks/` into the workspace and run 01 through 06 in order.
-6. Chain them into a Databricks Workflow on a weekly schedule.
-
-Local tests:
+Tests:
 
 ```bash
-pip install -r requirements.txt
-pytest tests/ -v
+pip install -r requirements.txt && pytest tests/ -v
 ```
 
 ## Stack
 
-Databricks (Free Edition) · Delta Lake · Auto Loader · Unity Catalog ·
+Databricks Free Edition · Delta Lake · Auto Loader · Unity Catalog ·
 PySpark · Databricks Workflows · GitHub Actions · GitHub Pages ·
 Chart.js
 
