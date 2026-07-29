@@ -39,14 +39,14 @@ architect, DWH / ETL, or other.
 
 ### What it measures
 
-- **Posting age** — days between the posting date and the snapshot
-- **Reposts** — the same role relisted under a new ID
-- **Seniority** — junior, mid or senior, inferred from the title
-- **Language** — German or English, from the description
-- **Location** — city and Bundesland, from the posting's own
+- **Posting age**: days between the posting date and the snapshot
+- **Reposts**: the same role relisted under a new ID
+- **Seniority**: junior, mid or senior, inferred from the title
+- **Language**: German or English, from the description
+- **Location**: city and Bundesland, from the posting's own
   geographic fields rather than the search query
-- **Poster type** — recruitment agency or direct employer
-- **Tool mentions** — 47 technologies matched with a curated
+- **Poster type**: recruitment agency or direct employer
+- **Tool mentions**: 47 technologies matched with a curated
   dictionary
 
 ### Coverage and cadence
