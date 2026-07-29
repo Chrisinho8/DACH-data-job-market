@@ -1,0 +1,20 @@
+# credentials - never commit these
+.env
+*.key
+adzuna.json
+.databrickscfg
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+
+# local data - the pipeline writes to a Databricks volume,
+# not to the repo. Only docs/data/*.json is committed.
+raw/
+data/raw/
+*.parquet
+
+# os
+.DS_Store

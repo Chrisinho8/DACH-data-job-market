@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>German Data Job Market Tracker</title>
+<meta name="description"
+      content="How stale is the German data job market? Live postings
+               tracked weekly through a Delta Lake pipeline.">
+<meta property="og:title" content="German Data Job Market Tracker">
+<meta property="og:description"
+      content="How many 'live' German data jobs have been open for months?">
+<meta property="og:type" content="website">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Updated weekly &middot; open data</p>
+    <h1>How stale is the German
+        <em>data job market</em>?</h1>
+    <p class="sub">
+      Every week I pull live data-job postings from a public API,
+      run them through a Delta Lake pipeline on Databricks, and
+      measure one thing nobody publishes: <strong>how long these
+      "live" jobs have actually been open.</strong>
+    </p>
+    <p class="meta" id="meta">Loading&hellip;</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="stats" class="stats"></section>
+
+  <section>
+    <h2>How old is a "live" posting?</h2>
+    <p class="note">
+      Days between the posting date and today, for jobs currently
+      listed as open.
+    </p>
+    <canvas id="age" height="200"></canvas>
+  </section>
+
+  <section>
+    <h2>Agencies vs direct employers</h2>
+    <p class="note">
+      Average age of postings, split by whether the poster looks
+      like a recruitment agency.
+    </p>
+    <canvas id="agency" height="150"></canvas>
+  </section>
+
+  <section>
+    <h2>Roles</h2>
+    <p class="note">Live postings by role family and seniority.</p>
+    <canvas id="roles" height="220"></canvas>
+  </section>
+
+  <section>
+    <h2>Cities</h2>
+    <p class="note">
+      Where the postings are, and how stale they are in each place.
+    </p>
+    <canvas id="cities" height="240"></canvas>
+  </section>
+
+  <section>
+    <h2>Longest-running advertisers</h2>
+    <p class="note">
+      Employers with at least 5 live postings, ranked by average
+      posting age.
+    </p>
+    <div id="stale-table"></div>
+  </section>
+
+  <section>
+    <h2>Most mentioned tools</h2>
+    <p class="note">
+      <strong>Read this carefully.</strong> The API truncates
+      descriptions to about 450 characters, so this measures tools
+      mentioned in the <em>title or opening paragraph</em>, not
+      tools required. It is a floor, not a count.
+    </p>
+    <canvas id="skills" height="240"></canvas>
+  </section>
+
+  <section id="trend-section" hidden>
+    <h2>Week over week</h2>
+    <p class="note">
+      Change in average posting age since tracking began.
+    </p>
+    <canvas id="trend" height="180"></canvas>
+  </section>
+
+  <section class="caveats">
+    <h2>What this does not tell you</h2>
+    <ul>
+      <li><strong>Postings are not hires.</strong> An old posting
+          may be a real unfilled role, a pipeline-building advert,
+          or a listing nobody took down.</li>
+      <li><strong>One job board is not the whole market.</strong>
+          This is Adzuna's German index, which aggregates many
+          boards but not all of them.</li>
+      <li><strong>Reposts are detected by content hash</strong>
+          (title, company, city, first 200 characters). Genuinely
+          distinct roles with identical wording would be merged.</li>
+      <li><strong>Agency detection is keyword based</strong> and
+          will miss agencies with neutral names.</li>
+      <li><strong>Tool mentions are dictionary based</strong> and
+          limited by description truncation, as noted above.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>
+      Built by <a href="https://linkedin.com/in/YOURNAME">your name</a>
+      &middot;
+      <a href="https://github.com/YOURUSER/german-data-job-market">
+      source, method and full limitations</a>
+    </p>
+  </footer>
+
+</main>
+
+<script>
+const INK   = "#191919";
+const CORAL = "#D97757";
+const CLAY  = "#CC785C";
+const SAGE  = "#7C9885";
+const LINE  = "#E3DFD5";
+const SLATE = "#5C5A54";
+
+Chart.defaults.font.family =
+  "system-ui, -apple-system, Segoe UI, sans-serif";
+Chart.defaults.color = SLATE;
+Chart.defaults.borderColor = LINE;
+
+const get = f =>
+  fetch(`data/${f}.json`).then(r => r.json()).catch(() => null);
+
+function bar(id, labels, datasets, horizontal, stacked) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el, {
+    type: "bar",
+    data: { labels, datasets },
+    options: {
+      indexAxis: horizontal ? "y" : "x",
+      plugins: {
+        legend: { display: datasets.length > 1,
+                  labels: { boxWidth: 12, font: { size: 11 } } }
+      },
+      scales: {
+        x: { stacked: !!stacked,
+             grid: { color: LINE, drawBorder: false } },
+        y: { stacked: !!stacked, grid: { display: false } }
+      }
+    }
+  });
+}
+
+function ds(label, data, colour) {
+  return { label, data, backgroundColor: colour,
+           borderRadius: 3, barPercentage: 0.82 };
+}
+
+/* ---------- header stats ---------- */
+get("meta").then(m => {
+  if (!m) return;
+  document.getElementById("meta").textContent =
+    `${m.live_postings.toLocaleString()} live postings · ` +
+    `${m.employers.toLocaleString()} employers · ` +
+    `last updated ${m.updated}`;
+
+  const cards = [
+    ["Live postings", m.live_postings.toLocaleString()],
+    ["Median age", m.median_age_days + " days"],
+    ["Open over 60 days", m.pct_over_60d + "%"],
+    ["Employers", m.employers.toLocaleString()],
+  ];
+  document.getElementById("stats").innerHTML = cards.map(
+    ([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`
+  ).join("");
+});
+
+/* ---------- age distribution ---------- */
+get("age_distribution").then(d => {
+  if (!d) return;
+  bar("age", d.map(r => r.bucket),
+      [ds("% of live postings", d.map(r => r.pct), CORAL)]);
+});
+
+/* ---------- agency comparison ---------- */
+get("agency_comparison").then(d => {
+  if (!d) return;
+  bar("agency", d.map(r => r.poster_type),
+      [ds("Avg age (days)", d.map(r => r.avg_age_days), CLAY),
+       ds("% open > 60 days", d.map(r => r.pct_over_60d), SAGE)]);
+});
+
+/* ---------- roles ---------- */
+get("role_breakdown").then(d => {
+  if (!d) return;
+  const roles = [...new Set(d.map(r => r.role_family))];
+  const levels = ["junior", "mid", "senior"];
+  const colours = { junior: SAGE, mid: CLAY, senior: CORAL };
+  const sets = levels.map(lv => ds(lv,
+    roles.map(rf => {
+      const hit = d.find(r => r.role_family === rf &&
+                              r.seniority === lv);
+      return hit ? hit.n_postings : 0;
+    }), colours[lv]));
+  bar("roles", roles, sets, true, true);
+});
+
+/* ---------- cities ---------- */
+get("city_breakdown").then(d => {
+  if (!d) return;
+  const top = d.slice(0, 15);
+  bar("cities", top.map(r => r.city),
+      [ds("Postings", top.map(r => r.n_postings), CORAL)], true);
+});
+
+/* ---------- stale employers ---------- */
+get("stale_by_company").then(d => {
+  if (!d) return;
+  const rows = d.slice(0, 15).map(r => `
+    <tr><td>${r.company}</td>
+        <td>${r.is_agency ? "agency" : "direct"}</td>
+        <td class="num">${r.n_postings}</td>
+        <td class="num">${r.avg_age_days}</td>
+        <td class="num">${r.oldest_days}</td></tr>`).join("");
+  document.getElementById("stale-table").innerHTML = `
+    <table><thead><tr>
+      <th>Employer</th><th>Type</th><th class="num">Postings</th>
+      <th class="num">Avg age</th><th class="num">Oldest</th>
+    </tr></thead><tbody>${rows}</tbody></table>`;
+});
+
+/* ---------- skills ---------- */
+get("skill_demand").then(d => {
+  if (!d) return;
+  const top = d.slice(0, 20);
+  bar("skills", top.map(r => r.skill),
+      [ds("% of postings mentioning",
+          top.map(r => r.pct_postings), CLAY)], true);
+});
+
+/* ---------- trend, appears once there are 3+ snapshots ---------- */
+get("history").then(h => {
+  if (!h) return;
+  const rows = h.filter(r => r.metric === "avg_age_days");
+  const weeks = [...new Set(rows.map(r => r.snapshot_date))].sort();
+  if (weeks.length < 3) return;
+  document.getElementById("trend-section").hidden = false;
+  new Chart(document.getElementById("trend"), {
+    type: "line",
+    data: { labels: weeks,
+      datasets: [{ label: "Average posting age (days)",
+        data: weeks.map(w =>
+          (rows.find(r => r.snapshot_date === w) || {}).value),
+        borderColor: CORAL, backgroundColor: CORAL,
+        tension: 0.3, pointRadius: 3 }] },
+    options: { plugins: { legend: { display: false } },
+      scales: { x: { grid: { display: false } },
+                y: { grid: { color: LINE } } } }
+  });
+});
+</script>
+</body>
+</html>
