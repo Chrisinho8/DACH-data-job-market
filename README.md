@@ -33,14 +33,14 @@ data roles, aggregated and published to the site automatically.
 junior title. Ten senior openings for every junior one. `data architect`
 has zero.
 
-**Jobs seniority comparison**
+**Jobs seniority comparison:**
 | Seniority | Postings | Share |
 |---|---|---|
 | Junior | 159 | 3.6% |
 | Mid | 2,619 | 59.4% |
 | Senior | 1,629 | 37.0% |
 
-**Job offerings per job-field**
+**Job offerings per job-field (any other recommendations?)**
 | Role family | Postings |
 |---|---|
 | AI / ML | 1,520 |
