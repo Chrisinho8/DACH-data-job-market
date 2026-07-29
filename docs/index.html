@@ -109,16 +109,6 @@
       and are never averaged with euro figures.
     </p>
     <div id="ctrycards" class="ctry"></div>
-    <div class="grid2">
-      <div>
-        <h3 class="subh">Days open: mean vs median</h3>
-        <canvas id="ctryage" height="220"></canvas>
-      </div>
-      <div>
-        <h3 class="subh">Share advertised in English</h3>
-        <canvas id="ctryen" height="220"></canvas>
-      </div>
-    </div>
   </section>
 
   <section>
@@ -184,28 +174,22 @@
       </div>
       <div>
         <h3 class="subh">Top cities by volume</h3>
-        <table class="rank"><tbody id="cityrank"></tbody></table>
+        <table class="rank">
+          <thead><tr>
+            <th>City</th>
+            <th></th>
+            <th class="num">Listings</th>
+            <th class="num">Avg&nbsp;days</th>
+          </tr></thead>
+          <tbody id="cityrank"></tbody>
+        </table>
       </div>
     </div>
   </section>
 
-  <section>
-    <h2>Big market, or slow market?</h2>
-    <p class="note">
-      Each bubble is a city, coloured by country. Right means more
-      postings, up means they sit open longer.
-    </p>
-    <canvas id="cityscatter" height="230"></canvas>
-  </section>
 
-  <section>
-    <h2>Which cities hire in English?</h2>
-    <p class="note">
-      Share of postings written in English, by city. Detected from
-      German stopwords in the description.
-    </p>
-    <canvas id="cityen" height="240"></canvas>
-  </section>
+
+
 
   <!-- ============ ROLES ============ -->
   <section>
@@ -283,15 +267,7 @@
     <canvas id="empvol" height="260"></canvas>
   </section>
 
-  <section>
-    <h2>Longest-running advertisers</h2>
-    <p class="note">
-      Ranked by average posting age. A long average is not an
-      accusation: it can mean a hard-to-fill role just as easily as a
-      listing nobody took down.
-    </p>
-    <div id="stale-table"></div>
-  </section>
+
 
   <!-- ============ TOOLS ============ -->
   <section>
@@ -391,31 +367,11 @@
     <canvas id="n5_enage" height="230"></canvas>
   </section>
 
-  <section>
-    <h2>Which tools show up in stale postings?</h2>
-    <p class="note">
-      Days open for postings mentioning each tool, measured against the
-      market average. Bars to the right sit open longer than typical,
-      bars to the left move faster. Same 500-character truncation
-      caveat as the charts above.
-    </p>
-    <canvas id="n6_tooldelta" height="260"></canvas>
-  </section>
-
-  <section>
-    <h2>The single oldest listing per employer</h2>
-    <p class="note">
-      Not the average this time, the worst case: the longest any one
-      posting from this employer has been continuously live.
-    </p>
-    <canvas id="n7_oldest" height="250"></canvas>
-  </section>
 
 
 
-  <!-- ===================================================== -->
-  <!-- ========== NEW BATCH 2: 7 MORE CHARTS =============== -->
-  <!-- ===================================================== -->
+
+
 
   <section>
     <h2>Which roles are advertised in English?</h2>
@@ -457,27 +413,6 @@
       so only the disclosure rate is comparable, never the amounts.
     </p>
     <canvas id="n11_salary" height="180"></canvas>
-  </section>
-
-  <section>
-    <h2>Which tool categories sit in stale postings?</h2>
-    <p class="note">
-      Average days open for postings mentioning each category of tool.
-      If legacy tooling clusters at the top, that is a signal about
-      which stacks are hard to hire for. Same truncation caveat as
-      every tool chart here.
-    </p>
-    <canvas id="n12_catage" height="220"></canvas>
-  </section>
-
-  <section>
-    <h2>How the market ages, in absolute numbers</h2>
-    <p class="note">
-      Bars are the number of live postings in each age band. The line
-      is the running total, so you can read straight off it how many
-      postings are older than any given band.
-    </p>
-    <canvas id="n13_agecum" height="210"></canvas>
   </section>
 
   <section>
@@ -676,14 +611,6 @@ get("country_breakdown").then(d => {
       </dl>
     </div>`).join("");
 
-  bar("ctryage", rows.map(r => CNAME[r.country]),
-      [ds("Median days", rows.map(r => r.median_age_days), STEEL),
-       ds("Mean days",
-          rows.map(r => Math.round(r.avg_age_days)), CORAL)]);
-
-  bar("ctryen", rows.map(r => CNAME[r.country]),
-      [ds("% English", rows.map(r => r.pct_english),
-          rows.map(r => CCOL[r.country]))]);
 });
 
 /* ---------------- age distribution ---------------- */
@@ -981,28 +908,7 @@ const top = d.filter(r => r.city !== "not specified")
                  font-weight:600">${Math.round(r.avg_age_days)}d</td>
     </tr>`).join("");
 
-  /* volume vs staleness, coloured by country */
-  const big = d.filter(r => r.city !== "not specified")
-               .sort((a, b) => b.n_postings - a.n_postings)
-               .slice(0, 30);
-  const mxn = big[0].n_postings;
-  scatter("cityscatter",
-    big.map(r => ({ x: r.n_postings,
-                    y: Math.round(r.avg_age_days),
-                    r: 5 + 15 * Math.sqrt(r.n_postings / mxn),
-                    name: `${cap(r.city)} (${r.country})`,
-                    c: r.country })),
-    "live postings", "average days open",
-    p => CCOL[p.c] || CORAL);
 
-  /* english share */
-  const en = d.filter(r => r.city !== "not specified")
-              .sort((a, b) => b.n_postings - a.n_postings)
-              .slice(0, 18)
-              .sort((a, b) => b.pct_english - a.pct_english);
-  bar("cityen", en.map(r => `${cap(r.city)} (${r.country})`),
-      [ds("% English", en.map(r => r.pct_english),
-          en.map(r => CCOL[r.country] || CORAL))], true);
 
   const missing = d.filter(r => !GEO[r.key] &&
                                 r.city !== "not specified");
@@ -1127,18 +1033,6 @@ get("stale_by_company").then(d => {
       [ds("Live postings", vol.map(r => r.n_postings),
           vol.map(r => ageColour(r.avg_age_days)))], true);
 
-  const rows = d.slice(0, 15).map(r => `
-    <tr><td>${r.company}</td>
-        <td>${r.is_agency ? "agency" : "direct"}</td>
-        <td class="num">${r.n_postings}</td>
-        <td class="num" style="color:${ageColour(r.avg_age_days)};
-            font-weight:600">${r.avg_age_days}</td>
-        <td class="num">${r.oldest_days}</td></tr>`).join("");
-  document.getElementById("stale-table").innerHTML = `
-    <table><thead><tr>
-      <th>Employer</th><th>Type</th><th class="num">Postings</th>
-      <th class="num">Avg age</th><th class="num">Oldest</th>
-    </tr></thead><tbody>${rows}</tbody></table>`;
 });
 
 /* ---------------- tools ---------------- */
@@ -1320,54 +1214,16 @@ get("history").then(h => {
       p => CCOL[p.c] || CORAL);
   });
 
-  /* ---- 6: tool staleness against the market average ---- */
-  Promise.all([get("skill_demand"), get("meta")]).then(([d, m]) => {
-    if (!d || !d.length) return;
 
-    /* fall back to the mean of the tools themselves if meta is absent */
-    const base = (m && m.avg_age_days) ? m.avg_age_days
-      : d.reduce((s, r) => s + (r.avg_age_days || 0), 0) / d.length;
-
-    const rows = d.slice(0, 22)
-      .map(r => ({ skill: r.skill,
-                   delta: +((r.avg_age_days || 0) - base).toFixed(1),
-                   n: r.n_postings }))
-      .sort((a, b) => b.delta - a.delta);
-
-    bar("n6_tooldelta",
-        rows.map(r => `${r.skill} (n=${r.n})`),
-        [ds("days vs market average", rows.map(r => r.delta),
-            rows.map(r => r.delta >= 0 ? CLAY : MOSS))], true);
-  });
-
-  /* ---- 7: single oldest listing per employer ---- */
-  get("stale_by_company").then(d => {
-    if (!d || !d.length) return;
-    const rows = d.slice()
-      .filter(r => r.oldest_days != null)
-      .sort((a, b) => b.oldest_days - a.oldest_days)
-      .slice(0, 15);
-    if (!rows.length) return;
-
-    bar("n7_oldest",
-        rows.map(r => r.company),
-        [ds("Days the oldest posting has been live",
-            rows.map(r => r.oldest_days),
-            rows.map(r => ageColour(r.oldest_days)))], true);
-  });
 })();
 </script>
 
 
-<!-- ===================================================== -->
-<!-- ==== NEW BATCH 2: script for the 7 more charts ====== -->
-<!-- Self-contained IIFE, declares nothing globally.       -->
-<!-- ===================================================== -->
 <script>
 (function () {
-  const IND = "#6B6E9B", ROSE = "#B5657F", OLIVE = "#8C9455";
+  const IND = "#6B6E9B", ROSE = "#B5657F";
 
-  /* ---- 8: English share by role family ---- */
+  /* ---- English share by role family ---- */
   get("role_breakdown").then(d => {
     if (!d || !d.length) return;
     const agg = {};
@@ -1387,7 +1243,7 @@ get("history").then(h => {
             rows.map(r => r.en >= 50 ? IND : STEEL))], true);
   });
 
-  /* ---- 9: agency share by city ---- */
+  /* ---- agency share by city ---- */
   get("city_breakdown").then(raw => {
     if (!raw || !raw.length) return;
 
@@ -1421,7 +1277,7 @@ get("history").then(h => {
             rows.map(r => r.ag === 0 ? "#D8D3C7" : ROSE))], true);
   });
 
-  /* ---- 10 & 11: fragmentation and salary disclosure ---- */
+  /* ---- fragmentation and salary disclosure ---- */
   get("country_breakdown").then(d => {
     if (!d || !d.length) return;
     const byC = {};
@@ -1441,81 +1297,12 @@ get("history").then(h => {
             rows.map(r => CCOL[r.country] || CORAL))]);
   });
 
-  /* ---- 12: staleness by tool category ---- */
-  get("skill_demand").then(d => {
-    if (!d || !d.length) return;
-    const agg = {};
-    d.forEach(r => {
-      const c = r.skill_category || "other";
-      agg[c] = agg[c] || { n: 0, wage: 0 };
-      agg[c].n    += r.n_postings;
-      agg[c].wage += r.n_postings * (r.avg_age_days || 0);
-    });
-    const rows = Object.entries(agg)
-      .map(([cat, v]) => ({ cat, n: v.n,
-                            age: Math.round(v.wage / v.n) }))
-      .sort((a, b) => b.age - a.age);
-
-    bar("n12_catage", rows.map(r => `${r.cat} (n=${r.n})`),
-        [ds("avg days open", rows.map(r => r.age),
-            rows.map(r => ageColour(r.age)))], true);
-  });
-
-  /* ---- 13: age distribution, counts plus running total ---- */
-  get("age_distribution").then(d => {
-    if (!d || !d.length) return;
-    const el = document.getElementById("n13_agecum");
-    if (!el) return;
-
-    const order = ["0-7 days", "8-14 days", "15-30 days",
-                   "31-60 days", "61-90 days", "90+ days"];
-    const rows = d.slice().sort(
-      (a, b) => order.indexOf(a.bucket) - order.indexOf(b.bucket));
-
-    const total = rows.reduce((s, r) => s + r.n_postings, 0);
-    let run = 0;
-    const cum = rows.map(r => {
-      run += r.n_postings;
-      return +(100 * run / total).toFixed(1);
-    });
-
-    new Chart(el, {
-      data: {
-        labels: rows.map(r => r.bucket),
-        datasets: [
-          { type: "bar", label: "postings in band",
-            data: rows.map(r => r.n_postings),
-            backgroundColor: [MOSS, "#9DA97E", AMBER,
-                              CLAY, DEEP, "#8C3A22"],
-            borderRadius: 3, barPercentage: 0.82, order: 2 },
-          { type: "line", label: "cumulative %",
-            data: cum, yAxisID: "y1", order: 1,
-            borderColor: SLATE, backgroundColor: SLATE,
-            tension: 0.25, pointRadius: 3, fill: false }
-        ]
-      },
-      options: {
-        plugins: { legend: { position: "bottom",
-                             labels: { boxWidth: 12 } } },
-        scales: {
-          x:  { grid: { display: false } },
-          y:  { position: "left", grid: { color: LINE },
-                title: { display: true, text: "postings" } },
-          y1: { position: "right", min: 0, max: 100,
-                grid: { display: false },
-                title: { display: true, text: "cumulative %" } }
-        }
-      }
-    });
-  });
-
-  /* ---- 14: this pipeline's own error rates ---- */
+  /* ---- this pipeline's own error rates ---- */
   get("meta").then(m => {
     if (!m) return;
     const el = document.getElementById("n14_quality");
     if (!el) return;
 
-    const pct = v => (v == null ? null : v);
     const cards = [
       ["Records rejected by quality rules",
        m.quarantine_rate != null
@@ -1525,9 +1312,9 @@ get("history").then(h => {
        m.desc_truncated_pct != null
          ? m.desc_truncated_pct + "%" : "–"],
       ["Tool matcher precision",
-       pct(m.matcher_precision) ?? "not measured"],
+       m.matcher_precision ?? "not measured"],
       ["Tool matcher recall",
-       pct(m.matcher_recall) ?? "not measured"],
+       m.matcher_recall ?? "not measured"],
     ];
 
     el.innerHTML = cards.map(([k, v]) =>
