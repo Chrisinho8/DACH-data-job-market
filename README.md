@@ -10,17 +10,59 @@ postings has been sitting open for over two months.**
 **[Live tracker](https://Chrisinho8.github.io/german-data-job-market/)**
 - rebuilt automatically every Monday.
 
+---
+
+## What the tracker does
+
+Every Monday at 06:00 it queries the Adzuna Germany API for 13 job
+titles, nationwide, and paginates until each search is exhausted.
+Everything it finds is deduplicated, classified and aggregated, and
+the results are published to the site automatically.
+
+### Titles searched
+
 | | |
 |---|---|
-| Live postings | 2,514 |
-| Employers | 1,140 |
-| Median age | 17 days |
-| Mean age | 59 days |
-| Open > 30 days | 40.5% |
-| Open > 60 days | 27.5% |
-| Open > 90 days | 14.5% |
-| Advertised in English | 33.4% |
-| Disclosing a salary | 4.8% |
+| `data engineer` | `data analyst` |
+| `data scientist` | `analytics engineer` |
+| `bi developer` | `business intelligence` |
+| `machine learning engineer` | `ai engineer` |
+| `data architect` | `etl developer` |
+| `big data engineer` | `mlops engineer` |
+| `data warehouse` | |
+
+Searches overlap heavily, so a posting found by several queries is
+counted once. Each posting is then reclassified from its actual job
+title into one of: data engineer, data analyst, data scientist,
+analytics engineer, BI developer, ML engineer, AI engineer, data
+architect, DWH / ETL, or other.
+
+### What it measures
+
+- **Posting age** — days between the posting date and the snapshot
+- **Reposts** — the same role relisted under a new ID
+- **Seniority** — junior, mid or senior, inferred from the title
+- **Language** — German or English, from the description
+- **Location** — city and Bundesland, from the posting's own
+  geographic fields rather than the search query
+- **Poster type** — recruitment agency or direct employer
+- **Tool mentions** — 47 technologies matched with a curated
+  dictionary
+
+### Coverage and cadence
+
+| | |
+|---|---|
+| Region | All of Germany, no city filter |
+| Frequency | Weekly, every Monday |
+| Snapshot retention | Every week kept permanently |
+| API calls per run | ~200 of a 1,000/month free tier |
+| Runtime | Under 10 minutes end to end |
+
+Because every weekly snapshot is retained, the dataset gets more
+useful over time: after a few weeks it can show which roles and tools
+are rising or falling, rather than just a single picture of one day.
+
 ---
 
 ## Why this exists
