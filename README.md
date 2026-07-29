@@ -1,12 +1,12 @@
 # How stale is the German data job market?
 
-![tests](https://github.com/YOURUSER/german-data-job-market/actions/workflows/tests.yml/badge.svg)
+![tests](https://github.com/Chrisinho8/german-data-job-market/actions/workflows/tests.yml/badge.svg)
 
 **[N] live German data-job postings analysed. [THE FINDING — one
 sentence, with a number in it. e.g. "One in four postings advertised as
 open has been live for more than 60 days."]**
 
-**[Live tracker](https://YOURUSER.github.io/german-data-job-market/)** —
+**[Live tracker](https://Chrisinho8.github.io/german-data-job-market/)** —
 refreshed automatically every Monday.
 
 ![key chart](assets/chart_age.png)
