@@ -1,0 +1,322 @@
+[
+ {
+  "company": "super.AI",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 537.6,
+  "oldest_days": 677,
+  "pct_over_60d": 100.0
+ },
+ {
+  "company": "IBM",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 416.6,
+  "oldest_days": 520,
+  "pct_over_60d": 80.0
+ },
+ {
+  "company": "valantic Digital Finance GmbH",
+  "is_agency": false,
+  "n_postings": 15,
+  "avg_age_days": 298.5,
+  "oldest_days": 709,
+  "pct_over_60d": 80.0
+ },
+ {
+  "company": "ISR Information Products AG",
+  "is_agency": false,
+  "n_postings": 47,
+  "avg_age_days": 266.4,
+  "oldest_days": 524,
+  "pct_over_60d": 97.9
+ },
+ {
+  "company": "Rüdiger Mohne",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 228.6,
+  "oldest_days": 235,
+  "pct_over_60d": 100.0
+ },
+ {
+  "company": "FERCHAU GmbH",
+  "is_agency": false,
+  "n_postings": 9,
+  "avg_age_days": 204.8,
+  "oldest_days": 940,
+  "pct_over_60d": 44.4
+ },
+ {
+  "company": "netgo group GmbH",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 203.0,
+  "oldest_days": 203,
+  "pct_over_60d": 100.0
+ },
+ {
+  "company": "wynwood tech",
+  "is_agency": false,
+  "n_postings": 11,
+  "avg_age_days": 188.5,
+  "oldest_days": 363,
+  "pct_over_60d": 81.8
+ },
+ {
+  "company": "Siemens",
+  "is_agency": false,
+  "n_postings": 9,
+  "avg_age_days": 180.7,
+  "oldest_days": 904,
+  "pct_over_60d": 22.2
+ },
+ {
+  "company": "smartclip Europe GmbH",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 165.0,
+  "oldest_days": 308,
+  "pct_over_60d": 60.0
+ },
+ {
+  "company": "Thermondo GmbH",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 156.6,
+  "oldest_days": 277,
+  "pct_over_60d": 60.0
+ },
+ {
+  "company": "NTT America, Inc.",
+  "is_agency": false,
+  "n_postings": 37,
+  "avg_age_days": 132.7,
+  "oldest_days": 357,
+  "pct_over_60d": 100.0
+ },
+ {
+  "company": "Comma Soft AG",
+  "is_agency": false,
+  "n_postings": 7,
+  "avg_age_days": 131.7,
+  "oldest_days": 257,
+  "pct_over_60d": 85.7
+ },
+ {
+  "company": "Peec AI",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 129.0,
+  "oldest_days": 362,
+  "pct_over_60d": 80.0
+ },
+ {
+  "company": "CHECK24",
+  "is_agency": false,
+  "n_postings": 6,
+  "avg_age_days": 118.8,
+  "oldest_days": 183,
+  "pct_over_60d": 100.0
+ },
+ {
+  "company": "Almedia",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 115.6,
+  "oldest_days": 230,
+  "pct_over_60d": 60.0
+ },
+ {
+  "company": "in-tech GmbH",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 109.8,
+  "oldest_days": 159,
+  "pct_over_60d": 60.0
+ },
+ {
+  "company": "KPMG",
+  "is_agency": false,
+  "n_postings": 53,
+  "avg_age_days": 101.5,
+  "oldest_days": 255,
+  "pct_over_60d": 37.7
+ },
+ {
+  "company": "Agile Robots SE",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 99.8,
+  "oldest_days": 224,
+  "pct_over_60d": 80.0
+ },
+ {
+  "company": "Obungi GmbH",
+  "is_agency": false,
+  "n_postings": 6,
+  "avg_age_days": 93.8,
+  "oldest_days": 183,
+  "pct_over_60d": 83.3
+ },
+ {
+  "company": "Sopra-Steria",
+  "is_agency": false,
+  "n_postings": 6,
+  "avg_age_days": 88.3,
+  "oldest_days": 187,
+  "pct_over_60d": 66.7
+ },
+ {
+  "company": "Thoughtworks",
+  "is_agency": false,
+  "n_postings": 6,
+  "avg_age_days": 85.3,
+  "oldest_days": 109,
+  "pct_over_60d": 100.0
+ },
+ {
+  "company": "Avomind",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 80.8,
+  "oldest_days": 160,
+  "pct_over_60d": 40.0
+ },
+ {
+  "company": "integration-factory & Co. KG",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 78.0,
+  "oldest_days": 78,
+  "pct_over_60d": 100.0
+ },
+ {
+  "company": "MaibornWolff Career",
+  "is_agency": false,
+  "n_postings": 8,
+  "avg_age_days": 78.0,
+  "oldest_days": 78,
+  "pct_over_60d": 100.0
+ },
+ {
+  "company": "valantic Digital Finance",
+  "is_agency": false,
+  "n_postings": 14,
+  "avg_age_days": 78.0,
+  "oldest_days": 78,
+  "pct_over_60d": 100.0
+ },
+ {
+  "company": "Statista",
+  "is_agency": false,
+  "n_postings": 10,
+  "avg_age_days": 77.4,
+  "oldest_days": 252,
+  "pct_over_60d": 30.0
+ },
+ {
+  "company": "OMMAX",
+  "is_agency": false,
+  "n_postings": 9,
+  "avg_age_days": 76.2,
+  "oldest_days": 78,
+  "pct_over_60d": 100.0
+ },
+ {
+  "company": "SAP",
+  "is_agency": false,
+  "n_postings": 8,
+  "avg_age_days": 75.9,
+  "oldest_days": 224,
+  "pct_over_60d": 50.0
+ },
+ {
+  "company": "1Komma5°",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 72.2,
+  "oldest_days": 78,
+  "pct_over_60d": 100.0
+ },
+ {
+  "company": "statworx",
+  "is_agency": false,
+  "n_postings": 10,
+  "avg_age_days": 71.5,
+  "oldest_days": 78,
+  "pct_over_60d": 90.0
+ },
+ {
+  "company": "Woodmark Consulting",
+  "is_agency": true,
+  "n_postings": 5,
+  "avg_age_days": 71.4,
+  "oldest_days": 78,
+  "pct_over_60d": 80.0
+ },
+ {
+  "company": "NTT DATA Business Solutions Global Managed Services GmbH von bms",
+  "is_agency": false,
+  "n_postings": 15,
+  "avg_age_days": 69.0,
+  "oldest_days": 69,
+  "pct_over_60d": 100.0
+ },
+ {
+  "company": "CGI",
+  "is_agency": false,
+  "n_postings": 15,
+  "avg_age_days": 67.1,
+  "oldest_days": 154,
+  "pct_over_60d": 40.0
+ },
+ {
+  "company": "1Komma5° GmbH",
+  "is_agency": false,
+  "n_postings": 7,
+  "avg_age_days": 64.4,
+  "oldest_days": 153,
+  "pct_over_60d": 42.9
+ },
+ {
+  "company": "Flexa",
+  "is_agency": false,
+  "n_postings": 8,
+  "avg_age_days": 62.8,
+  "oldest_days": 179,
+  "pct_over_60d": 25.0
+ },
+ {
+  "company": "Simon-Kucher & Partners",
+  "is_agency": false,
+  "n_postings": 10,
+  "avg_age_days": 60.4,
+  "oldest_days": 93,
+  "pct_over_60d": 70.0
+ },
+ {
+  "company": "Schwarz Digits",
+  "is_agency": false,
+  "n_postings": 15,
+  "avg_age_days": 56.1,
+  "oldest_days": 246,
+  "pct_over_60d": 26.7
+ },
+ {
+  "company": "AECOM",
+  "is_agency": false,
+  "n_postings": 6,
+  "avg_age_days": 48.2,
+  "oldest_days": 55,
+  "pct_over_60d": 0.0
+ },
+ {
+  "company": "Redcare Pharmacy",
+  "is_agency": false,
+  "n_postings": 10,
+  "avg_age_days": 47.7,
+  "oldest_days": 153,
+  "pct_over_60d": 30.0
+ }
+]
