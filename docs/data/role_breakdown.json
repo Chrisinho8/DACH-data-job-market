@@ -115,9 +115,9 @@
   "country": "at",
   "role_family": "ai / ml",
   "seniority": "mid",
-  "n_postings": 72,
-  "avg_age_days": 52.9,
-  "pct_english": 47.2
+  "n_postings": 71,
+  "avg_age_days": 53.5,
+  "pct_english": 47.9
  },
  {
   "country": "de",
@@ -139,9 +139,9 @@
   "country": "at",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n_postings": 65,
-  "avg_age_days": 66.6,
-  "pct_english": 20.0
+  "n_postings": 62,
+  "avg_age_days": 69.6,
+  "pct_english": 17.7
  },
  {
   "country": "de",
@@ -179,9 +179,9 @@
   "country": "at",
   "role_family": "ai / ml",
   "seniority": "senior",
-  "n_postings": 35,
-  "avg_age_days": 68.7,
-  "pct_english": 62.9
+  "n_postings": 34,
+  "avg_age_days": 70.6,
+  "pct_english": 64.7
  },
  {
   "country": "de",
@@ -224,20 +224,20 @@
   "pct_english": 46.4
  },
  {
-  "country": "at",
-  "role_family": "data analyst",
-  "seniority": "mid",
-  "n_postings": 27,
-  "avg_age_days": 78.2,
-  "pct_english": 37.0
- },
- {
   "country": "de",
   "role_family": "data engineer",
   "seniority": "junior",
   "n_postings": 27,
   "avg_age_days": 59.5,
   "pct_english": 11.1
+ },
+ {
+  "country": "at",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n_postings": 25,
+  "avg_age_days": 84.2,
+  "pct_english": 36.0
  },
  {
   "country": "ch",
@@ -291,9 +291,9 @@
   "country": "at",
   "role_family": "data engineer",
   "seniority": "senior",
-  "n_postings": 13,
-  "avg_age_days": 36.1,
-  "pct_english": 38.5
+  "n_postings": 11,
+  "avg_age_days": 41.8,
+  "pct_english": 45.5
  },
  {
   "country": "at",
@@ -408,14 +408,6 @@
   "pct_english": 75.0
  },
  {
-  "country": "at",
-  "role_family": "data analyst",
-  "seniority": "junior",
-  "n_postings": 4,
-  "avg_age_days": 1.5,
-  "pct_english": 0.0
- },
- {
   "country": "ch",
   "role_family": "bi developer",
   "seniority": "senior",
@@ -462,6 +454,14 @@
   "n_postings": 3,
   "avg_age_days": 250.7,
   "pct_english": 66.7
+ },
+ {
+  "country": "at",
+  "role_family": "data analyst",
+  "seniority": "junior",
+  "n_postings": 3,
+  "avg_age_days": 1.0,
+  "pct_english": 0.0
  },
  {
   "country": "at",
