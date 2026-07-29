@@ -248,14 +248,6 @@
   "snapshot_date": "2026-07-29T00:00:00.000"
  },
  {
-  "skill": "flink",
-  "skill_category": "streaming",
-  "n_postings": 5,
-  "pct_postings": 0.1,
-  "avg_age_days": 61.0,
-  "snapshot_date": "2026-07-29T00:00:00.000"
- },
- {
   "skill": "looker",
   "skill_category": "bi",
   "n_postings": 4,
@@ -269,6 +261,14 @@
   "n_postings": 4,
   "pct_postings": 0.1,
   "avg_age_days": 52.5,
+  "snapshot_date": "2026-07-29T00:00:00.000"
+ },
+ {
+  "skill": "flink",
+  "skill_category": "streaming",
+  "n_postings": 4,
+  "pct_postings": 0.1,
+  "avg_age_days": 74.8,
   "snapshot_date": "2026-07-29T00:00:00.000"
  },
  {
