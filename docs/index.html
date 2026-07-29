@@ -337,6 +337,81 @@
     <canvas id="trend" height="190"></canvas>
   </section>
 
+
+  <!-- ===================================================== -->
+  <!-- ============ NEW: 7 ADDITIONAL CHARTS ============== -->
+  <!-- ===================================================== -->
+
+  <section>
+    <h2>Where are the junior openings?</h2>
+    <p class="note">
+      Absolute count of postings with a junior title, by role family.
+      Junior here means the title says so; a posting with no seniority
+      word counts as mid, so treat this as a floor.
+    </p>
+    <canvas id="n1_juniorvol" height="220"></canvas>
+  </section>
+
+  <section>
+    <h2>Which roles are most open to juniors?</h2>
+    <p class="note">
+      The same data as a share of each role family's own postings, so a
+      small family is comparable with a large one. This is the chart
+      that says which door is actually ajar.
+    </p>
+    <canvas id="n2_juniorshare" height="220"></canvas>
+  </section>
+
+  <section>
+    <h2>Is one country more senior-heavy than the others?</h2>
+    <p class="note">
+      Seniority mix as a share of each country's postings.
+    </p>
+    <canvas id="n3_senctry" height="180"></canvas>
+  </section>
+
+  <section>
+    <h2>Staleness by country, at three thresholds</h2>
+    <p class="note">
+      Share of each country's live postings open longer than 30, 60 and
+      90 days. The survival curve above is the DACH aggregate; this
+      splits it.
+    </p>
+    <canvas id="n4_stalectry" height="200"></canvas>
+  </section>
+
+  <section>
+    <h2>Do English-language postings fill faster?</h2>
+    <p class="note">
+      Each bubble is a city. Right means a higher share of postings in
+      English, up means they sit open longer. Bubble size is volume,
+      colour is country. If there were a relationship you would see a
+      slope.
+    </p>
+    <canvas id="n5_enage" height="230"></canvas>
+  </section>
+
+  <section>
+    <h2>Which tools show up in stale postings?</h2>
+    <p class="note">
+      Days open for postings mentioning each tool, measured against the
+      market average. Bars to the right sit open longer than typical,
+      bars to the left move faster. Same 500-character truncation
+      caveat as the charts above.
+    </p>
+    <canvas id="n6_tooldelta" height="260"></canvas>
+  </section>
+
+  <section>
+    <h2>The single oldest listing per employer</h2>
+    <p class="note">
+      Not the average this time, the worst case: the longest any one
+      posting from this employer has been continuously live.
+    </p>
+    <canvas id="n7_oldest" height="250"></canvas>
+  </section>
+
+
   <!-- ============ CAVEATS ============ -->
   <section class="caveats">
     <h2>What this does not tell you</h2>
@@ -1053,5 +1128,155 @@ get("history").then(h => {
   });
 });
 </script>
+
+<!-- ===================================================== -->
+<!-- ===== NEW: script for the 7 additional charts ======== -->
+<!-- Self-contained IIFE. Reuses the helpers declared in    -->
+<!-- the main script above and declares nothing globally,   -->
+<!-- so it cannot collide with existing code.               -->
+<!-- ===================================================== -->
+<script>
+(function () {
+  const ROSE = "#B5657F", INDIGO = "#6B6E9B", OLIVE = "#8C9455";
+
+  /* ---- 1, 2, 3: seniority views from role_breakdown ---- */
+  get("role_breakdown").then(d => {
+    if (!d || !d.length) return;
+
+    /* per role family: junior count and total */
+    const byRole = {};
+    d.forEach(r => {
+      const k = r.role_family;
+      byRole[k] = byRole[k] || { n: 0, jr: 0 };
+      byRole[k].n += r.n_postings;
+      if (r.seniority === "junior") byRole[k].jr += r.n_postings;
+    });
+
+    const jr = Object.entries(byRole)
+      .map(([role, v]) => ({ role, jr: v.jr, n: v.n,
+                             pct: +(100 * v.jr / v.n).toFixed(1) }));
+
+    /* 1. junior openings, absolute */
+    const byCount = jr.slice().sort((a, b) => b.jr - a.jr);
+    bar("n1_juniorvol", byCount.map(r => r.role),
+        [ds("Junior postings", byCount.map(r => r.jr),
+            byCount.map(r => r.jr === 0 ? "#D8D3C7" : SAGE))], true);
+
+    /* 2. junior share of each role */
+    const byShare = jr.slice().sort((a, b) => b.pct - a.pct);
+    bar("n2_juniorshare", byShare.map(r => `${r.role} (n=${r.n})`),
+        [ds("% junior", byShare.map(r => r.pct),
+            byShare.map(r => r.pct === 0 ? "#D8D3C7" : OLIVE))], true);
+
+    /* 3. seniority mix by country */
+    if (d[0].country !== undefined) {
+      const levels = ["junior", "mid", "senior"];
+      const cols   = { junior: SAGE, mid: STEEL, senior: CORAL };
+      const tot = {};
+      d.forEach(r => tot[r.country] = (tot[r.country] || 0) + r.n_postings);
+      const cs = CORDER.filter(c => tot[c]);
+      const share = (c, lv) => {
+        const n = d.filter(r => r.country === c && r.seniority === lv)
+                   .reduce((s, r) => s + r.n_postings, 0);
+        return +(100 * n / tot[c]).toFixed(1);
+      };
+      bar("n3_senctry", cs.map(c => CNAME[c] || c),
+          levels.map(lv => ds(lv, cs.map(c => share(c, lv)), cols[lv])),
+          true, true, true);
+    }
+  });
+
+  /* ---- 4: staleness thresholds by country ---- */
+  get("country_breakdown").then(d => {
+    if (!d || !d.length) return;
+    const byC = {};
+    d.forEach(r => byC[r.country] = r);
+    const rows = CORDER.filter(c => byC[c]).map(c => byC[c]);
+    if (!rows.length) return;
+
+    bar("n4_stalectry", rows.map(r => CNAME[r.country] || r.country),
+        [ds("open > 30 days", rows.map(r => r.pct_over_30d), AMBER),
+         ds("open > 60 days", rows.map(r => r.pct_over_60d), CLAY),
+         ds("open > 90 days", rows.map(r => r.pct_over_90d), DEEP)]);
+  });
+
+  /* ---- 5: English share vs days open, by city ---- */
+  get("city_breakdown").then(raw => {
+    if (!raw || !raw.length) return;
+
+    /* same normalisation as the map, so cities merge consistently */
+    const key = s => String(s).toLowerCase()
+      .replace(/\s*\(.*?\)\s*$/g, "")
+      .replace(/[-\s](umgebung|umland|land|stadt)$/g, "")
+      .replace(/^(region|regionalverband)\s+/, "")
+      .replace(/\s+/g, " ").trim();
+
+    const acc = {};
+    raw.forEach(r => {
+      const c = r.country || "de";
+      const k = `${c}|${key(r.city)}`;
+      acc[k] = acc[k] || { country: c, city: key(r.city),
+                           n: 0, wage: 0, wen: 0 };
+      acc[k].n    += r.n_postings;
+      acc[k].wage += r.n_postings * (r.avg_age_days || 0);
+      acc[k].wen  += r.n_postings * (r.pct_english  || 0);
+    });
+
+    const pts = Object.values(acc)
+      .filter(m => m.city !== "unknown" && m.n >= 10)
+      .sort((a, b) => b.n - a.n)
+      .slice(0, 40);
+    if (!pts.length) return;
+
+    const mx = pts[0].n;
+    scatter("n5_enage",
+      pts.map(m => ({
+        x: +(m.wen / m.n).toFixed(1),
+        y: Math.round(m.wage / m.n),
+        r: 5 + 15 * Math.sqrt(m.n / mx),
+        name: `${cap(m.city)} (${m.country})`,
+        c: m.country })),
+      "% of postings in English", "average days open",
+      p => CCOL[p.c] || CORAL);
+  });
+
+  /* ---- 6: tool staleness against the market average ---- */
+  Promise.all([get("skill_demand"), get("meta")]).then(([d, m]) => {
+    if (!d || !d.length) return;
+
+    /* fall back to the mean of the tools themselves if meta is absent */
+    const base = (m && m.avg_age_days) ? m.avg_age_days
+      : d.reduce((s, r) => s + (r.avg_age_days || 0), 0) / d.length;
+
+    const rows = d.slice(0, 22)
+      .map(r => ({ skill: r.skill,
+                   delta: +((r.avg_age_days || 0) - base).toFixed(1),
+                   n: r.n_postings }))
+      .sort((a, b) => b.delta - a.delta);
+
+    bar("n6_tooldelta",
+        rows.map(r => `${r.skill} (n=${r.n})`),
+        [ds("days vs market average", rows.map(r => r.delta),
+            rows.map(r => r.delta >= 0 ? CLAY : MOSS))], true);
+  });
+
+  /* ---- 7: single oldest listing per employer ---- */
+  get("stale_by_company").then(d => {
+    if (!d || !d.length) return;
+    const rows = d.slice()
+      .filter(r => r.oldest_days != null)
+      .sort((a, b) => b.oldest_days - a.oldest_days)
+      .slice(0, 15);
+    if (!rows.length) return;
+
+    bar("n7_oldest",
+        rows.map(r => r.company),
+        [ds("Days the oldest posting has been live",
+            rows.map(r => r.oldest_days),
+            rows.map(r => ageColour(r.oldest_days)))], true);
+  });
+})();
+</script>
+
 </body>
 </html>
