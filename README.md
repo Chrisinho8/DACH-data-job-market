@@ -2,29 +2,69 @@
 
 ![tests](https://github.com/Chrisinho8/german-data-job-market/actions/workflows/tests.yml/badge.svg)
 
-**`TODO` live data-job postings across Germany, Austria and Switzerland,
-from `TODO` employers. The average one has been open for `TODO` days.
-The median, `TODO`. That gap is the finding: half the market moves in
-weeks, while `TODO`% of postings have been sitting open for over two
-months.**
+**4,407 live data-job postings across Germany, Austria and Switzerland,
+from 1,771 employers. The average one has been open for 53 days. The
+median, 14. That gap is the finding: half the market moves inside two
+weeks, while one in four postings has been sitting open for more than
+two months.**
 
 **[Live tracker](https://Chrisinho8.github.io/german-data-job-market/)**
 — maps, country comparisons and role breakdowns, rebuilt every Monday.
 
 | | Germany | Austria | Switzerland |
 |---|---|---|---|
-| Live postings | `TODO` | `TODO` | `TODO` |
-| Employers | `TODO` | `TODO` | `TODO` |
-| Median days open | `TODO` | `TODO` | `TODO` |
-| Mean days open | `TODO` | `TODO` | `TODO` |
-| Open > 60 days | `TODO` | `TODO` | `TODO` |
-| Advertised in English | `TODO` | `TODO` | `TODO` |
-| Disclosing a salary | `TODO` | `TODO` | `TODO` |
+| Live postings | 3,774 | 276 | 357 |
+| Employers | 1,457 | 175 | 185 |
+| Median days open | 13 | 26 | 16 |
+| Mean days open | 53 | 65 | 50 |
+| Open > 60 days | 26.1% | 22.5% | 18.5% |
+| Advertised in English | 29.6% | 37.7% | 62.2% |
+| Disclosing a salary | 4.2% | 5.8% | 2.0% |
 
-Figures from the snapshot of `TODO`. The live tracker always shows
-current numbers.
+Snapshot of 29 July 2026. The live tracker always shows current numbers.
 
 ---
+
+## What the data says
+
+**Junior roles barely exist.** 159 of 4,407 postings, **3.6%**, carry a
+junior title. Ten senior openings for every junior one. `data architect`
+has zero.
+
+| Seniority | Postings | Share |
+|---|---|---|
+| Junior | 159 | 3.6% |
+| Mid | 2,619 | 59.4% |
+| Senior | 1,629 | 37.0% |
+
+**AI/ML is now the largest family**, ahead of data engineering.
+
+| Role family | Postings |
+|---|---|
+| AI / ML | 1,520 |
+| Data engineer | 1,010 |
+| BI developer | 399 |
+| Data scientist | 395 |
+| Data analyst | 290 |
+| Data architect | 259 |
+| DWH / ETL | 197 |
+| Data consultant | 167 |
+| Data governance | 99 |
+| Analytics engineer | 71 |
+
+**The mean is misleading.** 53-day average against a 14-day median. A
+long tail of very old listings drags the average up nearly fourfold.
+One employer has a posting that has been live for **911 days**.
+
+**Switzerland hires in English, Germany does not.** 62.2% of Swiss
+postings are in English versus 29.6% in Germany. Relevant if you are
+considering a move.
+
+**Austria is the slowest market.** A median of 26 days, double
+Germany's 13, on a much smaller base.
+
+**Almost nobody publishes pay.** Between 2% and 6% state a salary,
+across all three countries.
 
 ## Why this exists
 
@@ -60,7 +100,7 @@ query that found it.
 
 - **Posting age** — days between the posting date and the snapshot
 - **Reposts** — the same role relisted under a new ID
-- **Role family** — ten data families plus AI/ML, from the title
+- **Role family** — ten families, from the title
 - **Seniority** — junior, mid or senior, from the title
 - **Language** — German or English, from the description
 - **Location** — city, region and country, from the posting's own
@@ -73,7 +113,8 @@ query that found it.
 | | |
 |---|---|
 | Region | Germany, Austria, Switzerland — national, no city filter |
-| Frequency | Weekly, every Monday 06:00 Europe/Berlin |
+| Cities resolved | 282 |
+| Frequency | Weekly, Monday 06:00 Europe/Berlin |
 | Snapshot retention | Every week kept permanently |
 | API calls per run | ~200 of a 1,000/month free tier |
 | Runtime | Under 10 minutes end to end |
@@ -136,9 +177,9 @@ date, for postings still returned as live.
 
 **Location.** City and region come from each posting's own location
 array. In the city-states — Berlin, Hamburg, Bremen, Vienna, Basel and
-Geneva — the third level is a district, not a city, so it is collapsed
-into the parent city. Administrative wrappers (`(Kreis)`, `-Umgebung`,
-`-Land`, `Region ...`) are stripped.
+Geneva — the third level is a district rather than a city, so it is
+collapsed into the parent. Administrative wrappers (`(Kreis)`,
+`-Umgebung`, `-Land`, `Region ...`) are stripped.
 
 **Currency.** Swiss postings quote francs. Salary figures are never
 averaged across currencies; only the disclosure rate is compared
@@ -152,19 +193,17 @@ See `src/matcher.py`.
 
 | Check | Result |
 |---|---|
-| Postings retrieved, before scope filter | `TODO` |
-| Classified as data or AI roles | `TODO` |
-| Quality-rule quarantine rate | `TODO`% |
-| Genuine repost rate | `TODO`% |
+| Postings in scope, after filtering | 4,407 |
+| Cities resolved | 282 |
 | Descriptions truncated by the API | 99.6% |
-| Postings with a stated salary | `TODO` |
+| Postings with a stated salary | ~181 (4.1%) |
+| Agency detection rate | 4.1%, a lower bound |
 | Skill matcher precision / recall | not yet measured |
 | Matcher unit tests | 15, green in CI |
 
 A deliberately corrupted record (salary of 9,999,999, date of 2019) is
 injected on every run to prove the quality gate fires. A schema guard
-also fails the run if a raw filename does not parse to a valid country
-code.
+fails the run if a raw filename does not parse to a valid country code.
 
 ## Limitations
 
@@ -172,8 +211,9 @@ code.
   unfilled role, a pipeline-building advert, or a listing nobody took
   down. This measures advertising behaviour, not hiring outcomes.
 - **One aggregator is not the whole market**, and its coverage is not
-  equally deep in all three countries. Cross-country comparisons are
-  indicative, not authoritative.
+  equally deep in all three countries. Austria and Switzerland have a
+  few hundred postings each, so their figures are more sensitive to
+  noise than Germany's.
 - **`created` is the aggregator's date**, which may be when it indexed
   the posting rather than when the employer published it.
 - **Descriptions are hard-capped at 500 characters** and 99.6% are
@@ -184,9 +224,14 @@ code.
 - **Salary data is almost entirely absent**, so nothing is published
   beyond the disclosure rate.
 - **The AI / ML family includes software engineering roles that merely
-  mention AI**, which inflates it.
+  mention AI**, which inflates it. It is the largest family partly for
+  that reason.
 - **Roles and seniority are inferred from titles** with keyword rules,
-  so both carry classification error.
+  so both carry classification error. The junior figure in particular
+  reflects titles, not requirements: a role advertised without a
+  seniority word counts as mid.
+- **Entry programmes are excluded**, so the 3.6% junior figure covers
+  junior-titled permanent roles only.
 - **Agency detection is keyword based** and undercounts.
 - **Reposts are detected by content hash**, so genuinely distinct roles
   with identical wording would be merged.
