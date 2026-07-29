@@ -1,351 +1,351 @@
 [
  {
   "city": "berlin",
-  "n_postings": 588,
-  "avg_age_days": 60.5,
-  "pct_english": 62.2,
-  "pct_agency": 2.6
- },
- {
-  "city": "muenchen (kreis)",
-  "n_postings": 321,
+  "n_postings": 906,
   "avg_age_days": 57.3,
-  "pct_english": 45.8,
-  "pct_agency": 6.5
- },
- {
-  "city": "hamburg",
-  "n_postings": 285,
-  "avg_age_days": 62.3,
-  "pct_english": 22.8,
-  "pct_agency": 6.7
- },
- {
-  "city": "frankfurt",
-  "n_postings": 202,
-  "avg_age_days": 62.9,
-  "pct_english": 35.1,
-  "pct_agency": 7.4
- },
- {
-  "city": "unknown",
-  "n_postings": 200,
-  "avg_age_days": 60.2,
-  "pct_english": 34.0,
+  "pct_english": 61.3,
   "pct_agency": 3.0
  },
  {
+  "city": "unknown",
+  "n_postings": 773,
+  "avg_age_days": 71.6,
+  "pct_english": 57.1,
+  "pct_agency": 1.8
+ },
+ {
+  "city": "muenchen (kreis)",
+  "n_postings": 646,
+  "avg_age_days": 53.9,
+  "pct_english": 46.0,
+  "pct_agency": 4.6
+ },
+ {
+  "city": "hamburg",
+  "n_postings": 440,
+  "avg_age_days": 60.5,
+  "pct_english": 23.0,
+  "pct_agency": 5.2
+ },
+ {
+  "city": "frankfurt",
+  "n_postings": 297,
+  "avg_age_days": 59.1,
+  "pct_english": 36.4,
+  "pct_agency": 6.4
+ },
+ {
   "city": "koeln",
-  "n_postings": 110,
-  "avg_age_days": 68.9,
-  "pct_english": 27.3,
-  "pct_agency": 5.5
- },
- {
-  "city": "stuttgart",
-  "n_postings": 95,
-  "avg_age_days": 78.5,
-  "pct_english": 26.3,
-  "pct_agency": 1.1
- },
- {
-  "city": "duesseldorf",
-  "n_postings": 40,
-  "avg_age_days": 57.9,
-  "pct_english": 15.0,
-  "pct_agency": 10.0
- },
- {
-  "city": "essen",
-  "n_postings": 29,
-  "avg_age_days": 21.2,
-  "pct_english": 20.7,
-  "pct_agency": 6.9
- },
- {
-  "city": "karlsruhe (kreis)",
-  "n_postings": 29,
-  "avg_age_days": 46.4,
-  "pct_english": 0.0,
-  "pct_agency": 3.4
- },
- {
-  "city": "muenster",
-  "n_postings": 28,
-  "avg_age_days": 94.8,
-  "pct_english": 7.1,
+  "n_postings": 222,
+  "avg_age_days": 57.6,
+  "pct_english": 29.7,
   "pct_agency": 3.6
  },
  {
-  "city": "nuernberg",
-  "n_postings": 22,
-  "avg_age_days": 27.5,
-  "pct_english": 0.0,
-  "pct_agency": 13.6
+  "city": "stuttgart",
+  "n_postings": 158,
+  "avg_age_days": 67.3,
+  "pct_english": 24.1,
+  "pct_agency": 2.5
  },
  {
-  "city": "bonn",
-  "n_postings": 22,
-  "avg_age_days": 43.7,
-  "pct_english": 4.5,
-  "pct_agency": 18.2
+  "city": "duesseldorf",
+  "n_postings": 122,
+  "avg_age_days": 58.3,
+  "pct_english": 21.3,
+  "pct_agency": 4.1
+ },
+ {
+  "city": "essen",
+  "n_postings": 79,
+  "avg_age_days": 39.0,
+  "pct_english": 16.5,
+  "pct_agency": 2.5
+ },
+ {
+  "city": "karlsruhe (kreis)",
+  "n_postings": 72,
+  "avg_age_days": 54.6,
+  "pct_english": 6.9,
+  "pct_agency": 2.8
+ },
+ {
+  "city": "nuernberg",
+  "n_postings": 70,
+  "avg_age_days": 73.8,
+  "pct_english": 2.9,
+  "pct_agency": 8.6
  },
  {
   "city": "region hannover (kreis)",
-  "n_postings": 19,
-  "avg_age_days": 63.8,
-  "pct_english": 5.3,
-  "pct_agency": 5.3
+  "n_postings": 56,
+  "avg_age_days": 75.0,
+  "pct_english": 14.3,
+  "pct_agency": 1.8
  },
  {
-  "city": "dortmund",
-  "n_postings": 18,
-  "avg_age_days": 35.6,
-  "pct_english": 5.6,
-  "pct_agency": 5.6
+  "city": "bonn",
+  "n_postings": 55,
+  "avg_age_days": 47.4,
+  "pct_english": 10.9,
+  "pct_agency": 12.7
+ },
+ {
+  "city": "muenster",
+  "n_postings": 54,
+  "avg_age_days": 75.7,
+  "pct_english": 7.4,
+  "pct_agency": 1.9
  },
  {
   "city": "bremen",
-  "n_postings": 17,
-  "avg_age_days": 51.8,
-  "pct_english": 5.9,
-  "pct_agency": 5.9
+  "n_postings": 47,
+  "avg_age_days": 73.3,
+  "pct_english": 12.8,
+  "pct_agency": 8.5
  },
  {
-  "city": "heilbronn (kreis)",
-  "n_postings": 16,
-  "avg_age_days": 50.4,
-  "pct_english": 6.3,
-  "pct_agency": 6.3
- },
- {
-  "city": "pforzheim",
-  "n_postings": 14,
-  "avg_age_days": 13.9,
-  "pct_english": 0.0,
-  "pct_agency": 0.0
- },
- {
-  "city": "main-taunus-kreis",
-  "n_postings": 13,
-  "avg_age_days": 76.6,
-  "pct_english": 0.0,
-  "pct_agency": 30.8
+  "city": "leipzig (kreis)",
+  "n_postings": 46,
+  "avg_age_days": 57.7,
+  "pct_english": 13.0,
+  "pct_agency": 4.3
  },
  {
   "city": "mannheim",
-  "n_postings": 13,
-  "avg_age_days": 45.5,
-  "pct_english": 15.4,
-  "pct_agency": 7.7
+  "n_postings": 45,
+  "avg_age_days": 71.7,
+  "pct_english": 15.6,
+  "pct_agency": 2.2
  },
  {
-  "city": "koblenz",
-  "n_postings": 13,
-  "avg_age_days": 18.4,
-  "pct_english": 7.7,
-  "pct_agency": 7.7
+  "city": "heilbronn (kreis)",
+  "n_postings": 43,
+  "avg_age_days": 42.6,
+  "pct_english": 14.0,
+  "pct_agency": 4.7
  },
  {
-  "city": "braunschweig",
-  "n_postings": 13,
-  "avg_age_days": 238.9,
-  "pct_english": 23.1,
-  "pct_agency": 0.0
+  "city": "dortmund",
+  "n_postings": 41,
+  "avg_age_days": 55.4,
+  "pct_english": 4.9,
+  "pct_agency": 2.4
  },
  {
-  "city": "reutlingen (kreis)",
-  "n_postings": 12,
-  "avg_age_days": 41.4,
-  "pct_english": 41.7,
-  "pct_agency": 25.0
+  "city": "dresden",
+  "n_postings": 36,
+  "avg_age_days": 83.0,
+  "pct_english": 16.7,
+  "pct_agency": 2.8
+ },
+ {
+  "city": "duisburg",
+  "n_postings": 31,
+  "avg_age_days": 40.5,
+  "pct_english": 29.0,
+  "pct_agency": 9.7
+ },
+ {
+  "city": "kiel",
+  "n_postings": 29,
+  "avg_age_days": 93.8,
+  "pct_english": 3.4,
+  "pct_agency": 6.9
  },
  {
   "city": "heidelberg",
-  "n_postings": 12,
-  "avg_age_days": 16.0,
+  "n_postings": 28,
+  "avg_age_days": 22.9,
   "pct_english": 25.0,
   "pct_agency": 0.0
  },
  {
-  "city": "leipzig (kreis)",
-  "n_postings": 12,
-  "avg_age_days": 50.2,
-  "pct_english": 0.0,
-  "pct_agency": 8.3
- },
- {
-  "city": "oldenburg (kreis)",
-  "n_postings": 12,
-  "avg_age_days": 43.4,
-  "pct_english": 0.0,
-  "pct_agency": 8.3
- },
- {
-  "city": "duisburg",
-  "n_postings": 11,
-  "avg_age_days": 25.5,
-  "pct_english": 9.1,
-  "pct_agency": 9.1
- },
- {
   "city": "augsburg (kreis)",
-  "n_postings": 11,
-  "avg_age_days": 32.5,
-  "pct_english": 0.0,
-  "pct_agency": 9.1
+  "n_postings": 27,
+  "avg_age_days": 58.2,
+  "pct_english": 11.1,
+  "pct_agency": 3.7
  },
  {
-  "city": "dresden",
-  "n_postings": 10,
-  "avg_age_days": 101.8,
-  "pct_english": 20.0,
-  "pct_agency": 10.0
- },
- {
-  "city": "hochtaunuskreis",
-  "n_postings": 10,
-  "avg_age_days": 104.0,
-  "pct_english": 20.0,
-  "pct_agency": 10.0
- },
- {
-  "city": "mainz",
-  "n_postings": 9,
-  "avg_age_days": 8.1,
-  "pct_english": 0.0,
-  "pct_agency": 11.1
- },
- {
-  "city": "coburg (kreis)",
-  "n_postings": 9,
-  "avg_age_days": 82.7,
-  "pct_english": 0.0,
-  "pct_agency": 0.0
- },
- {
-  "city": "aachen (kreis)",
-  "n_postings": 9,
-  "avg_age_days": 24.7,
-  "pct_english": 0.0,
-  "pct_agency": 11.1
- },
- {
-  "city": "darmstadt",
-  "n_postings": 8,
-  "avg_age_days": 79.4,
-  "pct_english": 37.5,
-  "pct_agency": 0.0
- },
- {
-  "city": "guetersloh (kreis)",
-  "n_postings": 8,
-  "avg_age_days": 49.5,
-  "pct_english": 0.0,
-  "pct_agency": 0.0
+  "city": "main-taunus-kreis",
+  "n_postings": 25,
+  "avg_age_days": 70.2,
+  "pct_english": 12.0,
+  "pct_agency": 16.0
  },
  {
   "city": "ulm",
-  "n_postings": 7,
-  "avg_age_days": 22.0,
-  "pct_english": 0.0,
+  "n_postings": 24,
+  "avg_age_days": 48.1,
+  "pct_english": 20.8,
+  "pct_agency": 8.3
+ },
+ {
+  "city": "darmstadt",
+  "n_postings": 22,
+  "avg_age_days": 63.3,
+  "pct_english": 18.2,
+  "pct_agency": 0.0
+ },
+ {
+  "city": "hochtaunuskreis",
+  "n_postings": 22,
+  "avg_age_days": 54.6,
+  "pct_english": 18.2,
+  "pct_agency": 4.5
+ },
+ {
+  "city": "aachen (kreis)",
+  "n_postings": 22,
+  "avg_age_days": 48.4,
+  "pct_english": 18.2,
+  "pct_agency": 4.5
+ },
+ {
+  "city": "koblenz",
+  "n_postings": 21,
+  "avg_age_days": 15.1,
+  "pct_english": 4.8,
+  "pct_agency": 4.8
+ },
+ {
+  "city": "reutlingen (kreis)",
+  "n_postings": 21,
+  "avg_age_days": 51.0,
+  "pct_english": 42.9,
   "pct_agency": 14.3
  },
  {
+  "city": "mainz",
+  "n_postings": 21,
+  "avg_age_days": 70.0,
+  "pct_english": 4.8,
+  "pct_agency": 4.8
+ },
+ {
   "city": "wiesbaden (kreis)",
-  "n_postings": 6,
-  "avg_age_days": 80.5,
-  "pct_english": 0.0,
+  "n_postings": 20,
+  "avg_age_days": 56.7,
+  "pct_english": 20.0,
+  "pct_agency": 5.0
+ },
+ {
+  "city": "braunschweig",
+  "n_postings": 20,
+  "avg_age_days": 174.5,
+  "pct_english": 20.0,
   "pct_agency": 0.0
  },
  {
-  "city": "wuerzburg (kreis)",
-  "n_postings": 6,
-  "avg_age_days": 8.8,
-  "pct_english": 16.7,
+  "city": "oldenburg (kreis)",
+  "n_postings": 20,
+  "avg_age_days": 121.1,
+  "pct_english": 0.0,
+  "pct_agency": 5.0
+ },
+ {
+  "city": "rhein-neckar-kreis",
+  "n_postings": 18,
+  "avg_age_days": 56.4,
+  "pct_english": 27.8,
   "pct_agency": 16.7
  },
  {
-  "city": "paderborn (kreis)",
-  "n_postings": 6,
-  "avg_age_days": 157.7,
+  "city": "pforzheim",
+  "n_postings": 17,
+  "avg_age_days": 21.0,
   "pct_english": 0.0,
-  "pct_agency": 16.7
+  "pct_agency": 0.0
  },
  {
   "city": "osnabrueck (kreis)",
-  "n_postings": 6,
-  "avg_age_days": 32.3,
+  "n_postings": 16,
+  "avg_age_days": 37.6,
   "pct_english": 0.0,
   "pct_agency": 0.0
  },
  {
-  "city": "minden-luebbecke (kreis)",
-  "n_postings": 6,
-  "avg_age_days": 34.2,
-  "pct_english": 0.0,
+  "city": "coburg (kreis)",
+  "n_postings": 16,
+  "avg_age_days": 65.3,
+  "pct_english": 6.3,
   "pct_agency": 0.0
  },
  {
-  "city": "trier",
-  "n_postings": 6,
-  "avg_age_days": 10.2,
-  "pct_english": 66.7,
+  "city": "erlangen",
+  "n_postings": 16,
+  "avg_age_days": 16.1,
+  "pct_english": 18.8,
   "pct_agency": 0.0
  },
  {
-  "city": "boeblingen (kreis)",
-  "n_postings": 6,
-  "avg_age_days": 4.7,
-  "pct_english": 50.0,
+  "city": "freiburg im breisgau",
+  "n_postings": 15,
+  "avg_age_days": 43.3,
+  "pct_english": 20.0,
   "pct_agency": 0.0
  },
  {
-  "city": "erfurt (kreis)",
-  "n_postings": 6,
-  "avg_age_days": 56.3,
-  "pct_english": 0.0,
+  "city": "luebeck",
+  "n_postings": 15,
+  "avg_age_days": 69.8,
+  "pct_english": 6.7,
   "pct_agency": 0.0
  },
  {
   "city": "heidenheim (kreis)",
-  "n_postings": 5,
-  "avg_age_days": 15.2,
+  "n_postings": 14,
+  "avg_age_days": 33.1,
+  "pct_english": 7.1,
+  "pct_agency": 0.0
+ },
+ {
+  "city": "wuerzburg (kreis)",
+  "n_postings": 14,
+  "avg_age_days": 90.7,
+  "pct_english": 7.1,
+  "pct_agency": 7.1
+ },
+ {
+  "city": "bielefeld",
+  "n_postings": 14,
+  "avg_age_days": 92.8,
   "pct_english": 0.0,
   "pct_agency": 0.0
  },
  {
-  "city": "rosenheim (kreis)",
-  "n_postings": 5,
-  "avg_age_days": 39.0,
+  "city": "kaiserslautern (kreis)",
+  "n_postings": 14,
+  "avg_age_days": 47.1,
+  "pct_english": 42.9,
+  "pct_agency": 0.0
+ },
+ {
+  "city": "regionalverband saarbruecken (kreis)",
+  "n_postings": 14,
+  "avg_age_days": 71.3,
+  "pct_english": 0.0,
+  "pct_agency": 7.1
+ },
+ {
+  "city": "mettmann (kreis)",
+  "n_postings": 13,
+  "avg_age_days": 44.0,
+  "pct_english": 15.4,
+  "pct_agency": 0.0
+ },
+ {
+  "city": "guetersloh (kreis)",
+  "n_postings": 13,
+  "avg_age_days": 59.0,
   "pct_english": 0.0,
   "pct_agency": 0.0
  },
  {
-  "city": "ostalbkreis",
-  "n_postings": 4,
-  "avg_age_days": 27.5,
-  "pct_english": 50.0,
-  "pct_agency": 0.0
- },
- {
-  "city": "kiel",
-  "n_postings": 4,
-  "avg_age_days": 30.3,
-  "pct_english": 0.0,
-  "pct_agency": 50.0
- },
- {
-  "city": "rhein-neckar-kreis",
-  "n_postings": 4,
-  "avg_age_days": 8.3,
-  "pct_english": 25.0,
-  "pct_agency": 25.0
- },
- {
-  "city": "esslingen (kreis)",
-  "n_postings": 4,
-  "avg_age_days": 16.8,
+  "city": "borken (kreis)",
+  "n_postings": 13,
+  "avg_age_days": 12.6,
   "pct_english": 0.0,
   "pct_agency": 0.0
  }
