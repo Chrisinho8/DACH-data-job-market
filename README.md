@@ -14,6 +14,13 @@ search is exhausted. Results are deduplicated, classified, filtered to
 data roles, aggregated and published to the site automatically.
 
 
+ **This is not a job board.** It will not help you find a role, and it
+ deliberately does not link to or republish individual postings. It
+ exists to describe the *shape* of the market — how long roles stay
+ open, how few are advertised as junior, which cities and countries
+ hire in English — using aggregate figures only.
+
+
 **Current stats (29/07/2026):**
 | | Germany | Austria | Switzerland |
 |---|---|---|---|
