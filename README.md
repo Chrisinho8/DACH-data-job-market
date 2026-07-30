@@ -88,22 +88,7 @@ response is cached, if the classification logic improves later the
 entire history can be reprocessed under the better rules without
 spending a single extra API call.
 
-### Coverage and cadence
 
-| | |
-|---|---|
-| Region | Germany, Austria, Switzerland — national, no city filter |
-| Cities resolved | 282 |
-| Frequency | Weekly, Monday 06:00 Europe/Berlin |
-| Snapshot retention | Every week kept permanently |
-| API calls per run | ~200 of a 1,000/month free tier |
-| Runtime | Under 10 minutes end to end |
-| Infrastructure cost | EUR 0 |
-
-**Important note**
-Because every weekly snapshot is retained, the dataset gets more useful
-over time: after a few weeks it shows which roles and tools are rising
-or falling, rather than a single picture of one day.
 
 ## Scope: what counts as a data job
 
