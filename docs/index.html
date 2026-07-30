@@ -193,7 +193,7 @@
           <em>data-job-market</em> in the DACH region?</h1>
     </div>
     <p class="sub">
-      Every week, data from job-postings across all three DACH
+      Every monday, data from job-postings across all three DACH
       countries get pulled from a public API, loaded into a Delta Lake
       pipeline on Databricks, and aggregated for various metrics and KPI's.
     </p>
@@ -203,8 +203,7 @@
                   target="_blank" rel="noopener">Christoph
       Ruckensteiner</a> &middot;
       <a href="https://github.com/Chrisinho8/DACH-data-job-market"
-         target="_blank" rel="noopener">source, method and full
-      limitations</a>
+         target="_blank" rel="noopener">GitHub page</a>
     </p>
   </div>
 </header>
@@ -218,24 +217,14 @@
 
   <!-- ============ GEOGRAPHY ============ -->
   <section>
-    <h2>Three countries, one language, but clear differences</h2>
+    <h2>Main stats for Austria, Germany and Switezrland</h2>
     <p class="note">
-  In the figure below, the main insighjts for every country can be seen
     </p>
     <div id="ctrycards" class="ctry"></div>
   </section>
   <section>
     <h2>Where are the jobs located?</h2>
     <p class="note">
-      <strong>Bubbles</strong> size each city by its number of live
-      postings and colour it by country. <strong>Heat map</strong>
-      replaces them with a density surface, so clusters of nearby
-      cities merge into one hot region instead of overlapping discs.
-      Hover anywhere for the city name and its exact posting count.
-      Postings with only a country-level location cannot be placed and
-      are excluded from the map, which is 17% of the dataset, so read
-      the map as where jobs are <em>known</em> to be rather than a
-      complete census.
     </p>
     <div class="mapctl">
       <div class="ctlrow">
