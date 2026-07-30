@@ -14,12 +14,22 @@ Germany, Austria and Switzerland, nationally, paginating until each
 search is exhausted. Results are deduplicated, classified, filtered to
 data roles, aggregated and published to the site automatically.
 
+Each surviving posting is then scanned for technologies with a curated
+dictionary of 47 terms, so the site can show which tools the market is
+actually asking for. This is deliberately not an LLM: every match
+points at a specific string in a specific posting, which makes the
+counts reproducible and lets the tricky cases be tested rather than
+trusted. Those cases are real ones. "SQL" hides inside "PostgreSQL",
+"Java" inside "JavaScript", and a bare "R" matches "R&D" and half of
+every German address block. Each of those traps is pinned down by a
+test in `tests/test_matcher.py` that runs in CI on every push. See
+`src/matcher.py`.
 
  **This is not a job board.** It will not help you find a role, and it
  deliberately does not link to or republish individual postings. It
- exists to describe the *shape* of the market — how long roles stay
+ exists to describe the *shape* of the market, how long roles stay
  open, how few are advertised as junior, which cities and countries
- hire in English — using aggregate figures only.
+ hire in English, using aggregate figures only.
 
 
 ## What the data says (Main insights)
@@ -76,14 +86,14 @@ query that found it.
 
 ### What it measures
 
-- **Posting age** — days between the posting date and the snapshot
-- **Reposts** — the same role relisted under a new ID
-- **Role family** — ten families, from the title
-- **Seniority** — junior, mid or senior, from the title
-- **Language** — German or English, from the description
-- **Location** — city, region and country, from the posting's own
+- **Posting age**: days between the posting date and the snapshot
+- **Reposts**: the same role relisted under a new ID
+- **Role family**: ten families, from the title
+- **Seniority**: junior, mid or senior, from the title
+- **Language**: German or English, from the description
+- **Location**: city, region and country, from the posting's own
   geographic fields rather than the search query
-- **Poster type** — recruitment agency or direct employer
+- **Poster type**: recruitment agency or direct employer
 - **Tool mentions** - 47 technologies matched with a curated dictionary
 
  
@@ -159,8 +169,8 @@ separately from genuine reposts and is not published as a finding.
 date, for postings still returned as live.
 
 **Location.** City and region come from each posting's own location
-array. In the city-states — Berlin, Hamburg, Bremen, Vienna, Basel and
-Geneva — the third level is a district rather than a city, so it is
+array. In the city-states (Berlin, Hamburg, Bremen, Vienna, Basel and
+Geneva) the third level is a district rather than a city, so it is
 collapsed into the parent. Administrative wrappers (`(Kreis)`,
 `-Umgebung`, `-Land`, `Region ...`) are stripped.
 
