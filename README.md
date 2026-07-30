@@ -20,6 +20,10 @@ data roles, aggregated and published to the site automatically.
  open, how few are advertised as junior, which cities and countries
  hire in English — using aggregate figures only.
 
+ ## Architecture
+
+![How the tracker works](assets/pipeline-architecture.png)
+
 
 **Current stats (29/07/2026):**
 | | Germany | Austria | Switzerland |
