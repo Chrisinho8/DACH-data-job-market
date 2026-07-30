@@ -2,7 +2,7 @@
 
 ![tests](https://github.com/Chrisinho8/DACH-data-job-market/actions/workflows/tests.yml/badge.svg)
 
-**3,900+ live data-job postings across Germany, Austria and Switzerland. 159 of them, 3.6%, are advertised as junior. That is ten senior openings for every junior one, and zero junior roles for data architects. Meanwhile the average posting has been open 53 days against a median of 14, so the market is not just top-heavy, it is slow at the top.**
+**3,991 live data-job postings across Germany, Austria and Switzerland. 132 of them, 3.3%, are advertised as junior. That is eleven senior openings for every junior one, and zero junior roles at all for data architects and BI developers. Meanwhile the average posting has been open 54 days against a median of 15, so the market is not just top-heavy, it is slow at the top.**
 
 **[Live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)**
 : maps, country comparisons and role breakdowns, rebuilt every Monday.
@@ -25,30 +25,48 @@ data roles, aggregated and published to the site automatically.
 ## What the data says (Main insights)
 
 **Job offerings per job-field**
-| Role family | Postings |
-|---|---|
-| AI / ML | 1,520 |
-| Data engineer | 1,010 |
-| BI developer | 399 |
-| Data scientist | 395 |
-| Data analyst | 290 |
-| Data architect | 259 |
-| DWH / ETL | 197 |
-| Data consultant | 167 |
-| Data governance | 99 |
-| Analytics engineer | 71 |
+| Role family | Postings | Share |
+|---|---|---|
+| AI / ML | 1,435 | 36.0% |
+| Data engineer | 984 | 24.7% |
+| Data scientist | 391 | 9.8% |
+| Data architect | 260 | 6.5% |
+| Data analyst | 259 | 6.5% |
+| BI developer | 205 | 5.1% |
+| DWH / ETL | 164 | 4.1% |
+| Data consultant | 135 | 3.4% |
+| Data governance | 89 | 2.2% |
+| Analytics engineer | 69 | 1.7% |
+| **Total** | **3,991** | **100%** |
 
-**Junior roles barely exist.** 159 of 3906 postings, **3.9%**, carry a
-junior title. Ten senior openings for every junior one. `data architect`
-has zero.
+Every posting belongs to exactly one family, so the table sums to the
+headline figure. The same 3,991 is the denominator for every percentage
+on this page and on the site.
+
+**Junior roles barely exist.** 132 of 3,991 postings, **3.3%**, carry a
+junior title. Eleven senior openings for every junior one. `data
+architect` and `bi developer` have zero.
 
 
 **Jobs seniority comparison:**
 | Seniority | Postings | Share |
 |---|---|---|
-| Junior | 159 | 3.6% |
-| Mid | 2,619 | 59.4% |
-| Senior | 1,629 | 37.0% |
+| Junior | 132 | 3.3% |
+| Mid | 2,368 | 59.3% |
+| Senior | 1,491 | 37.4% |
+| **Total** | **3,991** | **100%** |
+
+
+**By country:**
+| | Germany | Austria | Switzerland |
+|---|---|---|---|
+| Live postings | 3,398 | 271 | 322 |
+| Employers | 1,342 | 171 | 173 |
+| Median age | 14 d | 27 d | 20 d |
+| Mean age | 53 d | 67 d | 55 d |
+| Open > 60 days | 26.5% | 22.9% | 20.2% |
+| In English | 30.4% | 36.9% | 61.2% |
+| Salary shown | 4.3% | 5.9% | 3.1% |
 
 
 The search parameter is a keyword match, not a title match, so these
@@ -166,7 +184,7 @@ See `src/matcher.py`.
   noise than Germany's.
 - **`created` is the aggregator's date**, which may be when it indexed
   the posting rather than when the employer published it.
-- **Descriptions are hard-capped at 500 characters** and 99.6% are
+- **Descriptions are hard-capped at 500 characters** and 99.5% are
   truncated. Tool counts measure *mentioned in the title or opening
   paragraph*, a floor rather than a requirement rate. The truncation
   window is identical for every posting, so relative comparisons
@@ -178,9 +196,12 @@ See `src/matcher.py`.
   so both carry classification error. The junior figure in particular
   reflects titles, not requirements: a role advertised without a
   seniority word counts as mid.
-- **Entry programmes are excluded**, so the 3.6% junior figure covers
+- **Entry programmes are excluded**, so the 3.3% junior figure covers
   junior-titled permanent roles only.
-- **Agency detection is keyword based** and undercounts.
+- **Agency detection is keyword based** and flags only 3.9%, which is
+  almost certainly an undercount. Treat it as a lower bound.
+- **5.3% of records are rejected by the quality rules** on each run and
+  quarantined rather than silently dropped.
 - **Reposts are detected by content hash**, so genuinely distinct roles
   with identical wording would be merged.
 
