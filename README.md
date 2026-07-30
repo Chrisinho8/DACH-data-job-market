@@ -7,6 +7,7 @@ A weekly snapshot of the DACH data-job market: 3,991 live postings across German
 **[Live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)**
 : maps, country comparisons and role breakdowns, rebuilt every Monday.
 (Last updated: 30/07/2026)
+[![live tracker](https://img.shields.io/badge/live_tracker-open_the_dashboard-D97757?style=for-the-badge)](https://Chrisinho8.github.io/DACH-data-job-market/)
 
 ## What the tracker does
 Every Monday at 06:00 it queries the Adzuna API for 15 job titles in
