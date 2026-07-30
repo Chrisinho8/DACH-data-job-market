@@ -75,6 +75,51 @@
   .cc dd{margin:0;text-align:right;font-weight:600;
          font-variant-numeric:tabular-nums}
   .cc .bar{height:4px;border-radius:2px;margin-bottom:14px}
+
+  /* ---------- enhanced KPI block ---------- */
+  .kpi{display:grid;gap:14px;margin-bottom:22px;
+       grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
+  .k{background:#FCFBF8;border:1px solid var(--line);
+     border-radius:10px;padding:0 0 16px;overflow:hidden}
+  .k .accent{height:4px}
+  .k .in{padding:14px 18px 0}
+  .k b{display:block;font-size:31px;font-weight:600;
+       letter-spacing:-.025em;line-height:1.1;color:var(--ink);
+       font-variant-numeric:tabular-nums}
+  .k .lab{display:block;margin-top:5px;font-size:12.5px;
+          font-weight:600;color:var(--ink)}
+  .k .sub2{display:block;margin-top:3px;font-size:11.5px;
+           line-height:1.45;color:#8A857C}
+
+  .agebox{background:var(--cream);border:1px solid var(--line);
+          border-radius:10px;padding:18px 20px;margin-bottom:52px}
+  .agebox .t{font-size:12.5px;font-weight:600;color:var(--ink);
+             margin-bottom:10px}
+  .strip{display:flex;height:22px;border-radius:4px;
+         overflow:hidden;background:#EAE6DC}
+  .strip div{height:100%}
+  .sleg{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;
+        font-size:11.5px;color:var(--slate)}
+  .sleg span i{display:inline-block;width:9px;height:9px;
+               border-radius:2px;margin-right:6px}
+
+  /* ---------- map role picker + tooltip ---------- */
+  .pick{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+  .pick button{font:600 12px/1 system-ui,sans-serif;cursor:pointer;
+    padding:7px 12px;border-radius:99px;border:1px solid var(--line);
+    background:#FCFBF8;color:var(--slate);transition:.12s}
+  .pick button:hover{border-color:var(--clay);color:var(--ink)}
+  .pick button[aria-pressed="true"]{background:var(--coral);
+    border-color:var(--coral);color:#fff}
+  .pick .hint{font-size:11.5px;color:#8A857C;align-self:center;
+              margin-left:4px}
+
+  #maptip{position:fixed;z-index:50;pointer-events:none;opacity:0;
+    transition:opacity .1s;background:#191919;color:#fff;
+    padding:8px 11px;border-radius:6px;font-size:12px;line-height:1.45;
+    box-shadow:0 4px 14px rgba(0,0,0,.18);max-width:230px}
+  #maptip b{display:block;font-size:13px;margin-bottom:2px}
+  #maptip em{font-style:normal;color:#C7A87C}
 </style>
 </head>
 <body>
@@ -98,7 +143,14 @@
 
 <main class="wrap">
 
-  <section id="stats" class="stats"></section>
+  <section class="kpiblock">
+    <div id="kpi" class="kpi"></div>
+    <div class="agebox">
+      <div class="t">Age of every live posting, at a glance</div>
+      <div id="agestrip" class="strip"></div>
+      <div id="agestriplegend" class="sleg"></div>
+    </div>
+  </section>
 
   <!-- ============ COUNTRY COMPARISON ============ -->
   <section>
@@ -151,9 +203,11 @@
     <h2>Where the jobs are</h2>
     <p class="note">
       Bubble size is the number of live postings, colour is the
-      country. Hover for exact numbers. Postings with only a
-      country-level location are excluded from the map.
+      country. Hover any bubble for the city name and its exact
+      posting count. Postings with only a country-level location are
+      excluded from the map.
     </p>
+    <div id="rolepick" class="pick"></div>
     <div class="maprow">
       <div>
         <svg id="map" viewBox="0 0 640 800"
@@ -233,17 +287,8 @@
 
   <section>
     <h2>Does seniority change how long a job stays open?</h2>
-    <p class="note">Overall split, and average days open by level.</p>
-    <div class="grid2">
-      <div>
-        <h3 class="subh">Share of all postings</h3>
-        <canvas id="sendonut" height="230"></canvas>
-      </div>
-      <div>
-        <h3 class="subh">Average days open</h3>
-        <canvas id="senage" height="230"></canvas>
-      </div>
-    </div>
+    <p class="note">Average days open by seniority level.</p>
+    <canvas id="senage" height="200"></canvas>
   </section>
 
   <!-- ============ EMPLOYERS ============ -->
@@ -294,15 +339,7 @@
     <canvas id="skillcat" height="200"></canvas>
   </section>
 
-  <section>
-    <h2>Which tools appear in the jobs that sit longest?</h2>
-    <p class="note">
-      Each point is a tool. Right means mentioned more often, up means
-      it appears in postings open longer. Top-left is niche and slow to
-      fill; bottom-right is common and moves quickly.
-    </p>
-    <canvas id="skillscatter" height="230"></canvas>
-  </section>
+
 
   <section id="trend-section" hidden>
     <h2>Week over week</h2>
@@ -321,22 +358,15 @@
   <section>
     <h2>Where are the junior openings?</h2>
     <p class="note">
-      Absolute count of postings with a junior title, by role family.
-      Junior here means the title says so; a posting with no seniority
-      word counts as mid, so treat this as a floor.
+      Share of each role family's postings that carry a junior title,
+      so a small family is comparable with a large one. Sample sizes are
+      in the labels. Junior means the title says so; a posting with no
+      seniority word counts as mid, so these are floors.
     </p>
     <canvas id="n1_juniorvol" height="220"></canvas>
   </section>
 
-  <section>
-    <h2>Which roles are most open to juniors?</h2>
-    <p class="note">
-      The same data as a share of each role family's own postings, so a
-      small family is comparable with a large one. This is the chart
-      that says which door is actually ajar.
-    </p>
-    <canvas id="n2_juniorshare" height="220"></canvas>
-  </section>
+
 
   <section>
     <h2>Is one country more senior-heavy than the others?</h2>
@@ -346,26 +376,6 @@
     <canvas id="n3_senctry" height="180"></canvas>
   </section>
 
-  <section>
-    <h2>Staleness by country, at three thresholds</h2>
-    <p class="note">
-      Share of each country's live postings open longer than 30, 60 and
-      90 days. The survival curve above is the DACH aggregate; this
-      splits it.
-    </p>
-    <canvas id="n4_stalectry" height="200"></canvas>
-  </section>
-
-  <section>
-    <h2>Do English-language postings fill faster?</h2>
-    <p class="note">
-      Each bubble is a city. Right means a higher share of postings in
-      English, up means they sit open longer. Bubble size is volume,
-      colour is country. If there were a relationship you would see a
-      slope.
-    </p>
-    <canvas id="n5_enage" height="230"></canvas>
-  </section>
 
 
 
@@ -373,26 +383,12 @@
 
 
 
-  <section>
-    <h2>Which roles are advertised in English?</h2>
-    <p class="note">
-      Share of each role family's postings written in English,
-      weighted by volume. Language is detected from German stopwords in
-      the description.
-    </p>
-    <canvas id="n8_roleen" height="220"></canvas>
-  </section>
 
-  <section>
-    <h2>Where do recruitment agencies dominate?</h2>
-    <p class="note">
-      Share of each city's postings that look like they come from a
-      recruitment agency rather than the employer directly. Detection
-      is keyword based and undercounts everywhere, so read the
-      differences between cities rather than the absolute levels.
-    </p>
-    <canvas id="n9_agencity" height="240"></canvas>
-  </section>
+
+
+
+
+
 
   <section>
     <h2>How concentrated is each market?</h2>
@@ -472,6 +468,8 @@
   </footer>
 
 </main>
+
+<div id="maptip" role="tooltip"></div>
 
 <script>
 /* ---------------- palette ---------------- */
@@ -566,6 +564,9 @@ function ageColour(d) {
 }
 
 /* ---------------- header ---------------- */
+
+
+/* ---------------- enhanced KPI block ---------------- */
 get("meta").then(m => {
   if (!m) return;
   set("meta",
@@ -575,15 +576,71 @@ get("meta").then(m => {
   set("f-mean", Math.round(m.avg_age_days));
   set("f-median", m.median_age_days);
 
+  const ratio = m.median_age_days
+    ? (m.avg_age_days / m.median_age_days).toFixed(1) : null;
+  const oneIn = m.pct_over_60d
+    ? Math.round(100 / m.pct_over_60d) : null;
+
   const cards = [
-    ["Live postings",     m.live_postings.toLocaleString()],
-    ["Median age",        m.median_age_days + " days"],
-    ["Mean age",          Math.round(m.avg_age_days) + " days"],
-    ["Open over 60 days", m.pct_over_60d + "%"],
+    [CORAL, m.live_postings.toLocaleString(), "Live postings",
+     "Germany, Austria and Switzerland"],
+    [STEEL, m.employers.toLocaleString(), "Employers",
+     "advertising at least one data role"],
+    [MOSS, m.median_age_days + " d", "Median days open",
+     "half the market turns over inside this"],
+    [CLAY, Math.round(m.avg_age_days) + " d", "Mean days open",
+     ratio ? `${ratio}× the median — the tail is long` : ""],
+    [DEEP, m.pct_over_60d + "%", "Open over 60 days",
+     oneIn ? `roughly one posting in ${oneIn}` : ""],
+    [SAGE, "…", "Advertised as junior", "loading"],
   ];
-  document.getElementById("stats").innerHTML = cards.map(
-    ([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`
-  ).join("");
+
+  const render = () => document.getElementById("kpi").innerHTML =
+    cards.map(([c, v, lab, sub]) => `
+      <div class="k">
+        <div class="accent" style="background:${c}"></div>
+        <div class="in">
+          <b>${v}</b>
+          <span class="lab">${lab}</span>
+          <span class="sub2">${sub}</span>
+        </div>
+      </div>`).join("");
+  render();
+
+  /* the junior card needs role_breakdown, so fill it late */
+  get("role_breakdown").then(rb => {
+    if (!rb || !rb.length) return;
+    const tot = rb.reduce((s, r) => s + r.n_postings, 0);
+    const jr  = rb.filter(r => r.seniority === "junior")
+                  .reduce((s, r) => s + r.n_postings, 0);
+    cards[5] = [SAGE, (100 * jr / tot).toFixed(1) + "%",
+                "Advertised as junior",
+                `${jr.toLocaleString()} of ${tot.toLocaleString()} postings`];
+    render();
+  });
+});
+
+/* ---------------- age strip ---------------- */
+get("age_distribution").then(d => {
+  if (!d || !d.length) return;
+  const strip = document.getElementById("agestrip");
+  const leg   = document.getElementById("agestriplegend");
+  if (!strip) return;
+
+  const order = ["0-7 days", "8-14 days", "15-30 days",
+                 "31-60 days", "61-90 days", "90+ days"];
+  const cols  = [MOSS, "#9DA97E", AMBER, CLAY, DEEP, "#8C3A22"];
+  const rows  = d.slice().sort(
+    (a, b) => order.indexOf(a.bucket) - order.indexOf(b.bucket));
+
+  strip.innerHTML = rows.map((r, i) =>
+    `<div style="width:${r.pct}%;background:${cols[i % cols.length]}"
+          title="${r.bucket}: ${r.n_postings} postings (${r.pct}%)">
+     </div>`).join("");
+
+  leg.innerHTML = rows.map((r, i) =>
+    `<span><i style="background:${cols[i % cols.length]}"></i>` +
+    `${r.bucket} — ${r.pct}%</span>`).join("");
 });
 
 /* ---------------- country comparison ---------------- */
@@ -815,33 +872,23 @@ const nk = s => String(s)
   .replace(/\s+/g, " ")
   .trim();
 
-get("city_breakdown").then(raw => {
-  if (!raw || !raw.length) return;
 
-  /* merge rows that normalise to the same country + city */
-  const acc = {};
-  raw.forEach(r => {
-    const c = r.country || "de";
-    const k = `${c}|${nk(r.city)}`;
-    acc[k] = acc[k] || { key: k, country: c, city: nk(r.city),
-                         n: 0, wage: 0, wen: 0 };
-    acc[k].n    += r.n_postings;
-    acc[k].wage += r.n_postings * (r.avg_age_days || 0);
-    acc[k].wen  += r.n_postings * (r.pct_english  || 0);
-  });
 
-  const d = Object.values(acc).map(m => ({
-    key: m.key,
-    country: m.country,
-    city: m.city === "unknown" ? "not specified" : m.city,
-    n_postings: m.n,
-    avg_age_days: +(m.wage / m.n).toFixed(1),
-    pct_english: +(m.wen / m.n).toFixed(1),
-  }));
-
+/* ---------------- map, filterable by role family ----------------
+   Reads city_role_breakdown.json when the pipeline publishes it.
+   Falls back to city_breakdown.json (all roles combined) so the
+   page still works before that table exists.               */
+(function () {
   const svg = document.getElementById("map");
-  const ns  = "http://www.w3.org/2000/svg";
+  const pick = document.getElementById("rolepick");
+  const tip = document.getElementById("maptip");
+  if (!svg) return;
 
+  const ns = "http://www.w3.org/2000/svg";
+  let byRole = null;          /* { role: [rows] } or null */
+  let current = "All roles";
+
+  /* ---- draw the three country outlines once ---- */
   CORDER.forEach(c => {
     const p = document.createElementNS(ns, "path");
     p.setAttribute("class", "outline");
@@ -852,71 +899,157 @@ get("city_breakdown").then(raw => {
     svg.appendChild(p);
   });
 
-  const known = d.filter(r => GEO[r.key])
-                 .sort((a, b) => b.n_postings - a.n_postings);
-
-  if (known.length) {
-    const max = known[0].n_postings;
-    const R = n => 5 + 28 * Math.sqrt(n / max);
-
-    known.forEach(r => {
-      const [lon, lat] = GEO[r.key];
-      const c = document.createElementNS(ns, "circle");
-      c.setAttribute("class", "bub");
-      c.setAttribute("cx", px(lon));
-      c.setAttribute("cy", py(lat));
-      c.setAttribute("r", R(r.n_postings));
-      c.setAttribute("fill", CCOL[r.country] || CORAL);
-      c.setAttribute("fill-opacity", .82);
-      const t = document.createElementNS(ns, "title");
-      t.textContent =
-        `${cap(r.city)} (${CNAME[r.country] || r.country}): ` +
-        `${r.n_postings} postings, avg ${r.avg_age_days} days open`;
-      c.appendChild(t);
-      svg.appendChild(c);
+  /* ---- merge raw rows into one entry per country+city ---- */
+  function merge(rows) {
+    const acc = {};
+    rows.forEach(r => {
+      const c = r.country || "de";
+      const k = `${c}|${nk(r.city)}`;
+      acc[k] = acc[k] || { key: k, country: c, city: nk(r.city),
+                           n: 0, wage: 0 };
+      acc[k].n    += r.n_postings;
+      acc[k].wage += r.n_postings * (r.avg_age_days || 0);
     });
+    return Object.values(acc).map(m => ({
+      key: m.key, country: m.country,
+      city: m.city === "unknown" ? "not specified" : m.city,
+      n_postings: m.n,
+      avg_age_days: +(m.wage / m.n).toFixed(1),
+    }));
+  }
 
-    /* label the top 4 in each country so smaller markets stay legible */
-    CORDER.forEach(cc => {
-      known.filter(r => r.country === cc).slice(0, 4).forEach(r => {
+  function showTip(e, r) {
+    if (!tip) return;
+    tip.innerHTML =
+      `<b>${cap(r.city)}</b>` +
+      `${CNAME[r.country] || r.country}<br>` +
+      `<em>${r.n_postings.toLocaleString()}</em> ` +
+      `posting${r.n_postings === 1 ? "" : "s"}` +
+      ` · avg ${Math.round(r.avg_age_days)} days open` +
+      (current !== "All roles" ? `<br>${current}` : "");
+    tip.style.opacity = 1;
+    moveTip(e);
+  }
+  function moveTip(e) {
+    if (!tip) return;
+    const pad = 14;
+    let x = e.clientX + pad, y = e.clientY + pad;
+    const w = tip.offsetWidth, hh = tip.offsetHeight;
+    if (x + w > window.innerWidth - 8) x = e.clientX - w - pad;
+    if (y + hh > window.innerHeight - 8) y = e.clientY - hh - pad;
+    tip.style.left = x + "px";
+    tip.style.top = y + "px";
+  }
+  function hideTip() { if (tip) tip.style.opacity = 0; }
+
+  /* ---- redraw bubbles, labels and the ranking table ---- */
+  function draw(rows) {
+    svg.querySelectorAll(".bub,.lbl").forEach(n => n.remove());
+
+    const d = merge(rows);
+    const known = d.filter(r => GEO[r.key])
+                   .sort((a, b) => b.n_postings - a.n_postings);
+
+    if (known.length) {
+      const max = known[0].n_postings;
+      const R = n => 5 + 28 * Math.sqrt(n / max);
+
+      known.forEach(r => {
         const [lon, lat] = GEO[r.key];
-        const tx = document.createElementNS(ns, "text");
-        tx.setAttribute("class", "lbl");
-        tx.setAttribute("x", px(lon) + R(r.n_postings) + 5);
-        tx.setAttribute("y", py(lat) + 4);
-        tx.textContent = cap(r.city);
-        svg.appendChild(tx);
+        const c = document.createElementNS(ns, "circle");
+        c.setAttribute("class", "bub");
+        c.setAttribute("cx", px(lon));
+        c.setAttribute("cy", py(lat));
+        c.setAttribute("r", R(r.n_postings));
+        c.setAttribute("fill", CCOL[r.country] || CORAL);
+        c.setAttribute("fill-opacity", .82);
+        c.addEventListener("mouseenter", e => showTip(e, r));
+        c.addEventListener("mousemove", moveTip);
+        c.addEventListener("mouseleave", hideTip);
+        svg.appendChild(c);
+      });
+
+      CORDER.forEach(cc => {
+        known.filter(r => r.country === cc).slice(0, 4).forEach(r => {
+          const [lon, lat] = GEO[r.key];
+          const tx = document.createElementNS(ns, "text");
+          tx.setAttribute("class", "lbl");
+          tx.setAttribute("x", px(lon) + R(r.n_postings) + 5);
+          tx.setAttribute("y", py(lat) + 4);
+          tx.textContent = cap(r.city);
+          svg.appendChild(tx);
+        });
+      });
+    }
+
+    const top = d.filter(r => r.city !== "not specified")
+                 .sort((a, b) => b.n_postings - a.n_postings)
+                 .slice(0, 14);
+    const body = document.getElementById("cityrank");
+    if (!body) return;
+    if (!top.length) {
+      body.innerHTML =
+        `<tr><td colspan="4" style="color:#8A857C">` +
+        `No cities for this role.</td></tr>`;
+      return;
+    }
+    const mx = top[0].n_postings;
+    body.innerHTML = top.map(r => `
+      <tr>
+        <td>${cap(r.city)}
+            <span class="flag">${r.country}</span></td>
+        <td class="barcell">
+          <span class="b" style="width:${100 * r.n_postings / mx}%;
+                background:${CCOL[r.country] || CORAL}"></span>
+        </td>
+        <td class="num">${r.n_postings}</td>
+        <td class="num" style="color:${ageColour(r.avg_age_days)};
+            font-weight:600">${Math.round(r.avg_age_days)}</td>
+      </tr>`).join("");
+  }
+
+  /* ---- build the role buttons ---- */
+  function buildPicker(roles, enabled) {
+    if (!pick) return;
+    const names = ["All roles"].concat(roles);
+    pick.innerHTML = names.map(n =>
+      `<button type="button" data-role="${n}"
+               aria-pressed="${n === current}">${n}</button>`).join("")
+      + (enabled ? "" :
+         `<span class="hint">per-role view needs
+          city_role_breakdown.json</span>`);
+
+    pick.querySelectorAll("button").forEach(b => {
+      b.addEventListener("click", () => {
+        current = b.dataset.role;
+        pick.querySelectorAll("button").forEach(x =>
+          x.setAttribute("aria-pressed", x.dataset.role === current));
+        draw(current === "All roles"
+             ? Object.values(byRole).flat()
+             : (byRole[current] || []));
       });
     });
   }
 
-  /* ranking table */
-const top = d.filter(r => r.city !== "not specified")
-               .sort((a, b) => b.n_postings - a.n_postings)
-               .slice(0, 14);
-  const mx = top[0].n_postings;
-  document.getElementById("cityrank").innerHTML = top.map(r => `
-    <tr>
-      <td>${cap(r.city)}
-          <span class="flag">${r.country}</span></td>
-      <td class="barcell">
-        <span class="b" style="width:${100 * r.n_postings / mx}%;
-              background:${CCOL[r.country] || CORAL}"></span>
-      </td>
-      <td style="text-align:right">${r.n_postings}</td>
-      <td style="text-align:right;color:${ageColour(r.avg_age_days)};
-                 font-weight:600">${Math.round(r.avg_age_days)}d</td>
-    </tr>`).join("");
-
-
-
-  const missing = d.filter(r => !GEO[r.key] &&
-                                r.city !== "not specified");
-  if (missing.length) {
-    console.log("no coordinates for:",
-      missing.map(r => `${r.key} (${r.n_postings})`).join(", "));
-  }
-});
+  Promise.all([get("city_role_breakdown"), get("city_breakdown")])
+    .then(([cr, cb]) => {
+      if (cr && cr.length && cr[0].role_family !== undefined) {
+        byRole = {};
+        cr.forEach(r => {
+          (byRole[r.role_family] = byRole[r.role_family] || []).push(r);
+        });
+        const roles = Object.keys(byRole).sort((a, b) =>
+          byRole[b].reduce((s, r) => s + r.n_postings, 0) -
+          byRole[a].reduce((s, r) => s + r.n_postings, 0));
+        buildPicker(roles, true);
+        draw(cr);
+      } else if (cb && cb.length) {
+        byRole = { "All roles": cb };
+        buildPicker([], false);
+        draw(cb);
+      }
+    });
+})();
 
 /* ---------------- roles ---------------- */
 get("role_breakdown").then(d => {
@@ -999,16 +1132,7 @@ get("role_breakdown").then(d => {
     return { lv, n, ag };
   });
 
-  new Chart(document.getElementById("sendonut"), {
-    type: "doughnut",
-    data: { labels: sen.map(s => s.lv),
-      datasets: [{ data: sen.map(s => s.n),
-        backgroundColor: [SAGE, STEEL, CORAL],
-        borderColor: "#FAF9F5", borderWidth: 2 }] },
-    options: { cutout: "58%",
-      plugins: { legend: { position: "bottom",
-                           labels: { boxWidth: 12 } } } }
-  });
+
 
   bar("senage", sen.map(s => s.lv),
       [ds("Avg days open", sen.map(s => Math.round(s.ag)),
@@ -1039,7 +1163,7 @@ get("stale_by_company").then(d => {
 get("skill_demand").then(d => {
   if (!d || !d.length) return;
 
-  const top = d.slice(0, 20);
+  const top = d.filter(r => r.skill !== "sap").slice(0, 20);
   bar("skills", top.map(r => r.skill),
       [ds("% of postings mentioning",
           top.map(r => r.pct_postings),
@@ -1055,14 +1179,7 @@ get("skill_demand").then(d => {
       [ds("Mentions", cats.map(c => c[1]),
           cats.map((_, i) => cyc(i)))]);
 
-  const mx = Math.max(...d.map(r => r.pct_postings));
-  scatter("skillscatter",
-    d.slice(0, 30).map(r => ({
-      x: r.pct_postings, y: Math.round(r.avg_age_days),
-      r: 5 + 14 * Math.sqrt(r.pct_postings / mx),
-      name: r.skill })),
-    "% of postings mentioning it", "average days open",
-    p => ageColour(p.y));
+
 });
 
 /* ---------------- trend ---------------- */
@@ -1130,16 +1247,13 @@ get("history").then(h => {
       .map(([role, v]) => ({ role, jr: v.jr, n: v.n,
                              pct: +(100 * v.jr / v.n).toFixed(1) }));
 
-    /* 1. junior openings, absolute */
-    const byCount = jr.slice().sort((a, b) => b.jr - a.jr);
-    bar("n1_juniorvol", byCount.map(r => r.role),
-        [ds("Junior postings", byCount.map(r => r.jr),
-            byCount.map(r => r.jr === 0 ? "#D8D3C7" : SAGE))], true);
 
-    /* 2. junior share of each role */
+
+    /* junior share of each role family */
     const byShare = jr.slice().sort((a, b) => b.pct - a.pct);
-    bar("n2_juniorshare", byShare.map(r => `${r.role} (n=${r.n})`),
-        [ds("% junior", byShare.map(r => r.pct),
+    bar("n1_juniorvol",
+        byShare.map(r => `${r.role} (n=${r.n})`),
+        [ds("% advertised as junior", byShare.map(r => r.pct),
             byShare.map(r => r.pct === 0 ? "#D8D3C7" : OLIVE))], true);
 
     /* 3. seniority mix by country */
@@ -1160,59 +1274,9 @@ get("history").then(h => {
     }
   });
 
-  /* ---- 4: staleness thresholds by country ---- */
-  get("country_breakdown").then(d => {
-    if (!d || !d.length) return;
-    const byC = {};
-    d.forEach(r => byC[r.country] = r);
-    const rows = CORDER.filter(c => byC[c]).map(c => byC[c]);
-    if (!rows.length) return;
 
-    bar("n4_stalectry", rows.map(r => CNAME[r.country] || r.country),
-        [ds("open > 30 days", rows.map(r => r.pct_over_30d), AMBER),
-         ds("open > 60 days", rows.map(r => r.pct_over_60d), CLAY),
-         ds("open > 90 days", rows.map(r => r.pct_over_90d), DEEP)]);
-  });
 
-  /* ---- 5: English share vs days open, by city ---- */
-  get("city_breakdown").then(raw => {
-    if (!raw || !raw.length) return;
 
-    /* same normalisation as the map, so cities merge consistently */
-    const key = s => String(s).toLowerCase()
-      .replace(/\s*\(.*?\)\s*$/g, "")
-      .replace(/[-\s](umgebung|umland|land|stadt)$/g, "")
-      .replace(/^(region|regionalverband)\s+/, "")
-      .replace(/\s+/g, " ").trim();
-
-    const acc = {};
-    raw.forEach(r => {
-      const c = r.country || "de";
-      const k = `${c}|${key(r.city)}`;
-      acc[k] = acc[k] || { country: c, city: key(r.city),
-                           n: 0, wage: 0, wen: 0 };
-      acc[k].n    += r.n_postings;
-      acc[k].wage += r.n_postings * (r.avg_age_days || 0);
-      acc[k].wen  += r.n_postings * (r.pct_english  || 0);
-    });
-
-    const pts = Object.values(acc)
-      .filter(m => m.city !== "unknown" && m.n >= 10)
-      .sort((a, b) => b.n - a.n)
-      .slice(0, 40);
-    if (!pts.length) return;
-
-    const mx = pts[0].n;
-    scatter("n5_enage",
-      pts.map(m => ({
-        x: +(m.wen / m.n).toFixed(1),
-        y: Math.round(m.wage / m.n),
-        r: 5 + 15 * Math.sqrt(m.n / mx),
-        name: `${cap(m.city)} (${m.country})`,
-        c: m.country })),
-      "% of postings in English", "average days open",
-      p => CCOL[p.c] || CORAL);
-  });
 
 
 })();
@@ -1223,59 +1287,9 @@ get("history").then(h => {
 (function () {
   const IND = "#6B6E9B", ROSE = "#B5657F";
 
-  /* ---- English share by role family ---- */
-  get("role_breakdown").then(d => {
-    if (!d || !d.length) return;
-    const agg = {};
-    d.forEach(r => {
-      const k = r.role_family;
-      agg[k] = agg[k] || { n: 0, wen: 0 };
-      agg[k].n   += r.n_postings;
-      agg[k].wen += r.n_postings * (r.pct_english || 0);
-    });
-    const rows = Object.entries(agg)
-      .map(([role, v]) => ({ role, n: v.n,
-                             en: +(v.wen / v.n).toFixed(1) }))
-      .sort((a, b) => b.en - a.en);
 
-    bar("n8_roleen", rows.map(r => `${r.role} (n=${r.n})`),
-        [ds("% in English", rows.map(r => r.en),
-            rows.map(r => r.en >= 50 ? IND : STEEL))], true);
-  });
 
-  /* ---- agency share by city ---- */
-  get("city_breakdown").then(raw => {
-    if (!raw || !raw.length) return;
 
-    const key = s => String(s).toLowerCase()
-      .replace(/\s*\(.*?\)\s*$/g, "")
-      .replace(/[-\s](umgebung|umland|land|stadt)$/g, "")
-      .replace(/^(region|regionalverband)\s+/, "")
-      .replace(/\s+/g, " ").trim();
-
-    const acc = {};
-    raw.forEach(r => {
-      const c = r.country || "de";
-      const k = `${c}|${key(r.city)}`;
-      acc[k] = acc[k] || { country: c, city: key(r.city),
-                           n: 0, wag: 0 };
-      acc[k].n   += r.n_postings;
-      acc[k].wag += r.n_postings * (r.pct_agency || 0);
-    });
-
-    const rows = Object.values(acc)
-      .filter(m => m.city !== "unknown" && m.n >= 15)
-      .map(m => ({ city: m.city, country: m.country, n: m.n,
-                   ag: +(m.wag / m.n).toFixed(1) }))
-      .sort((a, b) => b.ag - a.ag)
-      .slice(0, 16);
-    if (!rows.length) return;
-
-    bar("n9_agencity",
-        rows.map(r => `${cap(r.city)} (${r.country}, n=${r.n})`),
-        [ds("% posted by agencies", rows.map(r => r.ag),
-            rows.map(r => r.ag === 0 ? "#D8D3C7" : ROSE))], true);
-  });
 
   /* ---- fragmentation and salary disclosure ---- */
   get("country_breakdown").then(d => {
