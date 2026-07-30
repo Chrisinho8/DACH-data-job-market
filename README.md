@@ -68,6 +68,26 @@ query that found it.
 - **Poster type** — recruitment agency or direct employer
 - **Tool mentions** - 47 technologies matched with a curated dictionary
 
+ 
+ ## What the tracker will provide in the future
+
+Right now this is a single snapshot: every figure above describes one
+Monday. Because bronze is append-only and `gold.history` is never
+overwritten, each weekly run adds to the record rather than replacing
+it - so the dataset stops being a photograph and becomes a recording.
+From the third snapshot the week-over-week chart appears, and from the
+fourth a better measure of staleness becomes possible: instead of
+trusting the API's posting date, the pipeline can compare snapshots
+directly and ask how many roles that were live a month ago are still
+listed today. Given a few months it can answer the questions that
+actually matter - whether AI/ML keeps taking share from data
+engineering, which tools are quietly disappearing from postings, and
+whether junior openings are seasonal or simply absent year-round. None
+of that needs new code; it needs Mondays. And because every raw API
+response is cached, if the classification logic improves later the
+entire history can be reprocessed under the better rules without
+spending a single extra API call.
+
 ### Coverage and cadence
 
 | | |
