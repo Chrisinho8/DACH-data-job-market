@@ -169,21 +169,6 @@ between countries.
 results are reproducible and every match points at a specific string.
 See `src/matcher.py`.
 
-## Validation
-
-| Check | Result |
-|---|---|
-| Postings in scope, after filtering | 4,407 |
-| Cities resolved | 282 |
-| Descriptions truncated by the API | 99.6% |
-| Postings with a stated salary | ~181 (4.1%) |
-| Agency detection rate | 4.1%, a lower bound |
-| Skill matcher precision / recall | not yet measured |
-| Matcher unit tests | 15, green in CI |
-
-A deliberately corrupted record (salary of 9,999,999, date of 2019) is
-injected on every run to prove the quality gate fires. A schema guard
-fails the run if a raw filename does not parse to a valid country code.
 
 ## Limitations
 
