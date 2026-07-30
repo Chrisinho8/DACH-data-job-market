@@ -25,11 +25,8 @@ Every Monday at 06:00 a Databricks pipeline queries the Adzuna API for 15 job ti
 | Data Governance and Security | 89 | 2.2% | 1 | 59 | 84 d | 35% | 76 | 3 | 10 |
 | Analytics Engineer | 69 | 1.7% | 4 | 29 | 54 d | 33% | 61 | 6 | 2 |
 | **Total** | **3,991** | **100%** | **132** | **1,491** | **54 d** | **33%** | **3,398** | **271** | **322** |
- 
-Every posting belongs to exactly one family, so the table sums to the headline figure. Junior and Senior are counts, not shares; the remainder is "mid", which only means no seniority word appeared in the title.
- 
-Switzerland advertises in English far more than its neighbours (61% of Swiss postings against 30% German), and almost nobody publishes a salary anywhere (4.3% DE, 5.9% AT, 3.1% CH) despite the EU pay transparency directive's June 2026 deadline.
- 
+
+
 ## Skill extraction
  
 Postings are scanned with a curated dictionary of 47 terms rather than an LLM, so every match points at a specific string in a specific posting and the counts are reproducible. The tricky cases are real: "SQL" hides inside "PostgreSQL", "Java" inside "JavaScript", and a bare "R" matches "R&D" and half of every German address block. Each trap is pinned down by a test in `tests/test_matcher.py` that runs in CI on every push. See `src/matcher.py`.
