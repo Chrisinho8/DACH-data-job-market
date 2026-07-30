@@ -282,15 +282,10 @@
     <h2>Compare two cities head to head</h2>
     <p class="note">
       Pick any two cities carrying at least 3 live postings, and
-      optionally narrow the comparison to a single role. Each axis is
-      scaled against the highest value across every qualifying city, so
-      the shape shows relative position rather than raw units, and the
-      two shapes are directly comparable. The exact figures are in the
-      table beside it. Cities are grouped by country and ordered by
-      volume inside each country.
+      optionally narrow the comparison to a single role. 
     </p>
     <p class="note">
-      <strong>Small cities are noisy.</strong> The posting count for
+      <strong>NOTE: Small cities are noisy.</strong> The posting count for
       each city is printed in the dropdown. Below roughly 20 postings a
       single advert moves a percentage by five points or more, so treat
       those shapes as indicative and read the counts before drawing a
@@ -313,7 +308,7 @@
   <!-- ============ TOOLS ============ -->
   <section id="skillrole-section" hidden>
     <h2>Which tools does each role ask for?
-        <span class="pill">not every tool is extracted</span></h2>
+        <span class="pill">READ CAVEAT</span></h2>
     <p class="note">
       Pick a role family below. The left chart is the share of that
       role's own postings mentioning each tool. The right chart is the
@@ -327,8 +322,7 @@
       as floors rather than requirement rates.</strong> The API
       hard-caps descriptions at 500 characters and 99.5% of postings are
       truncated, so any tool named further down an advert is never
-      counted. Anything outside the curated 47-term dictionary is
-      invisible too. The truncation window is identical for every
+      counted. The truncation window is identical for every
       posting, so comparing tools with each other holds; treating any
       single percentage as the real requirement rate does not.
     </p>
@@ -349,7 +343,7 @@
   </section>
   <section>
     <h2>Most mentioned tools
-        <span class="pill">read the details</span></h2>
+        <span class="pill">READ CAVEAT</span></h2>
     <p class="note">
       The API hard-caps descriptions at <strong>500 characters</strong>
       and <strong>99.5%</strong> of postings are truncated. This
@@ -379,15 +373,12 @@
   </section>
   <section>
     <h2>Does seniority change how long a job stays open?</h2>
-    <p class="note">Average days open by seniority level.</p>
+    <p class="note"></p>
     <canvas id="senage" height="130"></canvas>
   </section>
   <section>
     <h2>Which data role is which?</h2>
     <p class="note">
-      Roles are classified from the job title, not from the search that
-      found the posting. Volume shows where demand is; average age
-      shows which roles employers struggle to fill.
     </p>
     <div class="grid2">
       <div>
@@ -418,9 +409,6 @@
   <section>
     <h2>Which country asks for which role?</h2>
     <p class="note">
-      Role mix as a share of each country's postings, so a small market
-      is comparable with a large one. This is where the three countries
-      actually differ.
     </p>
     <canvas id="ctryrole" height="230"></canvas>
   </section>
@@ -437,12 +425,11 @@
   <section>
     <h2>Which company has the most listings?</h2>
     <p class="note">
-      Employers by number of live postings.
     </p>
     <canvas id="empvol" height="260"></canvas>
   </section>
   <section>
-    <h2>Who publishes a salary?</h2>
+    <h2>Which country publishes a salary? (%)</h2>
     <p class="note">
       Share of postings stating any salary figure. The EU pay
       transparency directive had a transposition deadline of June 2026.
@@ -462,7 +449,7 @@
     <canvas id="trend" height="190"></canvas>
   </section>
   <section>
-    <h2>This pipeline's own error rates</h2>
+    <h2>This pipelines own error rates</h2>
     <p class="note">
       Most dashboards do not publish how wrong they might be. These are
       measured on every run: the share of records rejected by quality
@@ -474,7 +461,7 @@
 
   <!-- ============ CAVEATS ============ -->
   <section class="caveats">
-    <h2>What this does not tell you</h2>
+    <h2>What this pipeline will not tell you</h2>
     <ul>
       <li><strong>Postings are not hires.</strong> An old posting may be
           a real unfilled role, a pipeline-building advert, or a listing
@@ -485,9 +472,6 @@
       <li><strong>The posting date is the aggregator's</strong>, which
           may be when it indexed the job rather than when the employer
           published it.</li>
-      <li><strong>Swiss salaries are in francs</strong> and are never
-          averaged with euro figures. Only the disclosure rate is
-          compared across countries.</li>
       <li><strong>Roles are classified from the job title</strong> with
           keyword rules. The AI/ML family includes software engineering
           roles that merely mention AI, which inflates it.</li>
