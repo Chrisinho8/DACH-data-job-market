@@ -123,6 +123,8 @@
     border-radius:7px;border:1px solid var(--line);background:#FCFBF8;
     color:var(--ink);cursor:pointer;max-width:210px}
   .cmp select:hover{border-color:var(--clay)}
+  .cmp .hint{font-size:11.5px;color:#8A857C;align-self:center;
+             font-weight:400}
   #cmptable td:first-child{font-weight:500;color:#5C5A54}
   #cmptable td.num{font-variant-numeric:tabular-nums;font-weight:600}
 
@@ -304,15 +306,24 @@
   <section>
     <h2>Compare two cities head to head</h2>
     <p class="note">
-      Pick any two cities carrying at least 20 live postings. Each axis
-      is scaled against the highest value across every city, so the
-      shape shows relative position rather than raw units, and the two
-      shapes are directly comparable. The exact figures are in the
+      Pick any two cities carrying at least 3 live postings, and
+      optionally narrow the comparison to a single role. Each axis is
+      scaled against the highest value across every qualifying city, so
+      the shape shows relative position rather than raw units, and the
+      two shapes are directly comparable. The exact figures are in the
       table beside it.
+    </p>
+    <p class="note">
+      <strong>Small cities are noisy.</strong> The posting count for
+      each city is printed in the dropdown. Below roughly 20 postings a
+      single advert moves a percentage by five points or more, so treat
+      those shapes as indicative and read the counts before drawing a
+      conclusion. Narrowing to one role shrinks the denominator again.
     </p>
     <div class="cmp">
       <label>City A <select id="cmpA"></select></label>
       <label>City B <select id="cmpB"></select></label>
+      <label>Role <select id="cmpRole"></select></label>
     </div>
     <div class="maprow">
       <div><canvas id="citycmp" height="300"></canvas></div>
@@ -361,7 +372,10 @@
       posting, so comparing tools with each other holds; treating any
       single percentage as the real requirement rate does not.
     </p>
-    <div id="srpick" class="pick"></div>
+    <div class="cmp">
+      <label>Role <select id="srsel"></select></label>
+      <span class="hint">mentions in title or first paragraph only</span>
+    </div>
     <div class="grid2">
       <div>
         <h3 class="subh">Share of this role's postings mentioning it</h3>
@@ -537,6 +551,28 @@ const get = f =>
 
 const cyc = i => CATS[i % CATS.length];
 const cap = s => String(s).charAt(0).toUpperCase() + String(s).slice(1);
+
+/* ---- display names for role families ----------------------------
+   The keys are the raw values published by the pipeline and must
+   not change. Only the labels shown to a reader are rewritten, so
+   nothing downstream of gold breaks.                              */
+const ROLE_LABEL = {
+  "ai / ml":            "AI/ML Engineer",
+  "data engineer":      "Data Engineer",
+  "data scientist":     "Data Scientist",
+  "data analyst":       "Data Analyst",
+  "data architect":     "Data Architect",
+  "analytics engineer": "Analytics Engineer",
+  "dwh / etl":          "Data Warehouse / ETL",
+  "data governance":    "Data Governance and Security",
+  "data consultant":    "Data Consultant",
+  "bi developer":       "BI Developer",
+  "all roles":          "All roles"
+};
+/* falls back to title case for anything the map has not seen */
+const rlab = s => ROLE_LABEL[String(s).toLowerCase()] ||
+  String(s).split(" ").map(w =>
+    w === "/" ? w : w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 const set = (id, v) => {
   const e = document.getElementById(id);
   if (e) e.textContent = v;
@@ -1055,7 +1091,7 @@ const nk = s => String(s)
     const names = ["All roles"].concat(roles);
     pick.innerHTML = names.map(n =>
       `<button type="button" data-role="${n}"
-               aria-pressed="${n === current}">${n}</button>`).join("")
+               aria-pressed="${n === current}">${rlab(n)}</button>`).join("")
       + (enabled ? "" :
          `<span class="hint">per-role view needs
           city_role_breakdown.json</span>`);
@@ -1109,12 +1145,12 @@ get("role_breakdown").then(d => {
     .sort((a, b) => b.n - a.n);
   const roles = rows.map(r => r.role);
 
-  bar("rolevol", roles,
+  bar("rolevol", roles.map(rlab),
       [ds("Live postings", rows.map(r => r.n),
           rows.map((_, i) => cyc(i)))], true);
 
   const byAge = rows.slice().sort((a, b) => b.age - a.age);
-  bar("roleage", byAge.map(r => r.role),
+  bar("roleage", byAge.map(r => rlab(r.role)),
       [ds("Avg days open", byAge.map(r => Math.round(r.age)),
           byAge.map(r => ageColour(r.age)))], true);
 
@@ -1130,7 +1166,7 @@ get("role_breakdown").then(d => {
     };
     bar("ctryrole", countries.map(c => CNAME[c]),
         roles.map((rf, i) =>
-          ds(rf, countries.map(c => share(c, rf)), cyc(i))),
+          ds(rlab(rf), countries.map(c => share(c, rf)), cyc(i))),
         true, true, true);
   }
 
@@ -1141,7 +1177,7 @@ get("role_breakdown").then(d => {
     d.filter(r => r.role_family === rf && r.seniority === lv)
      .reduce((s, r) => s + r.n_postings, 0);
 
-  bar("roles", roles,
+  bar("roles", roles.map(rlab),
       levels.map(lv => ds(lv, roles.map(rf => cell(rf, lv)),
                           cols[lv])), true, true);
 
@@ -1153,7 +1189,7 @@ get("role_breakdown").then(d => {
   let html = '<div class="hd"></div>' +
              levels.map(l => `<div class="hd">${l}</div>`).join("");
   roles.forEach(rf => {
-    html += `<div class="rw">${rf}</div>`;
+    html += `<div class="rw">${rlab(rf)}</div>`;
     levels.forEach(lv => {
       const v = cell(rf, lv);
       const a = maxCell ? v / maxCell : 0;
@@ -1293,7 +1329,7 @@ get("history").then(h => {
     /* junior share of each role family */
     const byShare = jr.slice().sort((a, b) => b.pct - a.pct);
     bar("n1_juniorvol",
-        byShare.map(r => `${r.role} (n=${r.n})`),
+        byShare.map(r => `${rlab(r.role)} (n=${r.n})`),
         [ds("% advertised as junior", byShare.map(r => r.pct),
             byShare.map(r => r.pct === 0 ? "#D8D3C7" : OLIVE))], true);
 
@@ -1392,9 +1428,9 @@ get("history").then(h => {
    Needs gold.skill_by_role. The section stays hidden until the
    pipeline publishes it, rather than showing empty axes.      */
 (function () {
-  const sec  = document.getElementById("skillrole-section");
-  const pick = document.getElementById("srpick");
-  if (!sec || !pick) return;
+  const sec = document.getElementById("skillrole-section");
+  const sel = document.getElementById("srsel");
+  if (!sec || !sel) return;
 
   let chartA = null, chartB = null;
 
@@ -1451,7 +1487,8 @@ get("history").then(h => {
               n: top.map(r => r.n_postings)
             }]
           },
-          options: opts(`% of the ${n.toLocaleString()} ${current} postings`,
+          options: opts(
+            `% of the ${n.toLocaleString()} ${rlab(current)} postings`,
             c => `${c.label}: ${c.raw}% ` +
                  `(${c.dataset.n[c.dataIndex]} of ${n} postings)`)
         });
@@ -1486,26 +1523,21 @@ get("history").then(h => {
           options: opts("percentage points vs the whole market",
             c => {
               const m = c.dataset.meta[c.dataIndex];
-              return `${m.skill}: ${m.pct}% in ${current} ` +
+              return `${m.skill}: ${m.pct}% in ${rlab(current)} ` +
                      `vs ${m.mkt}% market-wide ` +
                      `(${m.d > 0 ? "+" : ""}${m.d} pp)`;
             })
         });
       }
 
-      pick.innerHTML = roles.map(r =>
-        `<button type="button" data-role="${r}"
-                 aria-pressed="${r === current}">${r}</button>`).join("")
-        + `<span class="hint">mentions in title or first paragraph
-           only</span>`;
+      sel.innerHTML = roles.map(r =>
+        `<option value="${r}">${rlab(r)} ` +
+        `(n=${size(r).toLocaleString()})</option>`).join("");
+      sel.value = current;
 
-      pick.querySelectorAll("button").forEach(b => {
-        b.addEventListener("click", () => {
-          current = b.dataset.role;
-          pick.querySelectorAll("button").forEach(x =>
-            x.setAttribute("aria-pressed", x.dataset.role === current));
-          draw();
-        });
+      sel.addEventListener("change", () => {
+        current = sel.value;
+        draw();
       });
 
       draw();
@@ -1581,13 +1613,25 @@ get("history").then(h => {
 /* ---------------- 4. city head to head ----------------
    Radar axes are each scaled against the maximum across all
    qualifying cities, so the shapes are comparable. Raw values
-   live in the tooltip and the table, never on the axis.     */
+   live in the tooltip and the table, never on the axis.
+
+   A role can be selected. "All roles" reads city_breakdown.
+   A single role reads city_role_breakdown, which is a narrower
+   table: it always carries n_postings and avg_age_days, and it
+   carries pct_english / pct_agency only once the gold layer has
+   been rerun with those two columns added. The axis list is
+   therefore built from the columns actually present, so the page
+   degrades to three axes instead of drawing empty ones.         */
 (function () {
-  const el = document.getElementById("citycmp");
-  const selA = document.getElementById("cmpA");
-  const selB = document.getElementById("cmpB");
-  const tbl  = document.getElementById("cmptable");
+  const el     = document.getElementById("citycmp");
+  const selA   = document.getElementById("cmpA");
+  const selB   = document.getElementById("cmpB");
+  const selR   = document.getElementById("cmpRole");
+  const tbl    = document.getElementById("cmptable");
   if (!el || !selA || !selB) return;
+
+  /* a city needs at least this many live postings to be offered */
+  const MIN_N = 3;
 
   let chart = null;
 
@@ -1595,26 +1639,35 @@ get("history").then(h => {
     .then(([cb, cr]) => {
       if (!cb || !cb.length) return;
 
-      /* AI/ML share per city, when the role cut is available */
-      const aiShare = {};
+      const hasRoles =
+        !!(cr && cr.length && cr[0].role_family !== undefined && selR);
+
+      /* ---- totals and AI/ML share per city, from the role cut ---- */
+      const cityTotal = {}, aiShare = {};
       if (cr && cr.length && cr[0].role_family !== undefined) {
-        const tot = {}, ai = {};
+        const ai = {};
         cr.forEach(r => {
           const k = `${r.country}|${r.city}`;
-          tot[k] = (tot[k] || 0) + r.n_postings;
+          cityTotal[k] = (cityTotal[k] || 0) + r.n_postings;
           if (r.role_family === "ai / ml")
             ai[k] = (ai[k] || 0) + r.n_postings;
         });
-        Object.keys(tot).forEach(k =>
-          aiShare[k] = +(100 * (ai[k] || 0) / tot[k]).toFixed(1));
+        Object.keys(cityTotal).forEach(k =>
+          aiShare[k] = +(100 * (ai[k] || 0) / cityTotal[k]).toFixed(1));
       }
 
-      const cities = cb
-        .filter(r => r.city && r.city !== "unknown" && r.n_postings >= 20)
+      /* does the role cut carry the language / agency columns? */
+      const roleHasPct = !!(cr && cr.length &&
+                            cr[0].pct_english !== undefined &&
+                            cr[0].pct_agency  !== undefined);
+
+      /* ---- city list for "All roles" ---- */
+      const allCities = cb
+        .filter(r => r.city && r.city !== "unknown" && r.n_postings >= MIN_N)
         .map(r => ({
           key: `${r.country}|${r.city}`,
           label: `${cap(r.city)} (${String(r.country).toUpperCase()})`,
-          country: r.country,
+          n: r.n_postings,
           listings: r.n_postings,
           age: r.avg_age_days,
           english: r.pct_english,
@@ -1623,32 +1676,105 @@ get("history").then(h => {
         }))
         .sort((a, b) => b.listings - a.listings);
 
-      if (cities.length < 2) return;
+      if (allCities.length < 2) return;
 
-      const AX = [
+      /* the set of cities that clear MIN_N overall, so a role view
+         never offers a city the all-roles view would have hidden */
+      const eligible = new Set(allCities.map(c => c.key));
+
+      /* ---- city list for one role ---- */
+      const roleCities = {};
+      if (hasRoles) {
+        cr.forEach(r => {
+          if (!r.city || r.city === "unknown") return;
+          const key = `${r.country}|${r.city}`;
+          if (!eligible.has(key)) return;
+          const tot = cityTotal[key] || 0;
+          (roleCities[r.role_family] = roleCities[r.role_family] || [])
+            .push({
+              key,
+              label: `${cap(r.city)} (${String(r.country).toUpperCase()})`,
+              n: r.n_postings,
+              listings: r.n_postings,
+              age: r.avg_age_days,
+              english: r.pct_english,
+              agency: r.pct_agency,
+              share: tot ? +(100 * r.n_postings / tot).toFixed(1) : 0
+            });
+        });
+        Object.values(roleCities)
+          .forEach(l => l.sort((a, b) => b.listings - a.listings));
+      }
+
+      /* ---- axis definitions ---- */
+      const AX_ALL = [
         ["Live listings",   "listings", v => v.toLocaleString()],
         ["Avg days open",   "age",      v => Math.round(v) + " d"],
         ["% in English",    "english",  v => v + "%"],
         ["% via agency",    "agency",   v => v + "%"],
         ["% AI / ML roles", "ai",       v => v + "%"]
       ];
-      const maxes = {};
-      AX.forEach(([, f]) =>
-        maxes[f] = Math.max(...cities.map(c => c[f] || 0)) || 1);
+      const AX_ROLE = [
+        ["Live listings",       "listings", v => v.toLocaleString()],
+        ["Avg days open",       "age",      v => Math.round(v) + " d"]
+      ].concat(roleHasPct ? [
+        ["% in English",        "english",  v => v + "%"],
+        ["% via agency",        "agency",   v => v + "%"]
+      ] : []).concat([
+        ["% of city's postings", "share",   v => v + "%"]
+      ]);
 
-      const opt = (c, i) =>
-        `<option value="${i}">${c.label}</option>`;
-      selA.innerHTML = cities.map(opt).join("");
-      selB.innerHTML = cities.map(opt).join("");
-      selA.value = 0;
-      selB.value = 1;
+      /* ---- role dropdown ---- */
+      if (hasRoles) {
+        const roles = Object.keys(roleCities)
+          .filter(rf => roleCities[rf].length >= 2)
+          .sort((a, b) =>
+            roleCities[b].reduce((s, r) => s + r.listings, 0) -
+            roleCities[a].reduce((s, r) => s + r.listings, 0));
+        selR.innerHTML =
+          `<option value="__all">All roles</option>` +
+          roles.map(rf => `<option value="${rf}">${rlab(rf)}</option>`)
+               .join("");
+      } else if (selR) {
+        selR.innerHTML = `<option value="__all">All roles</option>`;
+        selR.disabled = true;
+      }
+
+      /* current working set, refreshed whenever the role changes */
+      let cities = allCities, AX = AX_ALL, maxes = {};
+
+      function rescale() {
+        const rf = selR ? selR.value : "__all";
+        if (rf === "__all" || !roleCities[rf]) {
+          cities = allCities;
+          AX = AX_ALL;
+        } else {
+          cities = roleCities[rf];
+          AX = AX_ROLE;
+        }
+        maxes = {};
+        AX.forEach(([, f]) =>
+          maxes[f] = Math.max(...cities.map(c => +c[f] || 0)) || 1);
+      }
+
+      function fillCities(keepA, keepB) {
+        const opt = (c, i) =>
+          `<option value="${i}">${c.label} &middot; ${c.n}</option>`;
+        selA.innerHTML = cities.map(opt).join("");
+        selB.innerHTML = cities.map(opt).join("");
+        const ia = cities.findIndex(c => c.key === keepA);
+        const ib = cities.findIndex(c => c.key === keepB);
+        selA.value = ia >= 0 ? ia : 0;
+        selB.value = ib >= 0 && ib !== +selA.value
+                   ? ib : (cities.length > 1 ? (+selA.value === 0 ? 1 : 0) : 0);
+      }
 
       function series(c, colour) {
         return {
           label: c.label,
           data: AX.map(([, f]) =>
-            +(100 * (c[f] || 0) / maxes[f]).toFixed(1)),
-          raws: AX.map(([, f, fmt]) => fmt(c[f] || 0)),
+            +(100 * (+c[f] || 0) / maxes[f]).toFixed(1)),
+          raws: AX.map(([, f, fmt]) => fmt(+c[f] || 0)),
           borderColor: colour,
           backgroundColor: colour + "33",
           pointBackgroundColor: colour,
@@ -1683,18 +1809,40 @@ get("history").then(h => {
           }
         });
 
-        if (tbl) tbl.innerHTML =
-          `<tr><td></td>
-             <td class="num" style="color:${CORAL}">${a.label}</td>
-             <td class="num" style="color:${STEEL}">${b.label}</td></tr>` +
-          AX.map(([name, f, fmt]) =>
-            `<tr><td>${name}</td>
-               <td class="num">${fmt(a[f] || 0)}</td>
-               <td class="num">${fmt(b[f] || 0)}</td></tr>`).join("");
+        if (tbl) {
+          const rf = selR ? selR.value : "__all";
+          const cap_ = rf === "__all" ? "All roles" : rlab(rf);
+          tbl.innerHTML =
+            `<tr><td>${cap_}</td>
+               <td class="num" style="color:${CORAL}">${a.label}</td>
+               <td class="num" style="color:${STEEL}">${b.label}</td></tr>` +
+            AX.map(([name, f, fmt]) =>
+              `<tr><td>${name}</td>
+                 <td class="num">${fmt(+a[f] || 0)}</td>
+                 <td class="num">${fmt(+b[f] || 0)}</td></tr>`).join("") +
+            (rf !== "__all" && !roleHasPct
+              ? `<tr><td colspan="3" style="color:#8A857C;font-weight:400">
+                   Language and agency splits are not published per
+                   city and role yet, so those axes are hidden in the
+                   role view.</td></tr>`
+              : "");
+        }
+      }
+
+      function refresh() {
+        const keepA = (cities[+selA.value] || {}).key;
+        const keepB = (cities[+selB.value] || {}).key;
+        rescale();
+        fillCities(keepA, keepB);
+        draw();
       }
 
       selA.addEventListener("change", draw);
       selB.addEventListener("change", draw);
+      if (selR) selR.addEventListener("change", refresh);
+
+      rescale();
+      fillCities(null, null);
       draw();
     });
 })();
