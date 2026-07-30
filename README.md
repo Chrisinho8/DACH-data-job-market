@@ -34,46 +34,29 @@ test in `tests/test_matcher.py` that runs in CI on every push. See
 
 ## What the data says (Main insights)
 
-**Job offerings per job-field**
-| Role family | Postings | Share |
-|---|---|---|
-| AI / ML | 1,435 | 36.0% |
-| Data engineer | 984 | 24.7% |
-| Data scientist | 391 | 9.8% |
-| Data architect | 260 | 6.5% |
-| Data analyst | 259 | 6.5% |
-| BI developer | 205 | 5.1% |
-| DWH / ETL | 164 | 4.1% |
-| Data consultant | 135 | 3.4% |
-| Data governance | 89 | 2.2% |
-| Analytics engineer | 69 | 1.7% |
-| **Total** | **3,991** | **100%** |
+## What the data says (Main insights)
 
+| Role family | Postings | Share | Junior | Senior | Avg days open | In English | DE | AT | CH |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| AI/ML Engineer | 1,435 | 36.0% | 57 | 563 | 47 d | 48% | 1,190 | 104 | 141 |
+| Data Engineer | 984 | 24.7% | 26 | 323 | 53 d | 25% | 838 | 72 | 74 |
+| Data Scientist | 391 | 9.8% | 22 | 192 | 64 d | 39% | 331 | 21 | 39 |
+| Data Architect | 260 | 6.5% | 0 | 130 | 49 d | 18% | 242 | 10 | 8 |
+| Data Analyst | 259 | 6.5% | 13 | 67 | 61 d | 30% | 206 | 30 | 23 |
+| BI Developer | 205 | 5.1% | 0 | 43 | 40 d | 12% | 187 | 8 | 10 |
+| Data Warehouse / ETL | 164 | 4.1% | 2 | 25 | 84 d | 5% | 147 | 12 | 5 |
+| Data Consultant | 135 | 3.4% | 7 | 60 | 76 d | 28% | 120 | 5 | 10 |
+| Data Governance and Security | 89 | 2.2% | 1 | 59 | 84 d | 35% | 76 | 3 | 10 |
+| Analytics Engineer | 69 | 1.7% | 4 | 29 | 54 d | 33% | 61 | 6 | 2 |
+| **Total** | **3,991** | **100%** | **132** | **1,491** | **54 d** | **33%** | **3,398** | **271** | **322** |
 
-**Jobs seniority comparison:**
-| Seniority | Postings | Share |
-|---|---|---|
-| Junior | 132 | 3.3% |
-| Mid | 2,368 | 59.3% |
-| Senior | 1,491 | 37.4% |
-| **Total** | **3,991** | **100%** |
-
-
-**By country:**
-| | Germany | Austria | Switzerland |
-|---|---|---|---|
-| Live postings | 3,398 | 271 | 322 |
-| Employers | 1,342 | 171 | 173 |
-| Median age | 14 d | 27 d | 20 d |
-| Mean age | 53 d | 67 d | 55 d |
-| Open > 60 days | 26.5% | 22.9% | 20.2% |
-| In English | 30.4% | 36.9% | 61.2% |
-| Salary shown | 4.3% | 5.9% | 3.1% |
-
-The search parameter is a keyword match, not a title match, so these
-queries overlap heavily and also drag in unrelated roles. Every posting
-is therefore **reclassified from its own job title**, not from the
-query that found it.
+Every posting belongs to exactly one family, so the table sums to the
+headline figure. Junior and Senior are counts, not shares; the
+remainder is "mid", which only means no seniority word appeared in the
+title. Switzerland advertises in English far more than its neighbours
+(61% of Swiss postings against 30% German), and almost nobody publishes
+a salary anywhere (4.3% DE, 5.9% AT, 3.1% CH) despite the EU pay
+transparency directive's June 2026 transposition deadline.
 
  
  ## What the tracker will provide in the future
