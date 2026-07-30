@@ -104,6 +104,14 @@
   .sleg span i{display:inline-block;width:9px;height:9px;
                border-radius:2px;margin-right:6px}
 
+  /* ---------- map heat mode ---------- */
+  #map .hit{fill:transparent;cursor:default}
+  #leg-heat .ramp{display:inline-block;width:132px;height:11px;
+    border-radius:99px;border:1px solid var(--line);
+    background:linear-gradient(90deg,#EDEAE2,#9FB4C4,#6E8CA0,
+                               #C7A87C,#D97757,#A63C22)}
+  #leg-heat span{display:flex;align-items:center;gap:8px}
+
   /* ---------- map role picker + tooltip ---------- */
   .pick{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
   .pick button{font:600 12px/1 system-ui,sans-serif;cursor:pointer;
@@ -156,6 +164,7 @@
 
 <main class="wrap">
 
+  <!-- ============ HEADLINE ============ -->
   <section class="kpiblock">
     <div id="kpi" class="kpi"></div>
     <div class="agebox">
@@ -165,83 +174,7 @@
     </div>
   </section>
 
-  <!-- ============ SENIORITY: THE HEADLINE FINDING ============ -->
-
-  <section>
-    <h2>Seniority mix by role</h2>
-    <p class="note">
-      Seniority is inferred from title keywords, so "mid" means
-      "neither junior nor senior stated". Entry programmes (Ausbildung,
-      duales Studium, Werkstudent, Praktikum, Trainee) are excluded
-      from the dataset, so junior counts reflect junior-titled
-      permanent roles only.
-    </p>
-    <canvas id="roles" height="210"></canvas>
-  </section>
-
-  <section>
-    <h2>Role and seniority, side by side</h2>
-    <p class="note">
-      The same data as a heatmap. Darker means more postings.
-    </p>
-    <div id="heat" class="hm"></div>
-  </section>
-
-  <section>
-    <h2>Does seniority change how long a job stays open?</h2>
-    <p class="note">Average days open by seniority level.</p>
-    <canvas id="senage" height="200"></canvas>
-  </section>
-
-  <!-- ============ ROLES ============ -->
-
-  <section>
-    <h2>Which data role is which?</h2>
-    <p class="note">
-      Roles are classified from the job title, not from the search that
-      found the posting. Volume shows where demand is; average age
-      shows which roles employers struggle to fill.
-    </p>
-    <div class="grid2">
-      <div>
-        <h3 class="subh">Absolute postings per job title</h3>
-        <canvas id="rolevol" height="230"></canvas>
-      </div>
-      <div>
-        <h3 class="subh">Average days open per job title</h3>
-        <canvas id="roleage" height="230"></canvas>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ AGE AND STALENESS ============ -->
-
-  <section>
-    <h2>How old is an active posting?</h2>
-    <p class="note">
-      Days between the posting date and today, across all three
-      countries. <strong>The average is
-      <span id="f-mean">&ndash;</span> days. The median is
-      <span id="f-median">&ndash;</span>.</strong> That gap is the
-      whole story: half the market moves in weeks, and a long tail of
-      very old listings drags the average up.
-    </p>
-    <canvas id="age" height="190"></canvas>
-  </section>
-
-  <section>
-    <h2>How many are still open after X days?</h2>
-    <p class="note">
-      A classic survival curve. Of every 100 live postings, how many have
-      already been open at least this long. The steep drop in the first
-      month is healthy churn. The flat tail is what the average is
-      really measuring.
-    </p>
-    <canvas id="surv" height="180"></canvas>
-  </section>
-
-  <!-- ============ COUNTRY COMPARISON ============ -->
-
+  <!-- ============ GEOGRAPHY ============ -->
   <section>
     <h2>Three countries, one language, but clear differences</h2>
     <p class="note">
@@ -249,33 +182,31 @@
     </p>
     <div id="ctrycards" class="ctry"></div>
   </section>
-
-  <section>
-    <h2>Which country asks for which role?</h2>
-    <p class="note">
-      Role mix as a share of each country's postings, so a small market
-      is comparable with a large one. This is where the three countries
-      actually differ.
-    </p>
-    <canvas id="ctryrole" height="230"></canvas>
-  </section>
-
-  <!-- ============ GEOGRAPHY ============ -->
-
   <section>
     <h2>Where are the jobs located?</h2>
     <p class="note">
-      Bubble size is the number of live postings, colour is the
-      country. Hover any bubble for the city name and its exact
-      posting count. Postings with only a country-level location are
-      excluded from the map.
+      <strong>Bubbles</strong> size each city by its number of live
+      postings and colour it by country. <strong>Heat map</strong>
+      replaces them with a density surface, so clusters of nearby
+      cities merge into one hot region instead of overlapping discs.
+      Hover anywhere for the city name and its exact posting count.
+      Postings with only a country-level location cannot be placed and
+      are excluded from the map, which is 17% of the dataset, so read
+      the map as where jobs are <em>known</em> to be rather than a
+      complete census.
     </p>
+    <div id="mapmode" class="pick">
+      <button type="button" data-mode="bubbles"
+              aria-pressed="true">Bubbles</button>
+      <button type="button" data-mode="heat"
+              aria-pressed="false">Heat map</button>
+    </div>
     <div id="rolepick" class="pick"></div>
     <div class="maprow">
       <div>
         <svg id="map" viewBox="0 0 640 800"
              xmlns="http://www.w3.org/2000/svg"></svg>
-        <div class="legend">
+        <div class="legend" id="leg-bubbles">
           <span class="dots">
             <svg width="64" height="20">
               <circle cx="7"  cy="10" r="4"  fill="#B8B2A4"/>
@@ -287,6 +218,11 @@
           <span><i class="sw" style="background:#D97757"></i>Germany</span>
           <span><i class="sw" style="background:#6E8CA0"></i>Austria</span>
           <span><i class="sw" style="background:#7C9885"></i>Switzerland</span>
+        </div>
+        <div class="legend" id="leg-heat" hidden>
+          <span class="dots"><i class="ramp"></i></span>
+          <span>fewer postings</span>
+          <span style="margin-left:auto">more postings</span>
         </div>
       </div>
       <div>
@@ -303,7 +239,6 @@
       </div>
     </div>
   </section>
-
   <section>
     <h2>Compare two cities head to head</h2>
     <p class="note">
@@ -337,22 +272,6 @@
   </section>
 
   <!-- ============ TOOLS ============ -->
-
-  <section>
-    <h2>Most mentioned tools
-        <span class="pill">read the details</span></h2>
-    <p class="note">
-      The API hard-caps descriptions at <strong>500 characters</strong>
-      and <strong>99.5%</strong> of postings are truncated. This
-      measures tools mentioned in the <em>title or opening
-      paragraph</em>, not tools required. These are floors, not
-      requirement rates. The truncation window is identical for every
-      posting, so comparisons between tools hold; absolute percentages
-      do not.
-    </p>
-    <canvas id="skills" height="250"></canvas>
-  </section>
-
   <section id="skillrole-section" hidden>
     <h2>Which tools does each role ask for?
         <span class="pill">not every tool is extracted</span></h2>
@@ -389,33 +308,83 @@
       </div>
     </div>
   </section>
-
   <section>
-    <h2>Tools by category</h2>
+    <h2>Most mentioned tools
+        <span class="pill">read the details</span></h2>
     <p class="note">
-      The same mentions grouped into cloud, database, BI, processing
-      and so on. Same truncation caveat applies.
+      The API hard-caps descriptions at <strong>500 characters</strong>
+      and <strong>99.5%</strong> of postings are truncated. This
+      measures tools mentioned in the <em>title or opening
+      paragraph</em>, not tools required. These are floors, not
+      requirement rates. The truncation window is identical for every
+      posting, so comparisons between tools hold; absolute percentages
+      do not.
     </p>
-    <canvas id="skillcat" height="200"></canvas>
+    <canvas id="skills" height="250"></canvas>
   </section>
 
+  <!-- ============ ROLES AND SENIORITY ============ -->
   <section>
-    <h2>Are the popular tools also the stuck ones?</h2>
+    <h2>Role and seniority, side by side</h2>
     <p class="note">
-      Every tool in the dictionary, plotted by how often it is mentioned
-      (across) against the average age of the postings mentioning it
-      (up). Bubble size is the number of postings. High and left means a
-      niche tool attached to roles that sit open for months; low and
-      right means a common tool in roles that move.
-      <strong>Click any category in the legend to show or hide it, and
-      hover a bubble for the exact figures.</strong> The same truncation
-      caveat applies.
+      Every role family against every seniority level. Darker means
+      more postings. The junior column is the point: 132 of 3,991
+      postings, 3.3%, and two families with none at all. Seniority is
+      inferred from title keywords, so "mid" means "neither junior nor
+      senior stated" rather than a stated mid-level role. Entry
+      programmes (Ausbildung, duales Studium, Werkstudent, Praktikum,
+      Trainee) are excluded, so junior counts cover junior-titled
+      permanent roles only.
     </p>
-    <canvas id="skillscatter" height="260"></canvas>
+    <div id="heat" class="hm"></div>
+  </section>
+  <section>
+    <h2>Does seniority change how long a job stays open?</h2>
+    <p class="note">Average days open by seniority level.</p>
+    <canvas id="senage" height="130"></canvas>
+  </section>
+  <section>
+    <h2>Which data role is which?</h2>
+    <p class="note">
+      Roles are classified from the job title, not from the search that
+      found the posting. Volume shows where demand is; average age
+      shows which roles employers struggle to fill.
+    </p>
+    <div class="grid2">
+      <div>
+        <h3 class="subh">Absolute postings per job title</h3>
+        <canvas id="rolevol" height="230"></canvas>
+      </div>
+      <div>
+        <h3 class="subh">Average days open per job title</h3>
+        <canvas id="roleage" height="230"></canvas>
+      </div>
+    </div>
+  </section>
+  <section>
+    <h2>How many are still open after X days?</h2>
+    <p class="note">
+      A classic survival curve. Of every 100 live postings, how many
+      have already been open at least this long. The steep drop in the
+      first month is healthy churn. The flat tail is what drags the
+      average to <strong><span id="f-mean">&ndash;</span> days against
+      a median of <span id="f-median">&ndash;</span></strong>, and that
+      gap is the whole story: half the market moves in weeks, and a
+      long tail of very old listings pulls the mean up behind it.
+    </p>
+    <canvas id="surv" height="180"></canvas>
   </section>
 
-  <!-- ============ EMPLOYERS ============ -->
-
+  <!-- ============ MARKET STRUCTURE ============ -->
+  <section>
+    <h2>Which country asks for which role?</h2>
+    <p class="note">
+      Role mix as a share of each country's postings, so a small market
+      is comparable with a large one. This is where the three countries
+      actually differ.
+    </p>
+    <canvas id="ctryrole" height="230"></canvas>
+  </section>
   <section>
     <h2>Agencies vs direct employers</h2>
     <p class="note">
@@ -426,7 +395,6 @@
     </p>
     <canvas id="agency" height="150"></canvas>
   </section>
-
   <section>
     <h2>Which company has the most listings?</h2>
     <p class="note">
@@ -434,19 +402,6 @@
     </p>
     <canvas id="empvol" height="260"></canvas>
   </section>
-
-  <!-- ============ MARKET STRUCTURE ============ -->
-
-  <section>
-    <h2>How concentrated is each market?</h2>
-    <p class="note">
-      Average number of live postings per employer. A higher number
-      means fewer, larger employers doing the hiring; closer to 1 means
-      a long tail of companies each advertising a single role.
-    </p>
-    <canvas id="n10_fragment" height="180"></canvas>
-  </section>
-
   <section>
     <h2>Who publishes a salary?</h2>
     <p class="note">
@@ -455,11 +410,10 @@
       Swiss postings quote francs and German and Austrian ones euros,
       so only the disclosure rate is comparable, never the amounts.
     </p>
-    <canvas id="n11_salary" height="180"></canvas>
+    <canvas id="n11_salary" height="120"></canvas>
   </section>
 
   <!-- ============ HISTORY AND SELF-AUDIT ============ -->
-
   <section id="trend-section" hidden>
     <h2>Week over week</h2>
     <p class="note">
@@ -468,7 +422,6 @@
     </p>
     <canvas id="trend" height="190"></canvas>
   </section>
-
   <section>
     <h2>This pipeline's own error rates</h2>
     <p class="note">
@@ -966,6 +919,7 @@ const nk = s => String(s)
   const ns = "http://www.w3.org/2000/svg";
   let byRole = null;          /* { role: [rows] } or null */
   let current = "All roles";
+  let mode = "bubbles";       /* "bubbles" | "heat" */
 
   /* ---- draw the three country outlines once ---- */
   CORDER.forEach(c => {
@@ -1021,9 +975,82 @@ const nk = s => String(s)
   }
   function hideTip() { if (tip) tip.style.opacity = 0; }
 
-  /* ---- redraw bubbles, labels and the ranking table ---- */
+  /* ---- heat surface -------------------------------------------
+     A kernel density estimate rather than a pile of translucent
+     discs. Every city drops a Gaussian of weight sqrt(postings)
+     onto a 9px grid, the grid is normalised against its own peak
+     and painted through a six-stop cold-to-hot ramp, and a single
+     blur smooths the cells. Neighbouring cities therefore sum, so
+     the Rhine-Ruhr corridor reads as one hot region instead of
+     eight overlapping circles, which is the whole point of a heat
+     map over the bubble view. Cells outside all three country
+     outlines are dropped, so the surface never bleeds into the sea
+     or into France. Transparent hit circles sit on top, so the
+     tooltip behaves exactly as it does in bubble mode.          */
+  const HEAT = [[0, "#EDEAE2"], [.15, "#9FB4C4"], [.35, "#6E8CA0"],
+                [.55, "#C7A87C"], [.75, "#D97757"], [1, "#A63C22"]];
+  const CELL = 9, SIG = 24;
+  const GX = Math.ceil(W / CELL) + 1, GY = Math.ceil(H / CELL) + 1;
+
+  const hx = c => [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16));
+  function ramp(t) {
+    for (let i = 1; i < HEAT.length; i++) {
+      if (t <= HEAT[i][0]) {
+        const u = (t - HEAT[i - 1][0]) / (HEAT[i][0] - HEAT[i - 1][0]);
+        const A = hx(HEAT[i - 1][1]), B = hx(HEAT[i][1]);
+        return "rgb(" + A.map((v, k) =>
+          Math.round(v + (B[k] - v) * u)).join(",") + ")";
+      }
+    }
+    return HEAT[HEAT.length - 1][1];
+  }
+
+  function heatDefs() {
+    if (svg.querySelector("#heatdefs")) return;
+    const defs = document.createElementNS(ns, "defs");
+    defs.setAttribute("id", "heatdefs");
+    const f = document.createElementNS(ns, "filter");
+    f.setAttribute("id", "heatblur");
+    f.setAttribute("x", "-8%");  f.setAttribute("y", "-8%");
+    f.setAttribute("width", "116%"); f.setAttribute("height", "116%");
+    const b = document.createElementNS(ns, "feGaussianBlur");
+    b.setAttribute("stdDeviation", "6");
+    f.appendChild(b);
+    defs.appendChild(f);
+    svg.insertBefore(defs, svg.firstChild);
+  }
+
+  /* which grid cells fall on land, computed once */
+  let LAND = null;
+  function landMask() {
+    if (LAND) return LAND;
+    const polys = CORDER.map(c =>
+      OUTLINES[c].map(q => [px(q[0]), py(q[1])]));
+    const inside = (x, y, p) => {
+      let o = false;
+      for (let i = 0, j = p.length - 1; i < p.length; j = i++) {
+        const [xi, yi] = p[i], [xj, yj] = p[j];
+        if ((yi > y) !== (yj > y) &&
+            x < (xj - xi) * (y - yi) / (yj - yi) + xi) o = !o;
+      }
+      return o;
+    };
+    LAND = new Uint8Array(GX * GY);
+    for (let j = 0; j < GY; j++)
+      for (let i = 0; i < GX; i++)
+        LAND[j * GX + i] =
+          polys.some(p => inside(i * CELL, j * CELL, p)) ? 1 : 0;
+    return LAND;
+  }
+
+  /* ---- redraw the map and the ranking table ---- */
+  let lastRows = null;
+
   function draw(rows) {
-    svg.querySelectorAll(".bub,.lbl").forEach(n => n.remove());
+    if (rows) lastRows = rows;
+    rows = lastRows || [];
+
+    svg.querySelectorAll(".bub,.lbl,.heat,.hit").forEach(n => n.remove());
 
     const d = merge(rows);
     const known = d.filter(r => GEO[r.key])
@@ -1033,20 +1060,85 @@ const nk = s => String(s)
       const max = known[0].n_postings;
       const R = n => 5 + 28 * Math.sqrt(n / max);
 
-      known.forEach(r => {
-        const [lon, lat] = GEO[r.key];
-        const c = document.createElementNS(ns, "circle");
-        c.setAttribute("class", "bub");
-        c.setAttribute("cx", px(lon));
-        c.setAttribute("cy", py(lat));
-        c.setAttribute("r", R(r.n_postings));
-        c.setAttribute("fill", CCOL[r.country] || CORAL);
-        c.setAttribute("fill-opacity", .82);
-        c.addEventListener("mouseenter", e => showTip(e, r));
-        c.addEventListener("mousemove", moveTip);
-        c.addEventListener("mouseleave", hideTip);
-        svg.appendChild(c);
-      });
+      if (mode === "heat") {
+        heatDefs();
+        const land = landMask();
+
+        const field = new Float64Array(GX * GY);
+        const span = Math.ceil(SIG * 2.5 / CELL);
+        known.forEach(r => {
+          const [lon, lat] = GEO[r.key];
+          const cx = px(lon), cy = py(lat);
+          const w = Math.sqrt(r.n_postings);
+          const gx = Math.round(cx / CELL), gy = Math.round(cy / CELL);
+          for (let i = gx - span; i <= gx + span; i++) {
+            if (i < 0 || i >= GX) continue;
+            for (let j = gy - span; j <= gy + span; j++) {
+              if (j < 0 || j >= GY) continue;
+              const dx = i * CELL - cx, dy = j * CELL - cy;
+              field[j * GX + i] +=
+                w * Math.exp(-(dx * dx + dy * dy) / (2 * SIG * SIG));
+            }
+          }
+        });
+
+        let fmax = 0;
+        for (let i = 0; i < field.length; i++)
+          if (field[i] > fmax) fmax = field[i];
+
+        const g = document.createElementNS(ns, "g");
+        g.setAttribute("class", "heat");
+        g.setAttribute("filter", "url(#heatblur)");
+        if (fmax > 0) {
+          for (let j = 0; j < GY; j++) {
+            for (let i = 0; i < GX; i++) {
+              const k = j * GX + i;
+              if (!land[k]) continue;
+              const t = field[k] / fmax;
+              if (t < 0.05) continue;
+              const rc = document.createElementNS(ns, "rect");
+              rc.setAttribute("x", i * CELL - CELL / 2);
+              rc.setAttribute("y", j * CELL - CELL / 2);
+              rc.setAttribute("width", CELL);
+              rc.setAttribute("height", CELL);
+              rc.setAttribute("fill", ramp(t));
+              rc.setAttribute("fill-opacity",
+                (0.18 + 0.72 * Math.min(1, t * 1.35)).toFixed(2));
+              g.appendChild(rc);
+            }
+          }
+        }
+        svg.appendChild(g);
+
+        /* transparent hit targets so the tooltip still works */
+        known.forEach(r => {
+          const [lon, lat] = GEO[r.key];
+          const c = document.createElementNS(ns, "circle");
+          c.setAttribute("class", "hit");
+          c.setAttribute("cx", px(lon));
+          c.setAttribute("cy", py(lat));
+          c.setAttribute("r", Math.max(9, R(r.n_postings)));
+          c.addEventListener("mouseenter", e => showTip(e, r));
+          c.addEventListener("mousemove", moveTip);
+          c.addEventListener("mouseleave", hideTip);
+          svg.appendChild(c);
+        });
+      } else {
+        known.forEach(r => {
+          const [lon, lat] = GEO[r.key];
+          const c = document.createElementNS(ns, "circle");
+          c.setAttribute("class", "bub");
+          c.setAttribute("cx", px(lon));
+          c.setAttribute("cy", py(lat));
+          c.setAttribute("r", R(r.n_postings));
+          c.setAttribute("fill", CCOL[r.country] || CORAL);
+          c.setAttribute("fill-opacity", .82);
+          c.addEventListener("mouseenter", e => showTip(e, r));
+          c.addEventListener("mousemove", moveTip);
+          c.addEventListener("mouseleave", hideTip);
+          svg.appendChild(c);
+        });
+      }
 
       CORDER.forEach(cc => {
         known.filter(r => r.country === cc).slice(0, 4).forEach(r => {
@@ -1106,6 +1198,23 @@ const nk = s => String(s)
         draw(current === "All roles"
              ? Object.values(byRole).flat()
              : (byRole[current] || []));
+      });
+    });
+  }
+
+  /* ---- bubbles / heat toggle ---- */
+  const modePick = document.getElementById("mapmode");
+  if (modePick) {
+    modePick.querySelectorAll("button").forEach(b => {
+      b.addEventListener("click", () => {
+        mode = b.dataset.mode;
+        modePick.querySelectorAll("button").forEach(x =>
+          x.setAttribute("aria-pressed", x.dataset.mode === mode));
+        const lb = document.getElementById("leg-bubbles");
+        const lh = document.getElementById("leg-heat");
+        if (lb) lb.hidden = mode !== "bubbles";
+        if (lh) lh.hidden = mode !== "heat";
+        draw();
       });
     });
   }
@@ -1782,7 +1891,8 @@ get("history").then(h => {
             html += `<optgroup label="${CNAME[c.country] ||
                      String(c.country).toUpperCase()}">`;
           }
-          html += `<option value="${i}">${c.label} &middot; ` +
+          html += `<option value="${i}">${c.label} ` +
+                  `(${String(c.country).toUpperCase()}) &middot; ` +
                   `${c.n}</option>`;
         });
         if (open !== null) html += `</optgroup>`;
@@ -1790,9 +1900,9 @@ get("history").then(h => {
       }
 
       function fillCities(keepA, keepB) {
-        const html = optionMarkup();
-        selA.innerHTML = html;
-        selB.innerHTML = html;
+        const markup = optionMarkup();
+        selA.innerHTML = markup;
+        selB.innerHTML = markup;
         const ia = cities.findIndex(c => c.key === keepA);
         const ib = cities.findIndex(c => c.key === keepB);
         selA.value = ia >= 0 ? ia : 0;
@@ -1802,9 +1912,8 @@ get("history").then(h => {
       }
 
       function series(c, colour) {
-        const name = `${c.label} (${String(c.country).toUpperCase()})`;
         return {
-          label: name,
+          label: `${c.label} (${String(c.country).toUpperCase()})`,
           data: AX.map(([, f]) =>
             +(100 * (+c[f] || 0) / maxes[f]).toFixed(1)),
           raws: AX.map(([, f, fmt]) => fmt(+c[f] || 0)),
