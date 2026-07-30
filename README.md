@@ -38,7 +38,7 @@ data roles, aggregated and published to the site automatically.
 | Data governance | 99 |
 | Analytics engineer | 71 |
 
-**Junior roles barely exist.** 159 of 4,407 postings, **3.6%**, carry a
+**Junior roles barely exist.** 159 of 3906 postings, **3.9%**, carry a
 junior title. Ten senior openings for every junior one. `data architect`
 has zero.
 
