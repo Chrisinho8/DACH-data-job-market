@@ -5,7 +5,7 @@
 ![tests](https://github.com/Chrisinho8/DACH-data-job-market/actions/workflows/tests.yml/badge.svg)
 
 
-**[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** for maps, country comparisons and role breakdowns. (Last updated: 30/07/2026)
+**[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** (Last updated: 1/08/2026)
  
  
 A weekly snapshot of the DACH data-job market: 3,991 live postings across Germany, Austria and Switzerland, of which just 132 (3.3%) are advertised as junior. That is eleven senior openings for every junior one, and none at all for data architects or BI developers.
