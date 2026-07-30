@@ -23,18 +23,7 @@ data roles, aggregated and published to the site automatically.
 
 ## What the data says (Main insights)
 
-**Junior roles barely exist.** 159 of 4,407 postings, **3.6%**, carry a
-junior title. Ten senior openings for every junior one. `data architect`
-has zero.
-
-**Jobs seniority comparison:**
-| Seniority | Postings | Share |
-|---|---|---|
-| Junior | 159 | 3.6% |
-| Mid | 2,619 | 59.4% |
-| Senior | 1,629 | 37.0% |
-
-**Job offerings per job-field?**
+**Job offerings per job-field**
 | Role family | Postings |
 |---|---|
 | AI / ML | 1,520 |
@@ -47,6 +36,18 @@ has zero.
 | Data consultant | 167 |
 | Data governance | 99 |
 | Analytics engineer | 71 |
+
+**Junior roles barely exist.** 159 of 4,407 postings, **3.6%**, carry a
+junior title. Ten senior openings for every junior one. `data architect`
+has zero.
+
+
+**Jobs seniority comparison:**
+| Seniority | Postings | Share |
+|---|---|---|
+| Junior | 159 | 3.6% |
+| Mid | 2,619 | 59.4% |
+| Senior | 1,629 | 37.0% |
 
 
 The search parameter is a keyword match, not a title match, so these
