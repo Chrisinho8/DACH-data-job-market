@@ -1,4 +1,8 @@
 # What's up with the data-job market in Austria/Germany/Switzerland?
+
+
+**[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** for maps, country comparisons and role breakdowns. (Last updated: 30/07/2026)
+ 
  
 ![tests](https://github.com/Chrisinho8/DACH-data-job-market/actions/workflows/tests.yml/badge.svg)
  
@@ -6,7 +10,8 @@ A weekly snapshot of the DACH data-job market: 3,991 live postings across German
  
 Every Monday at 06:00 a Databricks pipeline queries the Adzuna API for 15 job titles across all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 47-term skills dictionary, and publishes the aggregates to a static site.
  
-**[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** for maps, country comparisons and role breakdowns. (Last updated: 30/07/2026)
+
+
  
 **This is not a job board.** It will not help you find a role and it does not link to or republish individual postings. It describes the *shape* of the market: how long roles stay open, how few are junior, which cities hire in English.
  
