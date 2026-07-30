@@ -123,6 +123,7 @@
     border-radius:7px;border:1px solid var(--line);background:#FCFBF8;
     color:var(--ink);cursor:pointer;max-width:210px}
   .cmp select:hover{border-color:var(--clay)}
+  .cmp optgroup{font-weight:700;color:var(--slate)}
   .cmp .hint{font-size:11.5px;color:#8A857C;align-self:center;
              font-weight:400}
   #cmptable td:first-child{font-weight:500;color:#5C5A54}
@@ -311,7 +312,8 @@
       scaled against the highest value across every qualifying city, so
       the shape shows relative position rather than raw units, and the
       two shapes are directly comparable. The exact figures are in the
-      table beside it.
+      table beside it. Cities are grouped by country and ordered by
+      volume inside each country.
     </p>
     <p class="note">
       <strong>Small cities are noisy.</strong> The posting count for
@@ -1621,17 +1623,28 @@ get("history").then(h => {
    carries pct_english / pct_agency only once the gold layer has
    been rerun with those two columns added. The axis list is
    therefore built from the columns actually present, so the page
-   degrades to three axes instead of drawing empty ones.         */
+   degrades to three axes instead of drawing empty ones.
+
+   Both dropdowns are grouped by country in CORDER, and ordered
+   by live listings descending inside each country group.        */
 (function () {
-  const el     = document.getElementById("citycmp");
-  const selA   = document.getElementById("cmpA");
-  const selB   = document.getElementById("cmpB");
-  const selR   = document.getElementById("cmpRole");
-  const tbl    = document.getElementById("cmptable");
+  const el   = document.getElementById("citycmp");
+  const selA = document.getElementById("cmpA");
+  const selB = document.getElementById("cmpB");
+  const selR = document.getElementById("cmpRole");
+  const tbl  = document.getElementById("cmptable");
   if (!el || !selA || !selB) return;
 
   /* a city needs at least this many live postings to be offered */
   const MIN_N = 3;
+
+  /* country first, then volume descending inside the country */
+  const cidx = c => {
+    const i = CORDER.indexOf(c);
+    return i < 0 ? 99 : i;
+  };
+  const byCountryThenSize = (a, b) =>
+    cidx(a.country) - cidx(b.country) || b.listings - a.listings;
 
   let chart = null;
 
@@ -1666,7 +1679,8 @@ get("history").then(h => {
         .filter(r => r.city && r.city !== "unknown" && r.n_postings >= MIN_N)
         .map(r => ({
           key: `${r.country}|${r.city}`,
-          label: `${cap(r.city)} (${String(r.country).toUpperCase()})`,
+          label: cap(r.city),
+          country: r.country,
           n: r.n_postings,
           listings: r.n_postings,
           age: r.avg_age_days,
@@ -1674,7 +1688,7 @@ get("history").then(h => {
           agency: r.pct_agency,
           ai: aiShare[`${r.country}|${r.city}`] ?? 0
         }))
-        .sort((a, b) => b.listings - a.listings);
+        .sort(byCountryThenSize);
 
       if (allCities.length < 2) return;
 
@@ -1682,7 +1696,7 @@ get("history").then(h => {
          never offers a city the all-roles view would have hidden */
       const eligible = new Set(allCities.map(c => c.key));
 
-      /* ---- city list for one role ---- */
+      /* ---- city list per role ---- */
       const roleCities = {};
       if (hasRoles) {
         cr.forEach(r => {
@@ -1693,7 +1707,8 @@ get("history").then(h => {
           (roleCities[r.role_family] = roleCities[r.role_family] || [])
             .push({
               key,
-              label: `${cap(r.city)} (${String(r.country).toUpperCase()})`,
+              label: cap(r.city),
+              country: r.country,
               n: r.n_postings,
               listings: r.n_postings,
               age: r.avg_age_days,
@@ -1702,8 +1717,7 @@ get("history").then(h => {
               share: tot ? +(100 * r.n_postings / tot).toFixed(1) : 0
             });
         });
-        Object.values(roleCities)
-          .forEach(l => l.sort((a, b) => b.listings - a.listings));
+        Object.values(roleCities).forEach(l => l.sort(byCountryThenSize));
       }
 
       /* ---- axis definitions ---- */
@@ -1715,13 +1729,13 @@ get("history").then(h => {
         ["% AI / ML roles", "ai",       v => v + "%"]
       ];
       const AX_ROLE = [
-        ["Live listings",       "listings", v => v.toLocaleString()],
-        ["Avg days open",       "age",      v => Math.round(v) + " d"]
+        ["Live listings", "listings", v => v.toLocaleString()],
+        ["Avg days open", "age",      v => Math.round(v) + " d"]
       ].concat(roleHasPct ? [
-        ["% in English",        "english",  v => v + "%"],
-        ["% via agency",        "agency",   v => v + "%"]
+        ["% in English",  "english",  v => v + "%"],
+        ["% via agency",  "agency",   v => v + "%"]
       ] : []).concat([
-        ["% of city's postings", "share",   v => v + "%"]
+        ["% of city's postings", "share", v => v + "%"]
       ]);
 
       /* ---- role dropdown ---- */
@@ -1757,21 +1771,40 @@ get("history").then(h => {
           maxes[f] = Math.max(...cities.map(c => +c[f] || 0)) || 1);
       }
 
+      /* one <optgroup> per country, in CORDER, options already in
+         volume order because the array itself is sorted that way */
+      function optionMarkup() {
+        let html = "", open = null;
+        cities.forEach((c, i) => {
+          if (c.country !== open) {
+            if (open !== null) html += `</optgroup>`;
+            open = c.country;
+            html += `<optgroup label="${CNAME[c.country] ||
+                     String(c.country).toUpperCase()}">`;
+          }
+          html += `<option value="${i}">${c.label} &middot; ` +
+                  `${c.n}</option>`;
+        });
+        if (open !== null) html += `</optgroup>`;
+        return html;
+      }
+
       function fillCities(keepA, keepB) {
-        const opt = (c, i) =>
-          `<option value="${i}">${c.label} &middot; ${c.n}</option>`;
-        selA.innerHTML = cities.map(opt).join("");
-        selB.innerHTML = cities.map(opt).join("");
+        const html = optionMarkup();
+        selA.innerHTML = html;
+        selB.innerHTML = html;
         const ia = cities.findIndex(c => c.key === keepA);
         const ib = cities.findIndex(c => c.key === keepB);
         selA.value = ia >= 0 ? ia : 0;
-        selB.value = ib >= 0 && ib !== +selA.value
-                   ? ib : (cities.length > 1 ? (+selA.value === 0 ? 1 : 0) : 0);
+        selB.value = (ib >= 0 && ib !== +selA.value)
+                   ? ib
+                   : (cities.length > 1 ? (+selA.value === 0 ? 1 : 0) : 0);
       }
 
       function series(c, colour) {
+        const name = `${c.label} (${String(c.country).toUpperCase()})`;
         return {
-          label: c.label,
+          label: name,
           data: AX.map(([, f]) =>
             +(100 * (+c[f] || 0) / maxes[f]).toFixed(1)),
           raws: AX.map(([, f, fmt]) => fmt(+c[f] || 0)),
@@ -1787,11 +1820,12 @@ get("history").then(h => {
         const a = cities[+selA.value], b = cities[+selB.value];
         if (!a || !b) return;
 
+        const sa = series(a, CORAL), sb = series(b, STEEL);
+
         if (chart) chart.destroy();
         chart = new Chart(el, {
           type: "radar",
-          data: { labels: AX.map(x => x[0]),
-                  datasets: [series(a, CORAL), series(b, STEEL)] },
+          data: { labels: AX.map(x => x[0]), datasets: [sa, sb] },
           options: {
             plugins: {
               legend: { position: "bottom",
@@ -1811,20 +1845,19 @@ get("history").then(h => {
 
         if (tbl) {
           const rf = selR ? selR.value : "__all";
-          const cap_ = rf === "__all" ? "All roles" : rlab(rf);
           tbl.innerHTML =
-            `<tr><td>${cap_}</td>
-               <td class="num" style="color:${CORAL}">${a.label}</td>
-               <td class="num" style="color:${STEEL}">${b.label}</td></tr>` +
+            `<tr><td>${rf === "__all" ? "All roles" : rlab(rf)}</td>
+               <td class="num" style="color:${CORAL}">${sa.label}</td>
+               <td class="num" style="color:${STEEL}">${sb.label}</td></tr>` +
             AX.map(([name, f, fmt]) =>
               `<tr><td>${name}</td>
                  <td class="num">${fmt(+a[f] || 0)}</td>
                  <td class="num">${fmt(+b[f] || 0)}</td></tr>`).join("") +
             (rf !== "__all" && !roleHasPct
               ? `<tr><td colspan="3" style="color:#8A857C;font-weight:400">
-                   Language and agency splits are not published per
-                   city and role yet, so those axes are hidden in the
-                   role view.</td></tr>`
+                   Language and agency splits are not published per city
+                   and role yet, so those axes are hidden in the role
+                   view.</td></tr>`
               : "");
         }
       }
