@@ -32,7 +32,6 @@ test in `tests/test_matcher.py` that runs in CI on every push. See
  hire in English, using aggregate figures only.
 
 
-## What the data says (Main insights)
 
 ## What the data says (Main insights)
 
@@ -77,7 +76,6 @@ of that needs new code; it needs Mondays. And because every raw API
 response is cached, if the classification logic improves later the
 entire history can be reprocessed under the better rules without
 spending a single extra API call.
-
 
 
 ## Scope: what counts as a data job
