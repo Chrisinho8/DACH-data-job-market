@@ -71,13 +71,26 @@ EXPORTS = [
     (f"{GOLD}.city_breakdown",   "city_breakdown",   400),
     (f"{GOLD}.stale_by_company", "stale_by_company",  60),
     (f"{GOLD}.role_breakdown",   "role_breakdown",   200),
-    (f"{GOLD}.history", "history", 500000)
+    (f"{GOLD}.history", "history", 500000),
+    (f"{GOLD}.city_role_breakdown", "city_role_breakdown", 20000)
 ]
 
 for table, name, limit in EXPORTS:
     commit_json(f"docs/data/{name}.json",
                 records(table, limit),
                 f"data refresh {STAMP}: {name}")
+
+# COMMAND ----------
+
+from pyspark.sql import functions as F
+
+display(spark.table("jobs.silver.postings")
+    .groupBy("country").count())
+
+display(spark.table("jobs.silver.postings")
+    .filter("country IN ('at','ch')")
+    .groupBy("country", "city", "role_family").count()
+    .orderBy(F.desc("count")).limit(20))
 
 # COMMAND ----------
 

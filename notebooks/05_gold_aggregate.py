@@ -187,20 +187,39 @@ ORDER BY n DESC
 spark.sql(f"""
 CREATE OR REPLACE TABLE {GOLD}.city_breakdown AS
 SELECT
+  country,
   city,
-  COUNT(*)                          AS n_postings,
-  ROUND(AVG(age_days), 1)           AS avg_age_days,
+  COUNT(*)                                                AS n_postings,
+  ROUND(AVG(age_days), 1)                                 AS avg_age_days,
   ROUND(100 * AVG(CASE WHEN language = 'en' THEN 1 ELSE 0 END), 1)
-                                    AS pct_english,
+                                                          AS pct_english,
   ROUND(100 * AVG(CASE WHEN is_agency THEN 1 ELSE 0 END), 1)
-                                    AS pct_agency
+                                                          AS pct_agency
 FROM postings
-GROUP BY city
-
+GROUP BY country, city
 ORDER BY n_postings DESC
 """)
 
 display(spark.table(f"{GOLD}.city_breakdown"))
+
+# COMMAND ----------
+
+spark.sql(f"""
+CREATE OR REPLACE TABLE {GOLD}.city_role_breakdown AS
+SELECT
+  country,
+  city,
+  role_family,
+  COUNT(*)                AS n_postings,
+  ROUND(AVG(age_days), 1) AS avg_age_days
+FROM postings
+GROUP BY country, city, role_family
+HAVING COUNT(*) >= 1
+ORDER BY n_postings DESC
+""")
+
+print(spark.table(f"{GOLD}.city_role_breakdown").count(), "rows")
+display(spark.table(f"{GOLD}.city_role_breakdown").limit(20))
 
 # COMMAND ----------
 

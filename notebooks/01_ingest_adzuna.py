@@ -6,9 +6,7 @@
 # MAGIC Switzerland** and caches every raw response verbatim to a Unity
 # MAGIC Catalog volume.
 # MAGIC
-# MAGIC **The cache is the point.** The free tier is roughly 1,000 calls
-# MAGIC per month across all countries. Re-running this notebook costs
-# MAGIC zero extra calls for any query already on disk.
+# MAGIC
 # MAGIC
 
 # COMMAND ----------
@@ -151,7 +149,7 @@ for country in COUNTRIES:
                 print(f"{country}  {role:28} "
                       f"total={total:6} page1={n}")
 
-            if n < 50:                # end of this search
+            if n < 50:               
                 break
 
 print(f"\nAPI calls made this run : {calls_made}")
