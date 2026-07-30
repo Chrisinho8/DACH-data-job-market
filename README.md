@@ -10,21 +10,21 @@ Every Monday at 06:00 a Databricks pipeline queries the Adzuna API for 15 job ti
  
 **This is not a job board.** It will not help you find a role and it does not link to or republish individual postings. It describes the *shape* of the market: how long roles stay open, how few are junior, which cities hire in English.
  
-## What the data says
+## Main insights
  
-| Role family | Postings | Share | Junior | Senior | Avg days open | In English | DE | AT | CH |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| AI/ML Engineer | 1,435 | 36.0% | 57 | 563 | 47 d | 48% | 1,190 | 104 | 141 |
-| Data Engineer | 984 | 24.7% | 26 | 323 | 53 d | 25% | 838 | 72 | 74 |
-| Data Scientist | 391 | 9.8% | 22 | 192 | 64 d | 39% | 331 | 21 | 39 |
-| Data Architect | 260 | 6.5% | 0 | 130 | 49 d | 18% | 242 | 10 | 8 |
-| Data Analyst | 259 | 6.5% | 13 | 67 | 61 d | 30% | 206 | 30 | 23 |
-| BI Developer | 205 | 5.1% | 0 | 43 | 40 d | 12% | 187 | 8 | 10 |
-| Data Warehouse / ETL | 164 | 4.1% | 2 | 25 | 84 d | 5% | 147 | 12 | 5 |
-| Data Consultant | 135 | 3.4% | 7 | 60 | 76 d | 28% | 120 | 5 | 10 |
-| Data Governance and Security | 89 | 2.2% | 1 | 59 | 84 d | 35% | 76 | 3 | 10 |
-| Analytics Engineer | 69 | 1.7% | 4 | 29 | 54 d | 33% | 61 | 6 | 2 |
-| **Total** | **3,991** | **100%** | **132** | **1,491** | **54 d** | **33%** | **3,398** | **271** | **322** |
+| Role family | Postings | Share | Avg days open | DE | AT | CH |
+|---|---:|---:|---:|---:|---:|---:|
+| AI/ML Engineer | 1,435 | 36.0% | 47 d | 1,190 | 104 | 141 |
+| Data Engineer | 984 | 24.7% | 53 d | 838 | 72 | 74 |
+| Data Scientist | 391 | 9.8% | 64 d | 331 | 21 | 39 |
+| Data Architect | 260 | 6.5% | 49 d | 242 | 10 | 8 |
+| Data Analyst | 259 | 6.5% | 61 d | 206 | 30 | 23 |
+| BI Developer | 205 | 5.1% | 40 d | 187 | 8 | 10 |
+| Data Warehouse / ETL | 164 | 4.1% | 84 d | 147 | 12 | 5 |
+| Data Consultant | 135 | 3.4% | 76 d | 120 | 5 | 10 |
+| Data Governance and Security | 89 | 2.2% | 84 d | 76 | 3 | 10 |
+| Analytics Engineer | 69 | 1.7% | 54 d | 61 | 6 | 2 |
+| **Total** | **3,991** | **100%** | **54 d** | **3,398** | **271** | **322** |
 
 
 ## Skill extraction
