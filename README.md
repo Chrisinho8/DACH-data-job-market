@@ -34,7 +34,7 @@ has zero.
 | Mid | 2,619 | 59.4% |
 | Senior | 1,629 | 37.0% |
 
-**Job offerings per job-field (any other recommendations?)**
+**Job offerings per job-field?**
 | Role family | Postings |
 |---|---|
 | AI / ML | 1,520 |
@@ -48,15 +48,6 @@ has zero.
 | Data governance | 99 |
 | Analytics engineer | 71 |
 
-### Titles searched
-| | |
-|---|---|
-| `data engineer` | `data analyst` |
-| `data scientist` | `analytics engineer` |
-| `bi developer` | `machine learning engineer` |
-| `ai engineer` | `data architect` |
-| `etl developer` | `big data engineer` |
-| `mlops engineer` | 
 
 The search parameter is a keyword match, not a title match, so these
 queries overlap heavily and also drag in unrelated roles. Every posting
