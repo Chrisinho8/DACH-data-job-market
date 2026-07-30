@@ -75,6 +75,13 @@
   .cc dd{margin:0;text-align:right;font-weight:600;
          font-variant-numeric:tabular-nums}
   .cc .bar{height:4px;border-radius:2px;margin-bottom:14px}
+  .titlerow{display:flex;align-items:center;gap:22px}
+  .hdmark{flex:0 0 auto;width:86px;height:auto;display:block}
+  @media(max-width:720px){
+    .titlerow{gap:14px}
+    .hdmark{width:56px}
+  }
+
   .byline{margin:10px 0 0;font-size:13px;color:var(--slate)}
   .byline a{color:var(--coral);text-decoration:none;
             border-bottom:1px solid rgba(217,119,87,.35)}
@@ -137,6 +144,7 @@
     background:linear-gradient(90deg,#EDEAE2,#9FB4C4,#6E8CA0,
                                #C7A87C,#D97757,#A63C22)}
   #leg-heat span{display:flex;align-items:center;gap:8px}
+  .legend[hidden]{display:none}
 
   /* ---------- map role picker + tooltip ---------- */
   .pick{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
@@ -177,8 +185,13 @@
   <div class="wrap">
     <p class="eyebrow">Germany &middot; Austria &middot; Switzerland
        &middot; updated every Monday</p>
-    <h1>Whats up with the 
-        <em>data-job-market</em> in the DACH region?</h1>
+    <div class="titlerow">
+      <img class="hdmark" src="assets/dach.svg" alt=""
+           width="86" height="107" loading="eager"
+           onerror="this.remove()">
+      <h1>Whats up with the
+          <em>data-job-market</em> in the DACH region?</h1>
+    </div>
     <p class="sub">
       Every week, data from job-postings across all three DACH
       countries get pulled from a public API, loaded into a Delta Lake
@@ -1204,7 +1217,7 @@ const nk = s => String(s)
 
     const top = d.filter(r => r.city !== "not specified")
                  .sort((a, b) => b.n_postings - a.n_postings)
-                 .slice(0, 14);
+                 .slice(0, 11);
     const body = document.getElementById("cityrank");
     if (!body) return;
     if (!top.length) {
