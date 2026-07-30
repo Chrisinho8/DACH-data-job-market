@@ -75,6 +75,11 @@
   .cc dd{margin:0;text-align:right;font-weight:600;
          font-variant-numeric:tabular-nums}
   .cc .bar{height:4px;border-radius:2px;margin-bottom:14px}
+  .byline{margin:10px 0 0;font-size:13px;color:var(--slate)}
+  .byline a{color:var(--coral);text-decoration:none;
+            border-bottom:1px solid rgba(217,119,87,.35)}
+  .byline a:hover{border-bottom-color:var(--coral)}
+
   .kpiblock{padding-top:40px}
 
   /* ---------- enhanced KPI block ---------- */
@@ -103,6 +108,23 @@
         font-size:11.5px;color:var(--slate)}
   .sleg span i{display:inline-block;width:9px;height:9px;
                border-radius:2px;margin-right:6px}
+
+  /* ---------- map style toggle ---------- */
+  .mapctl{display:flex;align-items:center;flex-wrap:wrap;
+          gap:10px 12px;margin:0 0 20px}
+  .mapctl .pick{margin:0}
+  .ctl-lab{font-size:11px;font-weight:700;letter-spacing:.07em;
+           text-transform:uppercase;color:#8A857C}
+  .ctl-role{padding-left:6px;border-left:1px solid var(--line)}
+  @media(max-width:720px){.ctl-role{border-left:0;padding-left:0}}
+  .seg{display:inline-flex;border:1px solid var(--clay);
+       border-radius:8px;overflow:hidden;background:#FCFBF8}
+  .seg button{font:600 12.5px/1 system-ui,sans-serif;cursor:pointer;
+    padding:8px 15px;border:0;background:transparent;
+    color:var(--slate);transition:.12s}
+  .seg button + button{border-left:1px solid var(--line)}
+  .seg button:hover{background:#F3EFE7;color:var(--ink)}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
 
   /* ---------- map heat mode ---------- */
   #map .hit{fill:transparent;cursor:default}
@@ -159,6 +181,14 @@
       pipeline on Databricks, and aggregated for various metrics and KPI's.
     </p>
     <p class="meta" id="meta">Loading&hellip;</p>
+    <p class="byline">
+      Built by <a href="https://www.linkedin.com/in/cruckensteiner112"
+                  target="_blank" rel="noopener">Chrisinho on
+      LinkedIn</a> &middot;
+      <a href="https://github.com/Chrisinho8/DACH-data-job-market"
+         target="_blank" rel="noopener">source, method and full
+      limitations</a>
+    </p>
   </div>
 </header>
 
@@ -195,13 +225,17 @@
       the map as where jobs are <em>known</em> to be rather than a
       complete census.
     </p>
-    <div id="mapmode" class="pick">
-      <button type="button" data-mode="bubbles"
-              aria-pressed="true">Bubbles</button>
-      <button type="button" data-mode="heat"
-              aria-pressed="false">Heat map</button>
+    <div class="mapctl">
+      <span class="ctl-lab">Map style</span>
+      <div id="mapmode" class="seg">
+        <button type="button" data-mode="bubbles"
+                aria-pressed="true">Bubbles</button>
+        <button type="button" data-mode="heat"
+                aria-pressed="false">Heat map</button>
+      </div>
+      <span class="ctl-lab ctl-role">Role</span>
+      <div id="rolepick" class="pick"></div>
     </div>
-    <div id="rolepick" class="pick"></div>
     <div class="maprow">
       <div>
         <svg id="map" viewBox="0 0 640 800"
@@ -524,6 +558,20 @@ const ROLE_LABEL = {
   "bi developer":       "BI Developer",
   "all roles":          "All roles"
 };
+/* Chart.js clips a y-axis label once it needs more than about a
+   third of the chart width, which truncated "Data Governance and
+   Security". An array of strings renders as stacked lines, so wrap
+   long names instead of shortening them.                          */
+const wrap = (s, max = 15) => {
+  const out = [];
+  String(s).split(" ").forEach(w => {
+    if (out.length && (out[out.length - 1] + " " + w).length <= max)
+      out[out.length - 1] += " " + w;
+    else out.push(w);
+  });
+  return out.length > 1 ? out : out[0];
+};
+
 /* falls back to title case for anything the map has not seen */
 const rlab = s => ROLE_LABEL[String(s).toLowerCase()] ||
   String(s).split(" ").map(w =>
@@ -610,20 +658,15 @@ get("meta").then(m => {
 
   const ratio = m.median_age_days
     ? (m.avg_age_days / m.median_age_days).toFixed(1) : null;
-  const oneIn = m.pct_over_60d
-    ? Math.round(100 / m.pct_over_60d) : null;
 
   const cards = [
     [CORAL, m.live_postings.toLocaleString(), "Live postings",
      "Germany, Austria and Switzerland"],
     [STEEL, m.employers.toLocaleString(), "Employers",
      "advertising at least one data role"],
-    [MOSS, m.median_age_days + " d", "Median days open",
-     "half the market turns over inside this"],
     [CLAY, Math.round(m.avg_age_days) + " d", "Mean days open",
-     ratio ? `${ratio}× the median — the tail is long` : ""],
-    [DEEP, m.pct_over_60d + "%", "Open over 60 days",
-     oneIn ? `roughly one posting in ${oneIn}` : ""],
+     ratio ? `${ratio}× the median of ${m.median_age_days} days`
+           : ""],
     [SAGE, "…", "Advertised as junior", "loading"],
   ];
 
@@ -1256,12 +1299,12 @@ get("role_breakdown").then(d => {
     .sort((a, b) => b.n - a.n);
   const roles = rows.map(r => r.role);
 
-  bar("rolevol", roles.map(rlab),
+  bar("rolevol", roles.map(r => wrap(rlab(r))),
       [ds("Live postings", rows.map(r => r.n),
           rows.map((_, i) => cyc(i)))], true);
 
   const byAge = rows.slice().sort((a, b) => b.age - a.age);
-  bar("roleage", byAge.map(r => rlab(r.role)),
+  bar("roleage", byAge.map(r => wrap(rlab(r.role))),
       [ds("Avg days open", byAge.map(r => Math.round(r.age)),
           byAge.map(r => ageColour(r.age)))], true);
 
