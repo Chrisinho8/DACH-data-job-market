@@ -18,6 +18,10 @@
 <style>
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
   @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+  .chartbox{position:relative;height:560px}
+  .grid2.single{grid-template-columns:1fr}
+  .grid2.single .chartbox{height:660px}
+  @media(max-width:720px){.chartbox,.grid2.single .chartbox{height:460px}}
 
   .maprow{display:grid;grid-template-columns:1.05fr .95fr;
           gap:28px;align-items:start}
@@ -307,53 +311,43 @@
 
   <!-- ============ TOOLS ============ -->
   <section id="skillrole-section" hidden>
-    <h2>Which tools does each role ask for?
+    <h2>Which tools do postings ask for?
         <span class="pill">READ CAVEAT</span></h2>
     <p class="note">
-      Pick a role family below. The left chart is the share of that
-      role's own postings mentioning each tool. The right chart is the
-      same figure minus the market-wide rate, so it shows what makes a
-      role <em>distinctive</em> rather than what is simply common
+      <strong>All roles</strong> shows the market-wide share of postings
+      mentioning each tool. Pick a role family and the left chart
+      switches to that role's own postings, while the right chart shows
+      the same figure minus the market-wide rate, so it reads what makes
+      a role <em>distinctive</em> rather than what is simply common
       everywhere. Denominators are per role, so analytics engineer with
       69 postings stays comparable with AI / ML at 1,435.
     </p>
     <p class="note">
       <strong>Not every skill in a posting is extracted, so read these
       as floors rather than requirement rates.</strong> The API
-      hard-caps descriptions at 500 characters and 99.5% of postings are
-      truncated, so any tool named further down an advert is never
-      counted. The truncation window is identical for every
-      posting, so comparing tools with each other holds; treating any
-      single percentage as the real requirement rate does not.
+      hard-caps descriptions at <strong>500 characters</strong> and
+      <strong>99.5%</strong> of postings are truncated, so this measures
+      tools named in the <em>title or opening paragraph</em>, not tools
+      required. The truncation window is identical for every posting, so
+      comparing tools with each other holds; treating any single
+      percentage as the real requirement rate does not.
     </p>
-    <div class="cmp">
-      <label>Role <select id="srsel"></select></label>
-      <span class="hint">mentions in title or first paragraph only</span>
-    </div>
-    <div class="grid2">
-      <div>
-        <h3 class="subh">Share of this role's postings mentioning it</h3>
-        <canvas id="skillrole" height="300"></canvas>
+    <div class="mapctl">
+      <div class="ctlrow ctlrow-roles">
+        <span class="ctl-lab">Role</span>
+        <div id="srpick" class="pick"></div>
       </div>
+    </div>
+    <div class="grid2" id="srgrid">
       <div>
+        <h3 class="subh" id="srtitleA">Share of postings mentioning it</h3>
+        <div class="chartbox"><canvas id="skillrole"></canvas></div>
+      </div>
+      <div id="srdiffwrap">
         <h3 class="subh">Difference from the market-wide rate</h3>
-        <canvas id="skillrolediff" height="300"></canvas>
+        <div class="chartbox"><canvas id="skillrolediff"></canvas></div>
       </div>
     </div>
-  </section>
-  <section>
-    <h2>Most mentioned tools
-        <span class="pill">READ CAVEAT</span></h2>
-    <p class="note">
-      The API hard-caps descriptions at <strong>500 characters</strong>
-      and <strong>99.5%</strong> of postings are truncated. This
-      measures tools mentioned in the <em>title or opening
-      paragraph</em>, not tools required. These are floors, not
-      requirement rates. The truncation window is identical for every
-      posting, so comparisons between tools hold; absolute percentages
-      do not.
-    </p>
-    <canvas id="skills" height="250"></canvas>
   </section>
 
   <!-- ============ ROLES AND SENIORITY ============ -->
@@ -1386,12 +1380,6 @@ get("stale_by_company").then(d => {
 get("skill_demand").then(d => {
   if (!d || !d.length) return;
 
-  const top = d.filter(r => r.skill !== "sap").slice(0, 20);
-  bar("skills", top.map(r => r.skill),
-      [ds("% of postings mentioning",
-          top.map(r => r.pct_postings),
-          top.map((_, i) => cyc(i)))], true);
-
   const byCat = {};
   d.forEach(r => {
     const c = r.skill_category || "other";
@@ -1574,14 +1562,19 @@ get("history").then(h => {
    Needs gold.skill_by_role. The section stays hidden until the
    pipeline publishes it, rather than showing empty axes.      */
 (function () {
-  const sec = document.getElementById("skillrole-section");
-  const sel = document.getElementById("srsel");
-  if (!sec || !sel) return;
+  const sec  = document.getElementById("skillrole-section");
+  const pick = document.getElementById("srpick");
+  const grid = document.getElementById("srgrid");
+  const diffwrap = document.getElementById("srdiffwrap");
+  const titleA = document.getElementById("srtitleA");
+  if (!sec || !pick) return;
 
+  const NBARS = 15;
   let chartA = null, chartB = null;
 
   const opts = (fmtLabel, fmtTip) => ({
     indexAxis: "y",
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
       tooltip: { callbacks: { label: fmtTip } }
@@ -1594,32 +1587,72 @@ get("history").then(h => {
 
   Promise.all([get("skill_by_role"), get("skill_demand")])
     .then(([sr, sd]) => {
-      if (!sr || !sr.length || sr[0].role_family === undefined) return;
+      const hasRoles = sr && sr.length && sr[0].role_family !== undefined;
+      if (!hasRoles && (!sd || !sd.length)) return;
 
       /* market-wide rate per skill, for the difference chart */
       const base = {};
       (sd || []).forEach(r => base[r.skill] = r.pct_postings);
 
       const byRole = {};
-      sr.forEach(r => {
+      (hasRoles ? sr : []).forEach(r => {
         (byRole[r.role_family] = byRole[r.role_family] || []).push(r);
       });
 
-      const size = rf => (byRole[rf][0] || {}).role_postings || 0;
+      const size = rf => ((byRole[rf] || [])[0] || {}).role_postings || 0;
       const roles = Object.keys(byRole).sort((a, b) => size(b) - size(a));
-      if (!roles.length) return;
 
-      let current = roles[0];
+      const ALL = "All roles";
+      let current = ALL;
       sec.hidden = false;
 
+      /* ---- All roles: one full-width market-wide chart ---- */
+      function drawAll() {
+        grid.classList.add("single");
+        if (diffwrap) diffwrap.hidden = true;
+        if (chartB) { chartB.destroy(); chartB = null; }
+        if (titleA) titleA.textContent =
+          "Share of all postings mentioning it";
+
+        const top = (sd || []).filter(r => r.skill !== "sap")
+          .slice(0, NBARS);
+        if (!top.length) return;
+
+        if (chartA) chartA.destroy();
+        chartA = new Chart(document.getElementById("skillrole"), {
+          type: "bar",
+          data: {
+            labels: top.map(r => r.skill),
+            datasets: [{
+              data: top.map(r => r.pct_postings),
+              backgroundColor: top.map((_, i) => cyc(i)),
+              borderRadius: 3, barPercentage: .82,
+              n: top.map(r => r.n_postings)
+            }]
+          },
+          options: opts("% of all postings mentioning it",
+            c => `${c.label}: ${c.raw}%` +
+                 (c.dataset.n[c.dataIndex] != null
+                   ? ` (${c.dataset.n[c.dataIndex].toLocaleString()} postings)`
+                   : ""))
+        });
+      }
+
       function draw() {
+        if (current === ALL) return drawAll();
+
+        grid.classList.remove("single");
+        if (diffwrap) diffwrap.hidden = false;
+
         const rows = byRole[current] || [];
         const n = size(current);
+        if (titleA) titleA.textContent =
+          "Share of this role's postings mentioning it";
 
         /* --- left: top tools inside this role --- */
         const top = rows.slice()
           .sort((a, b) => b.pct_role_postings - a.pct_role_postings)
-          .slice(0, 12);
+          .slice(0, NBARS);
 
         if (chartA) chartA.destroy();
         chartA = new Chart(document.getElementById("skillrole"), {
@@ -1648,7 +1681,7 @@ get("history").then(h => {
                        mkt: base[r.skill] ?? 0 }))
           .sort((a, b) => b.d - a.d);
 
-        const over  = diffs.filter(x => x.d > 0).slice(0, 7);
+        const over  = diffs.filter(x => x.d > 0).slice(0, 8);
         const under = diffs.filter(x => x.d < 0).slice(-7);
         const both  = over.concat(under);
 
@@ -1676,14 +1709,23 @@ get("history").then(h => {
         });
       }
 
-      sel.innerHTML = roles.map(r =>
-        `<option value="${r}">${rlab(r)} ` +
-        `(n=${size(r).toLocaleString()})</option>`).join("");
-      sel.value = current;
+      const names = [ALL].concat(roles);
+      pick.innerHTML = names.map(n =>
+        `<button type="button" data-role="${n}"
+                 title="${n === ALL ? "every posting"
+                          : size(n).toLocaleString() + " postings"}"
+                 aria-pressed="${n === current}">` +
+        `${n === ALL ? ALL : rlab(n)}</button>`).join("")
+        + `<span class="hint">mentions in title or first
+             paragraph only</span>`;
 
-      sel.addEventListener("change", () => {
-        current = sel.value;
-        draw();
+      pick.querySelectorAll("button").forEach(b => {
+        b.addEventListener("click", () => {
+          current = b.dataset.role;
+          pick.querySelectorAll("button").forEach(x =>
+            x.setAttribute("aria-pressed", x.dataset.role === current));
+          draw();
+        });
       });
 
       draw();
