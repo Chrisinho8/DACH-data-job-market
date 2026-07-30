@@ -6,6 +6,7 @@
 
 **[Live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)**
 : maps, country comparisons and role breakdowns, rebuilt every Monday.
+(Last updated: 30/07/2026)
 
 ## What the tracker does
 Every Monday at 06:00 it queries the Adzuna API for 15 job titles in
