@@ -110,13 +110,17 @@
                border-radius:2px;margin-right:6px}
 
   /* ---------- map style toggle ---------- */
-  .mapctl{display:flex;align-items:center;flex-wrap:wrap;
-          gap:10px 12px;margin:0 0 20px}
-  .mapctl .pick{margin:0}
-  .ctl-lab{font-size:11px;font-weight:700;letter-spacing:.07em;
-           text-transform:uppercase;color:#8A857C}
-  .ctl-role{padding-left:6px;border-left:1px solid var(--line)}
-  @media(max-width:720px){.ctl-role{border-left:0;padding-left:0}}
+  .mapctl{margin:0 0 20px}
+  .ctlrow{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .ctlrow-roles{align-items:flex-start;margin-bottom:0}
+  .mapctl .pick{margin:0;flex:1}
+  .ctl-lab{flex:0 0 74px;font-size:11px;font-weight:700;
+           letter-spacing:.07em;text-transform:uppercase;
+           color:#8A857C;line-height:1.9}
+  @media(max-width:720px){
+    .ctlrow{flex-direction:column;align-items:flex-start;gap:7px}
+    .ctl-lab{flex:none;line-height:1.4}
+  }
   .seg{display:inline-flex;border:1px solid var(--clay);
        border-radius:8px;overflow:hidden;background:#FCFBF8}
   .seg button{font:600 12.5px/1 system-ui,sans-serif;cursor:pointer;
@@ -183,8 +187,8 @@
     <p class="meta" id="meta">Loading&hellip;</p>
     <p class="byline">
       Built by <a href="https://www.linkedin.com/in/cruckensteiner112"
-                  target="_blank" rel="noopener">Chrisinho on
-      LinkedIn</a> &middot;
+                  target="_blank" rel="noopener">Christoph
+      Ruckensteiner</a> &middot;
       <a href="https://github.com/Chrisinho8/DACH-data-job-market"
          target="_blank" rel="noopener">source, method and full
       limitations</a>
@@ -197,11 +201,6 @@
   <!-- ============ HEADLINE ============ -->
   <section class="kpiblock">
     <div id="kpi" class="kpi"></div>
-    <div class="agebox">
-      <div class="t">Age of every live posting</div>
-      <div id="agestrip" class="strip"></div>
-      <div id="agestriplegend" class="sleg"></div>
-    </div>
   </section>
 
   <!-- ============ GEOGRAPHY ============ -->
@@ -226,15 +225,19 @@
       complete census.
     </p>
     <div class="mapctl">
-      <span class="ctl-lab">Map style</span>
-      <div id="mapmode" class="seg">
-        <button type="button" data-mode="bubbles"
-                aria-pressed="true">Bubbles</button>
-        <button type="button" data-mode="heat"
-                aria-pressed="false">Heat map</button>
+      <div class="ctlrow">
+        <span class="ctl-lab">Map style</span>
+        <div id="mapmode" class="seg">
+          <button type="button" data-mode="bubbles"
+                  aria-pressed="true">Bubbles</button>
+          <button type="button" data-mode="heat"
+                  aria-pressed="false">Heat map</button>
+        </div>
       </div>
-      <span class="ctl-lab ctl-role">Role</span>
-      <div id="rolepick" class="pick"></div>
+      <div class="ctlrow ctlrow-roles">
+        <span class="ctl-lab">Role</span>
+        <div id="rolepick" class="pick"></div>
+      </div>
     </div>
     <div class="maprow">
       <div>
@@ -603,7 +606,8 @@ function bar(id, labels, datasets, horizontal, stacked, pct) {
       scales: {
         x: { stacked: !!stacked, max: pct ? 100 : undefined,
              grid: { color: LINE, drawBorder: false } },
-        y: { stacked: !!stacked, grid: { display: false } }
+        y: { stacked: !!stacked, grid: { display: false },
+             ticks: { autoSkip: false } }
       }
     }
   });
@@ -688,7 +692,9 @@ get("meta").then(m => {
     const tot = rb.reduce((s, r) => s + r.n_postings, 0);
     const jr  = rb.filter(r => r.seniority === "junior")
                   .reduce((s, r) => s + r.n_postings, 0);
-    cards[5] = [SAGE, (100 * jr / tot).toFixed(1) + "%",
+    const slot = cards.findIndex(c => c[2] === "Advertised as junior");
+    if (slot < 0) return;
+    cards[slot] = [SAGE, (100 * jr / tot).toFixed(1) + "%",
                 "Advertised as junior",
                 `${jr.toLocaleString()} of ${tot.toLocaleString()} postings`];
     render();
