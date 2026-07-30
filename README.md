@@ -31,7 +31,7 @@ Every Monday at 06:00 a Databricks pipeline queries the Adzuna API for 15 job ti
  
 Postings are scanned with a curated dictionary of 47 terms rather than an LLM, so every match points at a specific string in a specific posting and the counts are reproducible. The tricky cases are real: "SQL" hides inside "PostgreSQL", "Java" inside "JavaScript", and a bare "R" matches "R&D" and half of every German address block. Each trap is pinned down by a test in `tests/test_matcher.py` that runs in CI on every push. See `src/matcher.py`.
  
-## Where this goes
+## The future of this tracker
  
 Bronze is append-only and `gold.history` is never overwritten, so every run adds to the record instead of replacing it. From the third snapshot a week-over-week chart appears; from the fourth, staleness can be measured by comparing snapshots directly rather than trusting the API's posting date. Given a few months it can answer whether AI/ML keeps taking share from data engineering, which tools are disappearing from postings, and whether junior openings are seasonal or simply absent. That needs Mondays, not new code. Every raw API response is cached, so improved classification logic can be applied to the whole history without spending an extra API call.
  
