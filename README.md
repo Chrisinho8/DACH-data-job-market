@@ -2,7 +2,7 @@
 
 ![tests](https://github.com/Chrisinho8/DACH-data-job-market/actions/workflows/tests.yml/badge.svg)
 
-**3,991 live data-job postings across Germany, Austria and Switzerland. 132 of them, 3.3%, are advertised as junior. That is eleven senior openings for every junior one, and zero junior roles at all for data architects and BI developers. Meanwhile the average posting has been open 54 days against a median of 15, so the market is not just top-heavy, it is slow at the top.**
+A weekly snapshot of the DACH data-job market: 3,991 live postings across Germany, Austria and Switzerland, of which 132, just 3.3%, are advertised as junior. That is eleven senior openings for every junior one, and none at all for data architects or BI developers. Every Monday a Databricks pipeline pulls live postings from the Adzuna API, deduplicates and classifies them through a bronze/silver/gold Delta Lake, scans each one against a curated 47-term skills dictionary, and publishes the aggregates to a static site. Built with PySpark, Delta Lake, Auto Loader, Unity Catalog, Databricks Workflows, SQL, Chart.js, GitHub Actions and Pages.
 
 **[Live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)**
 : maps, country comparisons and role breakdowns, rebuilt every Monday.
@@ -49,14 +49,6 @@ test in `tests/test_matcher.py` that runs in CI on every push. See
 | Analytics engineer | 69 | 1.7% |
 | **Total** | **3,991** | **100%** |
 
-Every posting belongs to exactly one family, so the table sums to the
-headline figure. The same 3,991 is the denominator for every percentage
-on this page and on the site.
-
-**Junior roles barely exist.** 132 of 3,991 postings, **3.3%**, carry a
-junior title. Eleven senior openings for every junior one. `data
-architect` and `bi developer` have zero.
-
 
 **Jobs seniority comparison:**
 | Seniority | Postings | Share |
@@ -78,23 +70,10 @@ architect` and `bi developer` have zero.
 | In English | 30.4% | 36.9% | 61.2% |
 | Salary shown | 4.3% | 5.9% | 3.1% |
 
-
 The search parameter is a keyword match, not a title match, so these
 queries overlap heavily and also drag in unrelated roles. Every posting
 is therefore **reclassified from its own job title**, not from the
 query that found it.
-
-### What it measures
-
-- **Posting age**: days between the posting date and the snapshot
-- **Reposts**: the same role relisted under a new ID
-- **Role family**: ten families, from the title
-- **Seniority**: junior, mid or senior, from the title
-- **Language**: German or English, from the description
-- **Location**: city, region and country, from the posting's own
-  geographic fields rather than the search query
-- **Poster type**: recruitment agency or direct employer
-- **Tool mentions** - 47 technologies matched with a curated dictionary
 
  
  ## What the tracker will provide in the future
@@ -174,10 +153,6 @@ Geneva) the third level is a district rather than a city, so it is
 collapsed into the parent. Administrative wrappers (`(Kreis)`,
 `-Umgebung`, `-Land`, `Region ...`) are stripped.
 
-**Currency.** Swiss postings quote francs. Salary figures are never
-averaged across currencies; only the disclosure rate is compared
-between countries.
-
 **Skill extraction.** A curated dictionary of 47 terms, not an LLM, so
 results are reproducible and every match points at a specific string.
 See `src/matcher.py`.
@@ -212,13 +187,11 @@ See `src/matcher.py`.
   almost certainly an undercount. Treat it as a lower bound.
 - **5.3% of records are rejected by the quality rules** on each run and
   quarantined rather than silently dropped.
-- **Reposts are detected by content hash**, so genuinely distinct roles
-  with identical wording would be merged.
+- **Only aggregates are published here.** Individual listings are not
+  redistributed.
 
-Only aggregates are published here. Individual listings are not
-redistributed.
 
-## Running it
+## Running it yourself
 
 1. Get an `app_id` and `app_key` from `developer.adzuna.com`.
 2. Create a Databricks workspace (Free Edition is enough) and run
