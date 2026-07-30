@@ -4,11 +4,10 @@
 
 A weekly snapshot of the DACH data-job market: 3,991 live postings across Germany, Austria and Switzerland, of which 132, just 3.3%, are advertised as junior. That is eleven senior openings for every junior one, and none at all for data architects or BI developers. Every Monday a Databricks pipeline pulls live postings from the Adzuna API, deduplicates and classifies them through a bronze/silver/gold Delta Lake, scans each one against a curated 47-term skills dictionary, and publishes the aggregates to a static site. Built with PySpark, Delta Lake, Auto Loader, Unity Catalog, Databricks Workflows, SQL, Chart.js, GitHub Actions and Pages.
 
-**[Live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)**
+**[Open the Live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)**
 : maps, country comparisons and role breakdowns, rebuilt every Monday.
 (Last updated: 30/07/2026)
-> [!TIP]
-> **[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** — maps, country comparisons and role breakdowns, rebuilt every Monday. Last updated 30/07/2026.
+
 ## What the tracker does
 Every Monday at 06:00 it queries the Adzuna API for 15 job titles in
 Germany, Austria and Switzerland, nationally, paginating until each
