@@ -129,14 +129,12 @@
   <div class="wrap">
     <p class="eyebrow">Germany &middot; Austria &middot; Switzerland
        &middot; updated every Monday</p>
-    <h1>How stale is the German-speaking
-        <em>data job market</em>?</h1>
+    <h1>Whats up with the 
+        <em>data job market</em>in the DACH region?</h1>
     <p class="sub">
-      Every week I pull live data-job postings across all three DACH
-      countries from a public API, run them through a Delta Lake
-      pipeline on Databricks, and measure the one thing job boards
-      never show you: <strong>how long these "live" jobs have actually
-      been open.</strong>
+      Every week, data from job-postings across all three DACH
+      countries get pulled from a public API, loaded into a Delta Lake
+      pipeline on Databricks, and aggregate various metrics and KPI's.
     </p>
     <p class="meta" id="meta">Loading&hellip;</p>
   </div>
@@ -147,7 +145,7 @@
   <section class="kpiblock">
     <div id="kpi" class="kpi"></div>
     <div class="agebox">
-      <div class="t">Age of every live posting, at a glance</div>
+      <div class="t">Age of every live posting</div>
       <div id="agestrip" class="strip"></div>
       <div id="agestriplegend" class="sleg"></div>
     </div>
@@ -155,11 +153,9 @@
 
   <!-- ============ COUNTRY COMPARISON ============ -->
   <section>
-    <h2>Three countries, one language</h2>
+    <h2>Three countries, one language, but clear differences</h2>
     <p class="note">
-      Same job titles, same pipeline, three labour markets. Salaries
-      are shown as a disclosure rate only — Swiss postings quote francs
-      and are never averaged with euro figures.
+  In the figure below, the main insighjts for every country can be seen
     </p>
     <div id="ctrycards" class="ctry"></div>
   </section>
@@ -176,7 +172,7 @@
 
   <!-- ============ AGE ============ -->
   <section>
-    <h2>How old is a "live" posting?</h2>
+    <h2>How old is an active posting?</h2>
     <p class="note">
       Days between the posting date and today, across all three
       countries. <strong>The average is
@@ -189,9 +185,9 @@
   </section>
 
   <section>
-    <h2>How many are still open after N days?</h2>
+    <h2>How many are still open after X days?</h2>
     <p class="note">
-      A survival curve. Of every 100 live postings, how many have
+      A classic survival curve. Of every 100 live postings, how many have
       already been open at least this long. The steep drop in the first
       month is healthy churn. The flat tail is what the average is
       really measuring.
@@ -201,7 +197,7 @@
 
   <!-- ============ MAP ============ -->
   <section>
-    <h2>Where the jobs are</h2>
+    <h2>Where are the jobs located?</h2>
     <p class="note">
       Bubble size is the number of live postings, colour is the
       country. Hover any bubble for the city name and its exact
@@ -228,7 +224,7 @@
         </div>
       </div>
       <div>
-        <h3 class="subh">Top cities by volume</h3>
+        <h3 class="subh">Top cities by listings</h3>
         <table class="rank">
           <thead><tr>
             <th>City</th>
@@ -256,11 +252,11 @@
     </p>
     <div class="grid2">
       <div>
-        <h3 class="subh">Live postings</h3>
+        <h3 class="subh">Absolute postings per job title</h3>
         <canvas id="rolevol" height="230"></canvas>
       </div>
       <div>
-        <h3 class="subh">Average days open</h3>
+        <h3 class="subh">Average days open per job title</h3>
         <canvas id="roleage" height="230"></canvas>
       </div>
     </div>
@@ -305,10 +301,9 @@
   </section>
 
   <section>
-    <h2>Who is posting the most?</h2>
+    <h2>Which company has the most listings?</h2>
     <p class="note">
-      Employers by number of live postings, among those with at least
-      five. Bar colour shows how stale their listings are on average.
+      Employers by number of live postings.
     </p>
     <canvas id="empvol" height="260"></canvas>
   </section>
@@ -318,7 +313,7 @@
   <!-- ============ TOOLS ============ -->
   <section>
     <h2>Most mentioned tools
-        <span class="pill">read the caveat</span></h2>
+        <span class="pill">read the details</span></h2>
     <p class="note">
       The API hard-caps descriptions at <strong>500 characters</strong>
       and <strong>99.6%</strong> of postings are truncated. This
@@ -356,26 +351,6 @@
   <!-- ============ NEW: 7 ADDITIONAL CHARTS ============== -->
   <!-- ===================================================== -->
 
-  <section>
-    <h2>Where are the junior openings?</h2>
-    <p class="note">
-      Share of each role family's postings that carry a junior title,
-      so a small family is comparable with a large one. Sample sizes are
-      in the labels. Junior means the title says so; a posting with no
-      seniority word counts as mid, so these are floors.
-    </p>
-    <canvas id="n1_juniorvol" height="220"></canvas>
-  </section>
-
-
-
-  <section>
-    <h2>Is one country more senior-heavy than the others?</h2>
-    <p class="note">
-      Seniority mix as a share of each country's postings.
-    </p>
-    <canvas id="n3_senctry" height="180"></canvas>
-  </section>
 
 
 
