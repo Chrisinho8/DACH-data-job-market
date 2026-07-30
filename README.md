@@ -8,12 +8,7 @@
 **[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** (Last updated: 1/08/2026)
  
  
-A weekly snapshot of the DACH data-job market: 3,991 live postings across Germany, Austria and Switzerland, of which just 132 (3.3%) are advertised as junior. That is eleven senior openings for every junior one, and none at all for data architects or BI developers.
- 
-Every Monday at 06:00 a Databricks pipeline queries the Adzuna API for 15 job titles across all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 47-term skills dictionary, and publishes the aggregates to a static site.
- 
-
-
+A weekly snapshot of the DACH data-job market: 3,991 live postings across Germany, Austria and Switzerland. Every Monday at 06:00 a Databricks pipeline queries the Adzuna API for 15 job titles across all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 47-term skills dictionary, and publishes the aggregates to a static site.
  
 **This is not a job board.** It will not help you find a role and it does not link to or republish individual postings. It describes the *shape* of the market: how long roles stay open, how few are junior, which cities hire in English.
  
@@ -35,12 +30,16 @@ Every Monday at 06:00 a Databricks pipeline queries the Adzuna API for 15 job ti
 
 
 ## Skill extraction
- 
+
 Postings are scanned with a curated dictionary of 47 terms rather than an LLM, so every match points at a specific string in a specific posting and the counts are reproducible. The tricky cases are real: "SQL" hides inside "PostgreSQL", "Java" inside "JavaScript", and a bare "R" matches "R&D" and half of every German address block. Each trap is pinned down by a test in `tests/test_matcher.py` that runs in CI on every push. See `src/matcher.py`.
  
 ## The future of this tracker
- 
-Bronze is append-only and `gold.history` is never overwritten, so every run adds to the record instead of replacing it. From the third snapshot a week-over-week chart appears; from the fourth, staleness can be measured by comparing snapshots directly rather than trusting the API's posting date. Given a few months it can answer whether AI/ML keeps taking share from data engineering, which tools are disappearing from postings, and whether junior openings are seasonal or simply absent. That needs Mondays, not new code. Every raw API response is cached, so improved classification logic can be applied to the whole history without spending an extra API call.
+
+Right now this is a photograph. Every figure describes a single Monday.
+
+Nothing is ever overwritten, so each weekly run adds to the record. After a few of them, every number here gains a second dimension: not just how many AI/ML roles are open, but whether that number is climbing. Not just that postings sit open 54 days, but whether the market is speeding up or seizing. Volumes by role and city, seniority mix, tool mentions, English-language share, salary disclosure, all of it becomes a line instead of a dot.
+
+Given a few months it can answer whether AI/ML keeps taking share from data engineering, which tools are quietly disappearing from adverts, and whether junior openings are seasonal or simply absent. That needs Mondays, not new code.
  
 ## Scope: what counts as a data job
  
