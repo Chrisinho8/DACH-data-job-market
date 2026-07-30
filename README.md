@@ -2,13 +2,13 @@
 
 ![tests](https://github.com/Chrisinho8/DACH-data-job-market/actions/workflows/tests.yml/badge.svg)
 
-**4,407 live data-job postings across Germany, Austria and Switzerland. 159 of them, 3.6%, are advertised as junior. That is ten senior openings for every junior one, and zero junior roles for data architects. Meanwhile the average posting has been open 53 days against a median of 14, so the market is not just top-heavy, it is slow at the top.**
+**3,00+ live data-job postings across Germany, Austria and Switzerland. 159 of them, 3.6%, are advertised as junior. That is ten senior openings for every junior one, and zero junior roles for data architects. Meanwhile the average posting has been open 53 days against a median of 14, so the market is not just top-heavy, it is slow at the top.**
 
 **[Live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)**
 : maps, country comparisons and role breakdowns, rebuilt every Monday.
 
 ## What the tracker does
-Every Monday at 06:00 it queries the Adzuna API for 12 job titles in
+Every Monday at 06:00 it queries the Adzuna API for 15 job titles in
 Germany, Austria and Switzerland, nationally, paginating until each
 search is exhausted. Results are deduplicated, classified, filtered to
 data roles, aggregated and published to the site automatically.
@@ -20,23 +20,6 @@ data roles, aggregated and published to the site automatically.
  open, how few are advertised as junior, which cities and countries
  hire in English — using aggregate figures only.
 
- ## Architecture
-
-![How the tracker works](assets/pipeline-architecture.png)
-
-
-**Current stats (29/07/2026):**
-| | Germany | Austria | Switzerland |
-|---|---|---|---|
-| Live postings | 3,774 | 276 | 357 |
-| Employers | 1,457 | 175 | 185 |
-| Median days open | 13 | 26 | 16 |
-| Mean days open | 53 | 65 | 50 |
-| Open > 60 days | 26.1% | 22.5% | 18.5% |
-| Advertised in English | 29.6% | 37.7% | 62.2% |
-| Disclosing a salary | 4.2% | 5.8% | 2.0% |
-
----
 
 ## What the data says (Main insights)
 
@@ -90,7 +73,7 @@ query that found it.
 - **Location** — city, region and country, from the posting's own
   geographic fields rather than the search query
 - **Poster type** — recruitment agency or direct employer
-- **Tool mentions** — 47 technologies matched with a curated dictionary
+- **Tool mentions** - 47 technologies matched with a curated dictionary
 
 ### Coverage and cadence
 
@@ -145,9 +128,8 @@ Adzuna API (de, at, ch)
   -> GitHub Pages
 ```
 
-One Databricks Workflow, weekly. Bronze keeps every snapshot, so the
-whole history can be reprocessed with better logic without re-calling
-the API.(Detailed/Visualized architecture can be found under assets/architecture)
+![Visualized architecture](assets/pipeline-architecture.png)
+
 
 ## Methods used:
 
@@ -206,8 +188,6 @@ fails the run if a raw filename does not parse to a valid country code.
   paragraph*, a floor rather than a requirement rate. The truncation
   window is identical for every posting, so relative comparisons
   between tools hold; absolute rates do not.
-- **Salary data is almost entirely absent**, so nothing is published
-  beyond the disclosure rate.
 - **The AI / ML family includes software engineering roles that merely
   mention AI**, which inflates it. It is the largest family partly for
   that reason.
@@ -248,8 +228,8 @@ pip install -r requirements.txt && pytest tests/ -v
 ## Stack
 
 Databricks Free Edition · Delta Lake · Auto Loader · Unity Catalog ·
-PySpark · Databricks Workflows · GitHub Actions · GitHub Pages ·
-Chart.js
+PySpark · Databricks Workflows · GitHub Actions and Pages · 
+Chart.js · SQL 
 
 ## Licence
 
