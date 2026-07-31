@@ -150,6 +150,15 @@ SELECT
   seniority,
   COUNT(*)                     AS n_postings,
   ROUND(AVG(age_days), 1)      AS avg_age_days,
+  percentile_approx(age_days, 0.5)          AS median_age_days,
+  ROUND(100 * AVG(CASE WHEN age_days > 7  THEN 1 ELSE 0 END), 1)
+                               AS pct_over_7d,
+  ROUND(100 * AVG(CASE WHEN age_days > 30 THEN 1 ELSE 0 END), 1)
+                               AS pct_over_30d,
+  ROUND(100 * AVG(CASE WHEN age_days > 60 THEN 1 ELSE 0 END), 1)
+                               AS pct_over_60d,
+  ROUND(100 * AVG(CASE WHEN age_days > 90 THEN 1 ELSE 0 END), 1)
+                               AS pct_over_90d,
   ROUND(100 * AVG(CASE WHEN language = 'en' THEN 1 ELSE 0 END), 1)
                                AS pct_english
 FROM postings
@@ -339,6 +348,15 @@ print(f"validation passed: {n:,} postings, {q:,} quarantined")
 # MAGIC SELECT country, role_family, seniority,
 # MAGIC        COUNT(*) AS n_postings,
 # MAGIC        ROUND(AVG(age_days), 1) AS avg_age_days,
+# MAGIC        percentile_approx(age_days, 0.5) AS median_age_days,
+# MAGIC        ROUND(100*AVG(CASE WHEN age_days>7  THEN 1 ELSE 0 END),1)
+# MAGIC          AS pct_over_7d,
+# MAGIC        ROUND(100*AVG(CASE WHEN age_days>30 THEN 1 ELSE 0 END),1)
+# MAGIC          AS pct_over_30d,
+# MAGIC        ROUND(100*AVG(CASE WHEN age_days>60 THEN 1 ELSE 0 END),1)
+# MAGIC          AS pct_over_60d,
+# MAGIC        ROUND(100*AVG(CASE WHEN age_days>90 THEN 1 ELSE 0 END),1)
+# MAGIC          AS pct_over_90d,
 # MAGIC        ROUND(100 * AVG(CASE WHEN language='en' THEN 1 ELSE 0 END), 1)
 # MAGIC          AS pct_english
 # MAGIC FROM postings

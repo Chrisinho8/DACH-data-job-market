@@ -72,7 +72,8 @@ EXPORTS = [
     (f"{GOLD}.stale_by_company", "stale_by_company",  60),
     (f"{GOLD}.role_breakdown",   "role_breakdown",   200),
     (f"{GOLD}.history", "history", 500000),
-    (f"{GOLD}.city_role_breakdown", "city_role_breakdown", 20000)
+    (f"{GOLD}.city_role_breakdown", "city_role_breakdown", 20000),
+    (f"{GOLD}.skill_by_role", "skill_by_role", 2000)
 ]
 
 for table, name, limit in EXPORTS:

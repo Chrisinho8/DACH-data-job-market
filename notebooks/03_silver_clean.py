@@ -423,7 +423,3 @@ display(p.select(
         F.when(F.col("salary_min").isNotNull(), 1).otherwise(0)), 1)
      .alias("pct_with_salary"),
 ))
-
-# COMMAND ----------
-
-display(p.groupBy("role_family").count().orderBy(F.desc("count")))
