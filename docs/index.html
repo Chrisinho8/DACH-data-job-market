@@ -198,8 +198,8 @@
     </div>
     <p class="sub">
       Every monday, data from job-postings across all three DACH
-      countries gets pulled from a public API, loaded into a Delta Lake
-      pipeline on Databricks, and aggregated for various insights.
+      countries get pulled from a public API, loaded into a Delta Lake
+      pipeline on Databricks, and aggregated for various metrics and KPI's.
     </p>
     <p class="meta" id="meta">Loading&hellip;</p>
     <p class="byline">
@@ -221,7 +221,7 @@
 
   <!-- ============ GEOGRAPHY ============ -->
   <section>
-    <h2>Main stats for Austria, Germany and Switzerland</h2>
+    <h2>Main stats for Austria, Germany and Switezrland</h2>
     <p class="note">
     </p>
     <div id="ctrycards" class="ctry"></div>
@@ -293,7 +293,7 @@
       each city is printed in the dropdown. Below roughly 20 postings a
       single advert moves a percentage by five points or more, so treat
       those shapes as indicative and read the counts before drawing a
-      conclusion. 
+      conclusion. Narrowing to one role shrinks the denominator again.
     </p>
     <div class="cmp">
       <label>City A <select id="cmpA"></select></label>
@@ -314,17 +314,23 @@
     <h2>Which tools do postings ask for?
         <span class="pill">READ CAVEAT</span></h2>
     <p class="note">
-  <strong>All roles</strong> shows the market-wide share of postings mentioning
-  each tool. Pick a role and the left chart switches to that role's own
-  postings, while the right chart subtracts the market-wide rate to show what
-  makes a role <em>distinctive</em> rather than merely common. Denominators are
-  per role, so analytics engineer (69 postings) stays comparable with AI / ML
-  (1,435). <strong>Read these as floors, not requirement rates:</strong> the API
-  caps descriptions at 500 characters, so this
-  measures tools named in the opening paragraph, not tools required.
-  The window is identical for every posting, so comparing tools with each other
-  holds; treating a single percentage as the real requirement rate does not.
-</p>
+      <strong>All roles</strong> shows the market-wide share of postings
+      mentioning each tool. Pick a role family and the left chart
+      switches to that role's own postings, while the right chart shows
+      the same figure minus the market-wide rate, so it reads what makes
+      a role <em>distinctive</em> rather than what is simply common
+      everywhere. Denominators are per role, so analytics engineer with
+      69 postings stays comparable with AI / ML at 1,435.
+    </p>
+    <p class="note">
+      <strong>Not every skill in a posting is extracted, so read these
+      as floors rather than requirement rates.</strong> The API
+      hard-caps descriptions at <strong>500 characters</strong> and
+      <strong>99.5%</strong> of postings are truncated, so this measures
+      tools named in the <em>title or opening paragraph</em>, not tools
+      required. The truncation window is identical for every posting, so
+      comparing tools with each other holds; treating any single
+      percentage as the real requirement rate does not.
     </p>
     <div class="mapctl">
       <div class="ctlrow ctlrow-roles">
@@ -348,6 +354,14 @@
   <section>
     <h2>Role and seniority, side by side</h2>
     <p class="note">
+      Every role family against every seniority level. Darker means
+      more postings. The junior column is the point: 132 of 3,991
+      postings, 3.3%, and two families with none at all. Seniority is
+      inferred from title keywords, so "mid" means "neither junior nor
+      senior stated" rather than a stated mid-level role. Entry
+      programmes (Ausbildung, duales Studium, Werkstudent, Praktikum,
+      Trainee) are excluded, so junior counts cover junior-titled
+      permanent roles only.
     </p>
     <div id="heat" class="hm"></div>
   </section>
@@ -357,7 +371,7 @@
     <canvas id="senage" height="130"></canvas>
   </section>
   <section>
-    <h2>Data role distribution and average opening times</h2>
+    <h2>Which data role is which?</h2>
     <p class="note">
     </p>
     <div class="grid2">
@@ -407,6 +421,10 @@
   <section>
     <h2>Which country publishes a salary? (%)</h2>
     <p class="note">
+      Share of postings stating any salary figure. The EU pay
+      transparency directive had a transposition deadline of June 2026.
+      Swiss postings quote francs and German and Austrian ones euros,
+      so only the disclosure rate is comparable, never the amounts.
     </p>
     <canvas id="n11_salary" height="120"></canvas>
   </section>
@@ -465,7 +483,7 @@
       Built by
      <a href="https://www.linkedin.com/in/cruckensteiner112">Chrisinho</a>
       &middot;
-      <a href="https://github.com/Chrisinho8/DACH-data-job-market">
+      <a href="https://github.com/Chrisinho8/german-data-job-market">
       source, method and full limitations</a>
       &middot;
       data from <a href="https://developer.adzuna.com">Adzuna</a>
