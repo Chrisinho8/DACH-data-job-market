@@ -1,5 +1,269 @@
 [
  {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "sap",
+  "value": 6.4
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "llm",
+  "value": 6.3
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "azure",
+  "value": 4.1
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "datawarehouse",
+  "value": 4.1
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "etl",
+  "value": 3.3
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "python",
+  "value": 3.2
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "sql",
+  "value": 2.9
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "powerbi",
+  "value": 2.8
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "snowflake",
+  "value": 2.1
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "databricks",
+  "value": 2.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "aws",
+  "value": 1.7
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "dbt",
+  "value": 1.2
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "kubernetes",
+  "value": 1.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "cicd",
+  "value": 0.9
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "gcp",
+  "value": 0.8
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "javascript",
+  "value": 0.8
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "spark",
+  "value": 0.6
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "oracle",
+  "value": 0.6
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "java",
+  "value": 0.5
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "postgres",
+  "value": 0.4
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "r_lang",
+  "value": 0.4
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "qlik",
+  "value": 0.3
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "excel",
+  "value": 0.3
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "tableau",
+  "value": 0.3
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "git",
+  "value": 0.3
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "terraform",
+  "value": 0.2
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "mssql",
+  "value": 0.2
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "airflow",
+  "value": 0.2
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "docker",
+  "value": 0.2
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "kafka",
+  "value": 0.2
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "bigquery",
+  "value": 0.2
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "looker",
+  "value": 0.1
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "synapse",
+  "value": 0.1
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "flink",
+  "value": 0.1
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "mysql",
+  "value": 0.1
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "php",
+  "value": 0.1
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "pytorch",
+  "value": 0.1
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "hadoop",
+  "value": 0.1
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "sklearn",
+  "value": 0.1
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "scala",
+  "value": 0.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "talend",
+  "value": 0.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "tensorflow",
+  "value": 0.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "elastic",
+  "value": 0.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "skill_pct",
+  "dimension": "ssis",
+  "value": 0.0
+ },
+ {
   "snapshot_date": "2026-07-30T00:00:00.000",
   "metric": "skill_pct",
   "dimension": "sap",
@@ -528,6 +792,66 @@
   "value": 0.0
  },
  {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "ai / ml",
+  "value": 1435.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data scientist",
+  "value": 391.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "dwh / etl",
+  "value": 164.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data governance",
+  "value": 89.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "bi developer",
+  "value": 205.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data architect",
+  "value": 260.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data consultant",
+  "value": 135.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data analyst",
+  "value": 259.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "analytics engineer",
+  "value": 69.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data engineer",
+  "value": 984.0
+ },
+ {
   "snapshot_date": "2026-07-30T00:00:00.000",
   "metric": "role_count",
   "dimension": "ai / ml",
@@ -648,6 +972,12 @@
   "value": 1010.0
  },
  {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "live_postings",
+  "dimension": "all",
+  "value": 3991.0
+ },
+ {
   "snapshot_date": "2026-07-29T00:00:00.000",
   "metric": "live_postings",
   "dimension": "all",
@@ -658,6 +988,12 @@
   "metric": "live_postings",
   "dimension": "all",
   "value": 3991.0
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "avg_age_days",
+  "dimension": "all",
+  "value": 55.1
  },
  {
   "snapshot_date": "2026-07-29T00:00:00.000",
@@ -676,6 +1012,12 @@
   "metric": "avg_age_days",
   "dimension": "all",
   "value": 54.1
+ },
+ {
+  "snapshot_date": "2026-07-31T00:00:00.000",
+  "metric": "pct_over_60d",
+  "dimension": "all",
+  "value": 26.1
  },
  {
   "snapshot_date": "2026-07-30T00:00:00.000",
