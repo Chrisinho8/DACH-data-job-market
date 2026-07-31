@@ -3,113 +3,113 @@
   "country": "de",
   "city": "unknown",
   "role_family": "ai / ml",
-  "n_postings": 247,
-  "avg_age_days": 58.7
+  "n_postings": 248,
+  "avg_age_days": 57.4
  },
  {
   "country": "de",
   "city": "berlin",
   "role_family": "ai / ml",
-  "n_postings": 224,
-  "avg_age_days": 56.2
+  "n_postings": 228,
+  "avg_age_days": 54.4
  },
  {
   "country": "de",
   "city": "muenchen",
   "role_family": "ai / ml",
-  "n_postings": 176,
-  "avg_age_days": 32.6
+  "n_postings": 178,
+  "avg_age_days": 31.9
  },
  {
   "country": "de",
   "city": "berlin",
   "role_family": "data engineer",
   "n_postings": 109,
-  "avg_age_days": 62.2
+  "avg_age_days": 60.7
  },
  {
   "country": "de",
   "city": "unknown",
   "role_family": "data engineer",
-  "n_postings": 103,
-  "avg_age_days": 69.7
+  "n_postings": 100,
+  "avg_age_days": 69.8
  },
  {
   "country": "de",
   "city": "hamburg",
   "role_family": "data engineer",
-  "n_postings": 74,
-  "avg_age_days": 38.0
+  "n_postings": 79,
+  "avg_age_days": 40.2
  },
  {
   "country": "de",
   "city": "muenchen",
   "role_family": "data engineer",
-  "n_postings": 69,
-  "avg_age_days": 49.7
+  "n_postings": 70,
+  "avg_age_days": 47.8
  },
  {
   "country": "de",
   "city": "hamburg",
   "role_family": "ai / ml",
+  "n_postings": 60,
+  "avg_age_days": 40.9
+ },
+ {
+  "country": "de",
+  "city": "koeln",
+  "role_family": "ai / ml",
   "n_postings": 59,
-  "avg_age_days": 41.7
+  "avg_age_days": 31.2
  },
  {
   "country": "de",
   "city": "berlin",
   "role_family": "data scientist",
-  "n_postings": 57,
-  "avg_age_days": 64.8
+  "n_postings": 58,
+  "avg_age_days": 63.7
  },
  {
   "country": "ch",
   "city": "unknown",
   "role_family": "ai / ml",
-  "n_postings": 56,
-  "avg_age_days": 58.7
- },
- {
-  "country": "de",
-  "city": "koeln",
-  "role_family": "ai / ml",
-  "n_postings": 56,
-  "avg_age_days": 33.4
+  "n_postings": 55,
+  "avg_age_days": 57.0
  },
  {
   "country": "de",
   "city": "koeln",
   "role_family": "data engineer",
-  "n_postings": 49,
-  "avg_age_days": 45.2
+  "n_postings": 53,
+  "avg_age_days": 48.5
  },
  {
   "country": "de",
   "city": "unknown",
   "role_family": "data scientist",
-  "n_postings": 48,
-  "avg_age_days": 100.9
+  "n_postings": 49,
+  "avg_age_days": 98.5
  },
  {
   "country": "de",
   "city": "frankfurt",
   "role_family": "ai / ml",
-  "n_postings": 39,
-  "avg_age_days": 34.6
+  "n_postings": 41,
+  "avg_age_days": 31.7
  },
  {
   "country": "de",
   "city": "muenchen",
   "role_family": "data scientist",
-  "n_postings": 39,
-  "avg_age_days": 72.2
+  "n_postings": 41,
+  "avg_age_days": 69.2
  },
  {
   "country": "ch",
   "city": "zuerich",
   "role_family": "ai / ml",
   "n_postings": 37,
-  "avg_age_days": 91.8
+  "avg_age_days": 89.3
  },
  {
   "country": "at",
@@ -119,74 +119,74 @@
   "avg_age_days": 98.9
  },
  {
-  "country": "at",
-  "city": "unknown",
-  "role_family": "ai / ml",
-  "n_postings": 32,
-  "avg_age_days": 40.2
- },
- {
-  "country": "de",
-  "city": "stuttgart",
-  "role_family": "data engineer",
-  "n_postings": 31,
-  "avg_age_days": 20.5
- },
- {
   "country": "de",
   "city": "frankfurt",
   "role_family": "data engineer",
-  "n_postings": 29,
-  "avg_age_days": 87.3
+  "n_postings": 32,
+  "avg_age_days": 91.8
+ },
+ {
+  "country": "at",
+  "city": "unknown",
+  "role_family": "ai / ml",
+  "n_postings": 31,
+  "avg_age_days": 40.4
  },
  {
   "country": "at",
   "city": "wien",
   "role_family": "ai / ml",
-  "n_postings": 28,
-  "avg_age_days": 87.2
- },
- {
-  "country": "de",
-  "city": "duesseldorf",
-  "role_family": "data engineer",
-  "n_postings": 27,
-  "avg_age_days": 58.9
+  "n_postings": 30,
+  "avg_age_days": 81.4
  },
  {
   "country": "de",
   "city": "unknown",
   "role_family": "data architect",
   "n_postings": 27,
-  "avg_age_days": 69.5
+  "avg_age_days": 68.8
+ },
+ {
+  "country": "de",
+  "city": "duesseldorf",
+  "role_family": "data engineer",
+  "n_postings": 26,
+  "avg_age_days": 61.2
+ },
+ {
+  "country": "de",
+  "city": "stuttgart",
+  "role_family": "data engineer",
+  "n_postings": 26,
+  "avg_age_days": 18.0
  },
  {
   "country": "de",
   "city": "muenchen",
   "role_family": "data analyst",
   "n_postings": 25,
-  "avg_age_days": 58.4
- },
- {
-  "country": "de",
-  "city": "berlin",
-  "role_family": "data analyst",
-  "n_postings": 25,
-  "avg_age_days": 45.4
- },
- {
-  "country": "de",
-  "city": "unknown",
-  "role_family": "data analyst",
-  "n_postings": 24,
-  "avg_age_days": 100.7
+  "avg_age_days": 54.8
  },
  {
   "country": "de",
   "city": "karlsruhe",
   "role_family": "ai / ml",
   "n_postings": 23,
-  "avg_age_days": 46.8
+  "avg_age_days": 44.7
+ },
+ {
+  "country": "de",
+  "city": "unknown",
+  "role_family": "data analyst",
+  "n_postings": 23,
+  "avg_age_days": 103.1
+ },
+ {
+  "country": "de",
+  "city": "berlin",
+  "role_family": "data architect",
+  "n_postings": 22,
+  "avg_age_days": 67.8
  },
  {
   "country": "ch",
@@ -197,94 +197,108 @@
  },
  {
   "country": "de",
-  "city": "berlin",
-  "role_family": "data architect",
-  "n_postings": 21,
-  "avg_age_days": 72.4
+  "city": "essen",
+  "role_family": "data engineer",
+  "n_postings": 22,
+  "avg_age_days": 60.6
  },
  {
   "country": "de",
-  "city": "essen",
-  "role_family": "data engineer",
+  "city": "stuttgart",
+  "role_family": "ai / ml",
   "n_postings": 21,
-  "avg_age_days": 64.2
+  "avg_age_days": 19.5
  },
  {
   "country": "de",
   "city": "hamburg",
   "role_family": "data analyst",
+  "n_postings": 21,
+  "avg_age_days": 51.2
+ },
+ {
+  "country": "de",
+  "city": "muenster",
+  "role_family": "data engineer",
   "n_postings": 20,
-  "avg_age_days": 44.7
+  "avg_age_days": 33.9
+ },
+ {
+  "country": "ch",
+  "city": "unknown",
+  "role_family": "data engineer",
+  "n_postings": 20,
+  "avg_age_days": 80.8
  },
  {
   "country": "de",
   "city": "muenchen",
   "role_family": "data consultant",
   "n_postings": 20,
-  "avg_age_days": 65.0
+  "avg_age_days": 63.2
+ },
+ {
+  "country": "de",
+  "city": "berlin",
+  "role_family": "data analyst",
+  "n_postings": 20,
+  "avg_age_days": 50.9
  },
  {
   "country": "de",
   "city": "muenchen",
   "role_family": "data architect",
   "n_postings": 20,
-  "avg_age_days": 49.5
- },
- {
-  "country": "de",
-  "city": "essen",
-  "role_family": "data scientist",
-  "n_postings": 19,
-  "avg_age_days": 61.5
- },
- {
-  "country": "ch",
-  "city": "unknown",
-  "role_family": "data engineer",
-  "n_postings": 19,
-  "avg_age_days": 86.8
- },
- {
-  "country": "de",
-  "city": "muenster",
-  "role_family": "data engineer",
-  "n_postings": 18,
-  "avg_age_days": 13.3
- },
- {
-  "country": "at",
-  "city": "unknown",
-  "role_family": "data engineer",
-  "n_postings": 18,
-  "avg_age_days": 39.4
- },
- {
-  "country": "de",
-  "city": "stuttgart",
-  "role_family": "ai / ml",
-  "n_postings": 18,
-  "avg_age_days": 22.7
- },
- {
-  "country": "de",
-  "city": "unknown",
-  "role_family": "bi developer",
-  "n_postings": 18,
-  "avg_age_days": 111.0
+  "avg_age_days": 53.5
  },
  {
   "country": "de",
   "city": "duesseldorf",
   "role_family": "ai / ml",
-  "n_postings": 17,
-  "avg_age_days": 47.3
+  "n_postings": 19,
+  "avg_age_days": 42.4
+ },
+ {
+  "country": "de",
+  "city": "bremen",
+  "role_family": "ai / ml",
+  "n_postings": 18,
+  "avg_age_days": 54.0
+ },
+ {
+  "country": "de",
+  "city": "essen",
+  "role_family": "data scientist",
+  "n_postings": 18,
+  "avg_age_days": 62.3
+ },
+ {
+  "country": "de",
+  "city": "unknown",
+  "role_family": "data consultant",
+  "n_postings": 18,
+  "avg_age_days": 52.9
  },
  {
   "country": "de",
   "city": "hamburg",
   "role_family": "dwh / etl",
-  "n_postings": 16,
-  "avg_age_days": 95.8
+  "n_postings": 17,
+  "avg_age_days": 90.1
+ },
+ {
+  "country": "de",
+  "city": "hamburg",
+  "role_family": "data scientist",
+  "n_postings": 17,
+  "avg_age_days": 19.4
+ },
+ {
+  "country": "de",
+  "city": "hamburg",
+  "role_family": "data architect",
+  "n_postings": 17,
+  "avg_age_days": 66.6
  },
  {
   "country": "at",
@@ -294,18 +308,18 @@
   "avg_age_days": 162.6
  },
  {
-  "country": "de",
-  "city": "bremen",
-  "role_family": "ai / ml",
+  "country": "at",
+  "city": "unknown",
+  "role_family": "data engineer",
   "n_postings": 16,
-  "avg_age_days": 65.7
+  "avg_age_days": 41.6
  },
  {
   "country": "de",
   "city": "berlin",
   "role_family": "analytics engineer",
   "n_postings": 16,
-  "avg_age_days": 58.9
+  "avg_age_days": 55.1
  },
  {
   "country": "de",
@@ -316,10 +330,24 @@
  },
  {
   "country": "de",
-  "city": "unknown",
-  "role_family": "data consultant",
+  "city": "frankfurt",
+  "role_family": "data architect",
   "n_postings": 16,
-  "avg_age_days": 62.4
+  "avg_age_days": 85.1
+ },
+ {
+  "country": "de",
+  "city": "koeln",
+  "role_family": "data analyst",
+  "n_postings": 15,
+  "avg_age_days": 31.2
+ },
+ {
+  "country": "de",
+  "city": "koeln",
+  "role_family": "data scientist",
+  "n_postings": 15,
+  "avg_age_days": 48.7
  },
  {
   "country": "de",
@@ -337,80 +365,59 @@
  },
  {
   "country": "de",
-  "city": "hannover",
-  "role_family": "data engineer",
+  "city": "unknown",
+  "role_family": "bi developer",
   "n_postings": 15,
-  "avg_age_days": 23.3
+  "avg_age_days": 131.4
+ },
+ {
+  "country": "de",
+  "city": "duesseldorf",
+  "role_family": "bi developer",
+  "n_postings": 14,
+  "avg_age_days": 5.9
  },
  {
   "country": "de",
   "city": "koeln",
-  "role_family": "data analyst",
+  "role_family": "data architect",
   "n_postings": 14,
-  "avg_age_days": 20.9
+  "avg_age_days": 78.5
  },
  {
   "country": "de",
-  "city": "koeln",
-  "role_family": "data scientist",
-  "n_postings": 14,
-  "avg_age_days": 52.1
- },
- {
-  "country": "de",
-  "city": "dortmund",
+  "city": "heilbronn",
   "role_family": "ai / ml",
   "n_postings": 14,
-  "avg_age_days": 14.1
+  "avg_age_days": 40.8
+ },
+ {
+  "country": "de",
+  "city": "berlin",
+  "role_family": "data consultant",
+  "n_postings": 14,
+  "avg_age_days": 37.6
  },
  {
   "country": "de",
   "city": "mannheim",
   "role_family": "data engineer",
   "n_postings": 14,
-  "avg_age_days": 26.4
- },
- {
-  "country": "de",
-  "city": "frankfurt",
-  "role_family": "data architect",
-  "n_postings": 14,
-  "avg_age_days": 65.5
- },
- {
-  "country": "de",
-  "city": "nuernberg",
-  "role_family": "data engineer",
-  "n_postings": 13,
-  "avg_age_days": 60.5
- },
- {
-  "country": "de",
-  "city": "bonn",
-  "role_family": "data engineer",
-  "n_postings": 13,
-  "avg_age_days": 40.9
- },
- {
-  "country": "de",
-  "city": "frankfurt",
-  "role_family": "data scientist",
-  "n_postings": 13,
-  "avg_age_days": 79.7
- },
- {
-  "country": "de",
-  "city": "coburg",
-  "role_family": "ai / ml",
-  "n_postings": 13,
-  "avg_age_days": 39.7
+  "avg_age_days": 25.1
  },
  {
   "country": "de",
   "city": "hamburg",
+  "role_family": "analytics engineer",
+  "n_postings": 13,
+  "avg_age_days": 71.7
+ },
+ {
+  "country": "de",
+  "city": "frankfurt",
   "role_family": "data scientist",
   "n_postings": 13,
-  "avg_age_days": 25.3
+  "avg_age_days": 79.2
  },
  {
   "country": "de",
@@ -421,17 +428,10 @@
  },
  {
   "country": "de",
-  "city": "hamburg",
-  "role_family": "data architect",
-  "n_postings": 13,
-  "avg_age_days": 52.9
- },
- {
-  "country": "de",
-  "city": "duesseldorf",
-  "role_family": "bi developer",
+  "city": "nuernberg",
+  "role_family": "data engineer",
   "n_postings": 12,
-  "avg_age_days": 8.4
+  "avg_age_days": 62.6
  },
  {
   "country": "de",
@@ -449,24 +449,31 @@
  },
  {
   "country": "de",
-  "city": "recklinghausen",
+  "city": "bonn",
   "role_family": "data engineer",
   "n_postings": 12,
-  "avg_age_days": 21.0
+  "avg_age_days": 43.0
  },
  {
   "country": "de",
-  "city": "koeln",
-  "role_family": "data architect",
-  "n_postings": 12,
-  "avg_age_days": 54.6
- },
- {
-  "country": "de",
-  "city": "heilbronn",
+  "city": "dortmund",
   "role_family": "ai / ml",
   "n_postings": 12,
-  "avg_age_days": 47.4
+  "avg_age_days": 15.1
+ },
+ {
+  "country": "de",
+  "city": "coburg",
+  "role_family": "ai / ml",
+  "n_postings": 12,
+  "avg_age_days": 41.4
+ },
+ {
+  "country": "de",
+  "city": "hannover",
+  "role_family": "data engineer",
+  "n_postings": 12,
+  "avg_age_days": 21.3
  },
  {
   "country": "at",
@@ -474,13 +481,6 @@
   "role_family": "ai / ml",
   "n_postings": 12,
   "avg_age_days": 39.8
- },
- {
-  "country": "de",
-  "city": "berlin",
-  "role_family": "data consultant",
-  "n_postings": 12,
-  "avg_age_days": 41.1
  },
  {
   "country": "ch",
@@ -491,73 +491,87 @@
  },
  {
   "country": "de",
-  "city": "frankfurt",
-  "role_family": "bi developer",
-  "n_postings": 11,
-  "avg_age_days": 54.8
- },
- {
-  "country": "de",
-  "city": "biberach",
-  "role_family": "data scientist",
-  "n_postings": 11,
-  "avg_age_days": 26.5
- },
- {
-  "country": "de",
-  "city": "muenchen",
-  "role_family": "bi developer",
-  "n_postings": 11,
-  "avg_age_days": 34.8
- },
- {
-  "country": "de",
   "city": "hamburg",
-  "role_family": "analytics engineer",
+  "role_family": "bi developer",
   "n_postings": 11,
-  "avg_age_days": 84.7
+  "avg_age_days": 41.5
  },
  {
-  "country": "ch",
-  "city": "unknown",
-  "role_family": "data scientist",
+  "country": "de",
+  "city": "aachen",
+  "role_family": "ai / ml",
   "n_postings": 11,
-  "avg_age_days": 52.0
+  "avg_age_days": 41.9
+ },
+ {
+  "country": "de",
+  "city": "frankfurt",
+  "role_family": "data consultant",
+  "n_postings": 11,
+  "avg_age_days": 145.5
  },
  {
   "country": "de",
   "city": "duesseldorf",
   "role_family": "data architect",
-  "n_postings": 10,
-  "avg_age_days": 94.3
+  "n_postings": 11,
+  "avg_age_days": 85.8
  },
  {
   "country": "de",
-  "city": "bonn",
-  "role_family": "ai / ml",
-  "n_postings": 10,
-  "avg_age_days": 99.6
+  "city": "recklinghausen",
+  "role_family": "data engineer",
+  "n_postings": 11,
+  "avg_age_days": 14.4
  },
  {
   "country": "de",
   "city": "frankfurt",
   "role_family": "data analyst",
-  "n_postings": 10,
-  "avg_age_days": 18.2
+  "n_postings": 11,
+  "avg_age_days": 33.4
  },
  {
   "country": "de",
-  "city": "duesseldorf",
+  "city": "frankfurt",
+  "role_family": "bi developer",
+  "n_postings": 10,
+  "avg_age_days": 53.1
+ },
+ {
+  "country": "de",
+  "city": "biberach",
   "role_family": "data scientist",
   "n_postings": 10,
-  "avg_age_days": 22.7
+  "avg_age_days": 26.2
  },
  {
   "country": "de",
-  "city": "karlsruhe",
-  "role_family": "data engineer",
+  "city": "hamburg",
+  "role_family": "data consultant",
   "n_postings": 10,
-  "avg_age_days": 45.9
+  "avg_age_days": 103.4
+ },
+ {
+  "country": "de",
+  "city": "muenchen",
+  "role_family": "bi developer",
+  "n_postings": 10,
+  "avg_age_days": 34.9
+ },
+ {
+  "country": "de",
+  "city": "berlin",
+  "role_family": "bi developer",
+  "n_postings": 10,
+  "avg_age_days": 34.2
+ },
+ {
+  "country": "de",
+  "city": "mannheim",
+  "role_family": "ai / ml",
+  "n_postings": 9,
+  "avg_age_days": 27.4
  },
  {
   "country": "at",
@@ -575,13 +589,6 @@
  },
  {
   "country": "de",
-  "city": "hamburg",
-  "role_family": "data consultant",
-  "n_postings": 9,
-  "avg_age_days": 87.3
- },
- {
-  "country": "de",
   "city": "koeln",
   "role_family": "dwh / etl",
   "n_postings": 9,
@@ -589,24 +596,24 @@
  },
  {
   "country": "de",
-  "city": "aachen",
+  "city": "bonn",
   "role_family": "ai / ml",
   "n_postings": 9,
-  "avg_age_days": 50.4
+  "avg_age_days": 109.0
  },
  {
   "country": "de",
-  "city": "berlin",
-  "role_family": "bi developer",
-  "n_postings": 9,
-  "avg_age_days": 37.9
- },
- {
-  "country": "de",
-  "city": "nuernberg",
+  "city": "essen",
   "role_family": "ai / ml",
   "n_postings": 9,
-  "avg_age_days": 23.3
+  "avg_age_days": 10.4
+ },
+ {
+  "country": "ch",
+  "city": "unknown",
+  "role_family": "data scientist",
+  "n_postings": 9,
+  "avg_age_days": 55.3
  },
  {
   "country": "de",
@@ -617,38 +624,24 @@
  },
  {
   "country": "de",
-  "city": "muenster",
-  "role_family": "ai / ml",
+  "city": "duesseldorf",
+  "role_family": "data scientist",
   "n_postings": 9,
-  "avg_age_days": 19.4
+  "avg_age_days": 24.6
+ },
+ {
+  "country": "de",
+  "city": "leipzig",
+  "role_family": "ai / ml",
+  "n_postings": 8,
+  "avg_age_days": 35.8
  },
  {
   "country": "de",
   "city": "hannover",
   "role_family": "ai / ml",
   "n_postings": 8,
-  "avg_age_days": 38.0
- },
- {
-  "country": "de",
-  "city": "hamburg",
-  "role_family": "bi developer",
-  "n_postings": 8,
-  "avg_age_days": 56.9
- },
- {
-  "country": "de",
-  "city": "leipzig",
-  "role_family": "data engineer",
-  "n_postings": 8,
-  "avg_age_days": 44.3
- },
- {
-  "country": "de",
-  "city": "frankfurt",
-  "role_family": "data consultant",
-  "n_postings": 8,
-  "avg_age_days": 168.8
+  "avg_age_days": 37.4
  },
  {
   "country": "de",
@@ -662,28 +655,28 @@
   "city": "duisburg",
   "role_family": "data engineer",
   "n_postings": 8,
-  "avg_age_days": 71.1
+  "avg_age_days": 79.1
  },
  {
   "country": "de",
-  "city": "essen",
+  "city": "koeln",
+  "role_family": "data consultant",
+  "n_postings": 8,
+  "avg_age_days": 121.9
+ },
+ {
+  "country": "de",
+  "city": "nuernberg",
   "role_family": "ai / ml",
   "n_postings": 8,
-  "avg_age_days": 11.6
+  "avg_age_days": 25.9
  },
  {
   "country": "de",
-  "city": "darmstadt",
-  "role_family": "ai / ml",
+  "city": "karlsruhe",
+  "role_family": "data engineer",
   "n_postings": 8,
-  "avg_age_days": 65.8
- },
- {
-  "country": "de",
-  "city": "mannheim",
-  "role_family": "ai / ml",
-  "n_postings": 7,
-  "avg_age_days": 35.3
+  "avg_age_days": 43.3
  },
  {
   "country": "at",
@@ -691,13 +684,6 @@
   "role_family": "data scientist",
   "n_postings": 7,
   "avg_age_days": 7.7
- },
- {
-  "country": "de",
-  "city": "leipzig",
-  "role_family": "ai / ml",
-  "n_postings": 7,
-  "avg_age_days": 45.3
  },
  {
   "country": "de",
@@ -715,10 +701,38 @@
  },
  {
   "country": "de",
-  "city": "koeln",
+  "city": "bonn",
+  "role_family": "data scientist",
+  "n_postings": 7,
+  "avg_age_days": 26.3
+ },
+ {
+  "country": "de",
+  "city": "leipzig",
+  "role_family": "data engineer",
+  "n_postings": 7,
+  "avg_age_days": 45.6
+ },
+ {
+  "country": "de",
+  "city": "wiesbaden",
+  "role_family": "ai / ml",
+  "n_postings": 7,
+  "avg_age_days": 14.9
+ },
+ {
+  "country": "ch",
+  "city": "unknown",
   "role_family": "data consultant",
   "n_postings": 7,
-  "avg_age_days": 103.9
+  "avg_age_days": 22.3
+ },
+ {
+  "country": "de",
+  "city": "nuernberg",
+  "role_family": "data architect",
+  "n_postings": 7,
+  "avg_age_days": 19.9
  },
  {
   "country": "at",
@@ -729,6 +743,13 @@
  },
  {
   "country": "de",
+  "city": "muenster",
+  "role_family": "ai / ml",
+  "n_postings": 7,
+  "avg_age_days": 23.7
+ },
+ {
+  "country": "de",
   "city": "dortmund",
   "role_family": "data engineer",
   "n_postings": 7,
@@ -736,17 +757,45 @@
  },
  {
   "country": "de",
+  "city": "darmstadt",
+  "role_family": "ai / ml",
+  "n_postings": 7,
+  "avg_age_days": 73.0
+ },
+ {
+  "country": "at",
+  "city": "wien",
+  "role_family": "data architect",
+  "n_postings": 7,
+  "avg_age_days": 27.4
+ },
+ {
+  "country": "de",
   "city": "kempten",
   "role_family": "data engineer",
   "n_postings": 6,
-  "avg_age_days": 33.7
+  "avg_age_days": 33.2
+ },
+ {
+  "country": "de",
+  "city": "wuerzburg",
+  "role_family": "ai / ml",
+  "n_postings": 6,
+  "avg_age_days": 14.5
  },
  {
   "country": "de",
   "city": "heidelberg",
   "role_family": "data engineer",
   "n_postings": 6,
-  "avg_age_days": 13.3
+  "avg_age_days": 13.2
+ },
+ {
+  "country": "de",
+  "city": "muenchen",
+  "role_family": "dwh / etl",
+  "n_postings": 6,
+  "avg_age_days": 38.7
  },
  {
   "country": "de",
@@ -770,11 +819,18 @@
   "avg_age_days": 35.7
  },
  {
-  "country": "ch",
-  "city": "unknown",
-  "role_family": "data analyst",
+  "country": "de",
+  "city": "essen",
+  "role_family": "data architect",
   "n_postings": 6,
-  "avg_age_days": 6.8
+  "avg_age_days": 18.7
+ },
+ {
+  "country": "de",
+  "city": "karlsruhe",
+  "role_family": "data scientist",
+  "n_postings": 6,
+  "avg_age_days": 88.8
  },
  {
   "country": "de",
@@ -782,13 +838,6 @@
   "role_family": "data scientist",
   "n_postings": 6,
   "avg_age_days": 103.5
- },
- {
-  "country": "at",
-  "city": "unknown",
-  "role_family": "data analyst",
-  "n_postings": 6,
-  "avg_age_days": 18.8
  },
  {
   "country": "de",
@@ -799,13 +848,6 @@
  },
  {
   "country": "de",
-  "city": "bonn",
-  "role_family": "data scientist",
-  "n_postings": 6,
-  "avg_age_days": 30.5
- },
- {
-  "country": "de",
   "city": "ludwigsburg",
   "role_family": "data engineer",
   "n_postings": 6,
@@ -813,45 +855,17 @@
  },
  {
   "country": "de",
-  "city": "wiesbaden",
-  "role_family": "ai / ml",
-  "n_postings": 6,
-  "avg_age_days": 17.3
- },
- {
-  "country": "de",
   "city": "coburg",
   "role_family": "data scientist",
   "n_postings": 6,
-  "avg_age_days": 39.7
- },
- {
-  "country": "ch",
-  "city": "unknown",
-  "role_family": "data consultant",
-  "n_postings": 6,
-  "avg_age_days": 25.8
+  "avg_age_days": 41.0
  },
  {
   "country": "de",
   "city": "karlsruhe",
   "role_family": "data consultant",
   "n_postings": 6,
-  "avg_age_days": 23.5
- },
- {
-  "country": "de",
-  "city": "darmstadt",
-  "role_family": "data engineer",
-  "n_postings": 6,
-  "avg_age_days": 22.3
- },
- {
-  "country": "de",
-  "city": "nuernberg",
-  "role_family": "data architect",
-  "n_postings": 6,
-  "avg_age_days": 21.7
+  "avg_age_days": 22.2
  },
  {
   "country": "de",
@@ -862,24 +876,17 @@
  },
  {
   "country": "de",
-  "city": "kiel",
-  "role_family": "ai / ml",
-  "n_postings": 6,
-  "avg_age_days": 43.3
- },
- {
-  "country": "ch",
-  "city": "bern",
-  "role_family": "ai / ml",
+  "city": "donau-ries",
+  "role_family": "data engineer",
   "n_postings": 6,
   "avg_age_days": 14.7
  },
  {
-  "country": "at",
-  "city": "wien",
+  "country": "de",
+  "city": "muenster",
   "role_family": "data architect",
   "n_postings": 6,
-  "avg_age_days": 32.0
+  "avg_age_days": 83.7
  },
  {
   "country": "de",
@@ -897,10 +904,24 @@
  },
  {
   "country": "de",
-  "city": "wuerzburg",
-  "role_family": "ai / ml",
+  "city": "braunschweig",
+  "role_family": "data consultant",
   "n_postings": 5,
-  "avg_age_days": 17.4
+  "avg_age_days": 151.6
+ },
+ {
+  "country": "de",
+  "city": "duisburg",
+  "role_family": "data architect",
+  "n_postings": 5,
+  "avg_age_days": 64.2
+ },
+ {
+  "country": "ch",
+  "city": "bern",
+  "role_family": "data engineer",
+  "n_postings": 5,
+  "avg_age_days": 6.4
  },
  {
   "country": "de",
@@ -908,13 +929,6 @@
   "role_family": "data governance",
   "n_postings": 5,
   "avg_age_days": 82.4
- },
- {
-  "country": "de",
-  "city": "muenchen",
-  "role_family": "dwh / etl",
-  "n_postings": 5,
-  "avg_age_days": 46.2
  },
  {
   "country": "de",
@@ -942,21 +956,35 @@
   "city": "kaiserslautern",
   "role_family": "bi developer",
   "n_postings": 5,
-  "avg_age_days": 10.4
+  "avg_age_days": 8.2
+ },
+ {
+  "country": "de",
+  "city": "offenbach",
+  "role_family": "ai / ml",
+  "n_postings": 5,
+  "avg_age_days": 12.8
  },
  {
   "country": "de",
   "city": "stuttgart",
   "role_family": "dwh / etl",
   "n_postings": 5,
-  "avg_age_days": 216.0
+  "avg_age_days": 213.0
+ },
+ {
+  "country": "ch",
+  "city": "unknown",
+  "role_family": "data analyst",
+  "n_postings": 5,
+  "avg_age_days": 6.8
  },
  {
   "country": "de",
-  "city": "karlsruhe",
-  "role_family": "data scientist",
+  "city": "muenster",
+  "role_family": "data analyst",
   "n_postings": 5,
-  "avg_age_days": 106.6
+  "avg_age_days": 86.0
  },
  {
   "country": "de",
@@ -974,6 +1002,13 @@
  },
  {
   "country": "de",
+  "city": "muenster",
+  "role_family": "data consultant",
+  "n_postings": 5,
+  "avg_age_days": 169.6
+ },
+ {
+  "country": "de",
   "city": "ulm",
   "role_family": "dwh / etl",
   "n_postings": 5,
@@ -981,17 +1016,10 @@
  },
  {
   "country": "de",
-  "city": "heidelberg",
-  "role_family": "ai / ml",
-  "n_postings": 5,
-  "avg_age_days": 11.4
- },
- {
-  "country": "de",
   "city": "mettmann",
   "role_family": "data scientist",
   "n_postings": 5,
-  "avg_age_days": 17.4
+  "avg_age_days": 17.0
  },
  {
   "country": "de",
@@ -1009,6 +1037,13 @@
  },
  {
   "country": "de",
+  "city": "berlin",
+  "role_family": "dwh / etl",
+  "n_postings": 5,
+  "avg_age_days": 7.2
+ },
+ {
+  "country": "de",
   "city": "ulm",
   "role_family": "ai / ml",
   "n_postings": 5,
@@ -1016,10 +1051,17 @@
  },
  {
   "country": "de",
-  "city": "donau-ries",
-  "role_family": "data engineer",
+  "city": "kiel",
+  "role_family": "ai / ml",
   "n_postings": 5,
-  "avg_age_days": 17.4
+  "avg_age_days": 50.6
+ },
+ {
+  "country": "ch",
+  "city": "zug",
+  "role_family": "ai / ml",
+  "n_postings": 5,
+  "avg_age_days": 24.4
  },
  {
   "country": "de",
@@ -1029,11 +1071,18 @@
   "avg_age_days": 91.2
  },
  {
+  "country": "ch",
+  "city": "bern",
+  "role_family": "ai / ml",
+  "n_postings": 5,
+  "avg_age_days": 14.8
+ },
+ {
   "country": "at",
   "city": "wien",
   "role_family": "dwh / etl",
   "n_postings": 5,
-  "avg_age_days": 153.6
+  "avg_age_days": 151.6
  },
  {
   "country": "ch",
@@ -1068,28 +1117,7 @@
   "city": "muenster",
   "role_family": "bi developer",
   "n_postings": 4,
-  "avg_age_days": 139.8
- },
- {
-  "country": "de",
-  "city": "braunschweig",
-  "role_family": "data consultant",
-  "n_postings": 4,
-  "avg_age_days": 127.5
- },
- {
-  "country": "de",
-  "city": "duisburg",
-  "role_family": "data architect",
-  "n_postings": 4,
-  "avg_age_days": 80.0
- },
- {
-  "country": "de",
-  "city": "bielefeld",
-  "role_family": "data engineer",
-  "n_postings": 4,
-  "avg_age_days": 49.5
+  "avg_age_days": 137.8
  },
  {
   "country": "de",
@@ -1097,20 +1125,6 @@
   "role_family": "data engineer",
   "n_postings": 4,
   "avg_age_days": 18.3
- },
- {
-  "country": "ch",
-  "city": "bern",
-  "role_family": "data scientist",
-  "n_postings": 4,
-  "avg_age_days": 10.3
- },
- {
-  "country": "de",
-  "city": "offenbach",
-  "role_family": "ai / ml",
-  "n_postings": 4,
-  "avg_age_days": 16.0
  },
  {
   "country": "de",
@@ -1128,38 +1142,10 @@
  },
  {
   "country": "de",
-  "city": "muenster",
-  "role_family": "data analyst",
-  "n_postings": 4,
-  "avg_age_days": 56.5
- },
- {
-  "country": "de",
-  "city": "essen",
-  "role_family": "data architect",
-  "n_postings": 4,
-  "avg_age_days": 23.0
- },
- {
-  "country": "de",
-  "city": "luebeck",
-  "role_family": "ai / ml",
-  "n_postings": 4,
-  "avg_age_days": 9.5
- },
- {
-  "country": "de",
   "city": "muenchen",
   "role_family": "analytics engineer",
   "n_postings": 4,
   "avg_age_days": 35.3
- },
- {
-  "country": "ch",
-  "city": "unknown",
-  "role_family": "data governance",
-  "n_postings": 4,
-  "avg_age_days": 7.0
  },
  {
   "country": "ch",
@@ -1174,13 +1160,6 @@
   "role_family": "bi developer",
   "n_postings": 4,
   "avg_age_days": 115.0
- },
- {
-  "country": "de",
-  "city": "koblenz",
-  "role_family": "data engineer",
-  "n_postings": 4,
-  "avg_age_days": 15.3
  },
  {
   "country": "at",
@@ -1205,17 +1184,17 @@
  },
  {
   "country": "at",
-  "city": "wien",
-  "role_family": "data consultant",
+  "city": "unknown",
+  "role_family": "data analyst",
   "n_postings": 4,
-  "avg_age_days": 16.5
+  "avg_age_days": 25.0
  },
  {
   "country": "de",
-  "city": "muenster",
-  "role_family": "data consultant",
+  "city": "heidelberg",
+  "role_family": "ai / ml",
   "n_postings": 4,
-  "avg_age_days": 150.0
+  "avg_age_days": 13.8
  },
  {
   "country": "de",
@@ -1226,10 +1205,17 @@
  },
  {
   "country": "de",
-  "city": "mannheim",
-  "role_family": "dwh / etl",
+  "city": "duisburg",
+  "role_family": "ai / ml",
   "n_postings": 4,
-  "avg_age_days": 51.5
+  "avg_age_days": 17.5
+ },
+ {
+  "country": "de",
+  "city": "hannover",
+  "role_family": "bi developer",
+  "n_postings": 4,
+  "avg_age_days": 7.3
  },
  {
   "country": "de",
@@ -1240,10 +1226,10 @@
  },
  {
   "country": "de",
-  "city": "koblenz",
-  "role_family": "dwh / etl",
+  "city": "freiburg",
+  "role_family": "ai / ml",
   "n_postings": 4,
-  "avg_age_days": 12.5
+  "avg_age_days": 10.3
  },
  {
   "country": "de",
@@ -1251,13 +1237,6 @@
   "role_family": "ai / ml",
   "n_postings": 4,
   "avg_age_days": 102.3
- },
- {
-  "country": "de",
-  "city": "koblenz",
-  "role_family": "bi developer",
-  "n_postings": 4,
-  "avg_age_days": 36.8
  },
  {
   "country": "de",
@@ -1282,13 +1261,6 @@
  },
  {
   "country": "de",
-  "city": "boeblingen",
-  "role_family": "ai / ml",
-  "n_postings": 4,
-  "avg_age_days": 13.5
- },
- {
-  "country": "de",
   "city": "augsburg",
   "role_family": "data architect",
   "n_postings": 4,
@@ -1296,10 +1268,10 @@
  },
  {
   "country": "de",
-  "city": "berlin",
-  "role_family": "dwh / etl",
+  "city": "darmstadt",
+  "role_family": "data engineer",
   "n_postings": 4,
-  "avg_age_days": 8.8
+  "avg_age_days": 12.0
  },
  {
   "country": "de",
@@ -1334,14 +1306,7 @@
   "city": "unknown",
   "role_family": "analytics engineer",
   "n_postings": 4,
-  "avg_age_days": 38.0
- },
- {
-  "country": "de",
-  "city": "muenster",
-  "role_family": "data architect",
-  "n_postings": 4,
-  "avg_age_days": 14.5
+  "avg_age_days": 30.8
  },
  {
   "country": "de",
@@ -1366,13 +1331,6 @@
  },
  {
   "country": "ch",
-  "city": "zug",
-  "role_family": "ai / ml",
-  "n_postings": 4,
-  "avg_age_days": 30.5
- },
- {
-  "country": "ch",
   "city": "genf",
   "role_family": "data scientist",
   "n_postings": 4,
@@ -1394,10 +1352,10 @@
  },
  {
   "country": "de",
-  "city": "bonn",
-  "role_family": "data consultant",
+  "city": "leipzig",
+  "role_family": "bi developer",
   "n_postings": 4,
-  "avg_age_days": 10.8
+  "avg_age_days": 11.0
  },
  {
   "country": "ch",
@@ -1407,25 +1365,18 @@
   "avg_age_days": 19.0
  },
  {
-  "country": "de",
-  "city": "stuttgart",
-  "role_family": "bi developer",
-  "n_postings": 4,
-  "avg_age_days": 3.5
- },
- {
-  "country": "de",
-  "city": "bremen",
-  "role_family": "data engineer",
-  "n_postings": 4,
-  "avg_age_days": 38.8
- },
- {
   "country": "ch",
   "city": "zuerich",
   "role_family": "data analyst",
   "n_postings": 4,
   "avg_age_days": 239.0
+ },
+ {
+  "country": "de",
+  "city": "mannheim",
+  "role_family": "data architect",
+  "n_postings": 4,
+  "avg_age_days": 53.0
  },
  {
   "country": "at",
@@ -1436,6 +1387,13 @@
  },
  {
   "country": "de",
+  "city": "kleve",
+  "role_family": "data analyst",
+  "n_postings": 3,
+  "avg_age_days": 22.7
+ },
+ {
+  "country": "de",
   "city": "paderborn",
   "role_family": "data architect",
   "n_postings": 3,
@@ -1443,24 +1401,17 @@
  },
  {
   "country": "de",
-  "city": "karlsruhe",
-  "role_family": "data governance",
-  "n_postings": 3,
-  "avg_age_days": 88.3
- },
- {
-  "country": "de",
-  "city": "ingolstadt",
-  "role_family": "data engineer",
-  "n_postings": 3,
-  "avg_age_days": 113.7
- },
- {
-  "country": "de",
   "city": "hochtaunuskreis",
   "role_family": "data analyst",
   "n_postings": 3,
   "avg_age_days": 52.0
+ },
+ {
+  "country": "de",
+  "city": "bielefeld",
+  "role_family": "data engineer",
+  "n_postings": 3,
+  "avg_age_days": 61.0
  },
  {
   "country": "de",
@@ -1484,11 +1435,25 @@
   "avg_age_days": 27.0
  },
  {
+  "country": "ch",
+  "city": "bern",
+  "role_family": "data scientist",
+  "n_postings": 3,
+  "avg_age_days": 7.3
+ },
+ {
   "country": "at",
   "city": "salzburg",
   "role_family": "ai / ml",
   "n_postings": 3,
   "avg_age_days": 30.0
+ },
+ {
+  "country": "de",
+  "city": "offenbach",
+  "role_family": "data analyst",
+  "n_postings": 3,
+  "avg_age_days": 9.7
  },
  {
   "country": "ch",
@@ -1506,31 +1471,10 @@
  },
  {
   "country": "de",
-  "city": "rosenheim",
-  "role_family": "data architect",
-  "n_postings": 3,
-  "avg_age_days": 64.3
- },
- {
-  "country": "de",
-  "city": "wiesbaden",
-  "role_family": "data engineer",
-  "n_postings": 3,
-  "avg_age_days": 24.3
- },
- {
-  "country": "de",
   "city": "leipzig",
   "role_family": "data architect",
   "n_postings": 3,
   "avg_age_days": 27.0
- },
- {
-  "country": "ch",
-  "city": "bremgarten",
-  "role_family": "data analyst",
-  "n_postings": 3,
-  "avg_age_days": 4.3
  },
  {
   "country": "de",
@@ -1538,6 +1482,13 @@
   "role_family": "data engineer",
   "n_postings": 3,
   "avg_age_days": 121.0
+ },
+ {
+  "country": "de",
+  "city": "luebeck",
+  "role_family": "ai / ml",
+  "n_postings": 3,
+  "avg_age_days": 10.3
  },
  {
   "country": "ch",
@@ -1555,24 +1506,17 @@
  },
  {
   "country": "de",
-  "city": "essen",
-  "role_family": "data analyst",
-  "n_postings": 3,
-  "avg_age_days": 106.7
- },
- {
-  "country": "de",
-  "city": "guetersloh",
-  "role_family": "data engineer",
-  "n_postings": 3,
-  "avg_age_days": 46.0
- },
- {
-  "country": "de",
   "city": "dortmund",
   "role_family": "data architect",
   "n_postings": 3,
   "avg_age_days": 27.0
+ },
+ {
+  "country": "de",
+  "city": "bonn",
+  "role_family": "dwh / etl",
+  "n_postings": 3,
+  "avg_age_days": 10.0
  },
  {
   "country": "ch",
@@ -1580,6 +1524,20 @@
   "role_family": "ai / ml",
   "n_postings": 3,
   "avg_age_days": 81.0
+ },
+ {
+  "country": "de",
+  "city": "hochtaunuskreis",
+  "role_family": "ai / ml",
+  "n_postings": 3,
+  "avg_age_days": 4.3
+ },
+ {
+  "country": "at",
+  "city": "wien",
+  "role_family": "data consultant",
+  "n_postings": 3,
+  "avg_age_days": 19.3
  },
  {
   "country": "de",
@@ -1597,17 +1555,17 @@
  },
  {
   "country": "de",
-  "city": "kassel",
-  "role_family": "data analyst",
+  "city": "essen",
+  "role_family": "data governance",
   "n_postings": 3,
-  "avg_age_days": 35.0
+  "avg_age_days": 10.3
  },
  {
   "country": "de",
   "city": "aachen",
   "role_family": "data architect",
   "n_postings": 3,
-  "avg_age_days": 13.7
+  "avg_age_days": 11.0
  },
  {
   "country": "de",
@@ -1615,6 +1573,13 @@
   "role_family": "ai / ml",
   "n_postings": 3,
   "avg_age_days": 64.3
+ },
+ {
+  "country": "de",
+  "city": "braunschweig",
+  "role_family": "data engineer",
+  "n_postings": 3,
+  "avg_age_days": 277.0
  },
  {
   "country": "at",
@@ -1625,6 +1590,13 @@
  },
  {
   "country": "de",
+  "city": "mannheim",
+  "role_family": "dwh / etl",
+  "n_postings": 3,
+  "avg_age_days": 38.3
+ },
+ {
+  "country": "de",
   "city": "osnabrueck",
   "role_family": "ai / ml",
   "n_postings": 3,
@@ -1632,17 +1604,10 @@
  },
  {
   "country": "de",
-  "city": "duisburg",
-  "role_family": "ai / ml",
-  "n_postings": 3,
-  "avg_age_days": 23.3
- },
- {
-  "country": "de",
   "city": "soest",
   "role_family": "dwh / etl",
   "n_postings": 3,
-  "avg_age_days": 20.0
+  "avg_age_days": 16.3
  },
  {
   "country": "ch",
@@ -1660,10 +1625,10 @@
  },
  {
   "country": "de",
-  "city": "hannover",
+  "city": "rhein-neckar-kreis",
   "role_family": "bi developer",
   "n_postings": 3,
-  "avg_age_days": 9.3
+  "avg_age_days": 24.7
  },
  {
   "country": "de",
@@ -1673,18 +1638,18 @@
   "avg_age_days": 14.7
  },
  {
+  "country": "de",
+  "city": "kempten",
+  "role_family": "dwh / etl",
+  "n_postings": 3,
+  "avg_age_days": 54.3
+ },
+ {
   "country": "ch",
   "city": "lausanne",
   "role_family": "data analyst",
   "n_postings": 3,
   "avg_age_days": 17.0
- },
- {
-  "country": "de",
-  "city": "freiburg",
-  "role_family": "ai / ml",
-  "n_postings": 3,
-  "avg_age_days": 11.0
  },
  {
   "country": "de",
@@ -1716,17 +1681,10 @@
  },
  {
   "country": "de",
-  "city": "dresden",
-  "role_family": "data engineer",
-  "n_postings": 3,
-  "avg_age_days": 108.3
- },
- {
-  "country": "de",
-  "city": "stormarn",
+  "city": "boeblingen",
   "role_family": "ai / ml",
   "n_postings": 3,
-  "avg_age_days": 15.0
+  "avg_age_days": 17.3
  },
  {
   "country": "de",
@@ -1750,25 +1708,11 @@
   "avg_age_days": 7.0
  },
  {
-  "country": "at",
-  "city": "wels",
-  "role_family": "ai / ml",
-  "n_postings": 3,
-  "avg_age_days": 49.3
- },
- {
-  "country": "de",
-  "city": "bonn",
-  "role_family": "data architect",
-  "n_postings": 3,
-  "avg_age_days": 13.7
- },
- {
   "country": "de",
   "city": "mainz",
   "role_family": "bi developer",
   "n_postings": 3,
-  "avg_age_days": 27.7
+  "avg_age_days": 25.0
  },
  {
   "country": "at",
@@ -1786,6 +1730,13 @@
  },
  {
   "country": "de",
+  "city": "stuttgart",
+  "role_family": "data analyst",
+  "n_postings": 3,
+  "avg_age_days": 37.7
+ },
+ {
+  "country": "de",
   "city": "main-taunus-kreis",
   "role_family": "data analyst",
   "n_postings": 3,
@@ -1796,21 +1747,21 @@
   "city": "dresden",
   "role_family": "dwh / etl",
   "n_postings": 3,
-  "avg_age_days": 15.0
+  "avg_age_days": 5.0
  },
  {
   "country": "de",
   "city": "reutlingen",
   "role_family": "data architect",
   "n_postings": 3,
-  "avg_age_days": 25.7
+  "avg_age_days": 18.7
  },
  {
   "country": "de",
   "city": "ulm",
   "role_family": "data engineer",
   "n_postings": 3,
-  "avg_age_days": 33.7
+  "avg_age_days": 28.7
  },
  {
   "country": "de",
@@ -1825,13 +1776,6 @@
   "role_family": "data engineer",
   "n_postings": 3,
   "avg_age_days": 8.3
- },
- {
-  "country": "de",
-  "city": "leipzig",
-  "role_family": "bi developer",
-  "n_postings": 3,
-  "avg_age_days": 14.7
  },
  {
   "country": "de",
@@ -1853,6 +1797,13 @@
   "role_family": "ai / ml",
   "n_postings": 3,
   "avg_age_days": 7.7
+ },
+ {
+  "country": "de",
+  "city": "bonn",
+  "role_family": "data consultant",
+  "n_postings": 3,
+  "avg_age_days": 9.3
  },
  {
   "country": "de",
@@ -1884,6 +1835,27 @@
  },
  {
   "country": "de",
+  "city": "stuttgart",
+  "role_family": "bi developer",
+  "n_postings": 3,
+  "avg_age_days": 3.7
+ },
+ {
+  "country": "de",
+  "city": "bremen",
+  "role_family": "data engineer",
+  "n_postings": 3,
+  "avg_age_days": 40.0
+ },
+ {
+  "country": "de",
+  "city": "erlangen",
+  "role_family": "data scientist",
+  "n_postings": 3,
+  "avg_age_days": 15.0
+ },
+ {
+  "country": "de",
   "city": "paderborn",
   "role_family": "data engineer",
   "n_postings": 3,
@@ -1902,13 +1874,6 @@
   "role_family": "ai / ml",
   "n_postings": 3,
   "avg_age_days": 9.3
- },
- {
-  "country": "de",
-  "city": "mannheim",
-  "role_family": "data architect",
-  "n_postings": 3,
-  "avg_age_days": 70.3
  },
  {
   "country": "at",
@@ -1933,13 +1898,6 @@
  },
  {
   "country": "de",
-  "city": "kleve",
-  "role_family": "data analyst",
-  "n_postings": 2,
-  "avg_age_days": 26.0
- },
- {
-  "country": "de",
   "city": "bremen",
   "role_family": "data architect",
   "n_postings": 2,
@@ -1951,6 +1909,13 @@
   "role_family": "analytics engineer",
   "n_postings": 2,
   "avg_age_days": 13.0
+ },
+ {
+  "country": "de",
+  "city": "karlsruhe",
+  "role_family": "data governance",
+  "n_postings": 2,
+  "avg_age_days": 83.5
  },
  {
   "country": "de",
@@ -1988,13 +1953,6 @@
   "avg_age_days": 28.5
  },
  {
-  "country": "ch",
-  "city": "bern",
-  "role_family": "data engineer",
-  "n_postings": 2,
-  "avg_age_days": 14.5
- },
- {
   "country": "de",
   "city": "ansbach",
   "role_family": "data engineer",
@@ -2003,17 +1961,10 @@
  },
  {
   "country": "de",
-  "city": "regensburg",
-  "role_family": "data engineer",
+  "city": "goettingen",
+  "role_family": "ai / ml",
   "n_postings": 2,
-  "avg_age_days": 15.0
- },
- {
-  "country": "de",
-  "city": "emsland",
-  "role_family": "data engineer",
-  "n_postings": 2,
-  "avg_age_days": 23.0
+  "avg_age_days": 3.0
  },
  {
   "country": "de",
@@ -2021,13 +1972,6 @@
   "role_family": "dwh / etl",
   "n_postings": 2,
   "avg_age_days": 11.0
- },
- {
-  "country": "at",
-  "city": "braunau am inn",
-  "role_family": "ai / ml",
-  "n_postings": 2,
-  "avg_age_days": 27.0
  },
  {
   "country": "de",
@@ -2059,13 +2003,6 @@
  },
  {
   "country": "de",
-  "city": "offenbach",
-  "role_family": "data analyst",
-  "n_postings": 2,
-  "avg_age_days": 14.0
- },
- {
-  "country": "de",
   "city": "koblenz",
   "role_family": "data architect",
   "n_postings": 2,
@@ -2083,7 +2020,7 @@
   "city": "lausanne",
   "role_family": "ai / ml",
   "n_postings": 2,
-  "avg_age_days": 8.5
+  "avg_age_days": 1.5
  },
  {
   "country": "de",
@@ -2091,6 +2028,13 @@
   "role_family": "bi developer",
   "n_postings": 2,
   "avg_age_days": 87.0
+ },
+ {
+  "country": "de",
+  "city": "kleve",
+  "role_family": "data engineer",
+  "n_postings": 2,
+  "avg_age_days": 19.0
  },
  {
   "country": "ch",
@@ -2115,6 +2059,13 @@
  },
  {
   "country": "de",
+  "city": "wetteraukreis",
+  "role_family": "ai / ml",
+  "n_postings": 2,
+  "avg_age_days": 7.5
+ },
+ {
+  "country": "de",
   "city": "bamberg",
   "role_family": "ai / ml",
   "n_postings": 2,
@@ -2126,6 +2077,13 @@
   "role_family": "data analyst",
   "n_postings": 2,
   "avg_age_days": 15.0
+ },
+ {
+  "country": "de",
+  "city": "rosenheim",
+  "role_family": "data architect",
+  "n_postings": 2,
+  "avg_age_days": 83.5
  },
  {
   "country": "ch",
@@ -2192,13 +2150,6 @@
  },
  {
   "country": "de",
-  "city": "augsburg",
-  "role_family": "dwh / etl",
-  "n_postings": 2,
-  "avg_age_days": 14.0
- },
- {
-  "country": "de",
   "city": "koblenz",
   "role_family": "ai / ml",
   "n_postings": 2,
@@ -2209,7 +2160,7 @@
   "city": "lippe",
   "role_family": "data architect",
   "n_postings": 2,
-  "avg_age_days": 5.0
+  "avg_age_days": 8.5
  },
  {
   "country": "ch",
@@ -2219,11 +2170,25 @@
   "avg_age_days": 59.5
  },
  {
+  "country": "ch",
+  "city": "unknown",
+  "role_family": "data governance",
+  "n_postings": 2,
+  "avg_age_days": 9.5
+ },
+ {
   "country": "de",
   "city": "saarbruecken",
   "role_family": "ai / ml",
   "n_postings": 2,
   "avg_age_days": 27.0
+ },
+ {
+  "country": "de",
+  "city": "essen",
+  "role_family": "data analyst",
+  "n_postings": 2,
+  "avg_age_days": 134.0
  },
  {
   "country": "de",
@@ -2238,6 +2203,13 @@
   "role_family": "data engineer",
   "n_postings": 2,
   "avg_age_days": 12.5
+ },
+ {
+  "country": "de",
+  "city": "guetersloh",
+  "role_family": "data engineer",
+  "n_postings": 2,
+  "avg_age_days": 18.5
  },
  {
   "country": "de",
@@ -2262,13 +2234,6 @@
  },
  {
   "country": "de",
-  "city": "bonn",
-  "role_family": "dwh / etl",
-  "n_postings": 2,
-  "avg_age_days": 15.0
- },
- {
-  "country": "de",
   "city": "pforzheim",
   "role_family": "data architect",
   "n_postings": 2,
@@ -2283,10 +2248,10 @@
  },
  {
   "country": "de",
-  "city": "hochtaunuskreis",
-  "role_family": "ai / ml",
+  "city": "koblenz",
+  "role_family": "data engineer",
   "n_postings": 2,
-  "avg_age_days": 6.5
+  "avg_age_days": 15.5
  },
  {
   "country": "de",
@@ -2332,6 +2297,13 @@
  },
  {
   "country": "de",
+  "city": "kassel",
+  "role_family": "data analyst",
+  "n_postings": 2,
+  "avg_age_days": 45.0
+ },
+ {
+  "country": "de",
   "city": "fuerth",
   "role_family": "ai / ml",
   "n_postings": 2,
@@ -2350,6 +2322,13 @@
   "role_family": "data architect",
   "n_postings": 2,
   "avg_age_days": 83.5
+ },
+ {
+  "country": "de",
+  "city": "deggendorf",
+  "role_family": "data engineer",
+  "n_postings": 2,
+  "avg_age_days": 8.0
  },
  {
   "country": "de",
@@ -2380,13 +2359,6 @@
   "avg_age_days": 43.0
  },
  {
-  "country": "de",
-  "city": "waldshut",
-  "role_family": "ai / ml",
-  "n_postings": 2,
-  "avg_age_days": 42.0
- },
- {
   "country": "ch",
   "city": "weinfelden",
   "role_family": "ai / ml",
@@ -2395,10 +2367,17 @@
  },
  {
   "country": "de",
-  "city": "kempten",
+  "city": "rhein-neckar-kreis",
+  "role_family": "data scientist",
+  "n_postings": 2,
+  "avg_age_days": 3.5
+ },
+ {
+  "country": "de",
+  "city": "koblenz",
   "role_family": "dwh / etl",
   "n_postings": 2,
-  "avg_age_days": 76.0
+  "avg_age_days": 16.5
  },
  {
   "country": "de",
@@ -2409,10 +2388,10 @@
  },
  {
   "country": "de",
-  "city": "kiel",
-  "role_family": "data engineer",
+  "city": "koblenz",
+  "role_family": "bi developer",
   "n_postings": 2,
-  "avg_age_days": 60.5
+  "avg_age_days": 58.5
  },
  {
   "country": "de",
@@ -2437,10 +2416,31 @@
  },
  {
   "country": "de",
+  "city": "dresden",
+  "role_family": "data engineer",
+  "n_postings": 2,
+  "avg_age_days": 145.0
+ },
+ {
+  "country": "de",
   "city": "erfurt",
   "role_family": "data architect",
   "n_postings": 2,
   "avg_age_days": 83.5
+ },
+ {
+  "country": "ch",
+  "city": "zug",
+  "role_family": "data governance",
+  "n_postings": 2,
+  "avg_age_days": 11.5
+ },
+ {
+  "country": "ch",
+  "city": "hoefe",
+  "role_family": "data engineer",
+  "n_postings": 2,
+  "avg_age_days": 61.5
  },
  {
   "country": "de",
@@ -2486,24 +2486,24 @@
  },
  {
   "country": "de",
-  "city": "wiesbaden",
-  "role_family": "data analyst",
-  "n_postings": 2,
-  "avg_age_days": 9.0
- },
- {
-  "country": "de",
   "city": "wuppertal",
   "role_family": "data engineer",
   "n_postings": 2,
   "avg_age_days": 11.5
  },
  {
-  "country": "de",
-  "city": "mettmann",
+  "country": "at",
+  "city": "wels",
   "role_family": "ai / ml",
   "n_postings": 2,
-  "avg_age_days": 6.5
+  "avg_age_days": 53.5
+ },
+ {
+  "country": "de",
+  "city": "bonn",
+  "role_family": "data architect",
+  "n_postings": 2,
+  "avg_age_days": 12.0
  },
  {
   "country": "de",
@@ -2514,10 +2514,17 @@
  },
  {
   "country": "de",
-  "city": "lichtenfels",
-  "role_family": "data engineer",
+  "city": "mettmann",
+  "role_family": "ai / ml",
   "n_postings": 2,
-  "avg_age_days": 14.0
+  "avg_age_days": 6.5
+ },
+ {
+  "country": "de",
+  "city": "starnberg",
+  "role_family": "ai / ml",
+  "n_postings": 2,
+  "avg_age_days": 5.0
  },
  {
   "country": "ch",
@@ -2532,6 +2539,13 @@
   "role_family": "ai / ml",
   "n_postings": 2,
   "avg_age_days": 94.0
+ },
+ {
+  "country": "de",
+  "city": "braunschweig",
+  "role_family": "data architect",
+  "n_postings": 2,
+  "avg_age_days": 222.0
  },
  {
   "country": "de",
@@ -2556,6 +2570,13 @@
  },
  {
   "country": "de",
+  "city": "ravensburg",
+  "role_family": "ai / ml",
+  "n_postings": 2,
+  "avg_age_days": 38.5
+ },
+ {
+  "country": "de",
   "city": "siegen-wittgenstein",
   "role_family": "data architect",
   "n_postings": 2,
@@ -2570,15 +2591,15 @@
  },
  {
   "country": "de",
-  "city": "jena",
-  "role_family": "data scientist",
+  "city": "coesfeld",
+  "role_family": "data engineer",
   "n_postings": 2,
-  "avg_age_days": 6.0
+  "avg_age_days": 3.5
  },
  {
   "country": "de",
-  "city": "heidelberg",
-  "role_family": "bi developer",
+  "city": "jena",
+  "role_family": "data scientist",
   "n_postings": 2,
   "avg_age_days": 10.5
  },
@@ -2588,6 +2609,13 @@
   "role_family": "dwh / etl",
   "n_postings": 2,
   "avg_age_days": 73.0
+ },
+ {
+  "country": "de",
+  "city": "heidelberg",
+  "role_family": "bi developer",
+  "n_postings": 2,
+  "avg_age_days": 10.5
  },
  {
   "country": "de",
@@ -2609,13 +2637,6 @@
   "role_family": "data engineer",
   "n_postings": 2,
   "avg_age_days": 35.5
- },
- {
-  "country": "de",
-  "city": "stuttgart",
-  "role_family": "data analyst",
-  "n_postings": 2,
-  "avg_age_days": 56.5
  },
  {
   "country": "de",
@@ -2647,10 +2668,10 @@
  },
  {
   "country": "de",
-  "city": "ortenaukreis",
+  "city": "wiesbaden",
   "role_family": "bi developer",
   "n_postings": 2,
-  "avg_age_days": 21.0
+  "avg_age_days": 2.0
  },
  {
   "country": "de",
@@ -2675,10 +2696,10 @@
  },
  {
   "country": "de",
-  "city": "regensburg",
+  "city": "minden-luebbecke",
   "role_family": "ai / ml",
   "n_postings": 2,
-  "avg_age_days": 15.0
+  "avg_age_days": 18.0
  },
  {
   "country": "de",
@@ -2693,13 +2714,6 @@
   "role_family": "data governance",
   "n_postings": 2,
   "avg_age_days": 96.0
- },
- {
-  "country": "de",
-  "city": "ulm",
-  "role_family": "data scientist",
-  "n_postings": 2,
-  "avg_age_days": 115.5
  },
  {
   "country": "ch",
@@ -2721,6 +2735,13 @@
   "role_family": "data engineer",
   "n_postings": 2,
   "avg_age_days": 34.5
+ },
+ {
+  "country": "de",
+  "city": "kiel",
+  "role_family": "data scientist",
+  "n_postings": 2,
+  "avg_age_days": 4.0
  },
  {
   "country": "de",
@@ -2821,13 +2842,6 @@
   "avg_age_days": 447.0
  },
  {
-  "country": "at",
-  "city": "braunau am inn",
-  "role_family": "analytics engineer",
-  "n_postings": 1,
-  "avg_age_days": 17.0
- },
- {
   "country": "de",
   "city": "rheinisch-bergischer kreis",
   "role_family": "bi developer",
@@ -2875,6 +2889,13 @@
   "role_family": "ai / ml",
   "n_postings": 1,
   "avg_age_days": 15.0
+ },
+ {
+  "country": "ch",
+  "city": "lausanne",
+  "role_family": "data engineer",
+  "n_postings": 1,
+  "avg_age_days": 1.0
  },
  {
   "country": "de",
@@ -2955,10 +2976,24 @@
  },
  {
   "country": "de",
+  "city": "konstanz",
+  "role_family": "data analyst",
+  "n_postings": 1,
+  "avg_age_days": 1.0
+ },
+ {
+  "country": "de",
   "city": "rottweil",
   "role_family": "data engineer",
   "n_postings": 1,
   "avg_age_days": 80.0
+ },
+ {
+  "country": "de",
+  "city": "ingolstadt",
+  "role_family": "data engineer",
+  "n_postings": 1,
+  "avg_age_days": 303.0
  },
  {
   "country": "de",
@@ -2976,6 +3011,13 @@
  },
  {
   "country": "de",
+  "city": "emsland",
+  "role_family": "data engineer",
+  "n_postings": 1,
+  "avg_age_days": 31.0
+ },
+ {
+  "country": "de",
   "city": "dresden",
   "role_family": "data analyst",
   "n_postings": 1,
@@ -2990,10 +3032,10 @@
  },
  {
   "country": "de",
-  "city": "vogtlandkreis",
-  "role_family": "analytics engineer",
+  "city": "regensburg",
+  "role_family": "data engineer",
   "n_postings": 1,
-  "avg_age_days": 62.0
+  "avg_age_days": 15.0
  },
  {
   "country": "de",
@@ -3001,13 +3043,6 @@
   "role_family": "ai / ml",
   "n_postings": 1,
   "avg_age_days": 9.0
- },
- {
-  "country": "de",
-  "city": "goettingen",
-  "role_family": "ai / ml",
-  "n_postings": 1,
-  "avg_age_days": 6.0
  },
  {
   "country": "de",
@@ -3024,11 +3059,25 @@
   "avg_age_days": 219.0
  },
  {
+  "country": "at",
+  "city": "moedling",
+  "role_family": "data engineer",
+  "n_postings": 1,
+  "avg_age_days": 0.0
+ },
+ {
   "country": "de",
   "city": "freiburg",
   "role_family": "data consultant",
   "n_postings": 1,
   "avg_age_days": 50.0
+ },
+ {
+  "country": "de",
+  "city": "ebersberg",
+  "role_family": "data analyst",
+  "n_postings": 1,
+  "avg_age_days": 0.0
  },
  {
   "country": "de",
@@ -3057,6 +3106,13 @@
   "role_family": "dwh / etl",
   "n_postings": 1,
   "avg_age_days": 15.0
+ },
+ {
+  "country": "de",
+  "city": "remscheid",
+  "role_family": "ai / ml",
+  "n_postings": 1,
+  "avg_age_days": 0.0
  },
  {
   "country": "de",
@@ -3102,13 +3158,6 @@
  },
  {
   "country": "de",
-  "city": "wetteraukreis",
-  "role_family": "data engineer",
-  "n_postings": 1,
-  "avg_age_days": 148.0
- },
- {
-  "country": "de",
   "city": "hochsauerlandkreis",
   "role_family": "ai / ml",
   "n_postings": 1,
@@ -3134,13 +3183,6 @@
   "role_family": "bi developer",
   "n_postings": 1,
   "avg_age_days": 10.0
- },
- {
-  "country": "de",
-  "city": "erfurt",
-  "role_family": "data engineer",
-  "n_postings": 1,
-  "avg_age_days": 35.0
  },
  {
   "country": "de",
@@ -3214,13 +3256,6 @@
  },
  {
   "country": "de",
-  "city": "magdeburg",
-  "role_family": "data engineer",
-  "n_postings": 1,
-  "avg_age_days": 35.0
- },
- {
-  "country": "de",
   "city": "erfurt",
   "role_family": "dwh / etl",
   "n_postings": 1,
@@ -3256,27 +3291,6 @@
  },
  {
   "country": "de",
-  "city": "vorpommern-greifswald",
-  "role_family": "analytics engineer",
-  "n_postings": 1,
-  "avg_age_days": 62.0
- },
- {
-  "country": "de",
-  "city": "ingolstadt",
-  "role_family": "analytics engineer",
-  "n_postings": 1,
-  "avg_age_days": 62.0
- },
- {
-  "country": "de",
-  "city": "wetteraukreis",
-  "role_family": "ai / ml",
-  "n_postings": 1,
-  "avg_age_days": 14.0
- },
- {
-  "country": "de",
   "city": "bremen",
   "role_family": "data consultant",
   "n_postings": 1,
@@ -3305,13 +3319,6 @@
  },
  {
   "country": "de",
-  "city": "goettingen",
-  "role_family": "data engineer",
-  "n_postings": 1,
-  "avg_age_days": 35.0
- },
- {
-  "country": "de",
   "city": "kulmbach",
   "role_family": "bi developer",
   "n_postings": 1,
@@ -3319,17 +3326,17 @@
  },
  {
   "country": "de",
+  "city": "augsburg",
+  "role_family": "dwh / etl",
+  "n_postings": 1,
+  "avg_age_days": 15.0
+ },
+ {
+  "country": "de",
   "city": "leverkusen",
   "role_family": "data governance",
   "n_postings": 1,
   "avg_age_days": 229.0
- },
- {
-  "country": "de",
-  "city": "guetersloh",
-  "role_family": "bi developer",
-  "n_postings": 1,
-  "avg_age_days": 7.0
  },
  {
   "country": "ch",
@@ -3392,7 +3399,7 @@
   "city": "tuebingen",
   "role_family": "data engineer",
   "n_postings": 1,
-  "avg_age_days": 11.0
+  "avg_age_days": 9.0
  },
  {
   "country": "de",
@@ -3431,6 +3438,13 @@
  },
  {
   "country": "de",
+  "city": "pforzheim",
+  "role_family": "ai / ml",
+  "n_postings": 1,
+  "avg_age_days": 0.0
+ },
+ {
+  "country": "de",
   "city": "guetersloh",
   "role_family": "data scientist",
   "n_postings": 1,
@@ -3452,10 +3466,17 @@
  },
  {
   "country": "de",
+  "city": "weilheim-schongau",
+  "role_family": "data engineer",
+  "n_postings": 1,
+  "avg_age_days": 35.0
+ },
+ {
+  "country": "de",
   "city": "muehldorf am inn",
   "role_family": "bi developer",
   "n_postings": 1,
-  "avg_age_days": 2.0
+  "avg_age_days": 1.0
  },
  {
   "country": "ch",
@@ -3480,17 +3501,24 @@
  },
  {
   "country": "de",
-  "city": "rhein-kreis neuss",
-  "role_family": "data engineer",
-  "n_postings": 1,
-  "avg_age_days": 15.0
- },
- {
-  "country": "de",
   "city": "donau-ries",
   "role_family": "data scientist",
   "n_postings": 1,
   "avg_age_days": 134.0
+ },
+ {
+  "country": "de",
+  "city": "waldeck-frankenberg",
+  "role_family": "data analyst",
+  "n_postings": 1,
+  "avg_age_days": 1.0
+ },
+ {
+  "country": "de",
+  "city": "miesbach",
+  "role_family": "data governance",
+  "n_postings": 1,
+  "avg_age_days": 0.0
  },
  {
   "country": "at",
@@ -3578,6 +3606,13 @@
  },
  {
   "country": "de",
+  "city": "dortmund",
+  "role_family": "data analyst",
+  "n_postings": 1,
+  "avg_age_days": 17.0
+ },
+ {
+  "country": "de",
   "city": "hohenlohekreis",
   "role_family": "data architect",
   "n_postings": 1,
@@ -3596,6 +3631,13 @@
   "role_family": "data governance",
   "n_postings": 1,
   "avg_age_days": 48.0
+ },
+ {
+  "country": "de",
+  "city": "mecklenburgische seenplatte",
+  "role_family": "dwh / etl",
+  "n_postings": 1,
+  "avg_age_days": 5.0
  },
  {
   "country": "de",
@@ -3661,25 +3703,11 @@
   "avg_age_days": 229.0
  },
  {
-  "country": "de",
-  "city": "heidelberg",
-  "role_family": "data scientist",
-  "n_postings": 1,
-  "avg_age_days": 7.0
- },
- {
   "country": "at",
   "city": "klagenfurt",
   "role_family": "ai / ml",
   "n_postings": 1,
   "avg_age_days": 47.0
- },
- {
-  "country": "de",
-  "city": "westerwaldkreis",
-  "role_family": "ai / ml",
-  "n_postings": 1,
-  "avg_age_days": 1.0
  },
  {
   "country": "de",
@@ -3690,31 +3718,10 @@
  },
  {
   "country": "de",
-  "city": "braunschweig",
-  "role_family": "data engineer",
-  "n_postings": 1,
-  "avg_age_days": 387.0
- },
- {
-  "country": "de",
-  "city": "hochtaunuskreis",
-  "role_family": "data architect",
-  "n_postings": 1,
-  "avg_age_days": 1.0
- },
- {
-  "country": "de",
   "city": "nordwestmecklenburg",
   "role_family": "ai / ml",
   "n_postings": 1,
   "avg_age_days": 42.0
- },
- {
-  "country": "de",
-  "city": "essen",
-  "role_family": "data governance",
-  "n_postings": 1,
-  "avg_age_days": 11.0
  },
  {
   "country": "de",
@@ -3767,10 +3774,10 @@
  },
  {
   "country": "de",
-  "city": "deggendorf",
-  "role_family": "data engineer",
+  "city": "krefeld",
+  "role_family": "ai / ml",
   "n_postings": 1,
-  "avg_age_days": 8.0
+  "avg_age_days": 0.0
  },
  {
   "country": "at",
@@ -3823,6 +3830,13 @@
  },
  {
   "country": "de",
+  "city": "braunschweig",
+  "role_family": "data analyst",
+  "n_postings": 1,
+  "avg_age_days": 204.0
+ },
+ {
+  "country": "de",
   "city": "jena",
   "role_family": "dwh / etl",
   "n_postings": 1,
@@ -3844,20 +3858,6 @@
  },
  {
   "country": "de",
-  "city": "recklinghausen",
-  "role_family": "data analyst",
-  "n_postings": 1,
-  "avg_age_days": 1.0
- },
- {
-  "country": "de",
-  "city": "rhein-neckar-kreis",
-  "role_family": "bi developer",
-  "n_postings": 1,
-  "avg_age_days": 58.0
- },
- {
-  "country": "de",
   "city": "koeln",
   "role_family": "analytics engineer",
   "n_postings": 1,
@@ -3876,6 +3876,13 @@
   "role_family": "bi developer",
   "n_postings": 1,
   "avg_age_days": 34.0
+ },
+ {
+  "country": "ch",
+  "city": "bern",
+  "role_family": "data analyst",
+  "n_postings": 1,
+  "avg_age_days": 13.0
  },
  {
   "country": "de",
@@ -3914,6 +3921,13 @@
  },
  {
   "country": "de",
+  "city": "guetersloh",
+  "role_family": "data architect",
+  "n_postings": 1,
+  "avg_age_days": 28.0
+ },
+ {
+  "country": "de",
   "city": "mainz",
   "role_family": "data scientist",
   "n_postings": 1,
@@ -3942,24 +3956,10 @@
  },
  {
   "country": "de",
-  "city": "leipzig",
-  "role_family": "data analyst",
-  "n_postings": 1,
-  "avg_age_days": 15.0
- },
- {
-  "country": "de",
   "city": "nuernberg",
   "role_family": "data governance",
   "n_postings": 1,
   "avg_age_days": 94.0
- },
- {
-  "country": "de",
-  "city": "rhein-neckar-kreis",
-  "role_family": "data scientist",
-  "n_postings": 1,
-  "avg_age_days": 8.0
  },
  {
   "country": "de",
@@ -3977,10 +3977,24 @@
  },
  {
   "country": "de",
+  "city": "delmenhorst",
+  "role_family": "ai / ml",
+  "n_postings": 1,
+  "avg_age_days": 0.0
+ },
+ {
+  "country": "de",
   "city": "brandenburg an der havel",
   "role_family": "bi developer",
   "n_postings": 1,
   "avg_age_days": 11.0
+ },
+ {
+  "country": "de",
+  "city": "magdeburg",
+  "role_family": "data analyst",
+  "n_postings": 1,
+  "avg_age_days": 0.0
  },
  {
   "country": "ch",
@@ -4012,6 +4026,13 @@
  },
  {
   "country": "de",
+  "city": "rhein-sieg-kreis",
+  "role_family": "dwh / etl",
+  "n_postings": 1,
+  "avg_age_days": 0.0
+ },
+ {
+  "country": "de",
   "city": "schweinfurt",
   "role_family": "ai / ml",
   "n_postings": 1,
@@ -4023,6 +4044,13 @@
   "role_family": "ai / ml",
   "n_postings": 1,
   "avg_age_days": 161.0
+ },
+ {
+  "country": "de",
+  "city": "unna",
+  "role_family": "ai / ml",
+  "n_postings": 1,
+  "avg_age_days": 0.0
  },
  {
   "country": "de",
@@ -4096,10 +4124,10 @@
  },
  {
   "country": "de",
-  "city": "rheingau-taunus-kreis",
+  "city": "kiel",
   "role_family": "data engineer",
   "n_postings": 1,
-  "avg_age_days": 10.0
+  "avg_age_days": 86.0
  },
  {
   "country": "de",
@@ -4141,7 +4169,7 @@
   "city": "muenster",
   "role_family": "data scientist",
   "n_postings": 1,
-  "avg_age_days": 16.0
+  "avg_age_days": 9.0
  },
  {
   "country": "de",
@@ -4165,13 +4193,6 @@
   "avg_age_days": 29.0
  },
  {
-  "country": "ch",
-  "city": "zug",
-  "role_family": "data architect",
-  "n_postings": 1,
-  "avg_age_days": 14.0
- },
- {
   "country": "de",
   "city": "bayreuth",
   "role_family": "bi developer",
@@ -4193,13 +4214,6 @@
   "avg_age_days": 11.0
  },
  {
-  "country": "ch",
-  "city": "zug",
-  "role_family": "data governance",
-  "n_postings": 1,
-  "avg_age_days": 23.0
- },
- {
   "country": "de",
   "city": "rhein-erft-kreis",
   "role_family": "ai / ml",
@@ -4212,13 +4226,6 @@
   "role_family": "data engineer",
   "n_postings": 1,
   "avg_age_days": 28.0
- },
- {
-  "country": "de",
-  "city": "rems-murr-kreis",
-  "role_family": "data governance",
-  "n_postings": 1,
-  "avg_age_days": 20.0
  },
  {
   "country": "de",
@@ -4249,18 +4256,18 @@
   "avg_age_days": 15.0
  },
  {
-  "country": "de",
-  "city": "wuerzburg",
-  "role_family": "data engineer",
-  "n_postings": 1,
-  "avg_age_days": 44.0
- },
- {
   "country": "at",
   "city": "leibnitz",
   "role_family": "ai / ml",
   "n_postings": 1,
   "avg_age_days": 45.0
+ },
+ {
+  "country": "de",
+  "city": "neumuenster",
+  "role_family": "ai / ml",
+  "n_postings": 1,
+  "avg_age_days": 0.0
  },
  {
   "country": "de",
@@ -4292,13 +4299,6 @@
  },
  {
   "country": "de",
-  "city": "memmingen",
-  "role_family": "data engineer",
-  "n_postings": 1,
-  "avg_age_days": 12.0
- },
- {
-  "country": "de",
   "city": "heidenheim",
   "role_family": "ai / ml",
   "n_postings": 1,
@@ -4313,31 +4313,17 @@
  },
  {
   "country": "de",
+  "city": "stormarn",
+  "role_family": "ai / ml",
+  "n_postings": 1,
+  "avg_age_days": 25.0
+ },
+ {
+  "country": "de",
   "city": "bochum",
   "role_family": "bi developer",
   "n_postings": 1,
   "avg_age_days": 15.0
- },
- {
-  "country": "ch",
-  "city": "hoefe",
-  "role_family": "data engineer",
-  "n_postings": 1,
-  "avg_age_days": 122.0
- },
- {
-  "country": "de",
-  "city": "augsburg",
-  "role_family": "analytics engineer",
-  "n_postings": 1,
-  "avg_age_days": 33.0
- },
- {
-  "country": "de",
-  "city": "vorpommern-greifswald",
-  "role_family": "data engineer",
-  "n_postings": 1,
-  "avg_age_days": 35.0
  },
  {
   "country": "de",
@@ -4383,10 +4369,24 @@
  },
  {
   "country": "de",
+  "city": "vogtlandkreis",
+  "role_family": "ai / ml",
+  "n_postings": 1,
+  "avg_age_days": 0.0
+ },
+ {
+  "country": "de",
   "city": "rastatt",
   "role_family": "bi developer",
   "n_postings": 1,
   "avg_age_days": 10.0
+ },
+ {
+  "country": "de",
+  "city": "wiesbaden",
+  "role_family": "data analyst",
+  "n_postings": 1,
+  "avg_age_days": 2.0
  },
  {
   "country": "de",
@@ -4401,6 +4401,13 @@
   "role_family": "data analyst",
   "n_postings": 1,
   "avg_age_days": 23.0
+ },
+ {
+  "country": "de",
+  "city": "erlangen",
+  "role_family": "ai / ml",
+  "n_postings": 1,
+  "avg_age_days": 1.0
  },
  {
   "country": "de",
@@ -4439,13 +4446,6 @@
  },
  {
   "country": "de",
-  "city": "essen",
-  "role_family": "analytics engineer",
-  "n_postings": 1,
-  "avg_age_days": 62.0
- },
- {
-  "country": "de",
   "city": "soest",
   "role_family": "ai / ml",
   "n_postings": 1,
@@ -4453,17 +4453,10 @@
  },
  {
   "country": "de",
-  "city": "rostock",
-  "role_family": "data engineer",
+  "city": "muehldorf am inn",
+  "role_family": "dwh / etl",
   "n_postings": 1,
-  "avg_age_days": 35.0
- },
- {
-  "country": "de",
-  "city": "starnberg",
-  "role_family": "ai / ml",
-  "n_postings": 1,
-  "avg_age_days": 10.0
+  "avg_age_days": 1.0
  },
  {
   "country": "de",
@@ -4481,6 +4474,13 @@
  },
  {
   "country": "de",
+  "city": "lichtenfels",
+  "role_family": "data engineer",
+  "n_postings": 1,
+  "avg_age_days": 13.0
+ },
+ {
+  "country": "de",
   "city": "warendorf",
   "role_family": "bi developer",
   "n_postings": 1,
@@ -4491,7 +4491,7 @@
   "city": "villach",
   "role_family": "data scientist",
   "n_postings": 1,
-  "avg_age_days": 7.0
+  "avg_age_days": 0.0
  },
  {
   "country": "at",
@@ -4506,13 +4506,6 @@
   "role_family": "data consultant",
   "n_postings": 1,
   "avg_age_days": 42.0
- },
- {
-  "country": "de",
-  "city": "guenzburg",
-  "role_family": "data architect",
-  "n_postings": 1,
-  "avg_age_days": 9.0
  },
  {
   "country": "de",
@@ -4534,6 +4527,13 @@
   "role_family": "dwh / etl",
   "n_postings": 1,
   "avg_age_days": 15.0
+ },
+ {
+  "country": "de",
+  "city": "dingolfing-landau",
+  "role_family": "data scientist",
+  "n_postings": 1,
+  "avg_age_days": 0.0
  },
  {
   "country": "de",
@@ -4569,13 +4569,6 @@
   "role_family": "bi developer",
   "n_postings": 1,
   "avg_age_days": 10.0
- },
- {
-  "country": "de",
-  "city": "suhl",
-  "role_family": "analytics engineer",
-  "n_postings": 1,
-  "avg_age_days": 62.0
  },
  {
   "country": "de",
@@ -4618,13 +4611,6 @@
   "role_family": "data scientist",
   "n_postings": 1,
   "avg_age_days": 5.0
- },
- {
-  "country": "de",
-  "city": "gera",
-  "role_family": "analytics engineer",
-  "n_postings": 1,
-  "avg_age_days": 62.0
  },
  {
   "country": "de",
@@ -4739,18 +4725,18 @@
   "avg_age_days": 9.0
  },
  {
+  "country": "de",
+  "city": "holzminden",
+  "role_family": "data scientist",
+  "n_postings": 1,
+  "avg_age_days": 16.0
+ },
+ {
   "country": "ch",
   "city": "lugano",
   "role_family": "data analyst",
   "n_postings": 1,
   "avg_age_days": 39.0
- },
- {
-  "country": "de",
-  "city": "coesfeld",
-  "role_family": "data engineer",
-  "n_postings": 1,
-  "avg_age_days": 6.0
  },
  {
   "country": "de",
@@ -4803,6 +4789,13 @@
  },
  {
   "country": "de",
+  "city": "dingolfing-landau",
+  "role_family": "ai / ml",
+  "n_postings": 1,
+  "avg_age_days": 0.0
+ },
+ {
+  "country": "de",
   "city": "kaiserslautern",
   "role_family": "data scientist",
   "n_postings": 1,
@@ -4814,13 +4807,6 @@
   "role_family": "bi developer",
   "n_postings": 1,
   "avg_age_days": 11.0
- },
- {
-  "country": "de",
-  "city": "halle",
-  "role_family": "bi developer",
-  "n_postings": 1,
-  "avg_age_days": 1.0
  },
  {
   "country": "de",
@@ -4858,18 +4844,18 @@
   "avg_age_days": 23.0
  },
  {
+  "country": "de",
+  "city": "ortenaukreis",
+  "role_family": "bi developer",
+  "n_postings": 1,
+  "avg_age_days": 11.0
+ },
+ {
   "country": "at",
   "city": "baden",
   "role_family": "data scientist",
   "n_postings": 1,
   "avg_age_days": 100.0
- },
- {
-  "country": "de",
-  "city": "essen",
-  "role_family": "bi developer",
-  "n_postings": 1,
-  "avg_age_days": 184.0
  },
  {
   "country": "de",
@@ -4922,10 +4908,10 @@
  },
  {
   "country": "de",
-  "city": "minden-luebbecke",
+  "city": "regensburg",
   "role_family": "ai / ml",
   "n_postings": 1,
-  "avg_age_days": 36.0
+  "avg_age_days": 15.0
  },
  {
   "country": "de",
@@ -4950,13 +4936,6 @@
  },
  {
   "country": "de",
-  "city": "wiesbaden",
-  "role_family": "bi developer",
-  "n_postings": 1,
-  "avg_age_days": 4.0
- },
- {
-  "country": "de",
   "city": "hameln-pyrmont",
   "role_family": "bi developer",
   "n_postings": 1,
@@ -4967,7 +4946,7 @@
   "city": "holzminden",
   "role_family": "bi developer",
   "n_postings": 1,
-  "avg_age_days": 2.0
+  "avg_age_days": 19.0
  },
  {
   "country": "de",
@@ -4975,13 +4954,6 @@
   "role_family": "bi developer",
   "n_postings": 1,
   "avg_age_days": 4.0
- },
- {
-  "country": "de",
-  "city": "soest",
-  "role_family": "data governance",
-  "n_postings": 1,
-  "avg_age_days": 7.0
  },
  {
   "country": "de",
@@ -5019,6 +4991,20 @@
   "avg_age_days": 11.0
  },
  {
+  "country": "de",
+  "city": "weimarer",
+  "role_family": "dwh / etl",
+  "n_postings": 1,
+  "avg_age_days": 56.0
+ },
+ {
+  "country": "de",
+  "city": "ulm",
+  "role_family": "data scientist",
+  "n_postings": 1,
+  "avg_age_days": 216.0
+ },
+ {
   "country": "ch",
   "city": "kanton neuenburg",
   "role_family": "data engineer",
@@ -5034,13 +5020,6 @@
  },
  {
   "country": "de",
-  "city": "kiel",
-  "role_family": "data scientist",
-  "n_postings": 1,
-  "avg_age_days": 8.0
- },
- {
-  "country": "de",
   "city": "heilbronn",
   "role_family": "data scientist",
   "n_postings": 1,
@@ -5048,17 +5027,17 @@
  },
  {
   "country": "de",
+  "city": "soest",
+  "role_family": "data governance",
+  "n_postings": 1,
+  "avg_age_days": 7.0
+ },
+ {
+  "country": "de",
   "city": "steinfurt",
   "role_family": "data analyst",
   "n_postings": 1,
   "avg_age_days": 3.0
- },
- {
-  "country": "ch",
-  "city": "brugg",
-  "role_family": "data analyst",
-  "n_postings": 1,
-  "avg_age_days": 14.0
  },
  {
   "country": "de",
@@ -5097,13 +5076,6 @@
  },
  {
   "country": "de",
-  "city": "cottbus",
-  "role_family": "data engineer",
-  "n_postings": 1,
-  "avg_age_days": 35.0
- },
- {
-  "country": "de",
   "city": "celle",
   "role_family": "data engineer",
   "n_postings": 1,
@@ -5122,13 +5094,6 @@
   "role_family": "data consultant",
   "n_postings": 1,
   "avg_age_days": 41.0
- },
- {
-  "country": "de",
-  "city": "erlangen",
-  "role_family": "data scientist",
-  "n_postings": 1,
-  "avg_age_days": 44.0
  },
  {
   "country": "de",
@@ -5185,6 +5150,13 @@
   "role_family": "analytics engineer",
   "n_postings": 1,
   "avg_age_days": 80.0
+ },
+ {
+  "country": "de",
+  "city": "trier",
+  "role_family": "data scientist",
+  "n_postings": 1,
+  "avg_age_days": 27.0
  },
  {
   "country": "de",
