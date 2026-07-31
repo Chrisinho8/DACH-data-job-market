@@ -4,7 +4,12 @@
   "role_family": "ai / ml",
   "seniority": "mid",
   "n_postings": 650,
-  "avg_age_days": 41.4,
+  "avg_age_days": 42.4,
+  "median_age_days": 15,
+  "pct_over_7d": 72.5,
+  "pct_over_30d": 35.7,
+  "pct_over_60d": 21.4,
+  "pct_over_90d": 9.5,
   "pct_english": 39.2
  },
  {
@@ -12,7 +17,12 @@
   "role_family": "data engineer",
   "seniority": "mid",
   "n_postings": 526,
-  "avg_age_days": 50.0,
+  "avg_age_days": 51.0,
+  "median_age_days": 15,
+  "pct_over_7d": 81.4,
+  "pct_over_30d": 33.1,
+  "pct_over_60d": 22.2,
+  "pct_over_90d": 11.8,
   "pct_english": 20.3
  },
  {
@@ -20,7 +30,12 @@
   "role_family": "ai / ml",
   "seniority": "senior",
   "n_postings": 487,
-  "avg_age_days": 50.9,
+  "avg_age_days": 51.9,
+  "median_age_days": 29,
+  "pct_over_7d": 85.0,
+  "pct_over_30d": 48.3,
+  "pct_over_60d": 32.9,
+  "pct_over_90d": 15.2,
   "pct_english": 55.9
  },
  {
@@ -28,7 +43,12 @@
   "role_family": "data engineer",
   "seniority": "senior",
   "n_postings": 290,
-  "avg_age_days": 48.3,
+  "avg_age_days": 49.3,
+  "median_age_days": 16,
+  "pct_over_7d": 80.7,
+  "pct_over_30d": 40.3,
+  "pct_over_60d": 23.8,
+  "pct_over_90d": 11.4,
   "pct_english": 28.3
  },
  {
@@ -36,7 +56,12 @@
   "role_family": "data scientist",
   "seniority": "senior",
   "n_postings": 171,
-  "avg_age_days": 74.4,
+  "avg_age_days": 75.4,
+  "median_age_days": 22,
+  "pct_over_7d": 87.1,
+  "pct_over_30d": 43.3,
+  "pct_over_60d": 29.8,
+  "pct_over_90d": 21.1,
   "pct_english": 37.4
  },
  {
@@ -44,7 +69,12 @@
   "role_family": "bi developer",
   "seniority": "mid",
   "n_postings": 149,
-  "avg_age_days": 38.9,
+  "avg_age_days": 39.9,
+  "median_age_days": 11,
+  "pct_over_7d": 77.9,
+  "pct_over_30d": 18.8,
+  "pct_over_60d": 14.8,
+  "pct_over_90d": 12.8,
   "pct_english": 6.0
  },
  {
@@ -52,7 +82,12 @@
   "role_family": "data scientist",
   "seniority": "mid",
   "n_postings": 138,
-  "avg_age_days": 66.8,
+  "avg_age_days": 67.8,
+  "median_age_days": 28,
+  "pct_over_7d": 87.7,
+  "pct_over_30d": 45.7,
+  "pct_over_60d": 30.4,
+  "pct_over_90d": 18.1,
   "pct_english": 37.7
  },
  {
@@ -60,7 +95,12 @@
   "role_family": "data analyst",
   "seniority": "mid",
   "n_postings": 136,
-  "avg_age_days": 59.2,
+  "avg_age_days": 60.2,
+  "median_age_days": 18,
+  "pct_over_7d": 80.9,
+  "pct_over_30d": 40.4,
+  "pct_over_60d": 27.9,
+  "pct_over_90d": 17.6,
   "pct_english": 22.1
  },
  {
@@ -68,7 +108,12 @@
   "role_family": "data architect",
   "seniority": "senior",
   "n_postings": 127,
-  "avg_age_days": 52.1,
+  "avg_age_days": 53.1,
+  "median_age_days": 26,
+  "pct_over_7d": 82.7,
+  "pct_over_30d": 48.0,
+  "pct_over_60d": 33.1,
+  "pct_over_90d": 10.2,
   "pct_english": 9.4
  },
  {
@@ -76,7 +121,12 @@
   "role_family": "dwh / etl",
   "seniority": "mid",
   "n_postings": 124,
-  "avg_age_days": 79.5,
+  "avg_age_days": 80.5,
+  "median_age_days": 15,
+  "pct_over_7d": 85.5,
+  "pct_over_30d": 33.1,
+  "pct_over_60d": 26.6,
+  "pct_over_90d": 25.0,
   "pct_english": 2.4
  },
  {
@@ -84,7 +134,12 @@
   "role_family": "data architect",
   "seniority": "mid",
   "n_postings": 115,
-  "avg_age_days": 43.6,
+  "avg_age_days": 44.6,
+  "median_age_days": 15,
+  "pct_over_7d": 79.1,
+  "pct_over_30d": 27.8,
+  "pct_over_60d": 23.5,
+  "pct_over_90d": 11.3,
   "pct_english": 21.7
  },
  {
@@ -92,7 +147,12 @@
   "role_family": "ai / ml",
   "seniority": "mid",
   "n_postings": 94,
-  "avg_age_days": 46.4,
+  "avg_age_days": 47.4,
+  "median_age_days": 16,
+  "pct_over_7d": 58.5,
+  "pct_over_30d": 29.8,
+  "pct_over_60d": 20.2,
+  "pct_over_90d": 12.8,
   "pct_english": 66.0
  },
  {
@@ -100,7 +160,12 @@
   "role_family": "ai / ml",
   "seniority": "mid",
   "n_postings": 71,
-  "avg_age_days": 54.5,
+  "avg_age_days": 55.5,
+  "median_age_days": 28,
+  "pct_over_7d": 77.5,
+  "pct_over_30d": 46.5,
+  "pct_over_60d": 25.4,
+  "pct_over_90d": 15.5,
   "pct_english": 47.9
  },
  {
@@ -108,7 +173,12 @@
   "role_family": "data analyst",
   "seniority": "senior",
   "n_postings": 64,
-  "avg_age_days": 46.5,
+  "avg_age_days": 47.5,
+  "median_age_days": 15,
+  "pct_over_7d": 81.3,
+  "pct_over_30d": 32.8,
+  "pct_over_60d": 20.3,
+  "pct_over_90d": 10.9,
   "pct_english": 34.4
  },
  {
@@ -116,7 +186,12 @@
   "role_family": "data consultant",
   "seniority": "mid",
   "n_postings": 62,
-  "avg_age_days": 99.8,
+  "avg_age_days": 100.8,
+  "median_age_days": 32,
+  "pct_over_7d": 91.9,
+  "pct_over_30d": 54.8,
+  "pct_over_60d": 40.3,
+  "pct_over_90d": 30.6,
   "pct_english": 22.6
  },
  {
@@ -124,7 +199,12 @@
   "role_family": "data engineer",
   "seniority": "mid",
   "n_postings": 61,
-  "avg_age_days": 71.2,
+  "avg_age_days": 72.2,
+  "median_age_days": 37,
+  "pct_over_7d": 85.2,
+  "pct_over_30d": 54.1,
+  "pct_over_60d": 29.5,
+  "pct_over_90d": 13.1,
   "pct_english": 16.4
  },
  {
@@ -132,7 +212,12 @@
   "role_family": "data governance",
   "seniority": "senior",
   "n_postings": 56,
-  "avg_age_days": 118.6,
+  "avg_age_days": 119.6,
+  "median_age_days": 84,
+  "pct_over_7d": 98.2,
+  "pct_over_30d": 94.6,
+  "pct_over_60d": 83.9,
+  "pct_over_90d": 37.5,
   "pct_english": 32.1
  },
  {
@@ -140,7 +225,12 @@
   "role_family": "ai / ml",
   "seniority": "junior",
   "n_postings": 53,
-  "avg_age_days": 20.9,
+  "avg_age_days": 21.9,
+  "median_age_days": 8,
+  "pct_over_7d": 52.8,
+  "pct_over_30d": 15.1,
+  "pct_over_60d": 13.2,
+  "pct_over_90d": 3.8,
   "pct_english": 11.3
  },
  {
@@ -148,7 +238,12 @@
   "role_family": "data consultant",
   "seniority": "senior",
   "n_postings": 52,
-  "avg_age_days": 61.6,
+  "avg_age_days": 62.6,
+  "median_age_days": 19,
+  "pct_over_7d": 75.0,
+  "pct_over_30d": 46.2,
+  "pct_over_60d": 38.5,
+  "pct_over_90d": 23.1,
   "pct_english": 34.6
  },
  {
@@ -156,7 +251,12 @@
   "role_family": "data engineer",
   "seniority": "mid",
   "n_postings": 48,
-  "avg_age_days": 62.6,
+  "avg_age_days": 63.6,
+  "median_age_days": 15,
+  "pct_over_7d": 77.1,
+  "pct_over_30d": 31.3,
+  "pct_over_60d": 18.8,
+  "pct_over_90d": 18.8,
   "pct_english": 52.1
  },
  {
@@ -164,7 +264,12 @@
   "role_family": "ai / ml",
   "seniority": "senior",
   "n_postings": 43,
-  "avg_age_days": 76.9,
+  "avg_age_days": 77.9,
+  "median_age_days": 37,
+  "pct_over_7d": 65.1,
+  "pct_over_30d": 53.5,
+  "pct_over_60d": 32.6,
+  "pct_over_90d": 23.3,
   "pct_english": 65.1
  },
  {
@@ -172,7 +277,12 @@
   "role_family": "bi developer",
   "seniority": "senior",
   "n_postings": 38,
-  "avg_age_days": 49.8,
+  "avg_age_days": 50.8,
+  "median_age_days": 17,
+  "pct_over_7d": 57.9,
+  "pct_over_30d": 44.7,
+  "pct_over_60d": 34.2,
+  "pct_over_90d": 10.5,
   "pct_english": 21.1
  },
  {
@@ -180,7 +290,12 @@
   "role_family": "ai / ml",
   "seniority": "senior",
   "n_postings": 33,
-  "avg_age_days": 73.1,
+  "avg_age_days": 74.1,
+  "median_age_days": 37,
+  "pct_over_7d": 87.9,
+  "pct_over_30d": 63.6,
+  "pct_over_60d": 27.3,
+  "pct_over_90d": 18.2,
   "pct_english": 66.7
  },
  {
@@ -188,7 +303,12 @@
   "role_family": "analytics engineer",
   "seniority": "mid",
   "n_postings": 30,
-  "avg_age_days": 79.5,
+  "avg_age_days": 80.5,
+  "median_age_days": 43,
+  "pct_over_7d": 76.7,
+  "pct_over_30d": 56.7,
+  "pct_over_60d": 40.0,
+  "pct_over_90d": 30.0,
   "pct_english": 26.7
  },
  {
@@ -196,7 +316,12 @@
   "role_family": "analytics engineer",
   "seniority": "senior",
   "n_postings": 27,
-  "avg_age_days": 39.7,
+  "avg_age_days": 40.7,
+  "median_age_days": 42,
+  "pct_over_7d": 92.6,
+  "pct_over_30d": 51.9,
+  "pct_over_60d": 40.7,
+  "pct_over_90d": 0.0,
   "pct_english": 48.1
  },
  {
@@ -204,7 +329,12 @@
   "role_family": "data analyst",
   "seniority": "mid",
   "n_postings": 24,
-  "avg_age_days": 87.5,
+  "avg_age_days": 88.5,
+  "median_age_days": 22,
+  "pct_over_7d": 87.5,
+  "pct_over_30d": 33.3,
+  "pct_over_60d": 20.8,
+  "pct_over_90d": 16.7,
   "pct_english": 33.3
  },
  {
@@ -212,7 +342,12 @@
   "role_family": "data engineer",
   "seniority": "senior",
   "n_postings": 23,
-  "avg_age_days": 92.0,
+  "avg_age_days": 93.0,
+  "median_age_days": 58,
+  "pct_over_7d": 95.7,
+  "pct_over_30d": 65.2,
+  "pct_over_60d": 39.1,
+  "pct_over_90d": 39.1,
   "pct_english": 65.2
  },
  {
@@ -220,7 +355,12 @@
   "role_family": "data scientist",
   "seniority": "junior",
   "n_postings": 22,
-  "avg_age_days": 19.8,
+  "avg_age_days": 20.8,
+  "median_age_days": 10,
+  "pct_over_7d": 59.1,
+  "pct_over_30d": 9.1,
+  "pct_over_60d": 4.5,
+  "pct_over_90d": 0.0,
   "pct_english": 9.1
  },
  {
@@ -228,7 +368,12 @@
   "role_family": "data engineer",
   "seniority": "junior",
   "n_postings": 22,
-  "avg_age_days": 69.4,
+  "avg_age_days": 70.4,
+  "median_age_days": 15,
+  "pct_over_7d": 68.2,
+  "pct_over_30d": 40.9,
+  "pct_over_60d": 22.7,
+  "pct_over_90d": 9.1,
   "pct_english": 13.6
  },
  {
@@ -236,7 +381,12 @@
   "role_family": "dwh / etl",
   "seniority": "senior",
   "n_postings": 21,
-  "avg_age_days": 82.8,
+  "avg_age_days": 83.8,
+  "median_age_days": 38,
+  "pct_over_7d": 76.2,
+  "pct_over_30d": 52.4,
+  "pct_over_60d": 38.1,
+  "pct_over_90d": 19.0,
   "pct_english": 9.5
  },
  {
@@ -244,7 +394,12 @@
   "role_family": "data scientist",
   "seniority": "mid",
   "n_postings": 20,
-  "avg_age_days": 52.5,
+  "avg_age_days": 53.5,
+  "median_age_days": 22,
+  "pct_over_7d": 90.0,
+  "pct_over_30d": 25.0,
+  "pct_over_60d": 10.0,
+  "pct_over_90d": 10.0,
   "pct_english": 70.0
  },
  {
@@ -252,7 +407,12 @@
   "role_family": "data scientist",
   "seniority": "mid",
   "n_postings": 19,
-  "avg_age_days": 43.3,
+  "avg_age_days": 44.3,
+  "median_age_days": 14,
+  "pct_over_7d": 73.7,
+  "pct_over_30d": 21.1,
+  "pct_over_60d": 15.8,
+  "pct_over_90d": 10.5,
   "pct_english": 47.4
  },
  {
@@ -260,7 +420,12 @@
   "role_family": "data scientist",
   "seniority": "senior",
   "n_postings": 19,
-  "avg_age_days": 23.3,
+  "avg_age_days": 24.3,
+  "median_age_days": 12,
+  "pct_over_7d": 73.7,
+  "pct_over_30d": 42.1,
+  "pct_over_60d": 10.5,
+  "pct_over_90d": 0.0,
   "pct_english": 52.6
  },
  {
@@ -268,7 +433,12 @@
   "role_family": "data analyst",
   "seniority": "mid",
   "n_postings": 19,
-  "avg_age_days": 56.6,
+  "avg_age_days": 57.6,
+  "median_age_days": 7,
+  "pct_over_7d": 42.1,
+  "pct_over_30d": 21.1,
+  "pct_over_60d": 15.8,
+  "pct_over_90d": 15.8,
   "pct_english": 63.2
  },
  {
@@ -276,7 +446,12 @@
   "role_family": "data governance",
   "seniority": "mid",
   "n_postings": 19,
-  "avg_age_days": 36.7,
+  "avg_age_days": 37.7,
+  "median_age_days": 28,
+  "pct_over_7d": 84.2,
+  "pct_over_30d": 42.1,
+  "pct_over_60d": 21.1,
+  "pct_over_90d": 15.8,
   "pct_english": 36.8
  },
  {
@@ -284,7 +459,12 @@
   "role_family": "data engineer",
   "seniority": "senior",
   "n_postings": 10,
-  "avg_age_days": 46.4,
+  "avg_age_days": 47.4,
+  "median_age_days": 24,
+  "pct_over_7d": 90.0,
+  "pct_over_30d": 50.0,
+  "pct_over_60d": 30.0,
+  "pct_over_90d": 10.0,
   "pct_english": 40.0
  },
  {
@@ -292,7 +472,12 @@
   "role_family": "data architect",
   "seniority": "mid",
   "n_postings": 9,
-  "avg_age_days": 33.9,
+  "avg_age_days": 34.9,
+  "median_age_days": 42,
+  "pct_over_7d": 88.9,
+  "pct_over_30d": 55.6,
+  "pct_over_60d": 11.1,
+  "pct_over_90d": 0.0,
   "pct_english": 33.3
  },
  {
@@ -300,7 +485,12 @@
   "role_family": "dwh / etl",
   "seniority": "mid",
   "n_postings": 9,
-  "avg_age_days": 107.1,
+  "avg_age_days": 108.1,
+  "median_age_days": 15,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 44.4,
+  "pct_over_60d": 33.3,
+  "pct_over_90d": 11.1,
   "pct_english": 33.3
  },
  {
@@ -308,7 +498,12 @@
   "role_family": "data governance",
   "seniority": "mid",
   "n_postings": 8,
-  "avg_age_days": 6.4,
+  "avg_age_days": 7.4,
+  "median_age_days": 6,
+  "pct_over_7d": 12.5,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 25.0
  },
  {
@@ -316,7 +511,12 @@
   "role_family": "data consultant",
   "seniority": "senior",
   "n_postings": 7,
-  "avg_age_days": 89.4,
+  "avg_age_days": 90.4,
+  "median_age_days": 28,
+  "pct_over_7d": 71.4,
+  "pct_over_30d": 42.9,
+  "pct_over_60d": 42.9,
+  "pct_over_90d": 28.6,
   "pct_english": 57.1
  },
  {
@@ -324,7 +524,12 @@
   "role_family": "bi developer",
   "seniority": "mid",
   "n_postings": 7,
-  "avg_age_days": 49.9,
+  "avg_age_days": 50.9,
+  "median_age_days": 58,
+  "pct_over_7d": 85.7,
+  "pct_over_30d": 71.4,
+  "pct_over_60d": 28.6,
+  "pct_over_90d": 0.0,
   "pct_english": 28.6
  },
  {
@@ -332,7 +537,12 @@
   "role_family": "bi developer",
   "seniority": "mid",
   "n_postings": 6,
-  "avg_age_days": 6.2,
+  "avg_age_days": 7.2,
+  "median_age_days": 6,
+  "pct_over_7d": 16.7,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 33.3
  },
  {
@@ -340,7 +550,12 @@
   "role_family": "data architect",
   "seniority": "mid",
   "n_postings": 6,
-  "avg_age_days": 102.2,
+  "avg_age_days": 103.2,
+  "median_age_days": 14,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 50.0,
+  "pct_over_60d": 50.0,
+  "pct_over_90d": 50.0,
   "pct_english": 66.7
  },
  {
@@ -348,7 +563,12 @@
   "role_family": "data analyst",
   "seniority": "junior",
   "n_postings": 6,
-  "avg_age_days": 110.3,
+  "avg_age_days": 111.3,
+  "median_age_days": 23,
+  "pct_over_7d": 83.3,
+  "pct_over_30d": 33.3,
+  "pct_over_60d": 16.7,
+  "pct_over_90d": 16.7,
   "pct_english": 0.0
  },
  {
@@ -356,7 +576,12 @@
   "role_family": "data consultant",
   "seniority": "junior",
   "n_postings": 6,
-  "avg_age_days": 15.2,
+  "avg_age_days": 16.2,
+  "median_age_days": 15,
+  "pct_over_7d": 83.3,
+  "pct_over_30d": 16.7,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  },
  {
@@ -364,7 +589,12 @@
   "role_family": "analytics engineer",
   "seniority": "mid",
   "n_postings": 5,
-  "avg_age_days": 25.8,
+  "avg_age_days": 26.8,
+  "median_age_days": 22,
+  "pct_over_7d": 80.0,
+  "pct_over_30d": 40.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 20.0
  },
  {
@@ -372,7 +602,12 @@
   "role_family": "data analyst",
   "seniority": "junior",
   "n_postings": 4,
-  "avg_age_days": 13.3,
+  "avg_age_days": 14.3,
+  "median_age_days": 12,
+  "pct_over_7d": 75.0,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 100.0
  },
  {
@@ -380,7 +615,12 @@
   "role_family": "analytics engineer",
   "seniority": "junior",
   "n_postings": 4,
-  "avg_age_days": 11.8,
+  "avg_age_days": 12.8,
+  "median_age_days": 4,
+  "pct_over_7d": 50.0,
+  "pct_over_30d": 25.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  },
  {
@@ -388,7 +628,12 @@
   "role_family": "ai / ml",
   "seniority": "junior",
   "n_postings": 4,
-  "avg_age_days": 38.5,
+  "avg_age_days": 39.5,
+  "median_age_days": 23,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 50.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 75.0
  },
  {
@@ -396,7 +641,12 @@
   "role_family": "bi developer",
   "seniority": "senior",
   "n_postings": 4,
-  "avg_age_days": 31.3,
+  "avg_age_days": 32.3,
+  "median_age_days": 8,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 50.0,
+  "pct_over_60d": 25.0,
+  "pct_over_90d": 0.0,
   "pct_english": 75.0
  },
  {
@@ -404,7 +654,12 @@
   "role_family": "dwh / etl",
   "seniority": "mid",
   "n_postings": 4,
-  "avg_age_days": 30.0,
+  "avg_age_days": 31.0,
+  "median_age_days": 34,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 75.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  },
  {
@@ -412,7 +667,12 @@
   "role_family": "data analyst",
   "seniority": "senior",
   "n_postings": 3,
-  "avg_age_days": 251.7,
+  "avg_age_days": 252.7,
+  "median_age_days": 17,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 33.3,
+  "pct_over_60d": 33.3,
+  "pct_over_90d": 33.3,
   "pct_english": 66.7
  },
  {
@@ -420,7 +680,12 @@
   "role_family": "data analyst",
   "seniority": "junior",
   "n_postings": 3,
-  "avg_age_days": 2.0,
+  "avg_age_days": 3.0,
+  "median_age_days": 2,
+  "pct_over_7d": 0.0,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  },
  {
@@ -428,7 +693,12 @@
   "role_family": "dwh / etl",
   "seniority": "senior",
   "n_postings": 3,
-  "avg_age_days": 249.0,
+  "avg_age_days": 250.0,
+  "median_age_days": 10,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 33.3,
+  "pct_over_60d": 33.3,
+  "pct_over_90d": 33.3,
   "pct_english": 0.0
  },
  {
@@ -436,7 +706,12 @@
   "role_family": "data engineer",
   "seniority": "junior",
   "n_postings": 3,
-  "avg_age_days": 46.3,
+  "avg_age_days": 47.3,
+  "median_age_days": 23,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 33.3,
+  "pct_over_60d": 33.3,
+  "pct_over_90d": 33.3,
   "pct_english": 66.7
  },
  {
@@ -444,7 +719,12 @@
   "role_family": "data consultant",
   "seniority": "mid",
   "n_postings": 3,
-  "avg_age_days": 30.0,
+  "avg_age_days": 31.0,
+  "median_age_days": 42,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 66.7,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 66.7
  },
  {
@@ -452,7 +732,12 @@
   "role_family": "data consultant",
   "seniority": "mid",
   "n_postings": 3,
-  "avg_age_days": 31.7,
+  "avg_age_days": 32.7,
+  "median_age_days": 42,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 66.7,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  },
  {
@@ -460,7 +745,12 @@
   "role_family": "dwh / etl",
   "seniority": "junior",
   "n_postings": 2,
-  "avg_age_days": 157.5,
+  "avg_age_days": 158.5,
+  "median_age_days": 80,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 100.0,
+  "pct_over_60d": 100.0,
+  "pct_over_90d": 50.0,
   "pct_english": 0.0
  },
  {
@@ -468,7 +758,12 @@
   "role_family": "data architect",
   "seniority": "senior",
   "n_postings": 2,
-  "avg_age_days": 106.5,
+  "avg_age_days": 107.5,
+  "median_age_days": 14,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 50.0,
+  "pct_over_60d": 50.0,
+  "pct_over_90d": 50.0,
   "pct_english": 100.0
  },
  {
@@ -476,7 +771,12 @@
   "role_family": "data scientist",
   "seniority": "senior",
   "n_postings": 2,
-  "avg_age_days": 74.5,
+  "avg_age_days": 75.5,
+  "median_age_days": 57,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 100.0,
+  "pct_over_60d": 50.0,
+  "pct_over_90d": 50.0,
   "pct_english": 50.0
  },
  {
@@ -484,7 +784,12 @@
   "role_family": "data governance",
   "seniority": "senior",
   "n_postings": 2,
-  "avg_age_days": 6.5,
+  "avg_age_days": 7.5,
+  "median_age_days": 3,
+  "pct_over_7d": 50.0,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 100.0
  },
  {
@@ -492,7 +797,12 @@
   "role_family": "data governance",
   "seniority": "mid",
   "n_postings": 2,
-  "avg_age_days": 28.5,
+  "avg_age_days": 29.5,
+  "median_age_days": 3,
+  "pct_over_7d": 50.0,
+  "pct_over_30d": 50.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 50.0
  },
  {
@@ -500,7 +810,12 @@
   "role_family": "data consultant",
   "seniority": "junior",
   "n_postings": 1,
-  "avg_age_days": 7.0,
+  "avg_age_days": 8.0,
+  "median_age_days": 8,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  },
  {
@@ -508,7 +823,12 @@
   "role_family": "analytics engineer",
   "seniority": "senior",
   "n_postings": 1,
-  "avg_age_days": 25.0,
+  "avg_age_days": 26.0,
+  "median_age_days": 26,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 100.0
  },
  {
@@ -516,7 +836,12 @@
   "role_family": "data architect",
   "seniority": "senior",
   "n_postings": 1,
-  "avg_age_days": 54.0,
+  "avg_age_days": 55.0,
+  "median_age_days": 55,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 100.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  },
  {
@@ -524,7 +849,12 @@
   "role_family": "dwh / etl",
   "seniority": "senior",
   "n_postings": 1,
-  "avg_age_days": 20.0,
+  "avg_age_days": 21.0,
+  "median_age_days": 21,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  },
  {
@@ -532,7 +862,12 @@
   "role_family": "data governance",
   "seniority": "junior",
   "n_postings": 1,
-  "avg_age_days": 10.0,
+  "avg_age_days": 11.0,
+  "median_age_days": 11,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 100.0
  },
  {
@@ -540,7 +875,12 @@
   "role_family": "bi developer",
   "seniority": "senior",
   "n_postings": 1,
-  "avg_age_days": 56.0,
+  "avg_age_days": 57.0,
+  "median_age_days": 57,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 100.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  },
  {
@@ -548,7 +888,12 @@
   "role_family": "data engineer",
   "seniority": "junior",
   "n_postings": 1,
-  "avg_age_days": 419.0,
+  "avg_age_days": 420.0,
+  "median_age_days": 420,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 100.0,
+  "pct_over_60d": 100.0,
+  "pct_over_90d": 100.0,
   "pct_english": 0.0
  },
  {
@@ -556,7 +901,12 @@
   "role_family": "analytics engineer",
   "seniority": "senior",
   "n_postings": 1,
-  "avg_age_days": 9.0,
+  "avg_age_days": 10.0,
+  "median_age_days": 10,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  },
  {
@@ -564,7 +914,12 @@
   "role_family": "data governance",
   "seniority": "senior",
   "n_postings": 1,
-  "avg_age_days": 5.0,
+  "avg_age_days": 6.0,
+  "median_age_days": 6,
+  "pct_over_7d": 0.0,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  },
  {
@@ -572,7 +927,12 @@
   "role_family": "analytics engineer",
   "seniority": "mid",
   "n_postings": 1,
-  "avg_age_days": 26.0,
+  "avg_age_days": 27.0,
+  "median_age_days": 27,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  },
  {
@@ -580,7 +940,12 @@
   "role_family": "data consultant",
   "seniority": "senior",
   "n_postings": 1,
-  "avg_age_days": 7.0,
+  "avg_age_days": 8.0,
+  "median_age_days": 8,
+  "pct_over_7d": 100.0,
+  "pct_over_30d": 0.0,
+  "pct_over_60d": 0.0,
+  "pct_over_90d": 0.0,
   "pct_english": 0.0
  }
 ]
