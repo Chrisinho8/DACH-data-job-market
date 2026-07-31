@@ -104,7 +104,7 @@ pathlib.Path("/Volumes/jobs/bronze/conf/adzuna.json").write_text(
 pip install -r requirements.txt && pytest tests/ -v
 ```
  
-## Stack
+## Tech-Stack
  
 Databricks Free Edition, Delta Lake, Auto Loader, Unity Catalog, PySpark, Databricks Workflows, GitHub Actions and Pages, Chart.js, SQL.
  
