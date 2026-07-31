@@ -543,9 +543,15 @@ function ds(label, data, colour) {
            borderRadius: 3, barPercentage: 0.82 };
 }
 
-function bar(id, labels, datasets, horizontal, stacked, pct) {
+/* ax is optional: { x: "label for the x axis", y: "label for the y axis" }.
+   Titles are what a reader needs to know what the numbers mean, so every
+   call site passes them.                                              */
+function bar(id, labels, datasets, horizontal, stacked, pct, ax) {
   const el = document.getElementById(id);
   if (!el) return;
+  const t = s => ({ display: !!s, text: s || "",
+                    font: { size: 11.5, weight: "600" }, color: SLATE });
+  ax = ax || {};
   new Chart(el, {
     type: "bar",
     data: { labels, datasets },
@@ -559,8 +565,10 @@ function bar(id, labels, datasets, horizontal, stacked, pct) {
       },
       scales: {
         x: { stacked: !!stacked, max: pct ? 100 : undefined,
+             title: t(ax.x),
              grid: { color: LINE, drawBorder: false } },
         y: { stacked: !!stacked, grid: { display: false },
+             title: t(ax.y),
              ticks: { autoSkip: false } }
       }
     }
@@ -713,7 +721,10 @@ get("age_distribution").then(d => {
   d.sort((a, b) => order.indexOf(a.bucket) - order.indexOf(b.bucket));
   const cols = [MOSS, "#9DA97E", AMBER, CLAY, DEEP, "#8C3A22"];
   bar("age", d.map(r => r.bucket),
-      [ds("% of live postings", d.map(r => r.pct), cols)]);
+      [ds("% of live postings", d.map(r => r.pct), cols)],
+      false, false, false,
+      { x: "days since the posting went live",
+        y: "% of live postings" });
 });
 
 /* ---------------- survival curve ----------------
@@ -1343,12 +1354,14 @@ get("role_breakdown").then(d => {
 
   bar("rolevol", roles.map(r => wrap(rlab(r))),
       [ds("Live postings", rows.map(r => r.n),
-          rows.map((_, i) => cyc(i)))], true);
+          rows.map((_, i) => cyc(i)))], true, false, false,
+      { x: "live postings", y: "role family" });
 
   const byAge = rows.slice().sort((a, b) => b.age - a.age);
   bar("roleage", byAge.map(r => wrap(rlab(r.role))),
       [ds("Avg days open", byAge.map(r => Math.round(r.age)),
-          byAge.map(r => ageColour(r.age)))], true);
+          byAge.map(r => ageColour(r.age)))], true, false, false,
+      { x: "average days a posting stays open", y: "role family" });
 
   /* --- role mix by country, as a share of each country --- */
   if (d[0].country !== undefined) {
@@ -1363,7 +1376,8 @@ get("role_breakdown").then(d => {
     bar("ctryrole", countries.map(c => CNAME[c]),
         roles.map((rf, i) =>
           ds(rlab(rf), countries.map(c => share(c, rf)), cyc(i))),
-        true, true, true);
+        true, true, true,
+        { x: "% of that country's live postings", y: "country" });
   }
 
   /* seniority stack */
@@ -1375,7 +1389,8 @@ get("role_breakdown").then(d => {
 
   bar("roles", roles.map(rlab),
       levels.map(lv => ds(lv, roles.map(rf => cell(rf, lv)),
-                          cols[lv])), true, true);
+                          cols[lv])), true, true, false,
+      { x: "live postings", y: "role family" });
 
   /* heatmap */
   const hm = document.getElementById("heat");
@@ -1409,7 +1424,9 @@ get("role_breakdown").then(d => {
 
   bar("senage", sen.map(s => s.lv),
       [ds("Avg days open", sen.map(s => Math.round(s.ag)),
-          sen.map(s => ageColour(s.ag)))]);
+          sen.map(s => ageColour(s.ag)))],
+      false, false, false,
+      { x: "seniority level", y: "average days a posting stays open" });
 });
 
 /* ---------------- agency ---------------- */
@@ -1417,7 +1434,10 @@ get("agency_comparison").then(d => {
   if (!d) return;
   bar("agency", d.map(r => r.poster_type),
       [ds("Avg days open", d.map(r => r.avg_age_days), CLAY),
-       ds("% open over 60 days", d.map(r => r.pct_over_60d), TEAL)]);
+       ds("% open over 60 days", d.map(r => r.pct_over_60d), TEAL)],
+      false, false, false,
+      { x: "who posted the job",
+        y: "days open (bar 1) · % over 60 days (bar 2)" });
 });
 
 /* ---------------- employers ---------------- */
@@ -1428,7 +1448,9 @@ get("stale_by_company").then(d => {
                .slice(0, 15);
   bar("empvol", vol.map(r => r.company),
       [ds("Live postings", vol.map(r => r.n_postings),
-          vol.map(r => ageColour(r.avg_age_days)))], true);
+          vol.map(r => ageColour(r.avg_age_days)))], true, false, false,
+      { x: "live postings (bar colour = average days open)",
+        y: "company" });
 
 });
 
@@ -1444,7 +1466,9 @@ get("skill_demand").then(d => {
   const cats = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
   bar("skillcat", cats.map(c => c[0]),
       [ds("Mentions", cats.map(c => c[1]),
-          cats.map((_, i) => cyc(i)))]);
+          cats.map((_, i) => cyc(i)))],
+      false, false, false,
+      { x: "tool category", y: "postings mentioning the category" });
 
 
 });
@@ -1476,7 +1500,8 @@ get("history").then(h => {
       plugins: { legend: { position: "bottom",
                            labels: { boxWidth: 12 } } },
       scales: {
-        x:  { grid: { display: false } },
+        x:  { grid: { display: false },
+              title: { display: true, text: "week of the snapshot" } },
         y:  { position: "left",  grid: { color: LINE },
               title: { display: true, text: "avg days open" } },
         y1: { position: "right", grid: { display: false },
@@ -1521,7 +1546,10 @@ get("history").then(h => {
     bar("n1_juniorvol",
         byShare.map(r => `${rlab(r.role)} (n=${r.n})`),
         [ds("% advertised as junior", byShare.map(r => r.pct),
-            byShare.map(r => r.pct === 0 ? "#D8D3C7" : OLIVE))], true);
+            byShare.map(r => r.pct === 0 ? "#D8D3C7" : OLIVE))],
+        true, false, false,
+        { x: "% of that role's postings advertised as junior",
+          y: "role family (n = postings in that family)" });
 
     /* 3. seniority mix by country */
     if (d[0].country !== undefined) {
@@ -1537,7 +1565,8 @@ get("history").then(h => {
       };
       bar("n3_senctry", cs.map(c => CNAME[c] || c),
           levels.map(lv => ds(lv, cs.map(c => share(c, lv)), cols[lv])),
-          true, true, true);
+          true, true, true,
+          { x: "% of that country's live postings", y: "country" });
     }
   });
 
@@ -1570,12 +1599,16 @@ get("history").then(h => {
         [ds("postings per employer",
             rows.map(r => r.employers
               ? +(r.n_postings / r.employers).toFixed(2) : 0),
-            rows.map(r => CCOL[r.country] || CORAL))]);
+            rows.map(r => CCOL[r.country] || CORAL))],
+        false, false, false,
+        { x: "country", y: "live postings per employer" });
 
     bar("n11_salary", rows.map(r => CNAME[r.country] || r.country),
         [ds("% stating a salary",
             rows.map(r => r.pct_with_salary ?? 0),
-            rows.map(r => CCOL[r.country] || CORAL))]);
+            rows.map(r => CCOL[r.country] || CORAL))],
+        false, false, false,
+        { x: "country", y: "% of live postings stating a salary" });
   });
 
   /* ---- this pipeline's own error rates ---- */
@@ -1637,7 +1670,8 @@ get("history").then(h => {
     },
     scales: {
       x: { grid: { color: LINE }, title: { display: true, text: fmtLabel } },
-      y: { grid: { display: false } }
+      y: { grid: { display: false },
+           title: { display: true, text: "tool" } }
     }
   });
 
