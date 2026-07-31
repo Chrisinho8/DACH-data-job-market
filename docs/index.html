@@ -382,6 +382,12 @@
       gap is the whole story: half the market moves in weeks, and a
       long tail of very old listings pulls the mean up behind it.
     </p>
+    <div class="mapctl">
+      <div class="ctlrow ctlrow-roles">
+        <span class="ctl-lab">Role</span>
+        <div id="survpick" class="pick"></div>
+      </div>
+    </div>
     <canvas id="surv" height="180"></canvas>
   </section>
 
@@ -714,36 +720,118 @@ get("age_distribution").then(d => {
       [ds("% of live postings", d.map(r => r.pct), cols)]);
 });
 
-/* ---------------- survival curve ---------------- */
-get("market_summary").then(ms => {
+/* ---------------- survival curve ----------------
+   Market-wide by default. If role_breakdown ships the pct_over_*
+   columns, a role picker appears and the curve can be narrowed to a
+   single role family (weighted across country and seniority).     */
+Promise.all([get("market_summary"), get("role_breakdown")])
+  .then(([ms, rb]) => {
   if (!ms || !ms.length) return;
   const m = ms[0];
   set("f-agency", m.pct_agency);
-  const pts = [
-    { x: 0,  y: 100 },
-    { x: 7,  y: m.pct_over_7d },
-    { x: 30, y: m.pct_over_30d },
-    { x: 60, y: m.pct_over_60d },
-    { x: 90, y: m.pct_over_90d },
-  ];
-  new Chart(document.getElementById("surv"), {
-    type: "line",
-    data: { datasets: [{
-      data: pts, borderColor: CORAL, backgroundColor: "#D9775722",
-      fill: true, tension: .25, pointRadius: 4,
-      pointBackgroundColor: CORAL }]},
-    options: {
-      plugins: { legend: { display: false },
-        tooltip: { callbacks: { label: c =>
-          `${c.raw.y}% still open after ${c.raw.x} days` } } },
-      scales: {
-        x: { type: "linear", title: { display: true,
-             text: "days since posted" }, grid: { color: LINE } },
-        y: { title: { display: true, text: "% still listed" },
-             min: 0, max: 100, grid: { color: LINE } }
-      }
-    }
+
+  const ALL  = "All roles";
+  const pick = document.getElementById("survpick");
+
+  /* does the published role_breakdown carry survival columns? */
+  const hasSurv = Array.isArray(rb) && rb.length &&
+                  rb[0].pct_over_30d !== undefined;
+
+  /* weighted roll-up per role family */
+  const byRole = {};
+  if (hasSurv) rb.forEach(r => {
+    const k = r.role_family;
+    const a = byRole[k] = byRole[k] ||
+      { n: 0, d7: 0, d30: 0, d60: 0, d90: 0, age: 0, med: 0 };
+    const w = r.n_postings || 0;
+    a.n   += w;
+    a.d7  += w * (r.pct_over_7d  ?? 0);
+    a.d30 += w * (r.pct_over_30d ?? 0);
+    a.d60 += w * (r.pct_over_60d ?? 0);
+    a.d90 += w * (r.pct_over_90d ?? 0);
+    a.age += w * (r.avg_age_days ?? 0);
+    a.med += w * (r.median_age_days ?? 0);
   });
+
+  const roles = Object.keys(byRole).sort((a, b) => byRole[b].n - byRole[a].n);
+
+  const stats = role => {
+    if (role === ALL) return {
+      pts: [
+        { x: 0,  y: 100 },
+        { x: 7,  y: m.pct_over_7d },
+        { x: 30, y: m.pct_over_30d },
+        { x: 60, y: m.pct_over_60d },
+        { x: 90, y: m.pct_over_90d },
+      ],
+      mean: Math.round(m.avg_age_days),
+      median: m.median_age_days
+    };
+    const a = byRole[role], n = a.n || 1, r1 = v => Math.round(10 * v / n) / 10;
+    return {
+      pts: [
+        { x: 0,  y: 100 },
+        { x: 7,  y: r1(a.d7)  },
+        { x: 30, y: r1(a.d30) },
+        { x: 60, y: r1(a.d60) },
+        { x: 90, y: r1(a.d90) },
+      ],
+      mean: Math.round(a.age / n),
+      median: Math.round(a.med / n)
+    };
+  };
+
+  let current = ALL, chart = null;
+
+  function draw() {
+    const s = stats(current);
+    set("f-mean", s.mean);
+    set("f-median", s.median);
+    if (chart) chart.destroy();
+    chart = new Chart(document.getElementById("surv"), {
+      type: "line",
+      data: { datasets: [{
+        data: s.pts, borderColor: CORAL, backgroundColor: "#D9775722",
+        fill: true, tension: .25, pointRadius: 4,
+        pointBackgroundColor: CORAL }]},
+      options: {
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: {
+            title: () => current === ALL ? ALL : rlab(current),
+            label: c =>
+              `${c.raw.y}% still open after ${c.raw.x} days` } } },
+        scales: {
+          x: { type: "linear", title: { display: true,
+               text: "days since posted" }, grid: { color: LINE } },
+          y: { title: { display: true, text: "% still listed" },
+               min: 0, max: 100, grid: { color: LINE } }
+        }
+      }
+    });
+  }
+
+  if (pick && roles.length) {
+    const names = [ALL].concat(roles);
+    pick.innerHTML = names.map(n =>
+      `<button type="button" data-role="${n}"
+               title="${n === ALL ? "every posting"
+                        : byRole[n].n.toLocaleString() + " postings"}"
+               aria-pressed="${n === current}">` +
+      `${n === ALL ? ALL : rlab(n)}</button>`).join("");
+
+    pick.querySelectorAll("button").forEach(b => {
+      b.addEventListener("click", () => {
+        current = b.dataset.role;
+        pick.querySelectorAll("button").forEach(x =>
+          x.setAttribute("aria-pressed", x.dataset.role === current));
+        draw();
+      });
+    });
+  } else if (pick) {
+    pick.closest(".mapctl").hidden = true;
+  }
+
+  draw();
 });
 
 /* ---------------- geography ---------------- */
