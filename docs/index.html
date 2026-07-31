@@ -198,8 +198,8 @@
     </div>
     <p class="sub">
       Every monday, data from job-postings across all three DACH
-      countries get pulled from a public API (Adzuna), loaded into a Delta Lake
-      pipeline on Databricks, and aggregated for various metrics and KPI's.
+      countries gets pulled from a public API (Adzuna), loaded into a Delta Lake
+      pipeline on Databricks, and aggregated for various insights
     </p>
     <p class="meta" id="meta">Loading&hellip;</p>
     <p class="byline">
@@ -215,13 +215,14 @@
 <main class="wrap">
 
   <!-- ============ HEADLINE ============ -->
-  <section class="kpiblock">
+<section class="kpiblock">
+    <h2>Current overview</h2>
     <div id="kpi" class="kpi"></div>
   </section>
 
   <!-- ============ GEOGRAPHY ============ -->
   <section>
-    <h2>Main stats for Austria, Germany and Switezrland</h2>
+    <h2>Main stats for Austria, Germany and Switzerland</h2>
     <p class="note">
     </p>
     <div id="ctrycards" class="ctry"></div>
@@ -285,7 +286,7 @@
   <section>
     <h2>Compare two cities head to head</h2>
     <p class="note">
-      Pick any two cities carrying at least 3 live postings, and
+      Pick any two cities having at least 3 live postings, and
       optionally narrow the comparison to a single role. 
     </p>
     <p class="note">
@@ -311,27 +312,20 @@
 
   <!-- ============ TOOLS ============ -->
   <section id="skillrole-section" hidden>
-    <h2>Which tools do postings ask for?
+    <h2>Which technical skills do postings ask for?
         <span class="pill">READ CAVEAT</span></h2>
     <p class="note">
       <strong>All roles</strong> shows the market-wide share of postings
-      mentioning each tool. Pick a role family and the left chart
-      switches to that role's own postings, while the right chart shows
-      the same figure minus the market-wide rate, so it reads what makes
-      a role <em>distinctive</em> rather than what is simply common
-      everywhere. Denominators are per role, so analytics engineer with
-      69 postings stays comparable with AI / ML at 1,435.
+      mentioning each tool. Pick a role and the left chart switches to that
+      role's postings; the right chart subtracts the market rate to show what
+      makes a role <em>distinctive</em>. Denominators are per role.
+      <strong>Read these as floors, not requirement rates:</strong> the API
+      caps descriptions at 500 characters, so this counts tools named in the
+      title or opening paragraph. Comparing tools with each other holds;
+      reading a single percentage as the real requirement rate does not.
+
     </p>
-    <p class="note">
-      <strong>Not every skill in a posting is extracted, so read these
-      as floors rather than requirement rates.</strong> The API
-      hard-caps descriptions at <strong>500 characters</strong> and
-      <strong>99.5%</strong> of postings are truncated, so this measures
-      tools named in the <em>title or opening paragraph</em>, not tools
-      required. The truncation window is identical for every posting, so
-      comparing tools with each other holds; treating any single
-      percentage as the real requirement rate does not.
-    </p>
+    
     <div class="mapctl">
       <div class="ctlrow ctlrow-roles">
         <span class="ctl-lab">Role</span>
@@ -354,14 +348,12 @@
   <section>
     <h2>Role and seniority, side by side</h2>
     <p class="note">
-      Every role family against every seniority level. Darker means
-      more postings. The junior column is the point: 132 of 3,991
-      postings, 3.3%, and two families with none at all. Seniority is
-      inferred from title keywords, so "mid" means "neither junior nor
-      senior stated" rather than a stated mid-level role. Entry
+      Every role family against every seniority level, darker meaning more
+      postings. The junior column is the point: 132 of 3,991 postings, 3.3%,
+      and two families with none at all. Seniority is inferred from title
+      keywords, so "mid" means neither junior nor senior was stated. Entry
       programmes (Ausbildung, duales Studium, Werkstudent, Praktikum,
-      Trainee) are excluded, so junior counts cover junior-titled
-      permanent roles only.
+      Trainee) are excluded.
     </p>
     <div id="heat" class="hm"></div>
   </section>
@@ -371,7 +363,7 @@
     <canvas id="senage" height="130"></canvas>
   </section>
   <section>
-    <h2>Which data role is which?</h2>
+    <h2>Comparison between the different data jobs and their posting lenghts</h2>
     <p class="note">
     </p>
     <div class="grid2">
@@ -386,15 +378,12 @@
     </div>
   </section>
   <section>
-    <h2>How many are still open after X days?</h2>
+    <h2>How many jobs are still open after n days?</h2>
     <p class="note">
-      A classic survival curve. Of every 100 live postings, how many
-      have already been open at least this long. The steep drop in the
-      first month is healthy churn. The flat tail is what drags the
-      average to <strong><span id="f-mean">&ndash;</span> days against
-      a median of <span id="f-median">&ndash;</span></strong>, and that
-      gap is the whole story: half the market moves in weeks, and a
-      long tail of very old listings pulls the mean up behind it.
+      Every point answers one question: out of 100
+      live postings, how many have been open at least this many days? Switch
+      roles with the buttons below.
+ 
     </p>
     <div class="mapctl">
       <div class="ctlrow ctlrow-roles">
@@ -423,9 +412,7 @@
     <p class="note">
       Share of postings stating any salary figure. The EU pay
       transparency directive had a transposition deadline of June 2026.
-      Swiss postings quote francs and German and Austrian ones euros,
-      so only the disclosure rate is comparable, never the amounts.
-    </p>
+         </p>
     <canvas id="n11_salary" height="120"></canvas>
   </section>
 
