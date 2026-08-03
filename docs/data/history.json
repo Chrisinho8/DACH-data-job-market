@@ -1116,66 +1116,6 @@
   "value": 984.0
  },
  {
-  "snapshot_date": "2026-08-03T00:00:00.000",
-  "metric": "role_count",
-  "dimension": "ai / ml",
-  "value": 1467.0
- },
- {
-  "snapshot_date": "2026-08-03T00:00:00.000",
-  "metric": "role_count",
-  "dimension": "data scientist",
-  "value": 406.0
- },
- {
-  "snapshot_date": "2026-08-03T00:00:00.000",
-  "metric": "role_count",
-  "dimension": "dwh / etl",
-  "value": 174.0
- },
- {
-  "snapshot_date": "2026-08-03T00:00:00.000",
-  "metric": "role_count",
-  "dimension": "data governance",
-  "value": 87.0
- },
- {
-  "snapshot_date": "2026-08-03T00:00:00.000",
-  "metric": "role_count",
-  "dimension": "bi developer",
-  "value": 202.0
- },
- {
-  "snapshot_date": "2026-08-03T00:00:00.000",
-  "metric": "role_count",
-  "dimension": "data architect",
-  "value": 273.0
- },
- {
-  "snapshot_date": "2026-08-03T00:00:00.000",
-  "metric": "role_count",
-  "dimension": "data consultant",
-  "value": 143.0
- },
- {
-  "snapshot_date": "2026-08-03T00:00:00.000",
-  "metric": "role_count",
-  "dimension": "data analyst",
-  "value": 244.0
- },
- {
-  "snapshot_date": "2026-08-03T00:00:00.000",
-  "metric": "role_count",
-  "dimension": "analytics engineer",
-  "value": 69.0
- },
- {
-  "snapshot_date": "2026-08-03T00:00:00.000",
-  "metric": "role_count",
-  "dimension": "data engineer",
-  "value": 973.0
- },
- {
   "snapshot_date": "2026-07-31T00:00:00.000",
   "metric": "role_count",
   "dimension": "ai / ml",
@@ -1234,6 +1174,66 @@
   "metric": "role_count",
   "dimension": "data engineer",
   "value": 967.0
+ },
+ {
+  "snapshot_date": "2026-08-03T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "ai / ml",
+  "value": 1467.0
+ },
+ {
+  "snapshot_date": "2026-08-03T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data scientist",
+  "value": 406.0
+ },
+ {
+  "snapshot_date": "2026-08-03T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "dwh / etl",
+  "value": 174.0
+ },
+ {
+  "snapshot_date": "2026-08-03T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data governance",
+  "value": 87.0
+ },
+ {
+  "snapshot_date": "2026-08-03T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "bi developer",
+  "value": 202.0
+ },
+ {
+  "snapshot_date": "2026-08-03T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data architect",
+  "value": 273.0
+ },
+ {
+  "snapshot_date": "2026-08-03T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data consultant",
+  "value": 143.0
+ },
+ {
+  "snapshot_date": "2026-08-03T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data analyst",
+  "value": 244.0
+ },
+ {
+  "snapshot_date": "2026-08-03T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "analytics engineer",
+  "value": 69.0
+ },
+ {
+  "snapshot_date": "2026-08-03T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data engineer",
+  "value": 973.0
  },
  {
   "snapshot_date": "2026-07-29T00:00:00.000",
@@ -1296,16 +1296,16 @@
   "value": 1010.0
  },
  {
-  "snapshot_date": "2026-08-03T00:00:00.000",
-  "metric": "live_postings",
-  "dimension": "all",
-  "value": 4038.0
- },
- {
   "snapshot_date": "2026-07-29T00:00:00.000",
   "metric": "live_postings",
   "dimension": "all",
   "value": 4407.0
+ },
+ {
+  "snapshot_date": "2026-08-03T00:00:00.000",
+  "metric": "live_postings",
+  "dimension": "all",
+  "value": 4038.0
  },
  {
   "snapshot_date": "2026-07-31T00:00:00.000",
