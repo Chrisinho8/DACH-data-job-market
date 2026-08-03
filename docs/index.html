@@ -347,6 +347,31 @@
     </div>
   </section>
 
+  <!-- ============ THE AI SPLIT ============ -->
+  <section id="ai-section" hidden>
+    <h2>What "AI job" actually means here</h2>
+    <p class="note">
+      Until this run, every posting whose title contained "AI" or "KI"
+      landed in one family. That made it the biggest group on the page
+      and the least informative, because a backend role at a startup
+      that calls itself AI-native counted the same as an MLOps
+      engineer. It is now seven families, classified from the title,
+      most specific rule first.
+    </p>
+    <div id="ai_stats" class="stats"></div>
+    <div class="grid2">
+      <div>
+        <h3 class="subh">Postings per AI family</h3>
+        <canvas id="aivol" height="230"></canvas>
+      </div>
+      <div>
+        <h3 class="subh">Average days open per AI family</h3>
+        <canvas id="aiage" height="230"></canvas>
+      </div>
+    </div>
+    <p class="note" id="ai_vague_note"></p>
+  </section>
+
   <!-- ============ ROLES AND SENIORITY ============ -->
   <section>
     <h2>Role and seniority, side by side</h2>
@@ -444,8 +469,23 @@
           may be when it indexed the job rather than when the employer
           published it.</li>
       <li><strong>Roles are classified from the job title</strong> with
-          keyword rules. The AI/ML family includes software engineering
-          roles that merely mention AI, which inflates it.</li>
+          keyword rules, not from the description, which the aggregator
+          truncates.</li>
+      <li><strong>AI is seven families, and one of them is a
+          confession.</strong> The rules run most specific first
+          (research, GenAI, MLOps, ML, consulting, AI engineer), and
+          anything that only says "AI" or "KI" falls into
+          <em>AI mentioned, role unclear</em>. That family is published
+          rather than hidden because its size is itself a finding. Sum
+          all seven to reproduce a single "AI jobs" number, but do not
+          quote that number without also quoting the unclear share.</li>
+      <li><strong>The boundaries between AI families are judgement
+          calls.</strong> "Applied Scientist, Machine Learning" is
+          counted as research rather than ML engineering; a title
+          naming both data and AI is counted as data. Reasonable people
+          would draw these lines differently, and the rules are in
+          <code>03_silver_clean.py</code> so you can check where yours
+          would differ.</li>
       <li><strong>Entry programmes are excluded</strong> (Ausbildung,
           duales Studium, Werkstudent, Praktikum, Trainee), along with
           Controlling and finance roles and data-centre infrastructure
@@ -483,8 +523,75 @@ const CORAL = "#D97757", CLAY = "#CC785C", SAGE = "#7C9885",
       PLUM  = "#9B7B9B", STEEL = "#6E8CA0", MOSS = "#6E9384",
       SAND  = "#C7A87C";
 
+/* Splitting AI into seven families took the role count from 10 to 16,
+   so a 10-colour cycle would have repeated. Six more, chosen to stay
+   distinguishable in the same muted range.                         */
+const ROSE = "#B5657F", INDIGO = "#6B6E9B", OLIVE = "#8C9455",
+      OCEAN = "#4F7A8C", STONE = "#8A857C", RUST  = "#9C5A3C";
+
 const CATS = [CORAL, STEEL, SAGE, AMBER, PLUM, TEAL,
-              CLAY, SAND, MOSS, DEEP];
+              CLAY, SAND, MOSS, DEEP,
+              ROSE, INDIGO, OLIVE, OCEAN, STONE, RUST];
+
+/* Fixed colour per role family, so a family keeps its colour across
+   every chart on the page even when the sort order differs. The AI
+   families share the warm end of the palette and the data families
+   the cool end, which makes the AI block readable as a block.     */
+const ROLE_COLOUR = {
+  "ai engineer":   CORAL,  "genai / llm":   DEEP,
+  "ml engineer":   CLAY,   "mlops":         RUST,
+  "ai consultant": AMBER,  "ai research":   SAND,
+  "ai (other)":    STONE,          /* grey on purpose: it is the
+                                      bucket that says nothing */
+  "ai / ml":       CORAL,          /* pre-split snapshots */
+
+  "data engineer":      STEEL,  "data analyst":    SAGE,
+  "data scientist":     TEAL,   "data architect":  INDIGO,
+  "analytics engineer": MOSS,   "dwh / etl":       OCEAN,
+  "data governance":    PLUM,   "data consultant": OLIVE,
+  "bi developer":       ROSE
+};
+
+/* falls back to the cycle for any family the map has not seen */
+const rcol = (rf, i) =>
+  ROLE_COLOUR[String(rf).toLowerCase()] || CATS[i % CATS.length];
+
+/* The seven AI families, plus the pre-split name so an older data/
+   snapshot still totals correctly. Anything asking "how much of this
+   is AI" must sum this set, never test one string.               */
+const AI_SET = new Set([
+  "ai engineer", "genai / llm", "ml engineer", "mlops",
+  "ai consultant", "ai research", "ai (other)", "ai / ml"
+]);
+
+/* Everything except the bucket that only tells you the word "AI"
+   appeared. The gap between the two is the point of the split. */
+const AI_CORE = new Set([...AI_SET].filter(r => r !== "ai (other)"));
+const isAI = rf => AI_SET.has(String(rf).toLowerCase());
+
+/* Tool categories are published as snake_case identifiers. Rewrite
+   them for display only; the pipeline values must not change.     */
+const SKILL_CAT_LABEL = {
+  ml_framework: "ML frameworks",
+  mlops:        "MLOps",
+  genai:        "Generative AI",
+  nlp_cv:       "NLP / computer vision",
+  language:     "Languages",
+  processing:   "Processing",
+  streaming:    "Streaming",
+  warehouse:    "Warehouse",
+  orchestr:     "Orchestration",
+  transform:    "Transformation",
+  database:     "Databases",
+  cloud:        "Cloud",
+  devops:       "DevOps",
+  bi:           "BI",
+  platform:     "Platform",
+  enterprise:   "Enterprise",
+  practice:     "Practices",
+  legacy:       "Legacy"
+};
+const scat = c => SKILL_CAT_LABEL[c] || String(c).replace(/_/g, " ");
 
 const CNAME = { de: "Germany", at: "Austria", ch: "Switzerland" };
 const CCOL  = { de: CORAL,     at: STEEL,     ch: SAGE };
@@ -506,7 +613,17 @@ const cap = s => String(s).charAt(0).toUpperCase() + String(s).slice(1);
    not change. Only the labels shown to a reader are rewritten, so
    nothing downstream of gold breaks.                              */
 const ROLE_LABEL = {
-  "ai / ml":            "AI/ML Engineer",
+  /* the seven AI families that replaced the single "ai / ml" one */
+  "ai engineer":        "AI Engineer",
+  "genai / llm":        "GenAI / LLM Engineer",
+  "ml engineer":        "ML Engineer",
+  "mlops":              "MLOps / ML Platform",
+  "ai consultant":      "AI Consulting",
+  "ai research":        "AI Research",   /* incl. applied scientist */
+  "ai (other)":         "AI mentioned, role unclear",
+  /* kept so an older data/ snapshot still renders a sane label */
+  "ai / ml":            "AI/ML (pre-split)",
+
   "data engineer":      "Data Engineer",
   "data scientist":     "Data Scientist",
   "data analyst":       "Data Analyst",
@@ -1357,7 +1474,7 @@ get("role_breakdown").then(d => {
 
   bar("rolevol", roles.map(r => wrap(rlab(r))),
       [ds("Live postings", rows.map(r => r.n),
-          rows.map((_, i) => cyc(i)))], true, false, false,
+          rows.map((r, i) => rcol(r.role, i)))], true, false, false,
       { x: "live postings", y: "role family" });
 
   const byAge = rows.slice().sort((a, b) => b.age - a.age);
@@ -1378,7 +1495,7 @@ get("role_breakdown").then(d => {
     };
     bar("ctryrole", countries.map(c => CNAME[c]),
         roles.map((rf, i) =>
-          ds(rlab(rf), countries.map(c => share(c, rf)), cyc(i))),
+          ds(rlab(rf), countries.map(c => share(c, rf)), rcol(rf, i))),
         true, true, true,
         { x: "% of that country's live postings", y: "country" });
   }
@@ -1457,6 +1574,73 @@ get("stale_by_company").then(d => {
 
 });
 
+/* ---------------- the AI split ----------------
+   Reads the same role_breakdown table as the roles section, filtered
+   to the seven AI families. The section stays hidden if the data
+   directory still holds a pre-split snapshot, so an old deploy does
+   not render an empty chart.                                      */
+get("role_breakdown").then(d => {
+  if (!d || !d.length) return;
+
+  const agg = {};
+  d.filter(r => isAI(r.role_family)).forEach(r => {
+    const k = String(r.role_family).toLowerCase();
+    agg[k] = agg[k] || { n: 0, wage: 0 };
+    agg[k].n    += r.n_postings;
+    agg[k].wage += r.n_postings * r.avg_age_days;
+  });
+
+  const fams = Object.keys(agg);
+  /* one family means the pipeline has not been re-run yet */
+  if (fams.length < 2) return;
+
+  const sec = document.getElementById("ai-section");
+  if (sec) sec.hidden = false;
+
+  const rows = fams.map(f => ({ role: f, n: agg[f].n,
+                                age: agg[f].wage / agg[f].n }))
+                   .sort((a, b) => b.n - a.n);
+
+  const totalAll = d.reduce((s, r) => s + r.n_postings, 0);
+  const totalAI  = rows.reduce((s, r) => s + r.n, 0);
+  const vague    = agg["ai (other)"] ? agg["ai (other)"].n : 0;
+  const named    = totalAI - vague;
+  const biggest  = rows.find(r => r.role !== "ai (other)");
+
+  const pct = (a, b) => b ? (100 * a / b).toFixed(1) + "%" : "–";
+  const cards = [
+    ["AI-labelled postings", totalAI.toLocaleString()],
+    ["of all live postings", pct(totalAI, totalAll)],
+    ["Largest named AI family",
+     biggest ? rlab(biggest.role) : "–"],
+    ["Say AI, name no role", pct(vague, totalAI)],
+  ];
+  const st = document.getElementById("ai_stats");
+  if (st) st.innerHTML = cards.map(([k, v]) =>
+    `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join("");
+
+  bar("aivol", rows.map(r => wrap(rlab(r.role))),
+      [ds("Live postings", rows.map(r => r.n),
+          rows.map((r, i) => rcol(r.role, i)))], true, false, false,
+      { x: "live postings", y: "AI family" });
+
+  const byAge = rows.slice().sort((a, b) => b.age - a.age);
+  bar("aiage", byAge.map(r => wrap(rlab(r.role))),
+      [ds("Avg days open", byAge.map(r => Math.round(r.age)),
+          byAge.map(r => ageColour(r.age)))], true, false, false,
+      { x: "average days a posting stays open", y: "AI family" });
+
+  const note = document.getElementById("ai_vague_note");
+  if (note) note.innerHTML =
+    `<strong>Read the grey bar first.</strong> ` +
+    `${vague.toLocaleString()} of ${totalAI.toLocaleString()} ` +
+    `AI-labelled postings (${pct(vague, totalAI)}) carry the word ` +
+    `but describe no AI-specific role in the title. The remaining ` +
+    `${named.toLocaleString()} are the ones worth comparing. ` +
+    `Any headline number about "AI hiring in DACH" that does not ` +
+    `separate these two is counting adjectives, not jobs.`;
+});
+
 /* ---------------- tools ---------------- */
 get("skill_demand").then(d => {
   if (!d || !d.length) return;
@@ -1467,7 +1651,7 @@ get("skill_demand").then(d => {
     byCat[c] = (byCat[c] || 0) + r.n_postings;
   });
   const cats = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
-  bar("skillcat", cats.map(c => c[0]),
+  bar("skillcat", cats.map(c => wrap(scat(c[0]), 12)),
       [ds("Mentions", cats.map(c => c[1]),
           cats.map((_, i) => cyc(i)))],
       false, false, false,
@@ -1855,7 +2039,7 @@ get("history").then(h => {
       type: "bubble",
       data: {
         datasets: cats.map((c, i) => ({
-          label: c,
+          label: scat(c),
           data: byCat[c].map(r => ({
             x: r.pct_postings,
             y: r.avg_age_days,
@@ -1934,18 +2118,27 @@ get("history").then(h => {
       const hasRoles =
         !!(cr && cr.length && cr[0].role_family !== undefined && selR);
 
-      /* ---- totals and AI/ML share per city, from the role cut ---- */
-      const cityTotal = {}, aiShare = {};
+      /* ---- totals and AI share per city, from the role cut ----
+         AI is seven families now, so this sums the set rather than
+         testing one string. AI_SET is defined once at the top and
+         includes "ai / ml" so an older data/ snapshot still works.
+         "ai (other)" is counted here: the map shows how much of a
+         city's hiring carries an AI label, which is the honest
+         question, and the role dropdown lets you look inside.   */
+      const cityTotal = {}, aiShare = {}, aiCoreShare = {};
       if (cr && cr.length && cr[0].role_family !== undefined) {
-        const ai = {};
+        const ai = {}, core = {};
         cr.forEach(r => {
           const k = `${r.country}|${r.city}`;
+          const rf = String(r.role_family).toLowerCase();
           cityTotal[k] = (cityTotal[k] || 0) + r.n_postings;
-          if (r.role_family === "ai / ml")
-            ai[k] = (ai[k] || 0) + r.n_postings;
+          if (AI_SET.has(rf))  ai[k]   = (ai[k]   || 0) + r.n_postings;
+          if (AI_CORE.has(rf)) core[k] = (core[k] || 0) + r.n_postings;
         });
-        Object.keys(cityTotal).forEach(k =>
-          aiShare[k] = +(100 * (ai[k] || 0) / cityTotal[k]).toFixed(1));
+        Object.keys(cityTotal).forEach(k => {
+          aiShare[k]     = +(100 * (ai[k]   || 0) / cityTotal[k]).toFixed(1);
+          aiCoreShare[k] = +(100 * (core[k] || 0) / cityTotal[k]).toFixed(1);
+        });
       }
 
       /* does the role cut carry the language / agency columns? */
@@ -1965,7 +2158,8 @@ get("history").then(h => {
           age: r.avg_age_days,
           english: r.pct_english,
           agency: r.pct_agency,
-          ai: aiShare[`${r.country}|${r.city}`] ?? 0
+          ai:     aiShare[`${r.country}|${r.city}`]     ?? 0,
+          aiCore: aiCoreShare[`${r.country}|${r.city}`] ?? 0
         }))
         .sort(byCountryThenSize);
 
@@ -2005,7 +2199,8 @@ get("history").then(h => {
         ["Avg days open",   "age",      v => Math.round(v) + " d"],
         ["% in English",    "english",  v => v + "%"],
         ["% via agency",    "agency",   v => v + "%"],
-        ["% AI / ML roles", "ai",       v => v + "%"]
+        ["% AI-labelled",   "ai",       v => v + "%"],
+        ["% AI, role named", "aiCore",  v => v + "%"]
       ];
       const AX_ROLE = [
         ["Live listings", "listings", v => v.toLocaleString()],
