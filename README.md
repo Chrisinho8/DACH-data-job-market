@@ -1,65 +1,89 @@
 # What's up with the data-job market in Austria/Germany/Switzerland?
 
-
- 
 ![tests](https://github.com/Chrisinho8/DACH-data-job-market/actions/workflows/tests.yml/badge.svg)
 
+**[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** · last updated 5 August 2026
 
-**[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** (Last updated: 1/08/2026)
- 
- 
-A weekly snapshot of the DACH data-job market: 3,991 live postings across Germany, Austria and Switzerland. Every Monday at 06:00 a Databricks pipeline queries the Adzuna API for 15 job titles across all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 47-term skills dictionary, and publishes the aggregates to a static site.
- 
-**This is not a job board.** It will not help you find a role and it does not link to or republish individual postings. It describes the *shape* of the market: how long roles stay open, how few are junior, which cities hire in English.
- 
+A weekly snapshot of the DACH data-job market: **3,625 live postings from 1,462 employers** across Germany, Austria and Switzerland. Every Monday at 06:00 a Databricks pipeline queries the Adzuna API for 15 job titles in all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 47-term skills dictionary, and publishes to a static site.
+
+## What you can do with it
+
+- **See the shape of the market** — volumes by role, city and country, how long postings stay open, seniority mix, tool mentions, English-language share, salary disclosure.
+- **Read the postings behind any number.** Every chart is a count of real adverts, and those adverts are browsable: search by title or employer, filter by role family, country, city and seniority, sort by newest or longest-open, 20 per page. Titles link out to the aggregator.
+- **Drill down from a chart.** Click a city on the map or a bar in any role chart and the list below filters to it. Nothing on the site is a number you have to take on trust.
+- **Watch it move.** Nothing is ever overwritten, so each run adds to the record and every figure gains a second dimension: not just how many AI roles are open, but whether that number is climbing.
+
 ## Main insights
- 
+
+Snapshot of 2026-08-05.
+
 | Role family | Postings | Share | Avg days open | DE | AT | CH |
 |---|---:|---:|---:|---:|---:|---:|
-| AI/ML Engineer | 1,435 | 36.0% | 47 d | 1,190 | 104 | 141 |
-| Data Engineer | 984 | 24.7% | 53 d | 838 | 72 | 74 |
-| Data Scientist | 391 | 9.8% | 64 d | 331 | 21 | 39 |
-| Data Architect | 260 | 6.5% | 49 d | 242 | 10 | 8 |
-| Data Analyst | 259 | 6.5% | 61 d | 206 | 30 | 23 |
-| BI Developer | 205 | 5.1% | 40 d | 187 | 8 | 10 |
-| Data Warehouse / ETL | 164 | 4.1% | 84 d | 147 | 12 | 5 |
-| Data Consultant | 135 | 3.4% | 76 d | 120 | 5 | 10 |
-| Data Governance and Security | 89 | 2.2% | 84 d | 76 | 3 | 10 |
-| Analytics Engineer | 69 | 1.7% | 54 d | 61 | 6 | 2 |
-| **Total** | **3,991** | **100%** | **54 d** | **3,398** | **271** | **322** |
+| Data Engineer | 973 | 26.8% | 59 d | 821 | 70 | 82 |
+| Data Scientist | 406 | 11.2% | 64 d | 349 | 19 | 38 |
+| AI Engineer | 375 | 10.3% | 54 d | 332 | 18 | 25 |
+| Data Architect | 273 | 7.5% | 61 d | 256 | 10 | 7 |
+| GenAI / LLM Engineer | 269 | 7.4% | 38 d | 240 | 15 | 14 |
+| Data Analyst | 244 | 6.7% | 72 d | 201 | 26 | 17 |
+| BI Developer | 202 | 5.6% | 43 d | 187 | 5 | 10 |
+| Data Warehouse / ETL | 174 | 4.8% | 84 d | 158 | 11 | 5 |
+| ML Engineer | 167 | 4.6% | 64 d | 128 | 15 | 24 |
+| Data Consultant | 143 | 3.9% | 84 d | 129 | 4 | 10 |
+| MLOps / ML Platform | 112 | 3.1% | 52 d | 90 | 11 | 11 |
+| AI Consulting | 94 | 2.6% | 44 d | 75 | 13 | 6 |
+| Data Governance and Security | 87 | 2.4% | 91 d | 74 | 3 | 10 |
+| Analytics Engineer | 69 | 1.9% | 59 d | 63 | 5 | 1 |
+| AI Research | 37 | 1.0% | 51 d | 30 | 1 | 6 |
+| **Total** | **3,625** | **100%** | **60 d** | **3,133** | **226** | **266** |
 
+**AI is 1,054 postings, 29.1% of the market** — the six AI families summed. Quote that, not a single "AI/ML" bar. The old bar read 36% because its rule ended in a bare `\bai\b` catch-all that swept in any job at a company describing itself as AI-native; those titles are now dropped rather than counted, so this figure is a floor and is **not** comparable to earlier snapshots.
 
-## Skill extraction
+**The AI roles are not the ones that sit unfilled.** GenAI / LLM is the fastest-moving family at 38 days open, less than half of Data Warehouse / ETL and Data Consultant at 84 days and Data Governance at 91. The hardest roles to fill are the unglamorous ones.
 
-Postings are scanned with a curated dictionary of 47 terms rather than an LLM, so every match points at a specific string in a specific posting and the counts are reproducible. The tricky cases are real: "SQL" hides inside "PostgreSQL", "Java" inside "JavaScript", and a bare "R" matches "R&D" and half of every German address block. Each trap is pinned down by a test in `tests/test_matcher.py` that runs in CI on every push. See `src/matcher.py`.
- 
-## The future of this tracker
+### Seniority: the junior problem
 
-Right now this is a photograph. Every figure describes a single Monday.
+| Role family | Junior | Mid | Senior |
+|---|---:|---:|---:|
+| Data Engineer | 33 | 600 | 340 |
+| Data Scientist | 29 | 182 | 195 |
+| AI Engineer | 8 | 210 | 157 |
+| Data Architect | 0 | 135 | 138 |
+| GenAI / LLM Engineer | 12 | 151 | 106 |
+| Data Analyst | 13 | 160 | 71 |
+| BI Developer | 2 | 156 | 44 |
+| Data Warehouse / ETL | 3 | 143 | 28 |
+| ML Engineer | 5 | 88 | 74 |
+| Data Consultant | 6 | 66 | 71 |
+| MLOps / ML Platform | 5 | 73 | 34 |
+| AI Consulting | 7 | 56 | 31 |
+| Data Governance and Security | 0 | 32 | 55 |
+| Analytics Engineer | 3 | 37 | 29 |
+| AI Research | 0 | 15 | 22 |
+| **Total** | **126** | **2,104** | **1,395** |
 
-Nothing is ever overwritten, so each weekly run adds to the record. After a few of them, every number here gains a second dimension: not just how many AI/ML roles are open, but whether that number is climbing. Not just that postings sit open 54 days, but whether the market is speeding up or seizing. Volumes by role and city, seniority mix, tool mentions, English-language share, salary disclosure, all of it becomes a line instead of a dot.
+**126 junior postings out of 3,625 — 3.5%, against 38.5% senior.** Eleven senior openings for every junior one. Three families advertise no junior roles at all: Data Architect, Data Governance and AI Research. Data Engineering carries a quarter of all junior openings and still only offers 33 of them.
 
-Given a few months it can answer whether AI/ML keeps taking share from data engineering, which tools are quietly disappearing from adverts, and whether junior openings are seasonal or simply absent. That needs Mondays, not new code.
- 
+Read that with the classifier in mind: seniority comes from the title, and a posting with no seniority word counts as mid, which is why mid is 58%. Entry programmes (Ausbildung, Werkstudent, Praktikum, Trainee) are excluded entirely, so 3.5% covers junior-titled permanent roles only. The real entry-level picture is somewhat better than 3.5% and nowhere near 33%.
+
 ## Scope: what counts as a data job
- 
-**Kept, data:** data engineer, data analyst, data scientist, data architect, analytics engineer, DWH / ETL, data governance, data consultant, BI developer.
 
-**Kept, AI:** AI engineer, GenAI / LLM, ML engineer, MLOps, AI consultant, AI research. A single `ai / ml` bucket used to be the largest family on the site and the least trustworthy one, because its rule ended in a bare `\bai\b` catch-all that swept in any backend job at a company calling itself AI-native.
+**Data:** data engineer, data analyst, data scientist, data architect, analytics engineer, DWH / ETL, data governance, data consultant, BI developer.
+
+**AI:** AI engineer, GenAI / LLM, ML engineer, MLOps, AI consultant, AI research.
 
 | Excluded | Why |
 |---|---|
-| Titles that say "AI" or "KI" and name no role | The rule still runs and still catches them; they are dropped rather than published. A job title is not enough to tell an AI job from a job advertised by a company that likes the word. The consequence: **AI figures here are a floor, not a total.** |
+| Titles saying "AI"/"KI" and naming no role | A title cannot tell an AI job from a job at a company that likes the word. The rule still runs and still catches them, but they are dropped. **AI figures are a floor, not a total.** |
 | German *Controlling*, FP&A, finance | Management accounting, a separate profession |
 | Ausbildung, duales Studium, Werkstudent, Praktikum, Trainee | Education programmes, and they stay listed for months, distorting the age figures |
 | Data **centre** infrastructure | False friend: "Data Center Engineering Operations" is physical infrastructure |
 | General software, cloud and DevOps engineering | Not data roles, pulled in by keyword overlap |
 | Speculative applications, parse artefacts | Not job postings at all |
- 
-Excluded rows are kept in `silver.excluded` so the decision stays auditable.
- 
+
+Excluded rows land in `silver.excluded` so the decision stays auditable.
+
 ## Architecture
- 
+
 ```
 Adzuna API (de, at, ch)
   -> raw JSON cached in a Unity Catalog volume
@@ -73,48 +97,53 @@ Adzuna API (de, at, ch)
   -> GitHub Pages
 ```
 
-**Browsing the postings.** Everything on the site is a count except one table. `gold.postings_public` ships as `docs/data/postings.json` and backs a searchable, filterable list, so a reader can click any role bar and see the jobs that made it tall. It carries title, employer, city, role family, seniority, age and the aggregator's `redirect_url`. It does not carry descriptions (not ours to redistribute, and 99.6% are truncated anyway) or salary (mostly the aggregator's own prediction). Rows without a link are dropped rather than rendered dead.
- 
 ![Visualized architecture](assets/pipeline-architecture.png)
- 
-**Deduplication.** Postings are hashed on title, company, city and the first 200 characters of the description; the earliest listing is kept. Query overlap is counted separately from genuine reposts and is not published as a finding.
- 
+
+**Browsing the postings.** Everything on the site is a count except one table. `gold.postings_public` ships as `docs/data/postings.json` and backs the searchable list. It carries title, employer, city, role family, seniority, age and the aggregator's `redirect_url` — not descriptions (not ours to redistribute, and 99.6% are truncated anyway) and not salary (mostly the aggregator's own prediction). Rows without a link are dropped rather than rendered dead.
+
+**Skill extraction.** A curated dictionary of 47 terms, not an LLM, so every match points at a specific string in a specific posting and the counts are reproducible. The traps are real: "SQL" hides inside "PostgreSQL", "Java" inside "JavaScript", a bare "R" matches "R&D" and half of every German address block. Each one is pinned by a test in `tests/test_matcher.py` that runs in CI on every push. See `src/matcher.py`.
+
+**Deduplication.** Postings are hashed on title, company, city and the first 200 characters of the description; the earliest listing wins. Query overlap is counted separately from genuine reposts and is not published as a finding.
+
 **Posting age.** Days between the API's `created` date and the snapshot date, for postings still returned as live.
- 
-**Location.** Taken from each posting's own location array. In the city-states (Berlin, Hamburg, Bremen, Vienna, Basel, Geneva) the third level is a district, so it is collapsed into the parent. Administrative wrappers (`(Kreis)`, `-Umgebung`, `-Land`, `Region ...`) are stripped.
- 
+
+**Location.** From each posting's own location array. In the city-states (Berlin, Hamburg, Bremen, Vienna, Basel, Geneva) the third level is a district and is collapsed into the parent. Administrative wrappers (`(Kreis)`, `-Umgebung`, `-Land`, `Region ...`) are stripped.
+
 ## Limitations
- 
+
 - **Postings are not hires.** An old posting may be unfilled, a pipeline-building advert, or one nobody took down. This measures advertising behaviour, not hiring outcomes.
-- **One aggregator is not the whole market**, and coverage is uneven. Austria and Switzerland have a few hundred postings each, so their figures are noisier than Germany's.
+- **One aggregator is not the whole market**, and coverage is uneven. Austria and Switzerland have ~250 postings each, so any claim about them rests on a few dozen adverts per family.
 - **`created` is the aggregator's date**, possibly when it indexed the posting rather than when the employer published it.
-- **Descriptions are hard-capped at 500 characters** and 99.5% are truncated. Tool counts measure *mentioned in the title or opening paragraph*, a floor rather than a requirement rate. The truncation window is identical for every posting, so comparisons between tools hold; absolute rates do not.
-- **AI counts are a floor.** Titles mentioning AI without naming a role are dropped, not counted, so the six AI families cover every AI posting that *describes itself* and nothing else. The share of the AI split that gets dropped is printed on every run of `03_silver_clean.py`; if it climbs, the six rules are going stale.
-- **A posting in the browser is not necessarily open.** It was live at the last refresh. Nothing re-checks whether a job has since been filled or withdrawn.
-- **Roles and seniority are inferred from titles** with keyword rules, so both carry classification error. A role advertised without a seniority word counts as mid.
-- **Entry programmes are excluded**, so the 3.3% junior figure covers junior-titled permanent roles only.
-- **Agency detection is keyword based** and flags only 3.9%, almost certainly an undercount. Treat it as a lower bound.
-- **5.3% of records are rejected by the quality rules** on each run and quarantined rather than silently dropped.
+- **Descriptions are capped at 500 characters** and 99.6% are truncated. Tool counts measure *mentioned in the title or opening paragraph* — a floor, not a requirement rate. The window is identical for every posting, so comparing tools holds; absolute rates do not.
+- **AI counts are a floor**, for the reason in the scope table. The dropped share is printed on every run of `03_silver_clean.py`; if it climbs, the six rules are going stale.
+- **A posting in the browser is not necessarily open.** It was live at the last refresh. Nothing re-checks whether it has since been filled or withdrawn.
+- **Roles and seniority are inferred from titles**, so both carry classification error.
+- **Agency detection is keyword based** and flags only 3.9%, almost certainly an undercount.
+- **6.3% of records are rejected** by the quality rules each run and quarantined rather than silently dropped.
+- **The history table has a break at 2026-08-05.** Rows before it counted a seventh AI family for titles naming no role; rows after do not. The step in `role_count` and `ai_family_pct` is a definition change, not the market moving.
+
 ## Running it yourself
- 
+
 1. Get an `app_id` and `app_key` from `developer.adzuna.com`.
 2. Create a Databricks workspace (Free Edition is enough) and run `notebooks/setup_uc.py` to create the catalog, schemas and volumes.
 3. Put credentials in the `conf` volume, outside this repo:
+
 ```python
 pathlib.Path("/Volumes/jobs/bronze/conf/adzuna.json").write_text(
     json.dumps({"app_id": "...", "app_key": "..."}))
 ```
- 
+
 4. Import `notebooks/` and run 01 to 06 in order.
 5. Chain them into a weekly Databricks Workflow.
+
 ```bash
 pip install -r requirements.txt && pytest tests/ -v
 ```
- 
-## Tech-Stack
- 
+
+## Tech stack
+
 Databricks Free Edition, Delta Lake, Auto Loader, Unity Catalog, PySpark, Databricks Workflows, GitHub Actions and Pages, Chart.js, SQL.
- 
+
 ## Licence
- 
+
 MIT. The underlying job data belongs to Adzuna and its source boards.
