@@ -2058,12 +2058,6 @@
   "value": 56.6
  },
  {
-  "snapshot_date": "2026-08-05T00:00:00.000",
-  "metric": "pct_over_60d",
-  "dimension": "all",
-  "value": 28.3
- },
- {
   "snapshot_date": "2026-07-29T00:00:00.000",
   "metric": "pct_over_60d",
   "dimension": "all",
@@ -2074,6 +2068,12 @@
   "metric": "pct_over_60d",
   "dimension": "all",
   "value": 26.8
+ },
+ {
+  "snapshot_date": "2026-08-05T00:00:00.000",
+  "metric": "pct_over_60d",
+  "dimension": "all",
+  "value": 28.3
  },
  {
   "snapshot_date": "2026-07-31T00:00:00.000",
