@@ -123,8 +123,8 @@
   /* Fixed row height: the two numbers are the only content, so the
      row is sized to them once instead of letting padding stack up.
      .hm.hm-idx outranks the generic .hm rules above.              */
-  .hm.hm-idx{gap:2px;margin-top:2px;font-size:13px;
-             grid-auto-rows:34px}
+  .hm.hm-idx{gap:3px;margin-top:2px;font-size:13px;
+             grid-auto-rows:46px}
   .hm.hm-idx div{padding:0;margin:0;min-height:0;height:100%;
                  line-height:1;display:flex;flex-direction:column;
                  justify-content:center;align-items:center;
@@ -142,7 +142,7 @@
   .hm.hm-idx .big{display:block;font-size:16px;font-weight:700;
                   line-height:1;letter-spacing:-.01em;color:#191919}
   .hm.hm-idx .sub{display:block;font-weight:600;font-size:12px;
-                  line-height:1;color:#191919;opacity:.6;margin-top:3px}
+                  line-height:1;color:#191919;opacity:.6;margin-top:5px}
   .idxlegend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;
              color:#5C5A54;margin:8px 0 0}
   .idxlegend span{display:flex;align-items:center;gap:5px}
@@ -399,8 +399,9 @@
 
 
   <section id="postings-section" hidden>
-    <h2>The live postings behind the statistics</h2>
+    <h2>The live postings behind the map</h2>
     <p class="note">
+      The listings can be filtered by choosing the role/city on the map or by filling in the filters manually.
     </p>
 
     <div class="pfilters">
@@ -414,6 +415,8 @@
       <select id="psort" aria-label="Sort postings">
         <option value="new">Newest first</option>
         <option value="old">Oldest first</option>
+        <option value="age">Longest open</option>
+        <option value="az">Title A–Z</option>
       </select>
       <button id="pclear" type="button">Clear</button>
     </div>
@@ -463,7 +466,12 @@
 Pick a role: the left chart shows what its postings ask for, the
   right subtracts the market rate to show what makes it
   <em>distinctive</em>. Denominators are per role.
-  <strong>These are floors, not requirement rates</strong>
+  <strong>These are floors, not requirement rates</strong> &mdash; the API
+  caps descriptions at 500 characters, so this only counts tools
+  named up front. Comparing tools holds; reading one percentage as
+  the real requirement rate does not.
+
+
     </p>
     
     <div class="mapctl">
@@ -531,7 +539,9 @@ Pick a role: the left chart shows what its postings ask for, the
   <section>
     <h2>How many jobs are still open after n days?</h2>
     <p class="note">
-  
+      Every point answers one question: out of 100
+      live postings, how many have been open at least this many days? Switch
+      roles with the buttons below.
  
     </p>
     <div class="mapctl">
@@ -547,7 +557,10 @@ Pick a role: the left chart shows what its postings ask for, the
   <section>
     <h2>Which country asks for which role?</h2>
     <p class="note">
-    Orange means over-represented, blue means
+      Every country hires Data Engineers, so raw shares mostly repeat
+      what you already know. This shows the opposite: how far each
+      country's demand for a role sits <strong>above or below the DACH
+      average</strong>. Orange means over-represented, blue means
       under-represented, pale means normal. Click any cell to see those
       postings.
     </p>
