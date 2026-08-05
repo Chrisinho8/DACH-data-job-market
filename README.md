@@ -19,44 +19,18 @@ Snapshot of 2026-08-05.
  
 ![The map view: a DACH bubble map with the role filter, per-country totals and the top-cities table](assets/mappy.png)
  
-Above: the map view. Bubbles are sized by posting count and coloured by country — Germany coral, Austria blue, Switzerland green. Pick any of the 15 role families and the whole view re-cuts to it: bubbles, the four country totals, and the top-cities table with each city's average days open. Click a bubble or a table row and the browsable posting list below filters to that city.
+Above: the map view. Bubbles are sized by posting count and coloured by country - Germany coral, Austria blue, Switzerland green. Pick any of the 15 role families and the whole view re-cuts to it: bubbles, the four country totals, and the top-cities table with each city's average days open. Click a bubble or a table row and the browsable posting list below filters to that city.
  
-**Germany is the market; Austria and Switzerland are footnotes.** 3,133 of 3,625 postings are German — 86.4%, against 6.2% Austrian and 7.3% Swiss. The blue and green clusters on the map are Vienna, Graz, Linz, Innsbruck and the Zurich–Bern–Geneva line, and that is close to all of them. Any single-country claim about AT or CH rests on a few dozen adverts per family.
+**Germany is the market; Austria and Switzerland are footnotes.** 3,133 of 3,625 postings are German - 86.4%, against 6.2% Austrian and 7.3% Swiss. The blue and green clusters on the map are Vienna, Graz, Linz, Innsbruck and the Zurich–Bern–Geneva line, and that is close to all of them. Any single-country claim about AT or CH rests on a few dozen adverts per family.
  
 **Hiring is concentrated in a handful of cities.** Berlin (422) and Munich (344) are 21% of DACH between them; the top five are 36%. The rest is spread across 250-odd cities — the scatter of small bubbles through the Rhine-Ruhr and the south — most of them carrying single-digit counts.
  
 **Speed varies more by city than by role.** Düsseldorf clears in 48 days and Munich in 49, while Frankfurt sits at 80, Zurich at 104 and Vienna at 105. The two non-German capitals are the slowest markets on the board, at more than twice Munich's pace, and the red figures in the "Avg days" column are where that shows.
  
-**Berlin and Munich are where AI hiring actually is.** 37% of Berlin's postings and 42% of Munich's are AI roles, against 19% in Hamburg and 13% in Düsseldorf. Berlin is also the most international: 58.5% of its postings are in English, versus 14.9% in Düsseldorf.
+**Berlin and Munich are where AI hiring is the most prominent.** 37% of Berlin's postings and 42% of Munich's are AI roles, against 19% in Hamburg and 13% in Düsseldorf. Berlin is also the most international: 58.5% of its postings are in English, versus 14.9% in Düsseldorf.
+
  
-**AI is 1,054 postings, 29.1% of the market** — the six AI families summed. Quote that, not a single "AI/ML" bar. The old bar read 36% because its rule ended in a bare `\bai\b` catch-all that swept in any job at a company describing itself as AI-native; those titles are now dropped rather than counted, so this figure is a floor and is **not** comparable to earlier snapshots.
- 
-**The AI roles are not the ones that sit unfilled.** GenAI / LLM is the fastest-moving family at 38 days open, less than half of Data Warehouse / ETL and Data Consultant at 84 days and Data Governance at 91. The hardest roles to fill are the unglamorous ones.
- 
-### Seniority: the junior problem
- 
-| Role family | Junior | Mid | Senior |
-|---|---:|---:|---:|
-| Data Engineer | 33 | 600 | 340 |
-| Data Scientist | 29 | 182 | 195 |
-| AI Engineer | 8 | 210 | 157 |
-| Data Architect | 0 | 135 | 138 |
-| GenAI / LLM Engineer | 12 | 151 | 106 |
-| Data Analyst | 13 | 160 | 71 |
-| BI Developer | 2 | 156 | 44 |
-| Data Warehouse / ETL | 3 | 143 | 28 |
-| ML Engineer | 5 | 88 | 74 |
-| Data Consultant | 6 | 66 | 71 |
-| MLOps / ML Platform | 5 | 73 | 34 |
-| AI Consulting | 7 | 56 | 31 |
-| Data Governance and Security | 0 | 32 | 55 |
-| Analytics Engineer | 3 | 37 | 29 |
-| AI Research | 0 | 15 | 22 |
-| **Total** | **126** | **2,104** | **1,395** |
- 
-**126 junior postings out of 3,625 — 3.5%, against 38.5% senior.** Eleven senior openings for every junior one. Three families advertise no junior roles at all: Data Architect, Data Governance and AI Research. Data Engineering carries a quarter of all junior openings and still only offers 33 of them.
- 
-Read that with the classifier in mind: seniority comes from the title, and a posting with no seniority word counts as mid, which is why mid is 58%. Entry programmes (Ausbildung, Werkstudent, Praktikum, Trainee) are excluded entirely, so 3.5% covers junior-titled permanent roles only. The real entry-level picture is somewhat better than 3.5% and nowhere near 33%.
+
 
 ## Scope: what counts as a data job
 
