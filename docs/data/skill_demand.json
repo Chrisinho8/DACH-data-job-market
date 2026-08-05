@@ -2,88 +2,88 @@
  {
   "skill": "sap",
   "skill_category": "enterprise",
-  "n_postings": 255,
-  "pct_postings": 7.0,
-  "avg_age_days": 67.4,
+  "n_postings": 253,
+  "pct_postings": 7.2,
+  "avg_age_days": 63.0,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
   "skill": "llm",
   "skill_category": "genai",
-  "n_postings": 198,
+  "n_postings": 196,
   "pct_postings": 5.5,
-  "avg_age_days": 40.3,
+  "avg_age_days": 36.4,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
   "skill": "ai_agents",
   "skill_category": "genai",
-  "n_postings": 179,
-  "pct_postings": 4.9,
-  "avg_age_days": 45.3,
+  "n_postings": 177,
+  "pct_postings": 5.0,
+  "avg_age_days": 41.0,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
   "skill": "azure",
   "skill_category": "cloud",
-  "n_postings": 155,
+  "n_postings": 151,
   "pct_postings": 4.3,
-  "avg_age_days": 60.2,
-  "snapshot_date": "2026-08-05T00:00:00.000"
- },
- {
-  "skill": "datawarehouse",
-  "skill_category": "practice",
-  "n_postings": 154,
-  "pct_postings": 4.2,
-  "avg_age_days": 102.6,
+  "avg_age_days": 49.1,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
   "skill": "genai",
   "skill_category": "genai",
-  "n_postings": 152,
+  "n_postings": 150,
   "pct_postings": 4.2,
-  "avg_age_days": 48.7,
+  "avg_age_days": 43.4,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
-  "skill": "etl",
+  "skill": "datawarehouse",
   "skill_category": "practice",
-  "n_postings": 127,
-  "pct_postings": 3.5,
-  "avg_age_days": 97.8,
+  "n_postings": 136,
+  "pct_postings": 3.8,
+  "avg_age_days": 46.6,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
   "skill": "powerbi",
   "skill_category": "bi",
-  "n_postings": 118,
+  "n_postings": 117,
   "pct_postings": 3.3,
-  "avg_age_days": 48.2,
+  "avg_age_days": 45.4,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
   "skill": "sql",
   "skill_category": "language",
   "n_postings": 110,
-  "pct_postings": 3.0,
+  "pct_postings": 3.1,
   "avg_age_days": 27.7,
+  "snapshot_date": "2026-08-05T00:00:00.000"
+ },
+ {
+  "skill": "etl",
+  "skill_category": "practice",
+  "n_postings": 107,
+  "pct_postings": 3.0,
+  "avg_age_days": 28.7,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
   "skill": "python",
   "skill_category": "language",
-  "n_postings": 104,
+  "n_postings": 103,
   "pct_postings": 2.9,
-  "avg_age_days": 46.6,
+  "avg_age_days": 43.5,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
   "skill": "databricks",
   "skill_category": "platform",
   "n_postings": 81,
-  "pct_postings": 2.2,
+  "pct_postings": 2.3,
   "avg_age_days": 51.5,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
@@ -91,7 +91,7 @@
   "skill": "snowflake",
   "skill_category": "warehouse",
   "n_postings": 80,
-  "pct_postings": 2.2,
+  "pct_postings": 2.3,
   "avg_age_days": 42.1,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
@@ -115,7 +115,7 @@
   "skill": "rag",
   "skill_category": "genai",
   "n_postings": 48,
-  "pct_postings": 1.3,
+  "pct_postings": 1.4,
   "avg_age_days": 35.0,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
@@ -123,7 +123,7 @@
   "skill": "prompting",
   "skill_category": "genai",
   "n_postings": 45,
-  "pct_postings": 1.2,
+  "pct_postings": 1.3,
   "avg_age_days": 21.6,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
@@ -162,17 +162,17 @@
  {
   "skill": "cv",
   "skill_category": "nlp_cv",
-  "n_postings": 28,
-  "pct_postings": 0.8,
-  "avg_age_days": 112.4,
+  "n_postings": 26,
+  "pct_postings": 0.7,
+  "avg_age_days": 65.5,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
   "skill": "oracle",
   "skill_category": "database",
-  "n_postings": 23,
+  "n_postings": 22,
   "pct_postings": 0.6,
-  "avg_age_days": 74.1,
+  "avg_age_days": 44.0,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
@@ -181,14 +181,6 @@
   "n_postings": 20,
   "pct_postings": 0.6,
   "avg_age_days": 43.3,
-  "snapshot_date": "2026-08-05T00:00:00.000"
- },
- {
-  "skill": "openai_api",
-  "skill_category": "genai",
-  "n_postings": 18,
-  "pct_postings": 0.5,
-  "avg_age_days": 77.4,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
@@ -211,7 +203,7 @@
   "skill": "postgres",
   "skill_category": "database",
   "n_postings": 16,
-  "pct_postings": 0.4,
+  "pct_postings": 0.5,
   "avg_age_days": 24.1,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
@@ -219,16 +211,16 @@
   "skill": "terraform",
   "skill_category": "devops",
   "n_postings": 16,
-  "pct_postings": 0.4,
+  "pct_postings": 0.5,
   "avg_age_days": 25.2,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
-  "skill": "nlp",
-  "skill_category": "nlp_cv",
-  "n_postings": 15,
-  "pct_postings": 0.4,
-  "avg_age_days": 224.7,
+  "skill": "openai_api",
+  "skill_category": "genai",
+  "n_postings": 16,
+  "pct_postings": 0.5,
+  "avg_age_days": 33.8,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
@@ -240,19 +232,19 @@
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
-  "skill": "qlik",
-  "skill_category": "bi",
+  "skill": "nlp",
+  "skill_category": "nlp_cv",
   "n_postings": 12,
   "pct_postings": 0.3,
-  "avg_age_days": 149.8,
+  "avg_age_days": 84.5,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
-  "skill": "tableau",
+  "skill": "qlik",
   "skill_category": "bi",
-  "n_postings": 11,
+  "n_postings": 10,
   "pct_postings": 0.3,
-  "avg_age_days": 185.6,
+  "avg_age_days": 35.2,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
@@ -288,19 +280,19 @@
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
-  "skill": "mssql",
-  "skill_category": "database",
+  "skill": "tableau",
+  "skill_category": "bi",
   "n_postings": 9,
-  "pct_postings": 0.2,
-  "avg_age_days": 104.7,
+  "pct_postings": 0.3,
+  "avg_age_days": 66.3,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
-  "skill": "git",
-  "skill_category": "devops",
-  "n_postings": 8,
-  "pct_postings": 0.2,
-  "avg_age_days": 92.5,
+  "skill": "mssql",
+  "skill_category": "database",
+  "n_postings": 9,
+  "pct_postings": 0.3,
+  "avg_age_days": 104.7,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
@@ -309,6 +301,14 @@
   "n_postings": 7,
   "pct_postings": 0.2,
   "avg_age_days": 42.3,
+  "snapshot_date": "2026-08-05T00:00:00.000"
+ },
+ {
+  "skill": "git",
+  "skill_category": "devops",
+  "n_postings": 7,
+  "pct_postings": 0.2,
+  "avg_age_days": 15.0,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
