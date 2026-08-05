@@ -97,12 +97,19 @@
                border-radius:50%;margin-right:6px;vertical-align:0}
   .ptable .stale{color:#8A4A2E;font-weight:600}
   .ptable .empty{padding:26px 12px;text-align:center;color:#8A857C}
-  .pmore{margin-top:14px;text-align:center}
-  .pmore button{font:inherit;font-size:13.5px;padding:8px 18px;
+  /* pagination */
+  .ppag{display:flex;flex-wrap:wrap;justify-content:center;
+        align-items:center;gap:6px;margin-top:16px}
+  .ppag button{font:inherit;font-size:13px;min-width:34px;padding:7px 10px;
     border:1px solid #DCD6C8;border-radius:6px;background:#FFFDF8;
-    color:#5C5A54;cursor:pointer}
-  .pmore button:hover{background:#F0EEE6}
-  .pmore[hidden]{display:none}
+    color:#5C5A54;cursor:pointer;font-variant-numeric:tabular-nums}
+  .ppag button:hover:not(:disabled){background:#F0EEE6;color:#26241F}
+  .ppag button[aria-current="page"]{background:#26241F;border-color:#26241F;
+    color:#FAF9F5;font-weight:700}
+  .ppag button:disabled{opacity:.4;cursor:default}
+  .ppag .gap{color:#8A857C;padding:0 2px;user-select:none}
+  .ppag[hidden]{display:none}
+  @media(max-width:560px){.ppag button{min-width:30px;padding:6px 7px}}
 
   .pill{display:inline-block;padding:2px 9px;border-radius:99px;
         font-size:11px;font-weight:600;background:#F0EEE6;
@@ -175,23 +182,33 @@
 
   /* ---------- map style toggle ---------- */
   /* Country totals strip under the map controls. Four chips on one
-     line at every width: nowrap plus equal flex basis, and the parts
-     shrink instead of wrapping. min-width:0 lets the labels ellipsis
-     rather than forcing the row wider than its container. */
+     line at every width.
+
+     flex-basis is auto, not 0: an equal-width split ignores how much
+     text each chip carries, and the total chip carries the most
+     ("DACH total" plus the role name), so it was the one whose label
+     got clipped. Sizing from content gives every chip what it needs
+     and shares the slack.
+
+     Within a chip the count and the label never shrink. The only
+     part allowed to ellipsis is the trailing note: a percentage on
+     the country chips, the role name on the total. Losing the tail of
+     "Data Analyst" is survivable, losing "DACH" is not. */
   .ctot{display:flex;flex-wrap:nowrap;gap:8px;margin:0 0 18px}
   .ctot .c{display:flex;align-items:baseline;gap:6px;padding:7px 11px;
            border:1px solid #EAE6DC;border-radius:7px;background:#FAF9F5;
-           flex-grow:1;flex-shrink:1;flex-basis:0;
+           flex-grow:1;flex-shrink:1;flex-basis:auto;
            min-width:0;white-space:nowrap;overflow:hidden}
   .ctot .c i{width:7px;height:7px;border-radius:50%;flex:none;
              align-self:center}
   .ctot .c b{font-size:14.5px;font-weight:700;color:#191919;
              font-variant-numeric:tabular-nums;flex:none}
   .ctot .c u{text-decoration:none;font-size:11.5px;color:#5C5A54;
-             overflow:hidden;text-overflow:ellipsis;min-width:0}
+             flex:none}
   .ctot .c s{text-decoration:none;font-size:11px;color:#8A857C;
              font-variant-numeric:tabular-nums;margin-left:auto;
-             padding-left:4px;flex:none}
+             padding-left:6px;flex-shrink:1;min-width:0;
+             overflow:hidden;text-overflow:ellipsis}
   .ctot .tot{background:#F0EEE6;border-color:#DCD6C8}
   @media(max-width:560px){
     .ctot{gap:5px}
@@ -417,7 +434,7 @@
         <tbody id="pbody"></tbody>
       </table>
     </div>
-    <div class="pmore"><button id="pmore" type="button">Show more</button></div>
+    <nav class="ppag" id="ppag" aria-label="Postings pages"></nav>
   </section>
 
   <section>
@@ -1928,10 +1945,12 @@ get("role_breakdown").then(d => {
    code to maintain for a speedup nobody can perceive. If postings.json
    ever grows past ~20k rows, this is the thing to revisit.
 
-   Rendering is capped and extended by a button. Painting 3,600 table
-   rows is what would actually be slow, not filtering them.     */
-const PAGE = 60;
-let POSTINGS = [], pshown = PAGE;
+   Rendering is paged rather than appended. Painting 3,600 table rows
+   is what would actually be slow, not filtering them, and a page
+   number tells you where you are in a way an ever-growing scroll
+   does not.                                                    */
+const PAGE = 20;
+let POSTINGS = [], ppage = 1;
 
 const $p = id => document.getElementById(id);
 
@@ -1975,10 +1994,65 @@ function pFiltered() {
   return out;
 }
 
+/* Which page buttons to show. Always the first and last page plus the
+   current one and its neighbours, with a gap marker where the run
+   breaks, so 182 pages do not become 182 buttons. */
+function pPageList(cur, last) {
+  const want = new Set([1, last, cur - 1, cur, cur + 1]);
+  const ns = [...want].filter(n => n >= 1 && n <= last)
+                      .sort((a, b) => a - b);
+  const out = [];
+  ns.forEach((n, i) => {
+    if (i && n - ns[i - 1] > 1) out.push("gap");
+    out.push(n);
+  });
+  return out;
+}
+
+function pPager(last) {
+  const nav = $p("ppag");
+  if (!nav) return;
+
+  /* one page needs no controls */
+  nav.hidden = last <= 1;
+  if (nav.hidden) { nav.innerHTML = ""; return; }
+
+  const btn = (label, page, extra) =>
+    `<button type="button" data-page="${page}"${extra || ""}>` +
+    `${label}</button>`;
+
+  nav.innerHTML =
+    btn("‹ Prev", ppage - 1, ppage === 1 ? " disabled" : "") +
+    pPageList(ppage, last).map(n =>
+      n === "gap" ? `<span class="gap">…</span>`
+        : btn(n, n, n === ppage
+            ? ` aria-current="page"` : "")).join("") +
+    btn("Next ›", ppage + 1, ppage === last ? " disabled" : "");
+
+  nav.querySelectorAll("button[data-page]").forEach(b =>
+    b.addEventListener("click", () => {
+      const n = +b.dataset.page;
+      if (n < 1 || n > last || n === ppage) return;
+      ppage = n;
+      pRender();
+      /* a page change replaces the rows under the reader, so put the
+         top of the table back in view rather than leaving them at the
+         pager they just clicked */
+      $p("postings-section").scrollIntoView({ behavior: "smooth",
+                                              block: "start" });
+    }));
+}
+
 function pRender() {
   const rows = pFiltered();
   const body = $p("pbody");
-  const slice = rows.slice(0, pshown);
+
+  const last = Math.max(1, Math.ceil(rows.length / PAGE));
+  if (ppage > last) ppage = last;
+  if (ppage < 1) ppage = 1;
+
+  const from  = (ppage - 1) * PAGE;
+  const slice = rows.slice(from, from + PAGE);
 
   body.innerHTML = slice.length ? slice.map(r => {
     const fam = String(r.role_family || "").toLowerCase();
@@ -2002,13 +2076,15 @@ function pRender() {
          No postings match those filters.</td></tr>`;
 
   $p("pcount").textContent = rows.length
-    ? `Showing ${slice.length.toLocaleString()} of ` +
+    ? `Showing ${(from + 1).toLocaleString()}–` +
+      `${(from + slice.length).toLocaleString()} of ` +
       `${rows.length.toLocaleString()} postings` +
+      (last > 1 ? `  ·  page ${ppage} of ${last}` : "") +
       (rows.length < POSTINGS.length
-        ? ` (filtered from ${POSTINGS.length.toLocaleString()})` : "")
+        ? `  ·  filtered from ${POSTINGS.length.toLocaleString()}` : "")
     : `No matches out of ${POSTINGS.length.toLocaleString()} postings`;
 
-  $p("pmore").parentNode.hidden = slice.length >= rows.length;
+  pPager(last);
 }
 
 /* escaping: employer names are third-party strings going into
@@ -2037,7 +2113,7 @@ function openPostings(filter) {
      that have been open longest: that is where a reader's eye goes
      after clicking a bar about how long postings stay open. */
   $p("psort").value = "age";
-  pshown = PAGE;
+  ppage = 1;
   pRender();
   sec.scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -2101,21 +2177,18 @@ get("postings").then(d => {
   ["pq", "pfam", "pctry", "pcity", "psen", "psort"].forEach(id =>
     $p(id).addEventListener(id === "pq" ? "input" : "change", () => {
       if (id === "pctry") pCities();
-      pshown = PAGE;
+      /* any filter change makes the old page number meaningless:
+         page 40 of a 3,600-row list is nowhere in a 12-row one */
+      ppage = 1;
       pRender();
     }));
-
-  $p("pmore").addEventListener("click", () => {
-    pshown += PAGE * 2;
-    pRender();
-  });
 
   $p("pclear").addEventListener("click", () => {
     ["pq", "pfam", "pctry", "pcity", "psen"]
       .forEach(id => $p(id).value = "");
     $p("psort").value = "new";
     pCities();
-    pshown = PAGE;
+    ppage = 1;
     pRender();
   });
 
