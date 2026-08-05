@@ -22,10 +22,7 @@
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
   @media(max-width:720px){.grid2{grid-template-columns:1fr}}
   .chartbox{position:relative;height:560px}
-  /* Horizontal bar charts get their height set in JS from the number
-     of rows and the number of lines each label wraps onto. A fixed
-     aspect ratio cannot do that: one extra family, or one label that
-     wraps, and every row is squeezed until the text collides. */
+
   .cbox{position:relative;width:100%}
   .grid2.single{grid-template-columns:1fr}
   .grid2.single .chartbox{height:660px}
@@ -61,7 +58,6 @@
 
   .subh{font-size:14px;margin:0 0 10px;color:#5C5A54;font-weight:600}
 
-  /* ---- postings browser ---- */
   .pfilters{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 12px}
   .pfilters input,.pfilters select,.pfilters button{
     font:inherit;font-size:13.5px;padding:7px 10px;
@@ -313,7 +309,6 @@
 
 <main class="wrap">
 
-  <!-- ============ HEADLINE ============ -->
 <section class="kpiblock">
     <h2>Current overview</h2>
     <div id="kpi" class="kpi"></div>
@@ -1949,7 +1944,7 @@ get("role_breakdown").then(d => {
    is what would actually be slow, not filtering them, and a page
    number tells you where you are in a way an ever-growing scroll
    does not.                                                    */
-const PAGE = 20;
+const PAGE = 10;
 let POSTINGS = [], ppage = 1;
 
 const $p = id => document.getElementById(id);
