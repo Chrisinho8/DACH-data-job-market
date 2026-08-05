@@ -121,17 +121,20 @@
 
   /* over/under-index heatmap */
   .hm-idx{gap:2px;margin-top:2px}
-  .hm-idx div{padding:5px 6px;line-height:1.15}
-  .hm-idx .hd{padding:2px 6px}
-  .hm-idx .rw{padding:5px 8px 5px 0;font-size:12px}
+  .hm-idx div{padding:3px 6px;line-height:1.1;
+              display:flex;flex-direction:column;justify-content:center;
+              align-items:center}
+  .hm-idx .hd{padding:1px 6px}
+  .hm-idx .rw{padding:3px 8px 3px 0;font-size:12px;
+              align-items:flex-start}
   .hm-idx div.cell{cursor:pointer;transition:transform .08s ease,
                    box-shadow .08s ease;position:relative}
   .hm-idx div.cell:hover{transform:scale(1.03);
                    box-shadow:0 2px 10px rgba(0,0,0,.18);z-index:2}
-  .hm-idx .big{display:block;font-size:18px;font-weight:700;
-               letter-spacing:-.01em}
-  .hm-idx .sub{display:block;font-weight:600;font-size:13px;
-               opacity:.7}
+  .hm-idx .big{display:block;font-size:16px;font-weight:700;
+               letter-spacing:-.01em;color:#191919}
+  .hm-idx .sub{display:block;font-weight:600;font-size:12px;
+               color:#191919;opacity:.62}
   .idxlegend{display:flex;flex-wrap:wrap;gap:14px;font-size:11px;
              color:#5C5A54;margin:8px 0 0}
   .idxlegend span{display:flex;align-items:center;gap:5px}
@@ -554,9 +557,9 @@ Pick a role: the left chart shows what its postings ask for, the
       postings.
     </p>
     <div class="idxlegend">
-      <span><i style="background:#4C7A94"></i> half the DACH average</span>
+      <span><i style="background:rgb(132,161,175)"></i> half the DACH average</span>
       <span><i style="background:#EDEAE2"></i> average</span>
-      <span><i style="background:#D97757"></i> 2× the DACH average</span>
+      <span><i style="background:rgb(224,159,136)"></i> 2× the DACH average</span>
     </div>
     <div id="ctryidx" class="hm hm-idx"></div>
   </section>
@@ -1776,15 +1779,17 @@ get("role_breakdown").then(all => {
        symmetrically either side of the neutral colour.            */
     const CELL = v => {
       const t = Math.max(-1, Math.min(1, Math.log2(v) / 1));  /* ±2× */
-      if (t >= 0) return `rgb(${Math.round(237 - 20 * t)},` +
-                         `${Math.round(234 - 115 * t)},` +
-                         `${Math.round(226 - 139 * t)})`;
+      if (t >= 0) return `rgb(${Math.round(237 - 13 * t)},` +
+                         `${Math.round(234 - 75 * t)},` +
+                         `${Math.round(226 - 90 * t)})`;
       const a = -t;
-      return `rgb(${Math.round(237 - 161 * a)},` +
-             `${Math.round(234 - 112 * a)},` +
-             `${Math.round(226 - 78 * a)})`;
+      return `rgb(${Math.round(237 - 105 * a)},` +
+             `${Math.round(234 - 73 * a)},` +
+             `${Math.round(226 - 51 * a)})`;
     };
-    const INK = v => Math.abs(Math.log2(v)) > 0.5 ? "#fff" : "#26241F";
+    /* One ink colour everywhere. The scale below is tuned to stay
+       light enough that black stays readable at both extremes. */
+    const INK = () => "#191919";
 
     /* Rows sorted by how much the countries disagree about them:
        the top of the table is where the interesting divergence is. */
