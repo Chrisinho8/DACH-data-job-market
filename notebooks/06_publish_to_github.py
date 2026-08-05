@@ -34,10 +34,14 @@ print(f"publishing to {REPO}")
 
 # COMMAND ----------
 
-def commit_json(path, obj, message):
+def commit_json(path, obj, message, compact=False):
     """Create or update a file in the repo via the GitHub API."""
-    body = json.dumps(obj, indent=1, ensure_ascii=False,
-                      default=str)
+    # indent=1 keeps the small aggregate files readable in a diff.
+    # Row-level files pass compact=True: on a few thousand postings the
+    # indentation is most of the payload, and nobody reads that diff.
+    body = json.dumps(obj, indent=None if compact else 1,
+                      separators=(",", ":") if compact else None,
+                      ensure_ascii=False, default=str)
     encoded = base64.b64encode(body.encode()).decode()
 
     r = requests.get(f"{API}/{path}", headers=HEAD, timeout=30)
@@ -59,6 +63,26 @@ def records(table, limit=300):
                                  date_format="iso"))
 
 
+def all_records(table, order=None, cap=50000):
+    """Every row, and a loud failure instead of a silent truncation.
+
+    `records()` quietly drops anything past its limit, which is fine for
+    an aggregate of fixed width but wrong for a row-level table: the
+    site would just show fewer jobs and nobody would notice. `cap` is a
+    tripwire, not a page size.
+    """
+    df = spark.table(table)
+    n = df.count()
+    assert n <= cap, (
+        f"{table} has {n:,} rows, over the {cap:,} publish cap. "
+        f"Raise the cap deliberately or start paginating - do not let "
+        f"this truncate.")
+    if order:
+        df = df.orderBy(*order)
+    return json.loads(df.toPandas().to_json(orient="records",
+                                            date_format="iso"))
+
+
 # COMMAND ----------
 
 EXPORTS = [
@@ -74,7 +98,8 @@ EXPORTS = [
     (f"{GOLD}.history", "history", 500000),
     (f"{GOLD}.city_role_breakdown", "city_role_breakdown", 20000),
     (f"{GOLD}.skill_by_role", "skill_by_role", 2000),
-    # the AI split, added when ai / ml became seven families
+    # the AI split, added when ai / ml became seven families and
+    # narrowed to six when the vague one stopped being published
     (f"{GOLD}.ai_breakdown", "ai_breakdown", 20),
     (f"{GOLD}.ai_skill_by_family", "ai_skill_by_family", 3000),
 ]
@@ -83,6 +108,29 @@ for table, name, limit in EXPORTS:
     commit_json(f"docs/data/{name}.json",
                 records(table, limit),
                 f"data refresh {STAMP}: {name}")
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## The postings file
+# MAGIC Separate from `EXPORTS` because it is the only row-level file and
+# MAGIC the only one where a truncation would be a lie rather than a
+# MAGIC shorter chart. Newest first, so a reader who ignores the search
+# MAGIC box still lands on something current.
+
+# COMMAND ----------
+
+postings = all_records(f"{GOLD}.postings_public",
+                       order=["created_date", "posting_id"])
+postings.reverse()          # newest first
+
+assert postings, "postings_public is empty, refusing to publish"
+assert all(r.get("url") for r in postings), \
+    "a posting has no url, the site would render a dead row"
+
+commit_json("docs/data/postings.json", postings,
+            f"postings refresh {STAMP}: {len(postings):,} rows",
+            compact=True)
 
 # COMMAND ----------
 
@@ -120,6 +168,9 @@ meta = {
     "pct_over_60d":       float(summary["pct_over_60d"]),
     "quarantined":        n_quar,
     "quarantine_rate":    round(n_quar / (n_clean + n_quar), 4),
+    # rows in postings.json. Lower than live_postings by however many
+    # the aggregator gave us without a redirect_url.
+    "postings_published": len(postings),
     "matcher_precision":  None,   # <-- fill in after labelling
     "matcher_recall":     None,   # <-- fill in after labelling
     "desc_truncated_pct": round(100 * sil.filter(

@@ -261,11 +261,84 @@ display(spark.table(f"{GOLD}.skill_demand").limit(40))
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ## 7a. Skills per role family
+# MAGIC Backs the role picker on the tools chart. This table was
+# MAGIC previously created by hand and only re-exported by 06, so it kept
+# MAGIC shipping a stale snapshot: long after `ai / ml` was split into six
+# MAGIC families, the site still offered an "AI/ML (pre-split)" button
+# MAGIC because the underlying table had never been rebuilt. Building it
+# MAGIC here means it cannot drift from `postings` again.
+# MAGIC
+# MAGIC `pct_role_postings` is the share of that family's postings
+# MAGIC mentioning the tool, so the denominator changes per row group.
+# MAGIC Never compare a raw `n_postings` across families.
+# MAGIC
+# MAGIC **Denominator note.** `role_postings` counts every posting in the
+# MAGIC family, including those that matched no skill at all, because the
+# MAGIC chart is labelled "share of postings mentioning it" and that is
+# MAGIC the only reading which makes the label true. `ai_skill_by_family`
+# MAGIC below divides by postings with at least one match instead, so its
+# MAGIC percentages run higher. Do not put the two on the same axis.
+
+# COMMAND ----------
+
+# posting_skills already carries role_family: 04 selects it alongside
+# the skill columns. Joining postings back on just to fetch it yields
+# two role_family columns and an AMBIGUOUS_REFERENCE error. The only
+# thing worth joining for is the family size, and that has to come from
+# postings anyway so that postings matching no skill still count in the
+# denominator.
+spark.sql(f"""
+CREATE OR REPLACE TABLE {GOLD}.skill_by_role AS
+WITH fam AS (
+  SELECT role_family, COUNT(*) AS n_fam
+  FROM postings GROUP BY role_family
+)
+SELECT
+  s.role_family,
+  s.skill,
+  MAX(s.skill_category)                       AS skill_category,
+  COUNT(DISTINCT s.posting_id)                AS n_postings,
+  MAX(f.n_fam)                                AS role_postings,
+  ROUND(100.0 * COUNT(DISTINCT s.posting_id)
+        / MAX(f.n_fam), 1)                    AS pct_role_postings,
+  ROUND(AVG(s.age_days), 1)                   AS avg_age_days,
+  current_date()                              AS snapshot_date
+FROM posting_skills s
+JOIN fam f ON s.role_family = f.role_family
+WHERE f.n_fam >= 50          -- thin families would be noise
+GROUP BY s.role_family, s.skill
+HAVING COUNT(DISTINCT s.posting_id) >= 3
+ORDER BY s.role_family, n_postings DESC
+""")
+
+sbr = spark.table(f"{GOLD}.skill_by_role")
+
+# Same guard as ai_breakdown: a retired family here would put a button
+# back on the site that the surrounding copy no longer explains.
+retired = {"ai (other)", "ai / ml"}
+got = {r.role_family for r in
+       sbr.select("role_family").distinct().collect()}
+assert not (got & retired), \
+    f"retired families in skill_by_role: {sorted(got & retired)}"
+
+print(f"{sbr.count():,} rows across {len(got)} role families")
+print(f"families: {sorted(got)}")
+display(sbr)
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC ## 7b. The AI split
-# MAGIC One table that answers "how much of this is really AI", with the
-# MAGIC vague bucket separated out instead of folded in. The site reads
-# MAGIC this to render the AI section, and the `pct_of_ai` column is the
-# MAGIC one to quote, not the raw count.
+# MAGIC One table that answers "how much of this is really AI". The site
+# MAGIC reads this to render the AI section, and the `pct_of_ai` column is
+# MAGIC the one to quote, not the raw count.
+# MAGIC
+# MAGIC Six families only. Titles that say "AI" and name no role are
+# MAGIC dropped in 03 and never reach `postings`, so `pct_of_ai` is a share
+# MAGIC of *described* AI jobs, not of everything that mentions AI. The
+# MAGIC drift check on the dropped share lives in 03, where the rows
+# MAGIC still exist.
 
 # COMMAND ----------
 
@@ -280,7 +353,6 @@ WITH ai AS (
 )
 SELECT
   a.role_family,
-  a.role_family = 'ai (other)'            AS is_unspecified,
   COUNT(*)                                AS n_postings,
   ROUND(100.0 * COUNT(*) / MAX(t.n_ai), 1)   AS pct_of_ai,
   ROUND(100.0 * COUNT(*) / MAX(p.n_all), 1)  AS pct_of_market,
@@ -325,14 +397,16 @@ if thin:
 else:
     print("every AI family has >= 50 postings")
 
-vague = spark.sql(f"""
-SELECT pct_of_ai FROM {GOLD}.ai_breakdown
+# Guard: nothing vague should ever reach gold. If this fires, 03 was
+# run from an older revision that still published 'ai (other)', and the
+# site would render a family it no longer has copy for.
+leaked = spark.sql(f"""
+SELECT COUNT(*) AS n FROM {GOLD}.ai_breakdown
 WHERE role_family = 'ai (other)'
-""").collect()
-if vague and vague[0].pct_of_ai > 35:
-    print(f"\nWARNING: {vague[0].pct_of_ai}% of AI postings are "
-          f"unspecified. Widen the rules in 03 before treating the "
-          f"named families as a complete picture.")
+""").first().n
+assert leaked == 0, (
+    "'ai (other)' reached gold. Re-run 03_silver_clean: the family is "
+    "dropped at the scope filter and must not be published.")
 
 # COMMAND ----------
 
@@ -409,16 +483,17 @@ SELECT current_date(), 'role_count', role_family,
        CAST(SUM(n_postings) AS DOUBLE)
 FROM {GOLD}.role_breakdown GROUP BY role_family
 UNION ALL
--- the AI split over time. 'ai_share_of_market' is the honest headline;
--- 'ai_unspecified_pct' is the number that says how much to trust it.
+-- The AI split over time. 'ai_share_of_market' is the headline, and it
+-- covers the six described families only: titles that say AI and name
+-- no role are dropped in 03, so this understates raw AI keyword volume
+-- by design. Older snapshots in this table were written when the vague
+-- family was still published and are NOT comparable to rows from
+-- 2026-08 onwards.
 SELECT current_date(), 'ai_family_pct', role_family, pct_of_ai
 FROM {GOLD}.ai_breakdown
 UNION ALL
 SELECT current_date(), 'ai_share_of_market', 'all',
        CAST(SUM(pct_of_market) AS DOUBLE) FROM {GOLD}.ai_breakdown
-UNION ALL
-SELECT current_date(), 'ai_unspecified_pct', 'all', pct_of_ai
-FROM {GOLD}.ai_breakdown WHERE role_family = 'ai (other)'
 """)
 
 display(spark.sql(f"""
@@ -447,6 +522,78 @@ print(f"validation passed: {n:,} postings, {q:,} quarantined")
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC ## 9. The public postings table
+# MAGIC Everything above is an aggregate. This is the one table that ships
+# MAGIC individual rows, so the reader can click from a bar to the jobs
+# MAGIC behind it instead of taking the bar on trust.
+# MAGIC
+# MAGIC What it deliberately does **not** contain:
+# MAGIC
+# MAGIC * `description` - not ours to redistribute, and 99.6% of them are
+# MAGIC   truncated by the aggregator anyway, so a full-text search over
+# MAGIC   them would return boilerplate intros and nothing else.
+# MAGIC * `salary` - mostly the aggregator's own prediction, not the
+# MAGIC   employer's number. Publishing it per row would read as fact.
+# MAGIC * any employer URL. `redirect_url` goes to the aggregator, which
+# MAGIC   is the arrangement its terms expect.
+# MAGIC
+# MAGIC Rows without a link are dropped: a posting the reader cannot open
+# MAGIC is worse than no row, because it looks like a broken site.
+
+# COMMAND ----------
+
+spark.sql(f"""
+CREATE OR REPLACE TABLE {GOLD}.postings_public AS
+SELECT
+  posting_id,
+  title_raw       AS title,
+  company,
+  city,
+  country,
+  role_group,
+  role_family,
+  seniority,
+  language,
+  is_agency,
+  age_days,
+  created_date,
+  redirect_url    AS url,
+  current_date()  AS snapshot_date
+FROM postings
+WHERE redirect_url IS NOT NULL
+  AND length(redirect_url) > 0
+ORDER BY created_date DESC
+""")
+
+pub = spark.table(f"{GOLD}.postings_public")
+n_pub = pub.count()
+
+print(f"public postings : {n_pub:,} of {n:,} "
+      f"({n_pub/max(n,1):.1%} linkable)")
+
+# The site's family filter is built from this column, so a family that
+# exists in role_breakdown but not here would render an empty dropdown
+# entry. Compare the two.
+fams_agg = {r.role_family for r in
+            spark.table(f"{GOLD}.role_breakdown").select(
+                "role_family").distinct().collect()}
+fams_pub = {r.role_family for r in
+            pub.select("role_family").distinct().collect()}
+
+missing = fams_agg - fams_pub
+if missing:
+    print(f"  <-- families with no linkable postings: "
+          f"{sorted(missing)}")
+
+assert n_pub > 500, f"only {n_pub} linkable postings, refusing to ship"
+assert "ai (other)" not in fams_pub, \
+    "'ai (other)' reached the public postings table"
+
+display(pub.groupBy("role_family").count().orderBy(F.desc("count")))
+
+# COMMAND ----------
+
 # MAGIC %sql
 # MAGIC -- 1. add country to city_breakdown
 # MAGIC CREATE OR REPLACE TABLE jobs.gold.city_breakdown AS
@@ -470,8 +617,8 @@ print(f"validation passed: {n:,} postings, {q:,} quarantined")
 # MAGIC
 # MAGIC -- 2. add country and role_group to role_breakdown
 # MAGIC --    role_group is 'data' or 'ai'. It exists so a chart can roll
-# MAGIC --    the seven AI families back up to one bar without anyone
-# MAGIC --    hardcoding the seven names again.
+# MAGIC --    the six AI families back up to one bar without anyone
+# MAGIC --    hardcoding the six names again.
 # MAGIC CREATE OR REPLACE TABLE jobs.gold.role_breakdown AS
 # MAGIC SELECT country, role_group, role_family, seniority,
 # MAGIC        COUNT(*) AS n_postings,

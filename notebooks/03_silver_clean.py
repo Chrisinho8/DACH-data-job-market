@@ -34,7 +34,7 @@
 # MAGIC including plain software engineering roles. The old caveat said so
 # MAGIC out loud, which is not a fix.
 # MAGIC
-# MAGIC It is now seven families, tested most specific first:
+# MAGIC It is now six published families, tested most specific first:
 # MAGIC
 # MAGIC | Family | What it means |
 # MAGIC |---|---|
@@ -44,12 +44,22 @@
 # MAGIC | `ai research` | applied / research scientist, research engineer |
 # MAGIC | `ai consultant` | AI consulting, architecture, strategy, product |
 # MAGIC | `ai engineer` | title says exactly "AI Engineer" / "KI-Entwickler" |
-# MAGIC | `ai (other)` | mentions AI, says nothing about what the job is |
 # MAGIC
-# MAGIC `ai (other)` is deliberately kept and published rather than hidden.
-# MAGIC Its size **is** the finding: it measures how much DACH "AI hiring"
-# MAGIC is a keyword on a job advert rather than a described role. Sum the
-# MAGIC seven families to reproduce the old single number.
+# MAGIC A seventh rule, `ai (other)`, still runs last and still catches
+# MAGIC every title that says "AI" or "KI" and nothing else. It is **not**
+# MAGIC published. Those rows are dropped at the scope filter and land in
+# MAGIC `silver.excluded` alongside the finance and data-centre roles.
+# MAGIC
+# MAGIC The rule is kept rather than deleted for two reasons. It stops a
+# MAGIC vague title leaking into a named family by widening one of the six
+# MAGIC rules to catch it, and the excluded count is the diagnostic that
+# MAGIC tells you whether the six rules are drifting. Watch it: if it grows
+# MAGIC as a share of AI titles, the specific rules are going stale.
+# MAGIC
+# MAGIC Consequence to remember when reading any number on the site: the
+# MAGIC six families do **not** sum to "every posting that mentions AI".
+# MAGIC They sum to every posting that mentions AI *and says what the job
+# MAGIC is*.
 
 # COMMAND ----------
 
@@ -378,6 +388,12 @@ s = (b
 
     .withColumn("category", F.col("category.label"))
 
+    # The aggregator's own redirect. It is the only link we are entitled
+    # to publish: it sends the reader to Adzuna, which sends them on to
+    # the employer. Never rebuild an employer URL from the description
+    # and never publish the description itself.
+    .withColumn("redirect_url", col_or_null(b, "redirect_url"))
+
     .withColumn("salary_min", col_or_null(b, "salary_min", "double"))
     .withColumn("salary_max", col_or_null(b, "salary_max", "double"))
     .withColumn("salary_is_predicted",
@@ -564,8 +580,13 @@ DATA_FAMILIES = ["data engineer", "data analyst", "data scientist",
                  "data governance", "data consultant", "bi developer"]
 
 # Order here is the order the site should show them in.
+# "ai (other)" is absent on purpose: the rule still classifies, but the
+# family is not published, so these rows fall through to `excluded`
+# below. See VAGUE_FAMILY and the drift check further down.
 AI_FAMILIES = ["ai engineer", "genai / llm", "ml engineer", "mlops",
-               "ai consultant", "ai research", "ai (other)"]
+               "ai consultant", "ai research"]
+
+VAGUE_FAMILY = "ai (other)"
 
 KEEP = DATA_FAMILIES + AI_FAMILIES
 
@@ -585,37 +606,68 @@ display(excluded.groupBy("role_family").count()
 
 # MAGIC %md
 # MAGIC ### How the AI split landed
-# MAGIC Two things to read here.
+# MAGIC Three things to read here.
 # MAGIC
-# MAGIC 1. The total across the seven families must equal what the old
-# MAGIC    single `ai / ml` family produced. If it does not, a title is
-# MAGIC    escaping into `other` and a rule is too narrow.
-# MAGIC 2. The `ai (other)` share. If it is above roughly a third, the
-# MAGIC    specific rules are missing real patterns and should be widened
-# MAGIC    before any of these numbers are published as findings.
+# MAGIC 1. The six published families plus the dropped `ai (other)` must
+# MAGIC    together equal what the old single `ai / ml` family produced.
+# MAGIC    If they do not, a title is escaping into `other` and a rule is
+# MAGIC    too narrow.
+# MAGIC 2. The `ai (other)` share of all AI-mentioning titles. This is now
+# MAGIC    a **drift alarm rather than a published finding**. It is the
+# MAGIC    share of the AI market this site cannot describe and therefore
+# MAGIC    does not report. Above roughly a third means the six rules are
+# MAGIC    missing real patterns and should be widened before anything
+# MAGIC    per-family is quoted.
+# MAGIC 3. The random sample of dropped titles. Read it. If recognisable
+# MAGIC    job families keep appearing, that is a missing rule, not noise,
+# MAGIC    and the fix belongs upstream in the regexes.
 
 # COMMAND ----------
 
 ai = clean.filter(F.col("role_group") == "ai")
-n_ai = ai.count()
+vague_rows = excluded.filter(F.col("role_family") == VAGUE_FAMILY)
+
+n_ai, vague = ai.count(), vague_rows.count()
+n_mentions = n_ai + vague
 
 display(ai.groupBy("role_family")
           .count()
-          .withColumn("pct_of_ai",
-                      F.round(100.0 * F.col("count") / n_ai, 1))
+          .withColumn("pct_of_published_ai",
+                      F.round(100.0 * F.col("count") / max(n_ai, 1), 1))
           .orderBy(F.desc("count")))
 
-vague = ai.filter(F.col("role_family") == "ai (other)").count()
-print(f"AI roles total : {n_ai:,}")
-print(f"ai (other)     : {vague:,} ({vague/max(n_ai,1):.1%})")
-if vague / max(n_ai, 1) > 0.35:
+print(f"AI titles seen     : {n_mentions:,}")
+print(f"published (6 fams) : {n_ai:,} "
+      f"({n_ai/max(n_mentions,1):.1%})")
+print(f"dropped as vague   : {vague:,} "
+      f"({vague/max(n_mentions,1):.1%})  -> silver.excluded")
+if vague / max(n_mentions, 1) > 0.35:
     print("  <-- too vague. Widen the specific rules before "
           "publishing per-family findings.")
 
-# a hand check: 15 random vague titles, to see what is being missed
-display(ai.filter(F.col("role_family") == "ai (other)")
-          .select("title_raw", "company")
-          .orderBy(F.rand()).limit(15))
+# a hand check: 15 random dropped titles, to see what is being missed
+display(vague_rows.select("title_raw", "company")
+                  .orderBy(F.rand()).limit(15))
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Link coverage
+# MAGIC The public postings table is only useful if a row can be clicked
+# MAGIC through. A row without `redirect_url` is a dead entry, so measure
+# MAGIC it here rather than discovering it as a broken link on the site.
+
+# COMMAND ----------
+
+linkable = clean.filter(
+    F.col("redirect_url").isNotNull()
+    & (F.length("redirect_url") > 0)).count()
+
+print(f"rows with a redirect_url : {linkable:,} / {n_keep:,} "
+      f"({linkable/max(n_keep,1):.1%})")
+if linkable < n_keep * 0.95:
+    print("  <-- the aggregator changed its payload. Check that "
+          "bronze still explodes redirect_url before publishing.")
 
 # COMMAND ----------
 
@@ -624,6 +676,7 @@ COLS = ["posting_id", "adzuna_id", "country", "title_raw",
         "seniority", "gendered_tag",
         "company", "company_norm", "is_agency",
         "city", "city_raw", "region", "category", "language",
+        "redirect_url",
         "description", "desc_chars", "desc_truncated",
         "salary_min", "salary_max", "salary_is_predicted",
         "contract_type", "contract_time",
@@ -641,33 +694,3 @@ COLS = ["posting_id", "adzuna_id", "country", "title_raw",
 (quarantine.write.mode("overwrite")
            .option("overwriteSchema", "true")
            .saveAsTable(f"{SILVER}.quarantine"))
-
-# COMMAND ----------
-
-# MAGIC %md ## Headline numbers
-
-# COMMAND ----------
-
-p = spark.table(f"{SILVER}.postings")
-
-display(p.select(
-    F.count("*").alias("live_postings"),
-    F.countDistinct("company").alias("employers"),
-    F.round(F.avg("age_days"), 1).alias("avg_age_days"),
-    F.expr("percentile_approx(age_days, 0.5)").alias("median_age"),
-    F.round(100 * F.avg(
-        F.when(F.col("age_days") > 30, 1).otherwise(0)), 1)
-     .alias("pct_over_30d"),
-    F.round(100 * F.avg(
-        F.when(F.col("age_days") > 60, 1).otherwise(0)), 1)
-     .alias("pct_over_60d"),
-    F.round(100 * F.avg(
-        F.when(F.col("age_days") > 90, 1).otherwise(0)), 1)
-     .alias("pct_over_90d"),
-    F.round(100 * F.avg(
-        F.when(F.col("language") == "en", 1).otherwise(0)), 1)
-     .alias("pct_english"),
-    F.round(100 * F.avg(
-        F.when(F.col("salary_min").isNotNull(), 1).otherwise(0)), 1)
-     .alias("pct_with_salary"),
-))
