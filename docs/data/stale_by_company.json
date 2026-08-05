@@ -1,53 +1,5 @@
 [
  {
-  "company": "Akka Technologies",
-  "is_agency": false,
-  "n_postings": 6,
-  "avg_age_days": 592.2,
-  "oldest_days": 918,
-  "pct_over_60d": 100.0
- },
- {
-  "company": "CHEFS CULINAR West GmbH & Co. KG",
-  "is_agency": false,
-  "n_postings": 6,
-  "avg_age_days": 426.0,
-  "oldest_days": 426,
-  "pct_over_60d": 100.0
- },
- {
-  "company": "IPPEN.MEDIA",
-  "is_agency": false,
-  "n_postings": 9,
-  "avg_age_days": 379.9,
-  "oldest_days": 426,
-  "pct_over_60d": 88.9
- },
- {
-  "company": "b.telligent Gruppe",
-  "is_agency": false,
-  "n_postings": 7,
-  "avg_age_days": 309.6,
-  "oldest_days": 730,
-  "pct_over_60d": 85.7
- },
- {
-  "company": "IBM",
-  "is_agency": false,
-  "n_postings": 7,
-  "avg_age_days": 302.4,
-  "oldest_days": 527,
-  "pct_over_60d": 57.1
- },
- {
-  "company": "Wavestone Germany AG",
-  "is_agency": false,
-  "n_postings": 6,
-  "avg_age_days": 264.2,
-  "oldest_days": 736,
-  "pct_over_60d": 50.0
- },
- {
   "company": "Rüdiger Mohne",
   "is_agency": false,
   "n_postings": 5,
@@ -58,10 +10,10 @@
  {
   "company": "ISR Information Products AG",
   "is_agency": false,
-  "n_postings": 81,
-  "avg_age_days": 230.3,
-  "oldest_days": 531,
-  "pct_over_60d": 87.7
+  "n_postings": 69,
+  "avg_age_days": 196.1,
+  "oldest_days": 253,
+  "pct_over_60d": 85.5
  },
  {
   "company": "Fresenius Medical Care",
@@ -82,10 +34,10 @@
  {
   "company": "wynwood tech",
   "is_agency": false,
-  "n_postings": 10,
-  "avg_age_days": 178.1,
-  "oldest_days": 370,
-  "pct_over_60d": 80.0
+  "n_postings": 9,
+  "avg_age_days": 156.8,
+  "oldest_days": 344,
+  "pct_over_60d": 77.8
  },
  {
   "company": "Qualysoft",
@@ -128,14 +80,6 @@
   "pct_over_60d": 60.0
  },
  {
-  "company": "FERCHAU GmbH",
-  "is_agency": false,
-  "n_postings": 13,
-  "avg_age_days": 119.2,
-  "oldest_days": 378,
-  "pct_over_60d": 46.2
- },
- {
   "company": "in-tech GmbH",
   "is_agency": false,
   "n_postings": 5,
@@ -166,6 +110,14 @@
   "avg_age_days": 98.1,
   "oldest_days": 194,
   "pct_over_60d": 80.0
+ },
+ {
+  "company": "FERCHAU GmbH",
+  "is_agency": false,
+  "n_postings": 12,
+  "avg_age_days": 97.6,
+  "oldest_days": 231,
+  "pct_over_60d": 41.7
  },
  {
   "company": "KPMG",
@@ -478,5 +430,53 @@
   "avg_age_days": 43.7,
   "oldest_days": 73,
   "pct_over_60d": 33.3
+ },
+ {
+  "company": "Red Bull",
+  "is_agency": false,
+  "n_postings": 5,
+  "avg_age_days": 41.0,
+  "oldest_days": 89,
+  "pct_over_60d": 20.0
+ },
+ {
+  "company": "Simon-Kucher & Partners",
+  "is_agency": false,
+  "n_postings": 14,
+  "avg_age_days": 40.3,
+  "oldest_days": 77,
+  "pct_over_60d": 14.3
+ },
+ {
+  "company": "Alexander Thamm GmbH",
+  "is_agency": false,
+  "n_postings": 12,
+  "avg_age_days": 39.1,
+  "oldest_days": 126,
+  "pct_over_60d": 16.7
+ },
+ {
+  "company": "The Quality Group",
+  "is_agency": false,
+  "n_postings": 10,
+  "avg_age_days": 38.2,
+  "oldest_days": 110,
+  "pct_over_60d": 20.0
+ },
+ {
+  "company": "Google",
+  "is_agency": false,
+  "n_postings": 12,
+  "avg_age_days": 36.7,
+  "oldest_days": 66,
+  "pct_over_60d": 33.3
+ },
+ {
+  "company": "Amazon",
+  "is_agency": false,
+  "n_postings": 7,
+  "avg_age_days": 35.9,
+  "oldest_days": 67,
+  "pct_over_60d": 28.6
  }
 ]
