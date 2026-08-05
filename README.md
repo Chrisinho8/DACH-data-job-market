@@ -43,10 +43,13 @@ Given a few months it can answer whether AI/ML keeps taking share from data engi
  
 ## Scope: what counts as a data job
  
-**Kept:** data engineer, data analyst, data scientist, data architect, analytics engineer, DWH / ETL, data governance, data consultant, BI developer, and AI / ML engineering as its own family.
- 
+**Kept, data:** data engineer, data analyst, data scientist, data architect, analytics engineer, DWH / ETL, data governance, data consultant, BI developer.
+
+**Kept, AI:** AI engineer, GenAI / LLM, ML engineer, MLOps, AI consultant, AI research. A single `ai / ml` bucket used to be the largest family on the site and the least trustworthy one, because its rule ended in a bare `\bai\b` catch-all that swept in any backend job at a company calling itself AI-native.
+
 | Excluded | Why |
 |---|---|
+| Titles that say "AI" or "KI" and name no role | The rule still runs and still catches them; they are dropped rather than published. A job title is not enough to tell an AI job from a job advertised by a company that likes the word. The consequence: **AI figures here are a floor, not a total.** |
 | German *Controlling*, FP&A, finance | Management accounting, a separate profession |
 | Ausbildung, duales Studium, Werkstudent, Praktikum, Trainee | Education programmes, and they stay listed for months, distorting the age figures |
 | Data **centre** infrastructure | False friend: "Data Center Engineering Operations" is physical infrastructure |
@@ -65,9 +68,12 @@ Adzuna API (de, at, ch)
   -> SILVER   parsed, classified, scope-filtered, deduplicated,
               quality-gated
   -> GOLD     aggregates + weekly history
+              + postings_public (the one row-level table)
   -> JSON committed to this repo
   -> GitHub Pages
 ```
+
+**Browsing the postings.** Everything on the site is a count except one table. `gold.postings_public` ships as `docs/data/postings.json` and backs a searchable, filterable list, so a reader can click any role bar and see the jobs that made it tall. It carries title, employer, city, role family, seniority, age and the aggregator's `redirect_url`. It does not carry descriptions (not ours to redistribute, and 99.6% are truncated anyway) or salary (mostly the aggregator's own prediction). Rows without a link are dropped rather than rendered dead.
  
 ![Visualized architecture](assets/pipeline-architecture.png)
  
@@ -83,7 +89,8 @@ Adzuna API (de, at, ch)
 - **One aggregator is not the whole market**, and coverage is uneven. Austria and Switzerland have a few hundred postings each, so their figures are noisier than Germany's.
 - **`created` is the aggregator's date**, possibly when it indexed the posting rather than when the employer published it.
 - **Descriptions are hard-capped at 500 characters** and 99.5% are truncated. Tool counts measure *mentioned in the title or opening paragraph*, a floor rather than a requirement rate. The truncation window is identical for every posting, so comparisons between tools hold; absolute rates do not.
-- **The AI / ML family includes software roles that merely mention AI**, which inflates it.
+- **AI counts are a floor.** Titles mentioning AI without naming a role are dropped, not counted, so the six AI families cover every AI posting that *describes itself* and nothing else. The share of the AI split that gets dropped is printed on every run of `03_silver_clean.py`; if it climbs, the six rules are going stale.
+- **A posting in the browser is not necessarily open.** It was live at the last refresh. Nothing re-checks whether a job has since been filled or withdrawn.
 - **Roles and seniority are inferred from titles** with keyword rules, so both carry classification error. A role advertised without a seniority word counts as mid.
 - **Entry programmes are excluded**, so the 3.3% junior figure covers junior-titled permanent roles only.
 - **Agency detection is keyword based** and flags only 3.9%, almost certainly an undercount. Treat it as a lower bound.
