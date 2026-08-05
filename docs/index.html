@@ -176,20 +176,7 @@
   .sleg span i{display:inline-block;width:9px;height:9px;
                border-radius:2px;margin-right:6px}
 
-  /* ---------- map style toggle ---------- */
-  /* Country totals strip under the map controls. Four chips on one
-     line at every width.
 
-     flex-basis is auto, not 0: an equal-width split ignores how much
-     text each chip carries, and the total chip carries the most
-     ("DACH total" plus the role name), so it was the one whose label
-     got clipped. Sizing from content gives every chip what it needs
-     and shares the slack.
-
-     Within a chip the count and the label never shrink. The only
-     part allowed to ellipsis is the trailing note: a percentage on
-     the country chips, the role name on the total. Losing the tail of
-     "Data Analyst" is survivable, losing "DACH" is not. */
   .ctot{display:flex;flex-wrap:nowrap;gap:8px;margin:0 0 18px}
   .ctot .c{display:flex;align-items:baseline;gap:6px;padding:7px 11px;
            border:1px solid #EAE6DC;border-radius:7px;background:#FAF9F5;
@@ -210,8 +197,7 @@
     .ctot{gap:5px}
     .ctot .c{padding:6px 7px;gap:4px}
     .ctot .c b{font-size:13px}
-    /* below this the country name and the share cannot both fit, and
-       the number is the part worth keeping */
+
     .ctot .c u,.ctot .c s{display:none}
     .ctot .c::after{content:attr(data-ab);font-size:11px;color:#5C5A54}
   }
@@ -236,7 +222,6 @@
   .seg button:hover{background:#F3EFE7;color:var(--ink)}
   .seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
 
-  /* ---------- map heat mode ---------- */
   #map .hit{fill:transparent;cursor:default}
   #leg-heat .ramp{display:inline-block;width:132px;height:11px;
     border-radius:99px;border:1px solid var(--line);
@@ -245,7 +230,6 @@
   #leg-heat span{display:flex;align-items:center;gap:8px}
   .legend[hidden]{display:none}
 
-  /* ---------- map role picker + tooltip ---------- */
   .pick{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
   .pick button{font:600 12px/1 system-ui,sans-serif;cursor:pointer;
     padding:7px 12px;border-radius:99px;border:1px solid var(--line);
@@ -383,21 +367,11 @@
     </div>
   </section>
 
-  <!-- ============ POSTINGS BROWSER ============
-       Sits directly under the map because that is where a reader
-       first wants to stop looking at aggregates and start looking at
-       jobs. Hidden until postings.json loads, so a repo running an
-       older pipeline shows the charts and simply omits this section
-       rather than rendering an empty table. -->
+
   <section id="postings-section" hidden>
-    <h2>The postings behind the charts</h2>
+    <h2>The live postings behind the map</h2>
     <p class="note">
-      Every number on this page is a count of these rows. Click a city
-      on the map above, or any bar in the role and AI charts below, to
-      come back here filtered to it. Titles link to the aggregator,
-      which links on to the employer. Job descriptions are not
-      republished, and a row being here means it was live at the last
-      refresh, not that it is still open today.
+      The listings can be filtered by choosing the role/city on the map or by filling in the filters manually.
     </p>
 
     <div class="pfilters">
@@ -436,14 +410,9 @@
     <h2>Compare two cities head to head</h2>
     <p class="note">
       Pick any two cities having at least 3 live postings, and
-      optionally narrow the comparison to a single role. 
+      optionally narrow the comparison to a single role. <strong>NOTE: Small cities are noisy.</strong>
     </p>
     <p class="note">
-      <strong>NOTE: Small cities are noisy.</strong> The posting count for
-      each city is printed in the dropdown. Below roughly 20 postings a
-      single advert moves a percentage by five points or more, so treat
-      those shapes as indicative and read the counts before drawing a
-      conclusion. Narrowing to one role shrinks the denominator again.
     </p>
     <div class="cmp">
       <label>City A <select id="cmpA"></select></label>
@@ -464,14 +433,14 @@
     <h2>Which technical skills do postings ask for?
         <span class="pill">READ CAVEAT</span></h2>
     <p class="note">
-      <strong>All roles</strong> shows the market-wide share of postings
-      mentioning each tool. Pick a role and the left chart switches to that
-      role's postings; the right chart subtracts the market rate to show what
-      makes a role <em>distinctive</em>. Denominators are per role.
-      <strong>Read these as floors, not requirement rates:</strong> the API
-      caps descriptions at 500 characters, so this counts tools named in the
-      title or opening paragraph. Comparing tools with each other holds;
-      reading a single percentage as the real requirement rate does not.
+Pick a role: the left chart shows what its postings ask for, the
+  right subtracts the market rate to show what makes it
+  <em>distinctive</em>. Denominators are per role.
+  <strong>These are floors, not requirement rates</strong> &mdash; the API
+  caps descriptions at 500 characters, so this only counts tools
+  named up front. Comparing tools holds; reading one percentage as
+  the real requirement rate does not.
+
 
     </p>
     
@@ -497,13 +466,6 @@
   <section id="ai-section" hidden>
     <h2>What "AI job" actually means here</h2>
     <p class="note">
-      Every posting whose title contained "AI" or "KI" used to land in
-      one family. That made it the biggest group on the page and the
-      least informative, because a backend role at a startup that calls
-      itself AI-native counted the same as an MLOps engineer. It is now
-      six families, classified from the title, most specific rule
-      first, and a title that says "AI" without naming a role is not
-      counted at all.
     </p>
     <div id="ai_stats" class="stats"></div>
     <div class="grid2">
@@ -521,14 +483,8 @@
 
   <!-- ============ ROLES AND SENIORITY ============ -->
   <section>
-    <h2>Role and seniority, side by side</h2>
+    <h2>Role and seniority  (Austria, Germany and Switzerland)</h2>
     <p class="note">
-      Every role family against every seniority level, darker meaning more
-      postings. The junior column is the point: 132 of 3,991 postings, 3.3%,
-      and two families with none at all. Seniority is inferred from title
-      keywords, so "mid" means neither junior nor senior was stated. Entry
-      programmes (Ausbildung, duales Studium, Werkstudent, Praktikum,
-      Trainee) are excluded.
     </p>
     <div id="heat" class="hm"></div>
   </section>
@@ -582,15 +538,7 @@
     </p>
     <canvas id="empvol" height="260"></canvas>
   </section>
-  <section>
-    <h2>Which country publishes a salary? (%)</h2>
-    <p class="note">
-      Share of postings stating any salary figure. The EU pay
-      transparency directive had a transposition deadline of June 2026.
-         </p>
-    <canvas id="n11_salary" height="120"></canvas>
-  </section>
-
+ 
   <section>
     <h2>This pipelines own error rates</h2>
     <p class="note">
@@ -606,9 +554,8 @@
   <section class="caveats">
     <h2>What this pipeline will not tell you</h2>
     <ul>
-      <li><strong>Postings are not hires.</strong> An old posting may be
-          a real unfilled role, a pipeline-building advert, or a listing
-          nobody took down.</li>
+     
+      
       <li><strong>One aggregator is not the whole market</strong>, and
           its coverage is not equally deep in all three countries.
           Cross-country comparisons should be read as indicative.</li>
@@ -641,8 +588,7 @@
           jobs pulled in by keyword search.</li>
       <li><strong>Reposts are detected by content hash</strong> (title,
           company, city, first 200 characters).</li>
-      <li><strong>Agency detection is keyword based</strong> and
-          undercounts.</li>
+
       <li><strong>Listings link out, they are not republished.</strong>
           The postings browser shows title, employer, city, role family
           and age, and every row links to the aggregator. Job
