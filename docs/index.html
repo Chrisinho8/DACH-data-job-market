@@ -22,6 +22,11 @@
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
   @media(max-width:720px){.grid2{grid-template-columns:1fr}}
   .chartbox{position:relative;height:560px}
+  /* Horizontal bar charts get their height set in JS from the number
+     of rows and the number of lines each label wraps onto. A fixed
+     aspect ratio cannot do that: one extra family, or one label that
+     wraps, and every row is squeezed until the text collides. */
+  .cbox{position:relative;width:100%}
   .grid2.single{grid-template-columns:1fr}
   .grid2.single .chartbox{height:660px}
   @media(max-width:720px){.chartbox,.grid2.single .chartbox{height:460px}}
@@ -53,6 +58,49 @@
         color:#8A857C;text-transform:uppercase}
 
   .subh{font-size:14px;margin:0 0 10px;color:#5C5A54;font-weight:600}
+
+  /* ---- postings browser ---- */
+  .pfilters{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 12px}
+  .pfilters input,.pfilters select,.pfilters button{
+    font:inherit;font-size:13.5px;padding:7px 10px;
+    border:1px solid #DCD6C8;border-radius:6px;background:#FFFDF8;
+    color:#26241F}
+  .pfilters input{flex:1 1 260px;min-width:180px}
+  .pfilters select{cursor:pointer}
+  .pfilters button{cursor:pointer;color:#5C5A54}
+  .pfilters button:hover{background:#F0EEE6}
+  .pfilters :focus-visible{outline:2px solid #8A4A2E;outline-offset:1px}
+
+  /* The table scrolls sideways on a phone rather than reflowing: six
+     columns of one-line facts stay readable that way, and stacking
+     them into cards would make scanning a list of jobs worse. */
+  .ptable-wrap{overflow-x:auto;border:1px solid #EAE6DC;border-radius:8px}
+  .ptable{width:100%;border-collapse:collapse;font-size:13.5px;
+          min-width:680px}
+  .ptable th{text-align:left;font-size:11px;letter-spacing:.06em;
+             text-transform:uppercase;color:#8A857C;font-weight:700;
+             padding:9px 12px;border-bottom:1px solid #EAE6DC;
+             background:#FAF9F5;position:sticky;top:0}
+  .ptable td{padding:9px 12px;border-bottom:1px solid #F0EEE6;
+             vertical-align:top}
+  .ptable tr:last-child td{border-bottom:none}
+  .ptable tbody tr:hover{background:#FAF9F5}
+  .ptable .num{text-align:right;font-variant-numeric:tabular-nums;
+               white-space:nowrap}
+  .ptable a{color:#26241F;text-decoration:none;font-weight:600;
+            border-bottom:1px solid #DCD6C8}
+  .ptable a:hover{border-bottom-color:#8A4A2E;color:#8A4A2E}
+  .ptable .fam{white-space:nowrap;color:#5C5A54}
+  .ptable .dot{display:inline-block;width:8px;height:8px;
+               border-radius:50%;margin-right:6px;vertical-align:0}
+  .ptable .stale{color:#8A4A2E;font-weight:600}
+  .ptable .empty{padding:26px 12px;text-align:center;color:#8A857C}
+  .pmore{margin-top:14px;text-align:center}
+  .pmore button{font:inherit;font-size:13.5px;padding:8px 18px;
+    border:1px solid #DCD6C8;border-radius:6px;background:#FFFDF8;
+    color:#5C5A54;cursor:pointer}
+  .pmore button:hover{background:#F0EEE6}
+  .pmore[hidden]{display:none}
 
   .pill{display:inline-block;padding:2px 9px;border-radius:99px;
         font-size:11px;font-weight:600;background:#F0EEE6;
@@ -351,12 +399,13 @@
   <section id="ai-section" hidden>
     <h2>What "AI job" actually means here</h2>
     <p class="note">
-      Until this run, every posting whose title contained "AI" or "KI"
-      landed in one family. That made it the biggest group on the page
-      and the least informative, because a backend role at a startup
-      that calls itself AI-native counted the same as an MLOps
-      engineer. It is now seven families, classified from the title,
-      most specific rule first.
+      Every posting whose title contained "AI" or "KI" used to land in
+      one family. That made it the biggest group on the page and the
+      least informative, because a backend role at a startup that calls
+      itself AI-native counted the same as an MLOps engineer. It is now
+      six families, classified from the title, most specific rule
+      first, and a title that says "AI" without naming a role is not
+      counted at all.
     </p>
     <div id="ai_stats" class="stats"></div>
     <div class="grid2">
@@ -455,6 +504,52 @@
     <div id="n14_quality" class="stats"></div>
   </section>
 
+  <!-- ============ POSTINGS BROWSER ============ -->
+  <!-- Hidden until postings.json loads, so a repo running an older
+       pipeline shows the charts and simply omits this section rather
+       than rendering an empty table. -->
+  <section id="postings-section" hidden>
+    <h2>The postings behind the charts</h2>
+    <p class="note">
+      Every number above is a count of these rows. Click any bar in the
+      role or AI charts to land here filtered to that family, or search
+      directly. Titles link to the aggregator, which links on to the
+      employer. Job descriptions are not republished, and a row being
+      here means it was live at the last refresh, not that it is still
+      open today.
+    </p>
+
+    <div class="pfilters">
+      <input id="pq" type="search" autocomplete="off"
+             placeholder="Search title or employer…"
+             aria-label="Search postings by title or employer">
+      <select id="pfam"  aria-label="Filter by role family"></select>
+      <select id="pctry" aria-label="Filter by country"></select>
+      <select id="psen"  aria-label="Filter by seniority"></select>
+      <select id="psort" aria-label="Sort postings">
+        <option value="new">Newest first</option>
+        <option value="old">Oldest first</option>
+        <option value="age">Longest open</option>
+        <option value="az">Title A–Z</option>
+      </select>
+      <button id="pclear" type="button">Clear</button>
+    </div>
+
+    <p class="note" id="pcount"></p>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead>
+          <tr>
+            <th>Title</th><th>Employer</th><th>City</th>
+            <th>Family</th><th>Level</th><th class="num">Days open</th>
+          </tr>
+        </thead>
+        <tbody id="pbody"></tbody>
+      </table>
+    </div>
+    <div class="pmore"><button id="pmore" type="button">Show more</button></div>
+  </section>
+
   <!-- ============ CAVEATS ============ -->
   <section class="caveats">
     <h2>What this pipeline will not tell you</h2>
@@ -471,14 +566,16 @@
       <li><strong>Roles are classified from the job title</strong> with
           keyword rules, not from the description, which the aggregator
           truncates.</li>
-      <li><strong>AI is seven families, and one of them is a
-          confession.</strong> The rules run most specific first
-          (research, GenAI, MLOps, ML, consulting, AI engineer), and
-          anything that only says "AI" or "KI" falls into
-          <em>AI mentioned, role unclear</em>. That family is published
-          rather than hidden because its size is itself a finding. Sum
-          all seven to reproduce a single "AI jobs" number, but do not
-          quote that number without also quoting the unclear share.</li>
+      <li><strong>AI is six families, and the AI numbers here are a
+          floor, not a total.</strong> The rules run most specific
+          first (research, GenAI, MLOps, ML, consulting, AI engineer).
+          A title that says only "AI" or "KI" and names no role is
+          dropped rather than counted, because the pipeline cannot tell
+          from a title whether it is an AI job or a job advertised by a
+          company that likes the word. Summing the six gives you every
+          AI posting that <em>describes itself</em>. The count of
+          postings using AI as an adjective is larger and is not
+          published.</li>
       <li><strong>The boundaries between AI families are judgement
           calls.</strong> "Applied Scientist, Machine Learning" is
           counted as research rather than ML engineering; a title
@@ -494,8 +591,14 @@
           company, city, first 200 characters).</li>
       <li><strong>Agency detection is keyword based</strong> and
           undercounts.</li>
-      <li><strong>Only aggregates are published here.</strong>
-          Individual listings are not redistributed.</li>
+      <li><strong>Listings link out, they are not republished.</strong>
+          The postings browser shows title, employer, city, role family
+          and age, and every row links to the aggregator. Job
+          descriptions and salary estimates are not redistributed.</li>
+      <li><strong>A posting in the browser is not necessarily
+          open.</strong> It was live at the last refresh
+          (<span id="cav_updated">see the footer</span>). Nothing here
+          re-checks whether a job has since been filled or withdrawn.</li>
     </ul>
   </section>
 
@@ -523,8 +626,8 @@ const CORAL = "#D97757", CLAY = "#CC785C", SAGE = "#7C9885",
       PLUM  = "#9B7B9B", STEEL = "#6E8CA0", MOSS = "#6E9384",
       SAND  = "#C7A87C";
 
-/* Splitting AI into seven families took the role count from 10 to 16,
-   so a 10-colour cycle would have repeated. Six more, chosen to stay
+/* Splitting AI into families took the role count from 10 to 15, so a
+   10-colour cycle would have repeated. Six more, chosen to stay
    distinguishable in the same muted range.                         */
 const ROSE = "#B5657F", INDIGO = "#6B6E9B", OLIVE = "#8C9455",
       OCEAN = "#4F7A8C", STONE = "#8A857C", RUST  = "#9C5A3C";
@@ -541,8 +644,6 @@ const ROLE_COLOUR = {
   "ai engineer":   CORAL,  "genai / llm":   DEEP,
   "ml engineer":   CLAY,   "mlops":         RUST,
   "ai consultant": AMBER,  "ai research":   SAND,
-  "ai (other)":    STONE,          /* grey on purpose: it is the
-                                      bucket that says nothing */
   "ai / ml":       CORAL,          /* pre-split snapshots */
 
   "data engineer":      STEEL,  "data analyst":    SAGE,
@@ -556,18 +657,26 @@ const ROLE_COLOUR = {
 const rcol = (rf, i) =>
   ROLE_COLOUR[String(rf).toLowerCase()] || CATS[i % CATS.length];
 
-/* The seven AI families, plus the pre-split name so an older data/
-   snapshot still totals correctly. Anything asking "how much of this
-   is AI" must sum this set, never test one string.               */
+/* The six published AI families, plus two names that only appear in
+   older data/ snapshots: "ai / ml" from before the split, and
+   "ai (other)" from the window when the vague bucket was still
+   published. Both are kept so an old snapshot still totals correctly.
+   Anything asking "how much of this is AI" must sum this set, never
+   test one string.                                                */
 const AI_SET = new Set([
   "ai engineer", "genai / llm", "ml engineer", "mlops",
-  "ai consultant", "ai research", "ai (other)", "ai / ml"
+  "ai consultant", "ai research",
+  "ai / ml", "ai (other)"        /* legacy snapshots only */
 ]);
-
-/* Everything except the bucket that only tells you the word "AI"
-   appeared. The gap between the two is the point of the split. */
-const AI_CORE = new Set([...AI_SET].filter(r => r !== "ai (other)"));
 const isAI = rf => AI_SET.has(String(rf).toLowerCase());
+
+/* Families the pipeline no longer publishes. A current data/ refresh
+   contains none of these; they are filtered out rather than trusted to
+   be absent, so an old JSON file cannot resurrect a chart series the
+   surrounding copy no longer explains.                             */
+const RETIRED = new Set(["ai (other)", "ai / ml"]);
+const isLive  = rf => !RETIRED.has(String(rf).toLowerCase());
+const live    = rows => rows.filter(r => isLive(r.role_family));
 
 /* Tool categories are published as snake_case identifiers. Rewrite
    them for display only; the pipeline values must not change.     */
@@ -620,9 +729,10 @@ const ROLE_LABEL = {
   "mlops":              "MLOps / ML Platform",
   "ai consultant":      "AI Consulting",
   "ai research":        "AI Research",   /* incl. applied scientist */
-  "ai (other)":         "AI mentioned, role unclear",
-  /* kept so an older data/ snapshot still renders a sane label */
+  /* kept so an older data/ snapshot still renders a sane label if one
+     of these ever slips past the RETIRED filter */
   "ai / ml":            "AI/ML (pre-split)",
+  "ai (other)":         "AI, role unspecified (retired)",
 
   "data engineer":      "Data Engineer",
   "data scientist":     "Data Scientist",
@@ -639,7 +749,7 @@ const ROLE_LABEL = {
    third of the chart width, which truncated "Data Governance and
    Security". An array of strings renders as stacked lines, so wrap
    long names instead of shortening them.                          */
-const wrap = (s, max = 15) => {
+const wrap = (s, max = 18) => {
   const out = [];
   String(s).split(" ").forEach(w => {
     if (out.length && (out[out.length - 1] + " " + w).length <= max)
@@ -663,6 +773,46 @@ function ds(label, data, colour) {
            borderRadius: 3, barPercentage: 0.82 };
 }
 
+/* ---- sizing horizontal bar charts ------------------------------
+   These charts were laid out by canvas aspect ratio, which fixes the
+   height and then divides it by however many rows there happen to be.
+   Sixteen role families in a half-width column left about 19px per
+   row, and `wrap()` had already turned the longer names into two and
+   three line labels needing more than that, so they overprinted each
+   other and the axis title.
+
+   Height is now derived from the content: count the lines every label
+   actually needs, give each row that much space plus padding, and set
+   the container to the total. Adding a family makes the chart taller
+   instead of making it illegible.                                */
+const ROW_LINE_PX = 15,   /* one line of tick text                 */
+      ROW_PAD_PX  = 14,   /* breathing room between rows           */
+      ROW_MIN_PX  = 27,   /* a single-line row still needs a bar   */
+      CHART_CHROME_PX = 62;  /* x axis ticks + axis title          */
+
+function fitHeight(labels, ax) {
+  const rows = labels.reduce((h, l) => h + Math.max(
+    ROW_MIN_PX,
+    (Array.isArray(l) ? l.length : 1) * ROW_LINE_PX + ROW_PAD_PX), 0);
+  return Math.ceil(rows + CHART_CHROME_PX + (ax && ax.x ? 16 : 0));
+}
+
+/* Chart.js reads its height from the parent when the aspect ratio is
+   off, so give the canvas a parent of its own rather than resizing
+   whatever happens to wrap it (usually a column that also holds a
+   heading). Idempotent: re-rendering a chart reuses the same box. */
+function sizeBox(el, px) {
+  let b = el.parentNode;
+  if (!b || !b.classList.contains("cbox")) {
+    b = document.createElement("div");
+    b.className = "cbox";
+    el.parentNode.insertBefore(b, el);
+    b.appendChild(el);
+  }
+  b.style.height = px + "px";
+  return b;
+}
+
 /* ax is optional: { x: "label for the x axis", y: "label for the y axis" }.
    Titles are what a reader needs to know what the numbers mean, so every
    call site passes them.                                              */
@@ -672,16 +822,37 @@ function bar(id, labels, datasets, horizontal, stacked, pct, ax) {
   const t = s => ({ display: !!s, text: s || "",
                     font: { size: 11.5, weight: "600" }, color: SLATE });
   ax = ax || {};
+
+  /* Single-series horizontal charts are the ones with a row per role
+     family, so they are the ones that need content-driven height. A
+     stacked chart's rows are countries, and its legend height is not
+     something this can measure, so leave those on aspect ratio. */
+  const fit = horizontal && datasets.length === 1;
+  if (fit) sizeBox(el, fitHeight(labels, ax));
+
   new Chart(el, {
     type: "bar",
     data: { labels, datasets },
     options: {
+      maintainAspectRatio: !fit,
       indexAxis: horizontal ? "y" : "x",
       plugins: {
         legend: { display: datasets.length > 1,
                   labels: { boxWidth: 12, font: { size: 11 } } },
         tooltip: pct ? { callbacks: { label: c =>
           `${c.dataset.label}: ${c.raw}%` } } : {}
+      },
+      /* ax.pick turns a bar into a link into the postings browser, so
+         a reader can go from "Data Engineer is the tallest bar" to the
+         973 rows that made it tall. Charts without a pick behave as
+         before. */
+      onClick: (e, els) => {
+        if (ax.pick && els.length) ax.pick(els[0].index);
+      },
+      onHover: (e, els) => {
+        const c = e.native && e.native.target;
+        if (c) c.style.cursor =
+          (ax.pick && els.length) ? "pointer" : "default";
       },
       scales: {
         x: { stacked: !!stacked, max: pct ? 100 : undefined,
@@ -741,6 +912,7 @@ get("meta").then(m => {
     `last updated ${m.updated}`);
   set("f-mean", Math.round(m.avg_age_days));
   set("f-median", m.median_age_days);
+  if (m.updated) set("cav_updated", m.updated);
 
   const ratio = m.median_age_days
     ? (m.avg_age_days / m.median_age_days).toFixed(1) : null;
@@ -1456,8 +1628,10 @@ const nk = s => String(s)
 })();
 
 /* ---------------- roles ---------------- */
-get("role_breakdown").then(d => {
-  if (!d || !d.length) return;
+get("role_breakdown").then(all => {
+  if (!all || !all.length) return;
+  const d = live(all);
+  if (!d.length) return;
 
   const agg = {};
   d.forEach(r => {
@@ -1475,13 +1649,15 @@ get("role_breakdown").then(d => {
   bar("rolevol", roles.map(r => wrap(rlab(r))),
       [ds("Live postings", rows.map(r => r.n),
           rows.map((r, i) => rcol(r.role, i)))], true, false, false,
-      { x: "live postings", y: "role family" });
+      { x: "live postings", y: "role family",
+        pick: i => openPostings({ family: rows[i].role }) });
 
   const byAge = rows.slice().sort((a, b) => b.age - a.age);
   bar("roleage", byAge.map(r => wrap(rlab(r.role))),
       [ds("Avg days open", byAge.map(r => Math.round(r.age)),
           byAge.map(r => ageColour(r.age)))], true, false, false,
-      { x: "average days a posting stays open", y: "role family" });
+      { x: "average days a posting stays open", y: "role family",
+        pick: i => openPostings({ family: byAge[i].role }) });
 
   /* --- role mix by country, as a share of each country --- */
   if (d[0].country !== undefined) {
@@ -1566,24 +1742,27 @@ get("stale_by_company").then(d => {
 
   const vol = d.slice().sort((a, b) => b.n_postings - a.n_postings)
                .slice(0, 15);
-  bar("empvol", vol.map(r => r.company),
+  bar("empvol", vol.map(r => wrap(r.company, 24)),
       [ds("Live postings", vol.map(r => r.n_postings),
           vol.map(r => ageColour(r.avg_age_days)))], true, false, false,
       { x: "live postings (bar colour = average days open)",
-        y: "company" });
+        y: "company",
+        /* no company dropdown: the search box already matches on
+           employer, so a click just fills it in */
+        pick: i => openPostings({ q: vol[i].company }) });
 
 });
 
 /* ---------------- the AI split ----------------
    Reads the same role_breakdown table as the roles section, filtered
-   to the seven AI families. The section stays hidden if the data
+   to the six AI families. The section stays hidden if the data
    directory still holds a pre-split snapshot, so an old deploy does
    not render an empty chart.                                      */
 get("role_breakdown").then(d => {
   if (!d || !d.length) return;
 
   const agg = {};
-  d.filter(r => isAI(r.role_family)).forEach(r => {
+  live(d).filter(r => isAI(r.role_family)).forEach(r => {
     const k = String(r.role_family).toLowerCase();
     agg[k] = agg[k] || { n: 0, wage: 0 };
     agg[k].n    += r.n_postings;
@@ -1601,19 +1780,17 @@ get("role_breakdown").then(d => {
                                 age: agg[f].wage / agg[f].n }))
                    .sort((a, b) => b.n - a.n);
 
-  const totalAll = d.reduce((s, r) => s + r.n_postings, 0);
+  const totalAll = live(d).reduce((s, r) => s + r.n_postings, 0);
   const totalAI  = rows.reduce((s, r) => s + r.n, 0);
-  const vague    = agg["ai (other)"] ? agg["ai (other)"].n : 0;
-  const named    = totalAI - vague;
-  const biggest  = rows.find(r => r.role !== "ai (other)");
+  const biggest  = rows[0];
+  const oldest   = rows.slice().sort((a, b) => b.age - a.age)[0];
 
   const pct = (a, b) => b ? (100 * a / b).toFixed(1) + "%" : "–";
   const cards = [
-    ["AI-labelled postings", totalAI.toLocaleString()],
+    ["AI postings with a named role", totalAI.toLocaleString()],
     ["of all live postings", pct(totalAI, totalAll)],
-    ["Largest named AI family",
-     biggest ? rlab(biggest.role) : "–"],
-    ["Say AI, name no role", pct(vague, totalAI)],
+    ["Largest AI family", biggest ? rlab(biggest.role) : "–"],
+    ["Slowest to fill", oldest ? rlab(oldest.role) : "–"],
   ];
   const st = document.getElementById("ai_stats");
   if (st) st.innerHTML = cards.map(([k, v]) =>
@@ -1622,23 +1799,181 @@ get("role_breakdown").then(d => {
   bar("aivol", rows.map(r => wrap(rlab(r.role))),
       [ds("Live postings", rows.map(r => r.n),
           rows.map((r, i) => rcol(r.role, i)))], true, false, false,
-      { x: "live postings", y: "AI family" });
+      { x: "live postings", y: "AI family",
+        pick: i => openPostings({ family: rows[i].role }) });
 
   const byAge = rows.slice().sort((a, b) => b.age - a.age);
   bar("aiage", byAge.map(r => wrap(rlab(r.role))),
       [ds("Avg days open", byAge.map(r => Math.round(r.age)),
           byAge.map(r => ageColour(r.age)))], true, false, false,
-      { x: "average days a posting stays open", y: "AI family" });
+      { x: "average days a posting stays open", y: "AI family",
+        pick: i => openPostings({ family: byAge[i].role }) });
 
   const note = document.getElementById("ai_vague_note");
   if (note) note.innerHTML =
-    `<strong>Read the grey bar first.</strong> ` +
-    `${vague.toLocaleString()} of ${totalAI.toLocaleString()} ` +
-    `AI-labelled postings (${pct(vague, totalAI)}) carry the word ` +
-    `but describe no AI-specific role in the title. The remaining ` +
-    `${named.toLocaleString()} are the ones worth comparing. ` +
-    `Any headline number about "AI hiring in DACH" that does not ` +
-    `separate these two is counting adjectives, not jobs.`;
+    `<strong>These are AI jobs that say what they are.</strong> ` +
+    `A title mentioning AI or KI without naming a role is not ` +
+    `counted anywhere on this page, so ` +
+    `${totalAI.toLocaleString()} is a floor under DACH AI hiring, ` +
+    `not a measure of it. The number of postings using AI as an ` +
+    `adjective is larger and is not something this pipeline can ` +
+    `classify honestly from a job title.`;
+});
+
+/* ---------------- postings browser ----------------------------
+   The only row-level view on the page. Everything else is a count;
+   this is what was counted.
+
+   Filtering runs over the whole array on every keystroke. At a few
+   thousand rows that is well under a frame, and an index would be
+   code to maintain for a speedup nobody can perceive. If postings.json
+   ever grows past ~20k rows, this is the thing to revisit.
+
+   Rendering is capped and extended by a button. Painting 3,600 table
+   rows is what would actually be slow, not filtering them.     */
+const PAGE = 60;
+let POSTINGS = [], pshown = PAGE;
+
+const $p = id => document.getElementById(id);
+
+/* dd/mm-agnostic: created_date arrives as an ISO string. */
+const pDate = r => String(r.created_date || "").slice(0, 10);
+
+function pFill(sel, values, allLabel, label) {
+  if (!sel) return;
+  sel.innerHTML = `<option value="">${allLabel}</option>` +
+    values.map(v =>
+      `<option value="${v}">${label ? label(v) : cap(v)}</option>`)
+      .join("");
+}
+
+function pFiltered() {
+  const q    = ($p("pq").value || "").trim().toLowerCase();
+  const fam  = $p("pfam").value;
+  const ctry = $p("pctry").value;
+  const sen  = $p("psen").value;
+
+  let out = POSTINGS.filter(r =>
+    (!fam  || r.role_family === fam) &&
+    (!ctry || r.country     === ctry) &&
+    (!sen  || r.seniority   === sen) &&
+    (!q    || (r.title   || "").toLowerCase().includes(q)
+           || (r.company || "").toLowerCase().includes(q)));
+
+  const sort = $p("psort").value;
+  const byTitle = (a, b) =>
+    String(a.title).localeCompare(String(b.title), "de");
+  out = out.slice().sort(
+    sort === "old" ? (a, b) => pDate(a).localeCompare(pDate(b))
+  : sort === "age" ? (a, b) => b.age_days - a.age_days
+  : sort === "az"  ? byTitle
+  :                  (a, b) => pDate(b).localeCompare(pDate(a)));
+
+  return out;
+}
+
+function pRender() {
+  const rows = pFiltered();
+  const body = $p("pbody");
+  const slice = rows.slice(0, pshown);
+
+  body.innerHTML = slice.length ? slice.map(r => {
+    const fam = String(r.role_family || "").toLowerCase();
+    /* 60+ days is the threshold the rest of the page treats as stale,
+       so flag it here too rather than inventing a second one. */
+    const stale = r.age_days > 60 ? ' class="stale"' : "";
+    return `<tr>
+      <td><a href="${r.url}" target="_blank"
+             rel="noopener nofollow">${esc(r.title)}</a></td>
+      <td>${esc(r.company)}${r.is_agency
+            ? ' <span class="flag">agency</span>' : ""}</td>
+      <td>${esc(cap(r.city))}
+          <span class="flag">${String(r.country).toUpperCase()}</span></td>
+      <td class="fam"><span class="dot"
+            style="background:${rcol(fam, 0)}"></span>${rlab(fam)}</td>
+      <td>${esc(cap(r.seniority))}</td>
+      <td class="num"${stale}>${r.age_days}</td>
+    </tr>`;
+  }).join("")
+    : `<tr><td colspan="6" class="empty">
+         No postings match those filters.</td></tr>`;
+
+  $p("pcount").textContent = rows.length
+    ? `Showing ${slice.length.toLocaleString()} of ` +
+      `${rows.length.toLocaleString()} postings` +
+      (rows.length < POSTINGS.length
+        ? ` (filtered from ${POSTINGS.length.toLocaleString()})` : "")
+    : `No matches out of ${POSTINGS.length.toLocaleString()} postings`;
+
+  $p("pmore").parentNode.hidden = slice.length >= rows.length;
+}
+
+/* escaping: employer names are third-party strings going into
+   innerHTML, so they do not get to carry markup. */
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+/* Entry point for the chart drill-downs. */
+function openPostings(filter) {
+  const sec = $p("postings-section");
+  if (!sec || sec.hidden) return;
+  $p("pq").value    = filter.q        || "";
+  $p("pfam").value  = filter.family   || "";
+  $p("pctry").value = filter.country  || "";
+  $p("psen").value  = filter.seniority || "";
+  /* A drill-down is a "show me these" gesture, so lead with the ones
+     that have been open longest: that is where a reader's eye goes
+     after clicking a bar about how long postings stay open. */
+  $p("psort").value = "age";
+  pshown = PAGE;
+  pRender();
+  sec.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+get("postings").then(d => {
+  if (!Array.isArray(d) || !d.length) return;
+
+  POSTINGS = d.filter(r => r.url && isLive(r.role_family));
+  if (!POSTINGS.length) return;
+
+  $p("postings-section").hidden = false;
+
+  const uniq = k => [...new Set(POSTINGS.map(r => r[k]).filter(Boolean))];
+
+  pFill($p("pfam"),
+        uniq("role_family").sort((a, b) =>
+          rlab(a).localeCompare(rlab(b))),
+        "All role families", rlab);
+  pFill($p("pctry"),
+        uniq("country").sort(),
+        "All countries", c => (CNAME && CNAME[c]) || c.toUpperCase());
+  pFill($p("psen"),
+        ["junior", "mid", "senior"].filter(s =>
+          POSTINGS.some(r => r.seniority === s)),
+        "All levels");
+
+  ["pq", "pfam", "pctry", "psen", "psort"].forEach(id =>
+    $p(id).addEventListener(id === "pq" ? "input" : "change", () => {
+      pshown = PAGE;
+      pRender();
+    }));
+
+  $p("pmore").addEventListener("click", () => {
+    pshown += PAGE * 2;
+    pRender();
+  });
+
+  $p("pclear").addEventListener("click", () => {
+    ["pq", "pfam", "pctry", "psen"].forEach(id => $p(id).value = "");
+    $p("psort").value = "new";
+    pshown = PAGE;
+    pRender();
+  });
+
+  pRender();
 });
 
 /* ---------------- tools ---------------- */
@@ -1669,7 +2004,13 @@ get("history").then(h => {
                    .map(r => r.snapshot_date))].sort();
   if (weeks.length < 3) return;
 
-  document.getElementById("trend-section").hidden = false;
+  /* Pre-existing: there is no #trend-section in the markup, so this
+     used to throw inside the promise and take the rest of this
+     handler with it, silently. Guarded rather than removed, because
+     the section is presumably still coming.                      */
+  const tsec = document.getElementById("trend-section");
+  if (!tsec) return;
+  tsec.hidden = false;
   const series = (m, colour, axis) => ({
     label: m.replace(/_/g, " "),
     data: weeks.map(w =>
@@ -2119,25 +2460,28 @@ get("history").then(h => {
         !!(cr && cr.length && cr[0].role_family !== undefined && selR);
 
       /* ---- totals and AI share per city, from the role cut ----
-         AI is seven families now, so this sums the set rather than
-         testing one string. AI_SET is defined once at the top and
-         includes "ai / ml" so an older data/ snapshot still works.
-         "ai (other)" is counted here: the map shows how much of a
-         city's hiring carries an AI label, which is the honest
-         question, and the role dropdown lets you look inside.   */
-      const cityTotal = {}, aiShare = {}, aiCoreShare = {};
-      if (cr && cr.length && cr[0].role_family !== undefined) {
-        const ai = {}, core = {};
-        cr.forEach(r => {
+         AI is six families, so this sums the set rather than testing
+         one string. AI_SET is defined once at the top. Retired
+         families are stripped first, so an old data/ snapshot cannot
+         quietly inflate a city's AI share with rows the rest of the
+         page no longer counts.
+
+         One axis, not two. There used to be a second "role named"
+         share because the vague bucket was published alongside the
+         named ones; now nothing vague is published and the two
+         numbers would be identical.                              */
+      const crLive = (cr && cr.length) ? live(cr) : [];
+      const cityTotal = {}, aiShare = {};
+      if (crLive.length && crLive[0].role_family !== undefined) {
+        const ai = {};
+        crLive.forEach(r => {
           const k = `${r.country}|${r.city}`;
           const rf = String(r.role_family).toLowerCase();
           cityTotal[k] = (cityTotal[k] || 0) + r.n_postings;
-          if (AI_SET.has(rf))  ai[k]   = (ai[k]   || 0) + r.n_postings;
-          if (AI_CORE.has(rf)) core[k] = (core[k] || 0) + r.n_postings;
+          if (AI_SET.has(rf)) ai[k] = (ai[k] || 0) + r.n_postings;
         });
         Object.keys(cityTotal).forEach(k => {
-          aiShare[k]     = +(100 * (ai[k]   || 0) / cityTotal[k]).toFixed(1);
-          aiCoreShare[k] = +(100 * (core[k] || 0) / cityTotal[k]).toFixed(1);
+          aiShare[k] = +(100 * (ai[k] || 0) / cityTotal[k]).toFixed(1);
         });
       }
 
@@ -2158,8 +2502,7 @@ get("history").then(h => {
           age: r.avg_age_days,
           english: r.pct_english,
           agency: r.pct_agency,
-          ai:     aiShare[`${r.country}|${r.city}`]     ?? 0,
-          aiCore: aiCoreShare[`${r.country}|${r.city}`] ?? 0
+          ai:     aiShare[`${r.country}|${r.city}`]     ?? 0
         }))
         .sort(byCountryThenSize);
 
@@ -2172,7 +2515,7 @@ get("history").then(h => {
       /* ---- city list per role ---- */
       const roleCities = {};
       if (hasRoles) {
-        cr.forEach(r => {
+        crLive.forEach(r => {
           if (!r.city || r.city === "unknown") return;
           const key = `${r.country}|${r.city}`;
           if (!eligible.has(key)) return;
@@ -2199,8 +2542,7 @@ get("history").then(h => {
         ["Avg days open",   "age",      v => Math.round(v) + " d"],
         ["% in English",    "english",  v => v + "%"],
         ["% via agency",    "agency",   v => v + "%"],
-        ["% AI-labelled",   "ai",       v => v + "%"],
-        ["% AI, role named", "aiCore",  v => v + "%"]
+        ["% AI roles",      "ai",       v => v + "%"]
       ];
       const AX_ROLE = [
         ["Live listings", "listings", v => v.toLocaleString()],
