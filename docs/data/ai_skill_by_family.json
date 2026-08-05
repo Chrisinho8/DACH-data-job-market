@@ -145,26 +145,26 @@
  },
  {
   "role_family": "genai / llm",
-  "skill": "ai_agents",
+  "skill": "genai",
   "skill_category": "genai",
-  "n_postings": 79,
-  "pct_of_family": 32.4,
+  "n_postings": 78,
+  "pct_of_family": 32.2,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
-  "skill": "genai",
+  "skill": "ai_agents",
   "skill_category": "genai",
-  "n_postings": 78,
-  "pct_of_family": 32.0,
+  "n_postings": 77,
+  "pct_of_family": 31.8,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
   "skill": "llm",
   "skill_category": "genai",
-  "n_postings": 74,
-  "pct_of_family": 30.3,
+  "n_postings": 72,
+  "pct_of_family": 29.8,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
@@ -172,7 +172,7 @@
   "skill": "prompting",
   "skill_category": "genai",
   "n_postings": 35,
-  "pct_of_family": 14.3,
+  "pct_of_family": 14.5,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
@@ -180,7 +180,7 @@
   "skill": "rag",
   "skill_category": "genai",
   "n_postings": 23,
-  "pct_of_family": 9.4,
+  "pct_of_family": 9.5,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
@@ -225,18 +225,18 @@
  },
  {
   "role_family": "genai / llm",
-  "skill": "openai_api",
-  "skill_category": "genai",
-  "n_postings": 6,
-  "pct_of_family": 2.5,
+  "skill": "gcp",
+  "skill_category": "cloud",
+  "n_postings": 5,
+  "pct_of_family": 2.1,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
-  "skill": "gcp",
-  "skill_category": "cloud",
-  "n_postings": 5,
-  "pct_of_family": 2.0,
+  "skill": "openai_api",
+  "skill_category": "genai",
+  "n_postings": 4,
+  "pct_of_family": 1.7,
   "snapshot_date": "2026-08-05T00:00:00.000"
  },
  {
