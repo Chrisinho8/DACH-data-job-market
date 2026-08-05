@@ -1992,6 +1992,12 @@
   "value": 3.6
  },
  {
+  "snapshot_date": "2026-08-05T00:00:00.000",
+  "metric": "ai_share_of_market",
+  "dimension": "all",
+  "value": 29.3
+ },
+ {
   "snapshot_date": "2026-08-03T00:00:00.000",
   "metric": "ai_share_of_market",
   "dimension": "all",
@@ -2005,9 +2011,9 @@
  },
  {
   "snapshot_date": "2026-08-05T00:00:00.000",
-  "metric": "ai_share_of_market",
+  "metric": "live_postings",
   "dimension": "all",
-  "value": 29.3
+  "value": 3534.0
  },
  {
   "snapshot_date": "2026-07-29T00:00:00.000",
@@ -2028,12 +2034,6 @@
   "value": 4032.0
  },
  {
-  "snapshot_date": "2026-08-05T00:00:00.000",
-  "metric": "live_postings",
-  "dimension": "all",
-  "value": 3534.0
- },
- {
   "snapshot_date": "2026-07-30T00:00:00.000",
   "metric": "live_postings",
   "dimension": "all",
@@ -2052,6 +2052,18 @@
   "value": 56.6
  },
  {
+  "snapshot_date": "2026-08-05T00:00:00.000",
+  "metric": "avg_age_days",
+  "dimension": "all",
+  "value": 48.0
+ },
+ {
+  "snapshot_date": "2026-08-05T00:00:00.000",
+  "metric": "pct_over_60d",
+  "dimension": "all",
+  "value": 26.5
+ },
+ {
   "snapshot_date": "2026-07-29T00:00:00.000",
   "metric": "pct_over_60d",
   "dimension": "all",
@@ -2062,12 +2074,6 @@
   "metric": "pct_over_60d",
   "dimension": "all",
   "value": 26.8
- },
- {
-  "snapshot_date": "2026-08-05T00:00:00.000",
-  "metric": "avg_age_days",
-  "dimension": "all",
-  "value": 48.0
  },
  {
   "snapshot_date": "2026-07-31T00:00:00.000",
@@ -2086,12 +2092,6 @@
   "metric": "pct_over_60d",
   "dimension": "all",
   "value": 26.0
- },
- {
-  "snapshot_date": "2026-08-05T00:00:00.000",
-  "metric": "pct_over_60d",
-  "dimension": "all",
-  "value": 26.5
  },
  {
   "snapshot_date": "2026-07-30T00:00:00.000",
