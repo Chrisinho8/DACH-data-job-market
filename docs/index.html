@@ -53,6 +53,8 @@
   .rank td{padding:5px 8px;border-bottom:1px solid #EAE6DC}
   .rank td:first-child{color:#191919;font-weight:600}
   .rank .barcell{width:44%}
+  .rank tr.drill{cursor:pointer}
+  .rank tr.drill:hover td{background:#F0EEE6}
   .rank .b{height:9px;border-radius:2px;display:block}
   .flag{font-size:10px;font-weight:700;letter-spacing:.06em;
         color:#8A857C;text-transform:uppercase}
@@ -172,6 +174,19 @@
                border-radius:2px;margin-right:6px}
 
   /* ---------- map style toggle ---------- */
+  /* country totals strip under the map controls */
+  .ctot{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 20px}
+  .ctot .c{display:flex;align-items:center;gap:9px;padding:9px 15px;
+           border:1px solid #EAE6DC;border-radius:8px;background:#FAF9F5}
+  .ctot .c i{width:9px;height:9px;border-radius:50%;flex:none}
+  .ctot .c b{font-size:17px;font-weight:700;color:#191919;
+             font-variant-numeric:tabular-nums;line-height:1.1}
+  .ctot .c u{text-decoration:none;font-size:12.5px;color:#5C5A54}
+  .ctot .c s{text-decoration:none;font-size:12px;color:#8A857C;
+             font-variant-numeric:tabular-nums}
+  .ctot .tot{background:#F0EEE6;border-color:#DCD6C8}
+  @media(max-width:720px){.ctot .c{flex:1 1 44%;padding:8px 11px}}
+
   .mapctl{margin:0 0 20px}
   .ctlrow{display:flex;align-items:center;gap:12px;margin-bottom:12px}
   .ctlrow-roles{align-items:flex-start;margin-bottom:0}
@@ -297,6 +312,11 @@
         <div id="rolepick" class="pick"></div>
       </div>
     </div>
+    <!-- Country totals for whatever role is selected. The map answers
+         "which cities", the bubbles are hard to add up by eye, and the
+         city table is truncated to the top 11, so nothing on this
+         screen otherwise tells you the size of each country. -->
+    <div class="ctot" id="ctrytot"></div>
     <div class="maprow">
       <div>
         <svg id="map" viewBox="0 0 640 800"
@@ -334,6 +354,56 @@
       </div>
     </div>
   </section>
+
+  <!-- ============ POSTINGS BROWSER ============
+       Sits directly under the map because that is where a reader
+       first wants to stop looking at aggregates and start looking at
+       jobs. Hidden until postings.json loads, so a repo running an
+       older pipeline shows the charts and simply omits this section
+       rather than rendering an empty table. -->
+  <section id="postings-section" hidden>
+    <h2>The postings behind the charts</h2>
+    <p class="note">
+      Every number on this page is a count of these rows. Click a city
+      on the map above, or any bar in the role and AI charts below, to
+      come back here filtered to it. Titles link to the aggregator,
+      which links on to the employer. Job descriptions are not
+      republished, and a row being here means it was live at the last
+      refresh, not that it is still open today.
+    </p>
+
+    <div class="pfilters">
+      <input id="pq" type="search" autocomplete="off"
+             placeholder="Search title or employer…"
+             aria-label="Search postings by title or employer">
+      <select id="pfam"  aria-label="Filter by role family"></select>
+      <select id="pctry" aria-label="Filter by country"></select>
+      <select id="pcity" aria-label="Filter by city"></select>
+      <select id="psen"  aria-label="Filter by seniority"></select>
+      <select id="psort" aria-label="Sort postings">
+        <option value="new">Newest first</option>
+        <option value="old">Oldest first</option>
+        <option value="age">Longest open</option>
+        <option value="az">Title A–Z</option>
+      </select>
+      <button id="pclear" type="button">Clear</button>
+    </div>
+
+    <p class="note" id="pcount"></p>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead>
+          <tr>
+            <th>Title</th><th>Employer</th><th>City</th>
+            <th>Family</th><th>Level</th><th class="num">Days open</th>
+          </tr>
+        </thead>
+        <tbody id="pbody"></tbody>
+      </table>
+    </div>
+    <div class="pmore"><button id="pmore" type="button">Show more</button></div>
+  </section>
+
   <section>
     <h2>Compare two cities head to head</h2>
     <p class="note">
@@ -502,52 +572,6 @@
       the accuracy of the tool matcher where it has been measured.
     </p>
     <div id="n14_quality" class="stats"></div>
-  </section>
-
-  <!-- ============ POSTINGS BROWSER ============ -->
-  <!-- Hidden until postings.json loads, so a repo running an older
-       pipeline shows the charts and simply omits this section rather
-       than rendering an empty table. -->
-  <section id="postings-section" hidden>
-    <h2>The postings behind the charts</h2>
-    <p class="note">
-      Every number above is a count of these rows. Click any bar in the
-      role or AI charts to land here filtered to that family, or search
-      directly. Titles link to the aggregator, which links on to the
-      employer. Job descriptions are not republished, and a row being
-      here means it was live at the last refresh, not that it is still
-      open today.
-    </p>
-
-    <div class="pfilters">
-      <input id="pq" type="search" autocomplete="off"
-             placeholder="Search title or employer…"
-             aria-label="Search postings by title or employer">
-      <select id="pfam"  aria-label="Filter by role family"></select>
-      <select id="pctry" aria-label="Filter by country"></select>
-      <select id="psen"  aria-label="Filter by seniority"></select>
-      <select id="psort" aria-label="Sort postings">
-        <option value="new">Newest first</option>
-        <option value="old">Oldest first</option>
-        <option value="age">Longest open</option>
-        <option value="az">Title A–Z</option>
-      </select>
-      <button id="pclear" type="button">Clear</button>
-    </div>
-
-    <p class="note" id="pcount"></p>
-    <div class="ptable-wrap">
-      <table class="ptable">
-        <thead>
-          <tr>
-            <th>Title</th><th>Employer</th><th>City</th>
-            <th>Family</th><th>Level</th><th class="num">Days open</th>
-          </tr>
-        </thead>
-        <tbody id="pbody"></tbody>
-      </table>
-    </div>
-    <div class="pmore"><button id="pmore" type="button">Show more</button></div>
   </section>
 
   <!-- ============ CAVEATS ============ -->
@@ -1036,9 +1060,12 @@ Promise.all([get("market_summary"), get("role_breakdown")])
   const hasSurv = Array.isArray(rb) && rb.length &&
                   rb[0].pct_over_30d !== undefined;
 
-  /* weighted roll-up per role family */
+  /* Weighted roll-up per role family. live() first: this picker is
+     built from whatever families the JSON happens to contain, so an
+     older snapshot would otherwise put a retired family back on the
+     page as a button. */
   const byRole = {};
-  if (hasSurv) rb.forEach(r => {
+  if (hasSurv) live(rb).forEach(r => {
     const k = r.role_family;
     const a = byRole[k] = byRole[k] ||
       { n: 0, d7: 0, d30: 0, d60: 0, d90: 0, age: 0, med: 0 };
@@ -1434,9 +1461,53 @@ const nk = s => String(s)
   /* ---- redraw the map and the ranking table ---- */
   let lastRows = null;
 
+  /* ---- country totals ----------------------------------------
+     Counted from the same rows the map draws, not from
+     country_breakdown.json, so the strip always agrees with the
+     bubbles even when a role is selected. Cities the GEO table does
+     not know still count here: they are postings, they just have no
+     dot. */
+  function drawTotals(rows) {
+    const el = document.getElementById("ctrytot");
+    if (!el) return;
+
+    const n = {};
+    rows.forEach(r => n[r.country] = (n[r.country] || 0) + r.n_postings);
+    const total = CORDER.reduce((s, c) => s + (n[c] || 0), 0);
+    if (!total) { el.innerHTML = ""; return; }
+
+    const label = current === "All roles"
+      ? "across all roles" : rlab(current);
+
+    el.innerHTML = CORDER.filter(c => n[c]).map(c =>
+      `<div class="c">
+         <i style="background:${CCOL[c]}"></i>
+         <b>${n[c].toLocaleString()}</b>
+         <u>${CNAME[c]}</u>
+         <s>${(100 * n[c] / total).toFixed(1)}%</s>
+       </div>`).join("") +
+      `<div class="c tot">
+         <b>${total.toLocaleString()}</b>
+         <u>DACH total</u>
+         <s>${esc(label)}</s>
+       </div>`;
+  }
+
+  /* A bubble or a table row is a city plus whatever role is selected,
+     which is exactly the pair of filters the browser below takes. */
+  function drillCity(r) {
+    openPostings({
+      city: `${r.country}|${r.city}`,
+      country: r.country,
+      family: current === "All roles" ? "" : current
+    });
+  }
+
   function draw(rows) {
     if (rows) lastRows = rows;
     rows = lastRows || [];
+
+    drawTotals(rows);
 
     svg.querySelectorAll(".bub,.lbl,.heat,.hit").forEach(n => n.remove());
 
@@ -1524,6 +1595,7 @@ const nk = s => String(s)
           c.addEventListener("mouseenter", e => showTip(e, r));
           c.addEventListener("mousemove", moveTip);
           c.addEventListener("mouseleave", hideTip);
+          c.addEventListener("click", () => drillCity(r));
           svg.appendChild(c);
         });
       }
@@ -1553,8 +1625,8 @@ const nk = s => String(s)
       return;
     }
     const mx = top[0].n_postings;
-    body.innerHTML = top.map(r => `
-      <tr>
+    body.innerHTML = top.map((r, i) => `
+      <tr class="drill" data-i="${i}">
         <td>${cap(r.city)}
             <span class="flag">${r.country}</span></td>
         <td class="barcell">
@@ -1565,6 +1637,10 @@ const nk = s => String(s)
         <td class="num" style="color:${ageColour(r.avg_age_days)};
             font-weight:600">${Math.round(r.avg_age_days)}</td>
       </tr>`).join("");
+
+    body.querySelectorAll("tr.drill").forEach(tr =>
+      tr.addEventListener("click",
+        () => drillCity(top[+tr.dataset.i])));
   }
 
   /* ---- build the role buttons ---- */
@@ -1611,7 +1687,9 @@ const nk = s => String(s)
     .then(([cr, cb]) => {
       if (cr && cr.length && cr[0].role_family !== undefined) {
         byRole = {};
-        cr.forEach(r => {
+        /* live() for the same reason as the survival picker: the
+           button list is whatever the JSON contains. */
+        live(cr).forEach(r => {
           (byRole[r.role_family] = byRole[r.role_family] || []).push(r);
         });
         const roles = Object.keys(byRole).sort((a, b) =>
@@ -1851,11 +1929,15 @@ function pFiltered() {
   const q    = ($p("pq").value || "").trim().toLowerCase();
   const fam  = $p("pfam").value;
   const ctry = $p("pctry").value;
+  const city = $p("pcity").value;
   const sen  = $p("psen").value;
 
   let out = POSTINGS.filter(r =>
     (!fam  || r.role_family === fam) &&
     (!ctry || r.country     === ctry) &&
+    /* keyed country|city: Baden exists in all three countries, and
+       so do several smaller names */
+    (!city || `${r.country}|${r.city}` === city) &&
     (!sen  || r.seniority   === sen) &&
     (!q    || (r.title   || "").toLowerCase().includes(q)
            || (r.company || "").toLowerCase().includes(q)));
@@ -1916,14 +1998,20 @@ function esc(s) {
     '"': "&quot;", "'": "&#39;" }[c]));
 }
 
-/* Entry point for the chart drill-downs. */
+/* Entry point for the chart drill-downs. Reset by pCitiesRefresh so
+   a drill-down never inherits a city left over from browsing. */
+let pCitiesRefresh = () => {};
+
 function openPostings(filter) {
   const sec = $p("postings-section");
   if (!sec || sec.hidden) return;
   $p("pq").value    = filter.q        || "";
   $p("pfam").value  = filter.family   || "";
   $p("pctry").value = filter.country  || "";
+  $p("pcity").value = "";
   $p("psen").value  = filter.seniority || "";
+  pCitiesRefresh();
+  if (filter.city) $p("pcity").value = filter.city;
   /* A drill-down is a "show me these" gesture, so lead with the ones
      that have been open longest: that is where a reader's eye goes
      after clicking a bar about how long postings stay open. */
@@ -1955,8 +2043,43 @@ get("postings").then(d => {
           POSTINGS.some(r => r.seniority === s)),
         "All levels");
 
-  ["pq", "pfam", "pctry", "psen", "psort"].forEach(id =>
+  /* ---- city list ------------------------------------------------
+     Rebuilt whenever the country changes, so picking Austria does not
+     leave 200 German cities in the dropdown. Ordered by posting count
+     rather than alphabetically: the cities anyone actually wants are
+     the big ones, and the count is worth showing because the tail is
+     mostly single postings.
+
+     The selected city survives a country change if it still exists in
+     the new list, so switching country with a city chosen does not
+     silently widen the result set. */
+  function pCities() {
+    const ctry = $p("pctry").value;
+    const n = {};
+    POSTINGS.forEach(r => {
+      if (ctry && r.country !== ctry) return;
+      if (!r.city || r.city === "unknown") return;
+      const k = `${r.country}|${r.city}`;
+      n[k] = (n[k] || 0) + 1;
+    });
+
+    const keys = Object.keys(n).sort((a, b) =>
+      n[b] - n[a] || a.localeCompare(b));
+
+    const keep = $p("pcity").value;
+    pFill($p("pcity"), keys, "All cities", k => {
+      const [c, city] = k.split("|");
+      return `${cap(city)}${ctry ? "" : " " + c.toUpperCase()}` +
+             ` (${n[k]})`;
+    });
+    if (keep && n[keep]) $p("pcity").value = keep;
+  }
+  pCitiesRefresh = pCities;
+  pCities();
+
+  ["pq", "pfam", "pctry", "pcity", "psen", "psort"].forEach(id =>
     $p(id).addEventListener(id === "pq" ? "input" : "change", () => {
+      if (id === "pctry") pCities();
       pshown = PAGE;
       pRender();
     }));
@@ -1967,8 +2090,10 @@ get("postings").then(d => {
   });
 
   $p("pclear").addEventListener("click", () => {
-    ["pq", "pfam", "pctry", "psen"].forEach(id => $p(id).value = "");
+    ["pq", "pfam", "pctry", "pcity", "psen"]
+      .forEach(id => $p(id).value = "");
     $p("psort").value = "new";
+    pCities();
     pshown = PAGE;
     pRender();
   });
