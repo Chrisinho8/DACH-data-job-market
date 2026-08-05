@@ -174,18 +174,34 @@
                border-radius:2px;margin-right:6px}
 
   /* ---------- map style toggle ---------- */
-  /* country totals strip under the map controls */
-  .ctot{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 20px}
-  .ctot .c{display:flex;align-items:center;gap:9px;padding:9px 15px;
-           border:1px solid #EAE6DC;border-radius:8px;background:#FAF9F5}
-  .ctot .c i{width:9px;height:9px;border-radius:50%;flex:none}
-  .ctot .c b{font-size:17px;font-weight:700;color:#191919;
-             font-variant-numeric:tabular-nums;line-height:1.1}
-  .ctot .c u{text-decoration:none;font-size:12.5px;color:#5C5A54}
-  .ctot .c s{text-decoration:none;font-size:12px;color:#8A857C;
-             font-variant-numeric:tabular-nums}
+  /* Country totals strip under the map controls. Four chips on one
+     line at every width: nowrap plus equal flex basis, and the parts
+     shrink instead of wrapping. min-width:0 lets the labels ellipsis
+     rather than forcing the row wider than its container. */
+  .ctot{display:flex;flex-wrap:nowrap;gap:8px;margin:0 0 18px}
+  .ctot .c{display:flex;align-items:baseline;gap:6px;padding:7px 11px;
+           border:1px solid #EAE6DC;border-radius:7px;background:#FAF9F5;
+           flex-grow:1;flex-shrink:1;flex-basis:0;
+           min-width:0;white-space:nowrap;overflow:hidden}
+  .ctot .c i{width:7px;height:7px;border-radius:50%;flex:none;
+             align-self:center}
+  .ctot .c b{font-size:14.5px;font-weight:700;color:#191919;
+             font-variant-numeric:tabular-nums;flex:none}
+  .ctot .c u{text-decoration:none;font-size:11.5px;color:#5C5A54;
+             overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .ctot .c s{text-decoration:none;font-size:11px;color:#8A857C;
+             font-variant-numeric:tabular-nums;margin-left:auto;
+             padding-left:4px;flex:none}
   .ctot .tot{background:#F0EEE6;border-color:#DCD6C8}
-  @media(max-width:720px){.ctot .c{flex:1 1 44%;padding:8px 11px}}
+  @media(max-width:560px){
+    .ctot{gap:5px}
+    .ctot .c{padding:6px 7px;gap:4px}
+    .ctot .c b{font-size:13px}
+    /* below this the country name and the share cannot both fit, and
+       the number is the part worth keeping */
+    .ctot .c u,.ctot .c s{display:none}
+    .ctot .c::after{content:attr(data-ab);font-size:11px;color:#5C5A54}
+  }
 
   .mapctl{margin:0 0 20px}
   .ctlrow{display:flex;align-items:center;gap:12px;margin-bottom:12px}
@@ -1479,14 +1495,19 @@ const nk = s => String(s)
     const label = current === "All roles"
       ? "across all roles" : rlab(current);
 
+    /* data-ab is what the narrow breakpoint shows in place of the
+       full name and share, so the chips still say which is which */
     el.innerHTML = CORDER.filter(c => n[c]).map(c =>
-      `<div class="c">
+      `<div class="c" data-ab="${c.toUpperCase()}"
+            title="${CNAME[c]}: ${n[c].toLocaleString()} of ` +
+      `${total.toLocaleString()} (${(100 * n[c] / total).toFixed(1)}%)">
          <i style="background:${CCOL[c]}"></i>
          <b>${n[c].toLocaleString()}</b>
          <u>${CNAME[c]}</u>
          <s>${(100 * n[c] / total).toFixed(1)}%</s>
        </div>`).join("") +
-      `<div class="c tot">
+      `<div class="c tot" data-ab="DACH"
+            title="${esc(label)}: ${total.toLocaleString()} postings">
          <b>${total.toLocaleString()}</b>
          <u>DACH total</u>
          <s>${esc(label)}</s>
@@ -2337,8 +2358,14 @@ get("history").then(h => {
       const base = {};
       (sd || []).forEach(r => base[r.skill] = r.pct_postings);
 
+      /* live() because this picker is built from whatever families
+         skill_by_role.json contains, and that file lagged the split
+         for weeks: it kept offering an "AI/ML (pre-split)" button long
+         after the family stopped existing. Filtering here means a
+         stale export degrades to fewer buttons rather than to a wrong
+         one. */
       const byRole = {};
-      (hasRoles ? sr : []).forEach(r => {
+      (hasRoles ? live(sr) : []).forEach(r => {
         (byRole[r.role_family] = byRole[r.role_family] || []).push(r);
       });
 
