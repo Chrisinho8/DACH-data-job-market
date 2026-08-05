@@ -8,7 +8,7 @@ A weekly snapshot of the DACH data-job market: **3,625 live postings from 1,462 
 
 ## What you can do with it
 
-- **See the shape of the market** — volumes by role, city and country, how long postings stay open, seniority mix, tool mentions, English-language share, salary disclosure.
+- **See the shape of the market** - volumes by role, city and country, how long postings stay open, seniority mix, tool mentions, English-language share, salary disclosure.
 - **Read the postings behind any number.** Every chart is a count of real adverts, and those adverts are browsable: search by title or employer, filter by role family, country, city and seniority, sort by newest or longest-open, 20 per page. Titles link out to the aggregator.
 - **Drill down from a chart.** Click a city on the map or a bar in any role chart and the list below filters to it. Nothing on the site is a number you have to take on trust.
 - **Watch it move.** Nothing is ever overwritten, so each run adds to the record and every figure gains a second dimension: not just how many AI roles are open, but whether that number is climbing.
@@ -35,35 +35,6 @@ Snapshot of 2026-08-05.
 | Analytics Engineer | 69 | 1.9% | 59 d | 63 | 5 | 1 |
 | AI Research | 37 | 1.0% | 51 d | 30 | 1 | 6 |
 | **Total** | **3,625** | **100%** | **60 d** | **3,133** | **226** | **266** |
-
-**AI is 1,054 postings, 29.1% of the market** — the six AI families summed. Quote that, not a single "AI/ML" bar. The old bar read 36% because its rule ended in a bare `\bai\b` catch-all that swept in any job at a company describing itself as AI-native; those titles are now dropped rather than counted, so this figure is a floor and is **not** comparable to earlier snapshots.
-
-**The AI roles are not the ones that sit unfilled.** GenAI / LLM is the fastest-moving family at 38 days open, less than half of Data Warehouse / ETL and Data Consultant at 84 days and Data Governance at 91. The hardest roles to fill are the unglamorous ones.
-
-### Seniority: the junior problem
-
-| Role family | Junior | Mid | Senior |
-|---|---:|---:|---:|
-| Data Engineer | 33 | 600 | 340 |
-| Data Scientist | 29 | 182 | 195 |
-| AI Engineer | 8 | 210 | 157 |
-| Data Architect | 0 | 135 | 138 |
-| GenAI / LLM Engineer | 12 | 151 | 106 |
-| Data Analyst | 13 | 160 | 71 |
-| BI Developer | 2 | 156 | 44 |
-| Data Warehouse / ETL | 3 | 143 | 28 |
-| ML Engineer | 5 | 88 | 74 |
-| Data Consultant | 6 | 66 | 71 |
-| MLOps / ML Platform | 5 | 73 | 34 |
-| AI Consulting | 7 | 56 | 31 |
-| Data Governance and Security | 0 | 32 | 55 |
-| Analytics Engineer | 3 | 37 | 29 |
-| AI Research | 0 | 15 | 22 |
-| **Total** | **126** | **2,104** | **1,395** |
-
-**126 junior postings out of 3,625 — 3.5%, against 38.5% senior.** Eleven senior openings for every junior one. Three families advertise no junior roles at all: Data Architect, Data Governance and AI Research. Data Engineering carries a quarter of all junior openings and still only offers 33 of them.
-
-Read that with the classifier in mind: seniority comes from the title, and a posting with no seniority word counts as mid, which is why mid is 58%. Entry programmes (Ausbildung, Werkstudent, Praktikum, Trainee) are excluded entirely, so 3.5% covers junior-titled permanent roles only. The real entry-level picture is somewhat better than 3.5% and nowhere near 33%.
 
 ## Scope: what counts as a data job
 
@@ -111,8 +82,7 @@ Adzuna API (de, at, ch)
 
 ## Limitations
 
-- **Postings are not hires.** An old posting may be unfilled, a pipeline-building advert, or one nobody took down. This measures advertising behaviour, not hiring outcomes.
-- **One aggregator is not the whole market**, and coverage is uneven. Austria and Switzerland have ~250 postings each, so any claim about them rests on a few dozen adverts per family.
+
 - **`created` is the aggregator's date**, possibly when it indexed the posting rather than when the employer published it.
 - **Descriptions are capped at 500 characters** and 99.6% are truncated. Tool counts measure *mentioned in the title or opening paragraph* — a floor, not a requirement rate. The window is identical for every posting, so comparing tools holds; absolute rates do not.
 - **AI counts are a floor**, for the reason in the scope table. The dropped share is printed on every run of `03_silver_clean.py`; if it climbs, the six rules are going stale.
