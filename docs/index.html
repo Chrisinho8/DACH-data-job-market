@@ -119,6 +119,19 @@
   .hm .rw{background:none;color:#191919;text-align:left;
           font-weight:600;padding:9px 8px 9px 0}
 
+  /* over/under-index heatmap */
+  .hm-idx div.cell{cursor:pointer;transition:transform .08s ease,
+                   box-shadow .08s ease;position:relative}
+  .hm-idx div.cell:hover{transform:scale(1.04);
+                   box-shadow:0 2px 10px rgba(0,0,0,.18);z-index:2}
+  .hm-idx .sub{display:block;font-weight:400;font-size:10px;
+               opacity:.75;margin-top:1px}
+  .idxlegend{display:flex;flex-wrap:wrap;gap:16px;font-size:11px;
+             color:#5C5A54;margin:10px 0 2px}
+  .idxlegend span{display:flex;align-items:center;gap:6px}
+  .idxlegend i{width:14px;height:14px;border-radius:3px;
+               display:inline-block}
+
   /* country cards */
   .ctry{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
         margin-bottom:34px}
@@ -464,10 +477,9 @@ Pick a role: the left chart shows what its postings ask for, the
 
   <!-- ============ THE AI SPLIT ============ -->
   <section id="ai-section" hidden>
-    <h2>What "AI job" actually means here</h2>
+    <h2>Which AI roles are companies hiring for?</h2>
     <p class="note">
     </p>
-    <div id="ai_stats" class="stats"></div>
     <div class="grid2">
       <div>
         <h3 class="subh">Postings per AI family</h3>
@@ -478,7 +490,6 @@ Pick a role: the left chart shows what its postings ask for, the
         <canvas id="aiage" height="230"></canvas>
       </div>
     </div>
-    <p class="note" id="ai_vague_note"></p>
   </section>
 
   <!-- ============ ROLES AND SENIORITY ============ -->
@@ -529,8 +540,19 @@ Pick a role: the left chart shows what its postings ask for, the
   <section>
     <h2>Which country asks for which role?</h2>
     <p class="note">
+      Every country hires Data Engineers, so raw shares mostly repeat
+      what you already know. This shows the opposite: how far each
+      country's demand for a role sits <strong>above or below the DACH
+      average</strong>. Orange means over-represented, blue means
+      under-represented, pale means normal. Click any cell to see those
+      postings.
     </p>
-    <canvas id="ctryrole" height="230"></canvas>
+    <div class="idxlegend">
+      <span><i style="background:#4C7A94"></i> half the DACH average</span>
+      <span><i style="background:#EDEAE2"></i> average</span>
+      <span><i style="background:#D97757"></i> 2× the DACH average</span>
+    </div>
+    <div id="ctryidx" class="hm hm-idx"></div>
   </section>
   <section>
     <h2>Which company has the most listings?</h2>
@@ -1716,21 +1738,91 @@ get("role_breakdown").then(all => {
       { x: "average days a posting stays open", y: "role family",
         pick: i => openPostings({ family: byAge[i].role }) });
 
-  /* --- role mix by country, as a share of each country --- */
-  if (d[0].country !== undefined) {
+  /* --- role mix by country, as an over/under-index -----------------
+     A 100% stacked bar over 15 roles is unreadable and mostly restates
+     that everyone hires Data Engineers. What is actually interesting is
+     deviation: this cell divides a country's share of a role by the
+     DACH-wide share of that role. 1.00 is "exactly normal", 2.00 is
+     "twice as into this as the region", 0.50 is half.
+
+     Counts under MIN_N are shown greyed and unclicked, because an index
+     computed off 3 postings is noise wearing a number's clothes.     */
+  const idxBox = document.getElementById("ctryidx");
+  if (idxBox && d[0].country !== undefined) {
+    const MIN_N = 8;
     const tot = {};
     d.forEach(r => tot[r.country] = (tot[r.country] || 0) + r.n_postings);
     const countries = CORDER.filter(c => tot[c]);
-    const share = (c, rf) => {
-      const n = d.filter(r => r.country === c && r.role_family === rf)
-                 .reduce((s, r) => s + r.n_postings, 0);
-      return +(100 * n / tot[c]).toFixed(1);
+    const totalAll  = countries.reduce((s, c) => s + tot[c], 0);
+
+    const cnt = (c, rf) =>
+      d.filter(r => r.country === c && r.role_family === rf)
+       .reduce((s, r) => s + r.n_postings, 0);
+
+    /* index = country share of role ÷ DACH share of role */
+    const idx = (c, rf) => {
+      const base = rows.find(r => r.role === rf).n / totalAll;
+      if (!base || !tot[c]) return null;
+      return (cnt(c, rf) / tot[c]) / base;
     };
-    bar("ctryrole", countries.map(c => CNAME[c]),
-        roles.map((rf, i) =>
-          ds(rlab(rf), countries.map(c => share(c, rf)), rcol(rf, i))),
-        true, true, true,
-        { x: "% of that country's live postings", y: "country" });
+
+    /* Diverging scale anchored at 1. Log-ish so 0.5 and 2.0 sit
+       symmetrically either side of the neutral colour.            */
+    const CELL = v => {
+      const t = Math.max(-1, Math.min(1, Math.log2(v) / 1));  /* ±2× */
+      if (t >= 0) return `rgb(${Math.round(237 - 20 * t)},` +
+                         `${Math.round(234 - 115 * t)},` +
+                         `${Math.round(226 - 139 * t)})`;
+      const a = -t;
+      return `rgb(${Math.round(237 - 161 * a)},` +
+             `${Math.round(234 - 112 * a)},` +
+             `${Math.round(226 - 78 * a)})`;
+    };
+    const INK = v => Math.abs(Math.log2(v)) > 0.5 ? "#fff" : "#26241F";
+
+    /* Rows sorted by how much the countries disagree about them:
+       the top of the table is where the interesting divergence is. */
+    const ordered = roles.slice().sort((a, b) => {
+      const sp = rf => {
+        const vs = countries.map(c => idx(c, rf)).filter(v => v != null);
+        return vs.length ? Math.max(...vs) - Math.min(...vs) : 0;
+      };
+      return sp(b) - sp(a);
+    });
+
+    idxBox.style.gridTemplateColumns =
+      `minmax(120px,1.4fr) repeat(${countries.length}, 1fr)`;
+
+    let ih = '<div class="hd"></div>' +
+             countries.map(c => `<div class="hd">${CNAME[c]}</div>`).join("");
+
+    ordered.forEach(rf => {
+      ih += `<div class="rw">${rlab(rf)}</div>`;
+      countries.forEach(c => {
+        const n = cnt(c, rf), v = idx(c, rf);
+        if (!n || v == null) {
+          ih += `<div style="background:#F5F3ED;color:#A9A49A">–</div>`;
+          return;
+        }
+        const thin = n < MIN_N;
+        const bg   = thin ? "#F0EEE6" : CELL(v);
+        const fg   = thin ? "#8A857B" : INK(v);
+        const tip  = `${CNAME[c]} · ${rlab(rf)}: ${n} postings, ` +
+                     `${v.toFixed(2)}× the DACH average` +
+                     (thin ? " (too few postings to read into)" : "");
+        ih += `<div class="${thin ? "" : "cell"}" title="${tip}"` +
+              (thin ? "" : ` data-c="${c}" data-rf="${rf}"`) +
+              ` style="background:${bg};color:${fg}">` +
+              `${v.toFixed(2)}×<span class="sub">${n}</span></div>`;
+      });
+    });
+    idxBox.innerHTML = ih;
+
+    idxBox.addEventListener("click", e => {
+      const el = e.target.closest(".cell");
+      if (!el) return;
+      openPostings({ country: el.dataset.c, family: el.dataset.rf });
+    });
   }
 
   /* seniority stack */
@@ -1837,22 +1929,6 @@ get("role_breakdown").then(d => {
                                 age: agg[f].wage / agg[f].n }))
                    .sort((a, b) => b.n - a.n);
 
-  const totalAll = live(d).reduce((s, r) => s + r.n_postings, 0);
-  const totalAI  = rows.reduce((s, r) => s + r.n, 0);
-  const biggest  = rows[0];
-  const oldest   = rows.slice().sort((a, b) => b.age - a.age)[0];
-
-  const pct = (a, b) => b ? (100 * a / b).toFixed(1) + "%" : "–";
-  const cards = [
-    ["AI postings with a named role", totalAI.toLocaleString()],
-    ["of all live postings", pct(totalAI, totalAll)],
-    ["Largest AI family", biggest ? rlab(biggest.role) : "–"],
-    ["Slowest to fill", oldest ? rlab(oldest.role) : "–"],
-  ];
-  const st = document.getElementById("ai_stats");
-  if (st) st.innerHTML = cards.map(([k, v]) =>
-    `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join("");
-
   bar("aivol", rows.map(r => wrap(rlab(r.role))),
       [ds("Live postings", rows.map(r => r.n),
           rows.map((r, i) => rcol(r.role, i)))], true, false, false,
@@ -1866,15 +1942,6 @@ get("role_breakdown").then(d => {
       { x: "average days a posting stays open", y: "AI family",
         pick: i => openPostings({ family: byAge[i].role }) });
 
-  const note = document.getElementById("ai_vague_note");
-  if (note) note.innerHTML =
-    `<strong>These are AI jobs that say what they are.</strong> ` +
-    `A title mentioning AI or KI without naming a role is not ` +
-    `counted anywhere on this page, so ` +
-    `${totalAI.toLocaleString()} is a floor under DACH AI hiring, ` +
-    `not a measure of it. The number of postings using AI as an ` +
-    `adjective is larger and is not something this pipeline can ` +
-    `classify honestly from a job title.`;
 });
 
 /* ---------------- postings browser ----------------------------
