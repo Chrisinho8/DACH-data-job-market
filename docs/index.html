@@ -1,0 +1,2968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DACH Data Job Market Tracker</title>
+<meta name="description"
+      content="How stale is the German-speaking data job market?
+               Germany, Austria and Switzerland tracked weekly through
+               a Delta Lake pipeline.">
+<meta property="og:title" content="DACH Data Job Market Tracker">
+<meta property="og:description"
+      content="Germany, Austria and Switzerland. How long do data jobs
+               really stay open? Updated weekly.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://chrisinho8.github.io/DACH-data-job-market/assets/og.png">
+<meta property="og:url" content="https://chrisinho8.github.io/DACH-data-job-market/">
+<meta name="twitter:card" content="summary_large_image">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="style.css">
+<style>
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}}
+  .chartbox{position:relative;height:560px}
+
+  .cbox{position:relative;width:100%}
+  .grid2.single{grid-template-columns:1fr}
+  .grid2.single .chartbox{height:660px}
+  @media(max-width:720px){.chartbox,.grid2.single .chartbox{height:460px}}
+
+  .maprow{display:grid;grid-template-columns:1.05fr .95fr;
+          gap:28px;align-items:start}
+  @media(max-width:720px){.maprow{grid-template-columns:1fr}}
+
+  #map{width:100%;height:auto;display:block}
+  #map .outline{stroke:#DCD6C8;stroke-width:1.3}
+  #map .bub{stroke:#FAF9F5;stroke-width:1.2;cursor:pointer;
+            transition:opacity .15s}
+  #map .bub:hover{opacity:.72}
+  #map .lbl{font:600 11px system-ui,sans-serif;fill:#26241F;
+            paint-order:stroke;stroke:#FAF9F5;stroke-width:3px}
+
+  .legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;
+          font-size:12.5px;color:#5C5A54;align-items:center}
+  .legend .sw{display:inline-block;width:12px;height:12px;
+              border-radius:50%;margin-right:6px;vertical-align:-1px}
+  .legend .dots{display:inline-flex;align-items:center;gap:6px}
+
+  .rank{width:100%;border-collapse:collapse;font-size:13.5px}
+  .rank td{padding:5px 8px;border-bottom:1px solid #EAE6DC}
+  .rank td:first-child{color:#191919;font-weight:600}
+  .rank .barcell{width:44%}
+  .rank tr.drill{cursor:pointer}
+  .rank tr.drill:hover td{background:#F0EEE6}
+  .rank .b{height:9px;border-radius:2px;display:block}
+  .flag{font-size:10px;font-weight:700;letter-spacing:.06em;
+        color:#8A857C;text-transform:uppercase}
+
+  .subh{font-size:14px;margin:0 0 10px;color:#5C5A54;font-weight:600}
+
+  .pfilters{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 12px}
+  .pfilters input,.pfilters select,.pfilters button{
+    font:inherit;font-size:13.5px;padding:7px 10px;
+    border:1px solid #DCD6C8;border-radius:6px;background:#FFFDF8;
+    color:#26241F}
+  .pfilters input{flex:1 1 260px;min-width:180px}
+  .pfilters select{cursor:pointer}
+  .pfilters button{cursor:pointer;color:#5C5A54}
+  .pfilters button:hover{background:#F0EEE6}
+  .pfilters :focus-visible{outline:2px solid #8A4A2E;outline-offset:1px}
+
+  /* The table scrolls sideways on a phone rather than reflowing: six
+     columns of one-line facts stay readable that way, and stacking
+     them into cards would make scanning a list of jobs worse. */
+  .ptable-wrap{overflow-x:auto;border:1px solid #EAE6DC;border-radius:8px}
+  .ptable{width:100%;border-collapse:collapse;font-size:13.5px;
+          min-width:680px}
+  .ptable th{text-align:left;font-size:11px;letter-spacing:.06em;
+             text-transform:uppercase;color:#8A857C;font-weight:700;
+             padding:9px 12px;border-bottom:1px solid #EAE6DC;
+             background:#FAF9F5;position:sticky;top:0}
+  .ptable td{padding:9px 12px;border-bottom:1px solid #F0EEE6;
+             vertical-align:top}
+  .ptable tr:last-child td{border-bottom:none}
+  .ptable tbody tr:hover{background:#FAF9F5}
+  .ptable .num{text-align:right;font-variant-numeric:tabular-nums;
+               white-space:nowrap}
+  .ptable a{color:#26241F;text-decoration:none;font-weight:600;
+            border-bottom:1px solid #DCD6C8}
+  .ptable a:hover{border-bottom-color:#8A4A2E;color:#8A4A2E}
+  .ptable .fam{white-space:nowrap;color:#5C5A54}
+  .ptable .dot{display:inline-block;width:8px;height:8px;
+               border-radius:50%;margin-right:6px;vertical-align:0}
+  .ptable .stale{color:#8A4A2E;font-weight:600}
+  .ptable .empty{padding:26px 12px;text-align:center;color:#8A857C}
+  /* pagination */
+  .ppag{display:flex;flex-wrap:wrap;justify-content:center;
+        align-items:center;gap:6px;margin-top:16px}
+  .ppag button{font:inherit;font-size:13px;min-width:34px;padding:7px 10px;
+    border:1px solid #DCD6C8;border-radius:6px;background:#FFFDF8;
+    color:#5C5A54;cursor:pointer;font-variant-numeric:tabular-nums}
+  .ppag button:hover:not(:disabled){background:#F0EEE6;color:#26241F}
+  .ppag button[aria-current="page"]{background:#26241F;border-color:#26241F;
+    color:#FAF9F5;font-weight:700}
+  .ppag button:disabled{opacity:.4;cursor:default}
+  .ppag .gap{color:#8A857C;padding:0 2px;user-select:none}
+  .ppag[hidden]{display:none}
+  @media(max-width:560px){.ppag button{min-width:30px;padding:6px 7px}}
+
+  .pill{display:inline-block;padding:2px 9px;border-radius:99px;
+        font-size:11px;font-weight:600;background:#F0EEE6;
+        color:#8A4A2E;margin-left:8px;vertical-align:2px}
+
+  .hm{display:grid;gap:3px;font-size:12px;margin-top:6px}
+  .hm div{padding:9px 6px;text-align:center;border-radius:3px;
+          color:#fff;font-weight:600}
+  .hm .hd{background:none;color:#5C5A54;font-weight:600;
+          padding:4px 6px}
+  .hm .rw{background:none;color:#191919;text-align:left;
+          font-weight:600;padding:9px 8px 9px 0}
+
+  /* over/under-index heatmap */
+  /* Fixed row height: the two numbers are the only content, so the
+     row is sized to them once instead of letting padding stack up.
+     .hm.hm-idx outranks the generic .hm rules above.              */
+  .hm.hm-idx{gap:4px;margin-top:10px;font-size:12px;
+             grid-auto-rows:34px;max-width:760px}
+  .hm.hm-idx div{padding:0;margin:0;min-height:0;height:100%;
+                 line-height:1;display:flex;flex-direction:row;
+                 justify-content:center;align-items:center;gap:7px;
+                 text-align:center;border-radius:5px}
+  .hm.hm-idx .hd{height:auto;padding:0 0 4px;font-size:11.5px;
+                 font-weight:600;letter-spacing:.05em;
+                 text-transform:uppercase;color:#8A857C;
+                 justify-content:center;align-items:flex-end}
+  .hm.hm-idx .rw{padding:0 14px 0 0;font-size:13px;font-weight:500;
+                 line-height:1.2;align-items:center;
+                 justify-content:flex-start;
+                 text-align:left;color:#26241F}
+  .hm.hm-idx .thin .sub{opacity:.38}
+  .hm.hm-idx div.cell{cursor:pointer;transition:transform .08s ease,
+                   box-shadow .08s ease;position:relative}
+  .hm.hm-idx div.cell:hover{transform:scale(1.02);
+                   box-shadow:0 2px 8px rgba(0,0,0,.14);z-index:2}
+  .hm.hm-idx .big{font-size:13px;font-weight:700;
+                  line-height:1;letter-spacing:-.01em;color:#191919;
+                  min-width:22px;text-align:right}
+  .hm.hm-idx .sub{font-weight:500;font-size:11.5px;
+                  line-height:1;color:#191919;opacity:.55;
+                  min-width:34px;text-align:left;
+                  font-variant-numeric:tabular-nums}
+  .idxlegend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;
+             color:#5C5A54;margin:8px 0 0}
+  .idxlegend span{display:flex;align-items:center;gap:5px}
+  .idxlegend i{width:13px;height:13px;border-radius:3px;
+               display:inline-block}
+
+  /* country cards */
+  .ctry{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+        margin-bottom:34px}
+  @media(max-width:720px){.ctry{grid-template-columns:1fr}}
+  .cc{border:1px solid var(--line);border-radius:9px;padding:20px 22px;
+      background:#FCFBF8}
+  .cc h4{margin:0 0 3px;font-size:16px;font-weight:600}
+  .cc .n{font-size:30px;font-weight:600;letter-spacing:-.02em;
+         line-height:1.15;margin:6px 0 2px}
+  .cc .sub{font-size:12px;color:#5C5A54;margin:0 0 14px}
+  .cc dl{display:grid;grid-template-columns:1fr auto;gap:5px 10px;
+         margin:0;font-size:13px}
+  .cc dt{color:#5C5A54}
+  .cc dd{margin:0;text-align:right;font-weight:600;
+         font-variant-numeric:tabular-nums}
+  .cc .bar{height:4px;border-radius:2px;margin-bottom:14px}
+  .titlerow{display:flex;align-items:center;gap:22px}
+  .hdmark{flex:0 0 auto;width:86px;height:auto;display:block}
+  @media(max-width:720px){
+    .titlerow{gap:14px}
+    .hdmark{width:56px}
+  }
+
+  .byline{margin:10px 0 0;font-size:13px;color:var(--slate)}
+  .byline a{color:var(--coral);text-decoration:none;
+            border-bottom:1px solid rgba(217,119,87,.35)}
+  .byline a:hover{border-bottom-color:var(--coral)}
+
+  .kpiblock{padding-top:40px}
+
+  /* ---------- enhanced KPI block ---------- */
+  .kpi{display:grid;gap:14px;margin-bottom:22px;
+       grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
+  .k{background:#FCFBF8;border:1px solid var(--line);
+     border-radius:10px;padding:0 0 16px;overflow:hidden}
+  .k .accent{height:4px}
+  .k .in{padding:14px 18px 0}
+  .k b{display:block;font-size:31px;font-weight:600;
+       letter-spacing:-.025em;line-height:1.1;color:var(--ink);
+       font-variant-numeric:tabular-nums}
+  .k .lab{display:block;margin-top:5px;font-size:12.5px;
+          font-weight:600;color:var(--ink)}
+  .k .sub2{display:block;margin-top:3px;font-size:11.5px;
+           line-height:1.45;color:#8A857C}
+
+  .agebox{background:var(--cream);border:1px solid var(--line);
+          border-radius:10px;padding:18px 20px;margin-bottom:52px}
+  .agebox .t{font-size:12.5px;font-weight:600;color:var(--ink);
+             margin-bottom:10px}
+  .strip{display:flex;height:22px;border-radius:4px;
+         overflow:hidden;background:#EAE6DC}
+  .strip div{height:100%}
+  .sleg{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;
+        font-size:11.5px;color:var(--slate)}
+  .sleg span i{display:inline-block;width:9px;height:9px;
+               border-radius:2px;margin-right:6px}
+
+
+  .ctot{display:flex;flex-wrap:nowrap;gap:8px;margin:0 0 18px}
+  .ctot .c{display:flex;align-items:baseline;gap:6px;padding:7px 11px;
+           border:1px solid #EAE6DC;border-radius:7px;background:#FAF9F5;
+           flex-grow:1;flex-shrink:1;flex-basis:auto;
+           min-width:0;white-space:nowrap;overflow:hidden}
+  .ctot .c i{width:7px;height:7px;border-radius:50%;flex:none;
+             align-self:center}
+  .ctot .c b{font-size:14.5px;font-weight:700;color:#191919;
+             font-variant-numeric:tabular-nums;flex:none}
+  .ctot .c u{text-decoration:none;font-size:11.5px;color:#5C5A54;
+             flex:none}
+  .ctot .c s{text-decoration:none;font-size:11px;color:#8A857C;
+             font-variant-numeric:tabular-nums;margin-left:auto;
+             padding-left:6px;flex-shrink:1;min-width:0;
+             overflow:hidden;text-overflow:ellipsis}
+  .ctot .tot{background:#F0EEE6;border-color:#DCD6C8}
+  @media(max-width:560px){
+    .ctot{gap:5px}
+    .ctot .c{padding:6px 7px;gap:4px}
+    .ctot .c b{font-size:13px}
+
+    .ctot .c u,.ctot .c s{display:none}
+    .ctot .c::after{content:attr(data-ab);font-size:11px;color:#5C5A54}
+  }
+
+  .mapctl{margin:0 0 20px}
+  .ctlrow{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .ctlrow-roles{align-items:flex-start;margin-bottom:0}
+  .mapctl .pick{margin:0;flex:1}
+  .ctl-lab{flex:0 0 74px;font-size:11px;font-weight:700;
+           letter-spacing:.07em;text-transform:uppercase;
+           color:#8A857C;line-height:1.9}
+  @media(max-width:720px){
+    .ctlrow{flex-direction:column;align-items:flex-start;gap:7px}
+    .ctl-lab{flex:none;line-height:1.4}
+  }
+  .seg{display:inline-flex;border:1px solid var(--clay);
+       border-radius:8px;overflow:hidden;background:#FCFBF8}
+  .seg button{font:600 12.5px/1 system-ui,sans-serif;cursor:pointer;
+    padding:8px 15px;border:0;background:transparent;
+    color:var(--slate);transition:.12s}
+  .seg button + button{border-left:1px solid var(--line)}
+  .seg button:hover{background:#F3EFE7;color:var(--ink)}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+
+  #map .hit{fill:transparent;cursor:default}
+  #leg-heat .ramp{display:inline-block;width:132px;height:11px;
+    border-radius:99px;border:1px solid var(--line);
+    background:linear-gradient(90deg,#EDEAE2,#9FB4C4,#6E8CA0,
+                               #C7A87C,#D97757,#A63C22)}
+  #leg-heat span{display:flex;align-items:center;gap:8px}
+  .legend[hidden]{display:none}
+
+  .pick{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+  .pick button{font:600 12px/1 system-ui,sans-serif;cursor:pointer;
+    padding:7px 12px;border-radius:99px;border:1px solid var(--line);
+    background:#FCFBF8;color:var(--slate);transition:.12s}
+  .pick button:hover{border-color:var(--clay);color:var(--ink)}
+  .pick button[aria-pressed="true"]{background:var(--coral);
+    border-color:var(--coral);color:#fff}
+  .pick .hint{font-size:11.5px;color:#8A857C;align-self:center;
+              margin-left:4px}
+
+  /* ---------- city comparator ---------- */
+  .cmp{display:flex;gap:20px;flex-wrap:wrap;margin:0 0 22px}
+  .cmp label{font-size:12.5px;font-weight:600;color:var(--slate);
+             display:flex;align-items:center;gap:9px}
+  .cmp select{font:600 13px system-ui,sans-serif;padding:7px 11px;
+    border-radius:7px;border:1px solid var(--line);background:#FCFBF8;
+    color:var(--ink);cursor:pointer;max-width:210px}
+  .cmp select:hover{border-color:var(--clay)}
+  .cmp optgroup{font-weight:700;color:var(--slate)}
+  .cmp .hint{font-size:11.5px;color:#8A857C;align-self:center;
+             font-weight:400}
+  #cmptable td:first-child{font-weight:500;color:#5C5A54}
+  #cmptable td.num{font-variant-numeric:tabular-nums;font-weight:600}
+
+  #maptip{position:fixed;z-index:50;pointer-events:none;opacity:0;
+    transition:opacity .1s;background:#191919;color:#fff;
+    padding:8px 11px;border-radius:6px;font-size:12px;line-height:1.45;
+    box-shadow:0 4px 14px rgba(0,0,0,.18);max-width:230px}
+  #maptip b{display:block;font-size:13px;margin-bottom:2px}
+  #maptip em{font-style:normal;color:#C7A87C}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Germany &middot; Austria &middot; Switzerland
+       &middot; updated every Monday at 06:00</p>
+    <div class="titlerow">
+      <img class="hdmark" src="assets/dach.svg" alt=""
+           width="86" height="107" loading="eager"
+           onerror="this.remove()">
+      <h1>Whats up with the
+          <em>data-job-market</em> in the DACH region?</h1>
+    </div>
+    <p class="sub">
+      Every monday, data from job-postings across all three DACH
+      countries gets pulled from a public API (Adzuna), loaded into a Delta Lake
+      pipeline on Databricks, and aggregated for various insights
+    </p>
+    <p class="meta" id="meta">Loading&hellip;</p>
+    <p class="byline">
+      Built by <a href="https://www.linkedin.com/in/cruckensteiner112"
+                  target="_blank" rel="noopener">Christoph
+      Ruckensteiner</a> &middot;
+      <a href="https://github.com/Chrisinho8/DACH-data-job-market"
+         target="_blank" rel="noopener">GitHub page</a>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section class="kpiblock">
+    <h2>Current overview</h2>
+    <div id="kpi" class="kpi"></div>
+  </section>
+
+  <!-- ============ GEOGRAPHY ============ -->
+  <section>
+    <h2>Main stats for Austria, Germany and Switzerland</h2>
+    <p class="note">
+    </p>
+    <div id="ctrycards" class="ctry"></div>
+  </section>
+  <section>
+    <h2>Where are the jobs located?</h2>
+    <p class="note">
+    </p>
+    <div class="mapctl">
+      <div class="ctlrow">
+        <span class="ctl-lab">Map style</span>
+        <div id="mapmode" class="seg">
+          <button type="button" data-mode="bubbles"
+                  aria-pressed="true">Bubbles</button>
+          <button type="button" data-mode="heat"
+                  aria-pressed="false">Heat map</button>
+        </div>
+      </div>
+      <div class="ctlrow ctlrow-roles">
+        <span class="ctl-lab">Role</span>
+        <div id="rolepick" class="pick"></div>
+      </div>
+    </div>
+    <!-- Country totals for whatever role is selected. The map answers
+         "which cities", the bubbles are hard to add up by eye, and the
+         city table is truncated to the top 11, so nothing on this
+         screen otherwise tells you the size of each country. -->
+    <div class="ctot" id="ctrytot"></div>
+    <div class="maprow">
+      <div>
+        <svg id="map" viewBox="0 0 640 800"
+             xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="legend" id="leg-bubbles">
+          <span class="dots">
+            <svg width="64" height="20">
+              <circle cx="7"  cy="10" r="4"  fill="#B8B2A4"/>
+              <circle cx="26" cy="10" r="7"  fill="#B8B2A4"/>
+              <circle cx="50" cy="10" r="11" fill="#B8B2A4"/>
+            </svg>
+            postings
+          </span>
+          <span><i class="sw" style="background:#D97757"></i>Germany</span>
+          <span><i class="sw" style="background:#6E8CA0"></i>Austria</span>
+          <span><i class="sw" style="background:#7C9885"></i>Switzerland</span>
+        </div>
+        <div class="legend" id="leg-heat" hidden>
+          <span class="dots"><i class="ramp"></i></span>
+          <span>fewer postings</span>
+          <span style="margin-left:auto">more postings</span>
+        </div>
+      </div>
+      <div>
+        <h3 class="subh">Top cities by listings</h3>
+        <table class="rank">
+          <thead><tr>
+            <th>City</th>
+            <th></th>
+            <th class="num">Listings</th>
+            <th class="num">Avg&nbsp;days</th>
+          </tr></thead>
+          <tbody id="cityrank"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="postings-section" hidden>
+    <h2>The live postings behind the map</h2>
+    <p class="note">
+      The listings can be filtered by choosing the role/city on the map or by filling in the filters manually.
+    </p>
+
+    <div class="pfilters">
+      <input id="pq" type="search" autocomplete="off"
+             placeholder="Search title or employer…"
+             aria-label="Search postings by title or employer">
+      <select id="pfam"  aria-label="Filter by role family"></select>
+      <select id="pctry" aria-label="Filter by country"></select>
+      <select id="pcity" aria-label="Filter by city"></select>
+      <select id="psen"  aria-label="Filter by seniority"></select>
+      <select id="psort" aria-label="Sort postings">
+        <option value="new">Newest first</option>
+        <option value="old">Oldest first</option>
+        <option value="age">Longest open</option>
+        <option value="az">Title A–Z</option>
+      </select>
+      <button id="pclear" type="button">Clear</button>
+    </div>
+
+    <p class="note" id="pcount"></p>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead>
+          <tr>
+            <th>Title</th><th>Employer</th><th>City</th>
+            <th>Family</th><th>Level</th><th class="num">Days open</th>
+          </tr>
+        </thead>
+        <tbody id="pbody"></tbody>
+      </table>
+    </div>
+    <nav class="ppag" id="ppag" aria-label="Postings pages"></nav>
+  </section>
+
+  <section>
+    <h2>Compare two cities head to head</h2>
+    <p class="note">
+      Pick any two cities having at least 3 live postings, and
+      optionally narrow the comparison to a single role. <strong>NOTE: Small cities are noisy.</strong>
+    </p>
+    <p class="note">
+    </p>
+    <div class="cmp">
+      <label>City A <select id="cmpA"></select></label>
+      <label>City B <select id="cmpB"></select></label>
+      <label>Role <select id="cmpRole"></select></label>
+    </div>
+    <div class="maprow">
+      <div><canvas id="citycmp" height="300"></canvas></div>
+      <div>
+        <h3 class="subh">Actual figures</h3>
+        <table class="rank"><tbody id="cmptable"></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TOOLS ============ -->
+  <section id="skillrole-section" hidden>
+    <h2>Which technical skills do postings ask for?
+        <span class="pill">READ CAVEAT</span></h2>
+    <p class="note">
+Pick a role: the left chart shows what its postings ask for, the
+  right subtracts the market rate to show what makes it
+  <em>distinctive</em>. Denominators are per role.
+  <strong>These are floors, not requirement rates</strong> &mdash; the API
+  caps descriptions at 500 characters, so this only counts tools
+  named up front. Comparing tools holds; reading one percentage as
+  the real requirement rate does not.
+
+
+    </p>
+    
+    <div class="mapctl">
+      <div class="ctlrow ctlrow-roles">
+        <span class="ctl-lab">Role</span>
+        <div id="srpick" class="pick"></div>
+      </div>
+    </div>
+    <div class="grid2" id="srgrid">
+      <div>
+        <h3 class="subh" id="srtitleA">Share of postings mentioning it</h3>
+        <div class="chartbox"><canvas id="skillrole"></canvas></div>
+      </div>
+      <div id="srdiffwrap">
+        <h3 class="subh">Difference from the market-wide rate</h3>
+        <div class="chartbox"><canvas id="skillrolediff"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE AI SPLIT ============ -->
+  <section id="ai-section" hidden>
+    <h2>Which AI roles are companies hiring for?</h2>
+    <p class="note">
+    </p>
+    <div class="grid2">
+      <div>
+        <h3 class="subh">Postings per AI family</h3>
+        <canvas id="aivol" height="230"></canvas>
+      </div>
+      <div>
+        <h3 class="subh">Average days open per AI family</h3>
+        <canvas id="aiage" height="230"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ROLES AND SENIORITY ============ -->
+  <section>
+    <h2>Role and seniority  (Austria, Germany and Switzerland)</h2>
+    <p class="note">
+    </p>
+    <div id="heat" class="hm"></div>
+  </section>
+  <section>
+    <h2>Does seniority change how long a job stays open?</h2>
+    <p class="note"></p>
+    <canvas id="senage" height="130"></canvas>
+  </section>
+  <section>
+    <h2>Comparison between the different data jobs and their posting lenghts</h2>
+    <p class="note">
+    </p>
+    <div class="grid2">
+      <div>
+        <h3 class="subh">Absolute postings per job title</h3>
+        <canvas id="rolevol" height="230"></canvas>
+      </div>
+      <div>
+        <h3 class="subh">Average days open per job title</h3>
+        <canvas id="roleage" height="230"></canvas>
+      </div>
+    </div>
+  </section>
+  <section>
+    <h2>How many jobs are still open after n days?</h2>
+    <p class="note">
+      Every point answers one question: out of 100
+      live postings, how many have been open at least this many days? Switch
+      roles with the buttons below.
+ 
+    </p>
+    <div class="mapctl">
+      <div class="ctlrow ctlrow-roles">
+        <span class="ctl-lab">Role</span>
+        <div id="survpick" class="pick"></div>
+      </div>
+    </div>
+    <canvas id="surv" height="180"></canvas>
+  </section>
+
+  <!-- ============ MARKET STRUCTURE ============ -->
+  <section>
+    <h2>Which country asks for which role?</h2>
+    <p class="note">
+      Every country hires Data Engineers, so raw shares mostly repeat
+      what you already know. This shows the opposite: how far each
+      country's demand for a role sits <strong>above or below the DACH
+      average</strong>. Orange means over-represented, blue means
+      under-represented, pale means normal. Click any cell to see those
+      postings.
+    </p>
+    <div class="idxlegend">
+      <span><i style="background:rgb(133,176,196)"></i> half the DACH average</span>
+      <span><i style="background:rgb(244,242,236);border:1px solid #DCD8CE"></i> average</span>
+      <span><i style="background:rgb(231,148,106)"></i> 2× the DACH average</span>
+    </div>
+    <div id="ctryidx" class="hm hm-idx"></div>
+  </section>
+  <section>
+    <h2>Which company has the most listings?</h2>
+    <p class="note">
+    </p>
+    <canvas id="empvol" height="260"></canvas>
+  </section>
+ 
+  <section>
+    <h2>This pipelines own error rates</h2>
+    <p class="note">
+      Most dashboards do not publish how wrong they might be. These are
+      measured on every run: the share of records rejected by quality
+      rules, the share of source descriptions the API truncated, and
+      the accuracy of the tool matcher where it has been measured.
+    </p>
+    <div id="n14_quality" class="stats"></div>
+  </section>
+
+  <!-- ============ CAVEATS ============ -->
+  <section class="caveats">
+    <h2>What this pipeline will not tell you</h2>
+    <ul>
+     
+      
+      <li><strong>One aggregator is not the whole market</strong>, and
+          its coverage is not equally deep in all three countries.
+          Cross-country comparisons should be read as indicative.</li>
+      <li><strong>The posting date is the aggregator's</strong>, which
+          may be when it indexed the job rather than when the employer
+          published it.</li>
+      <li><strong>Roles are classified from the job title</strong> with
+          keyword rules, not from the description, which the aggregator
+          truncates.</li>
+      <li><strong>AI is six families, and the AI numbers here are a
+          floor, not a total.</strong> The rules run most specific
+          first (research, GenAI, MLOps, ML, consulting, AI engineer).
+          A title that says only "AI" or "KI" and names no role is
+          dropped rather than counted, because the pipeline cannot tell
+          from a title whether it is an AI job or a job advertised by a
+          company that likes the word. Summing the six gives you every
+          AI posting that <em>describes itself</em>. The count of
+          postings using AI as an adjective is larger and is not
+          published.</li>
+      <li><strong>The boundaries between AI families are judgement
+          calls.</strong> "Applied Scientist, Machine Learning" is
+          counted as research rather than ML engineering; a title
+          naming both data and AI is counted as data. Reasonable people
+          would draw these lines differently, and the rules are in
+          <code>03_silver_clean.py</code> so you can check where yours
+          would differ.</li>
+      <li><strong>Entry programmes are excluded</strong> (Ausbildung,
+          duales Studium, Werkstudent, Praktikum, Trainee), along with
+          Controlling and finance roles and data-centre infrastructure
+          jobs pulled in by keyword search.</li>
+      <li><strong>Reposts are detected by content hash</strong> (title,
+          company, city, first 200 characters).</li>
+
+      <li><strong>Listings link out, they are not republished.</strong>
+          The postings browser shows title, employer, city, role family
+          and age, and every row links to the aggregator. Job
+          descriptions and salary estimates are not redistributed.</li>
+      <li><strong>A posting in the browser is not necessarily
+          open.</strong> It was live at the last refresh
+          (<span id="cav_updated">see the footer</span>). Nothing here
+          re-checks whether a job has since been filled or withdrawn.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>
+      Built by
+     <a href="https://www.linkedin.com/in/cruckensteiner112">Chrisinho</a>
+      &middot;
+      <a href="https://github.com/Chrisinho8/german-data-job-market">
+      source, method and full limitations</a>
+      &middot;
+      data from <a href="https://developer.adzuna.com">Adzuna</a>
+    </p>
+  </footer>
+
+</main>
+
+<div id="maptip" role="tooltip"></div>
+
+<script>
+/* ---------------- palette ---------------- */
+const CORAL = "#D97757", CLAY = "#CC785C", SAGE = "#7C9885",
+      SLATE = "#5C5A54", LINE = "#E3DFD5",
+      DEEP  = "#A8462A", AMBER = "#D9A05B", TEAL = "#5F9EA0",
+      PLUM  = "#9B7B9B", STEEL = "#6E8CA0", MOSS = "#6E9384",
+      SAND  = "#C7A87C";
+
+/* Splitting AI into families took the role count from 10 to 15, so a
+   10-colour cycle would have repeated. Six more, chosen to stay
+   distinguishable in the same muted range.                         */
+const ROSE = "#B5657F", INDIGO = "#6B6E9B", OLIVE = "#8C9455",
+      OCEAN = "#4F7A8C", STONE = "#8A857C", RUST  = "#9C5A3C";
+
+const CATS = [CORAL, STEEL, SAGE, AMBER, PLUM, TEAL,
+              CLAY, SAND, MOSS, DEEP,
+              ROSE, INDIGO, OLIVE, OCEAN, STONE, RUST];
+
+/* Fixed colour per role family, so a family keeps its colour across
+   every chart on the page even when the sort order differs. The AI
+   families share the warm end of the palette and the data families
+   the cool end, which makes the AI block readable as a block.     */
+const ROLE_COLOUR = {
+  "ai engineer":   CORAL,  "genai / llm":   DEEP,
+  "ml engineer":   CLAY,   "mlops":         RUST,
+  "ai consultant": AMBER,  "ai research":   SAND,
+  "ai / ml":       CORAL,          /* pre-split snapshots */
+
+  "data engineer":      STEEL,  "data analyst":    SAGE,
+  "data scientist":     TEAL,   "data architect":  INDIGO,
+  "analytics engineer": MOSS,   "dwh / etl":       OCEAN,
+  "data governance":    PLUM,   "data consultant": OLIVE,
+  "bi developer":       ROSE
+};
+
+/* falls back to the cycle for any family the map has not seen */
+const rcol = (rf, i) =>
+  ROLE_COLOUR[String(rf).toLowerCase()] || CATS[i % CATS.length];
+
+/* The six published AI families, plus two names that only appear in
+   older data/ snapshots: "ai / ml" from before the split, and
+   "ai (other)" from the window when the vague bucket was still
+   published. Both are kept so an old snapshot still totals correctly.
+   Anything asking "how much of this is AI" must sum this set, never
+   test one string.                                                */
+const AI_SET = new Set([
+  "ai engineer", "genai / llm", "ml engineer", "mlops",
+  "ai consultant", "ai research",
+  "ai / ml", "ai (other)"        /* legacy snapshots only */
+]);
+const isAI = rf => AI_SET.has(String(rf).toLowerCase());
+
+/* Families the pipeline no longer publishes. A current data/ refresh
+   contains none of these; they are filtered out rather than trusted to
+   be absent, so an old JSON file cannot resurrect a chart series the
+   surrounding copy no longer explains.                             */
+const RETIRED = new Set(["ai (other)", "ai / ml"]);
+const isLive  = rf => !RETIRED.has(String(rf).toLowerCase());
+const live    = rows => rows.filter(r => isLive(r.role_family));
+
+/* Tool categories are published as snake_case identifiers. Rewrite
+   them for display only; the pipeline values must not change.     */
+const SKILL_CAT_LABEL = {
+  ml_framework: "ML frameworks",
+  mlops:        "MLOps",
+  genai:        "Generative AI",
+  nlp_cv:       "NLP / computer vision",
+  language:     "Languages",
+  processing:   "Processing",
+  streaming:    "Streaming",
+  warehouse:    "Warehouse",
+  orchestr:     "Orchestration",
+  transform:    "Transformation",
+  database:     "Databases",
+  cloud:        "Cloud",
+  devops:       "DevOps",
+  bi:           "BI",
+  platform:     "Platform",
+  enterprise:   "Enterprise",
+  practice:     "Practices",
+  legacy:       "Legacy"
+};
+const scat = c => SKILL_CAT_LABEL[c] || String(c).replace(/_/g, " ");
+
+const CNAME = { de: "Germany", at: "Austria", ch: "Switzerland" };
+const CCOL  = { de: CORAL,     at: STEEL,     ch: SAGE };
+const CORDER = ["de", "at", "ch"];
+
+Chart.defaults.font.family =
+  "system-ui, -apple-system, Segoe UI, sans-serif";
+Chart.defaults.color = SLATE;
+Chart.defaults.borderColor = LINE;
+
+const get = f =>
+  fetch(`data/${f}.json`).then(r => r.json()).catch(() => null);
+
+const cyc = i => CATS[i % CATS.length];
+const cap = s => String(s).charAt(0).toUpperCase() + String(s).slice(1);
+
+/* ---- display names for role families ----------------------------
+   The keys are the raw values published by the pipeline and must
+   not change. Only the labels shown to a reader are rewritten, so
+   nothing downstream of gold breaks.                              */
+const ROLE_LABEL = {
+  /* the seven AI families that replaced the single "ai / ml" one */
+  "ai engineer":        "AI Engineer",
+  "genai / llm":        "GenAI / LLM Engineer",
+  "ml engineer":        "ML Engineer",
+  "mlops":              "MLOps / ML Platform",
+  "ai consultant":      "AI Consulting",
+  "ai research":        "AI Research",   /* incl. applied scientist */
+  /* kept so an older data/ snapshot still renders a sane label if one
+     of these ever slips past the RETIRED filter */
+  "ai / ml":            "AI/ML (pre-split)",
+  "ai (other)":         "AI, role unspecified (retired)",
+
+  "data engineer":      "Data Engineer",
+  "data scientist":     "Data Scientist",
+  "data analyst":       "Data Analyst",
+  "data architect":     "Data Architect",
+  "analytics engineer": "Analytics Engineer",
+  "dwh / etl":          "Data Warehouse / ETL",
+  "data governance":    "Data Governance and Security",
+  "data consultant":    "Data Consultant",
+  "bi developer":       "BI Developer",
+  "all roles":          "All roles"
+};
+/* Chart.js clips a y-axis label once it needs more than about a
+   third of the chart width, which truncated "Data Governance and
+   Security". An array of strings renders as stacked lines, so wrap
+   long names instead of shortening them.                          */
+const wrap = (s, max = 18) => {
+  const out = [];
+  String(s).split(" ").forEach(w => {
+    if (out.length && (out[out.length - 1] + " " + w).length <= max)
+      out[out.length - 1] += " " + w;
+    else out.push(w);
+  });
+  return out.length > 1 ? out : out[0];
+};
+
+/* falls back to title case for anything the map has not seen */
+const rlab = s => ROLE_LABEL[String(s).toLowerCase()] ||
+  String(s).split(" ").map(w =>
+    w === "/" ? w : w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+const set = (id, v) => {
+  const e = document.getElementById(id);
+  if (e) e.textContent = v;
+};
+
+function ds(label, data, colour) {
+  return { label, data, backgroundColor: colour,
+           borderRadius: 3, barPercentage: 0.82 };
+}
+
+/* ---- sizing horizontal bar charts ------------------------------
+   These charts were laid out by canvas aspect ratio, which fixes the
+   height and then divides it by however many rows there happen to be.
+   Sixteen role families in a half-width column left about 19px per
+   row, and `wrap()` had already turned the longer names into two and
+   three line labels needing more than that, so they overprinted each
+   other and the axis title.
+
+   Height is now derived from the content: count the lines every label
+   actually needs, give each row that much space plus padding, and set
+   the container to the total. Adding a family makes the chart taller
+   instead of making it illegible.                                */
+const ROW_LINE_PX = 15,   /* one line of tick text                 */
+      ROW_PAD_PX  = 14,   /* breathing room between rows           */
+      ROW_MIN_PX  = 27,   /* a single-line row still needs a bar   */
+      CHART_CHROME_PX = 62;  /* x axis ticks + axis title          */
+
+function fitHeight(labels, ax) {
+  const rows = labels.reduce((h, l) => h + Math.max(
+    ROW_MIN_PX,
+    (Array.isArray(l) ? l.length : 1) * ROW_LINE_PX + ROW_PAD_PX), 0);
+  return Math.ceil(rows + CHART_CHROME_PX + (ax && ax.x ? 16 : 0));
+}
+
+/* Chart.js reads its height from the parent when the aspect ratio is
+   off, so give the canvas a parent of its own rather than resizing
+   whatever happens to wrap it (usually a column that also holds a
+   heading). Idempotent: re-rendering a chart reuses the same box. */
+function sizeBox(el, px) {
+  let b = el.parentNode;
+  if (!b || !b.classList.contains("cbox")) {
+    b = document.createElement("div");
+    b.className = "cbox";
+    el.parentNode.insertBefore(b, el);
+    b.appendChild(el);
+  }
+  b.style.height = px + "px";
+  return b;
+}
+
+/* ax is optional: { x: "label for the x axis", y: "label for the y axis" }.
+   Titles are what a reader needs to know what the numbers mean, so every
+   call site passes them.                                              */
+function bar(id, labels, datasets, horizontal, stacked, pct, ax) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const t = s => ({ display: !!s, text: s || "",
+                    font: { size: 11.5, weight: "600" }, color: SLATE });
+  ax = ax || {};
+
+  /* Single-series horizontal charts are the ones with a row per role
+     family, so they are the ones that need content-driven height. A
+     stacked chart's rows are countries, and its legend height is not
+     something this can measure, so leave those on aspect ratio. */
+  const fit = horizontal && datasets.length === 1;
+  if (fit) sizeBox(el, fitHeight(labels, ax));
+
+  new Chart(el, {
+    type: "bar",
+    data: { labels, datasets },
+    options: {
+      maintainAspectRatio: !fit,
+      indexAxis: horizontal ? "y" : "x",
+      plugins: {
+        legend: { display: datasets.length > 1,
+                  labels: { boxWidth: 12, font: { size: 11 } } },
+        tooltip: pct ? { callbacks: { label: c =>
+          `${c.dataset.label}: ${c.raw}%` } } : {}
+      },
+      /* ax.pick turns a bar into a link into the postings browser, so
+         a reader can go from "Data Engineer is the tallest bar" to the
+         973 rows that made it tall. Charts without a pick behave as
+         before. */
+      onClick: (e, els) => {
+        if (ax.pick && els.length) ax.pick(els[0].index);
+      },
+      onHover: (e, els) => {
+        const c = e.native && e.native.target;
+        if (c) c.style.cursor =
+          (ax.pick && els.length) ? "pointer" : "default";
+      },
+      scales: {
+        x: { stacked: !!stacked, max: pct ? 100 : undefined,
+             title: t(ax.x),
+             grid: { color: LINE, drawBorder: false } },
+        y: { stacked: !!stacked, grid: { display: false },
+             title: t(ax.y),
+             ticks: { autoSkip: false } }
+      }
+    }
+  });
+}
+
+function scatter(id, points, xLabel, yLabel, colourFn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  new Chart(el, {
+    type: "bubble",
+    data: { datasets: [{
+      data: points,
+      backgroundColor: points.map(p => colourFn(p)),
+      borderColor: "#FAF9F5", borderWidth: 1 }]},
+    options: {
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c =>
+          `${c.raw.name}: ${c.raw.x} / ${c.raw.y}` } }
+      },
+      scales: {
+        x: { title: { display: true, text: xLabel },
+             grid: { color: LINE } },
+        y: { title: { display: true, text: yLabel },
+             grid: { color: LINE } }
+      }
+    }
+  });
+}
+
+function ageColour(d) {
+  if (d == null) return "#B8B2A4";
+  if (d < 25) return MOSS;
+  if (d < 40) return "#9DA97E";
+  if (d < 55) return AMBER;
+  if (d < 75) return CLAY;
+  return DEEP;
+}
+
+/* ---------------- header ---------------- */
+
+
+/* ---------------- enhanced KPI block ---------------- */
+get("meta").then(m => {
+  if (!m) return;
+  set("meta",
+    `${m.live_postings.toLocaleString()} live postings · ` +
+    `${m.employers.toLocaleString()} employers · ` +
+    `last updated ${m.updated}`);
+  set("f-mean", Math.round(m.avg_age_days));
+  set("f-median", m.median_age_days);
+  if (m.updated) set("cav_updated", m.updated);
+
+  const ratio = m.median_age_days
+    ? (m.avg_age_days / m.median_age_days).toFixed(1) : null;
+
+  const cards = [
+    [CORAL, m.live_postings.toLocaleString(), "Live postings",
+     "Germany, Austria and Switzerland"],
+    [STEEL, m.employers.toLocaleString(), "Employers",
+     "advertising at least one data role"],
+    [CLAY, Math.round(m.avg_age_days) + " d", "Mean days open",
+     ratio ? `${ratio}× the median of ${m.median_age_days} days`
+           : ""],
+    [SAGE, "…", "Advertised as junior", "loading"],
+  ];
+
+  const render = () => document.getElementById("kpi").innerHTML =
+    cards.map(([c, v, lab, sub]) => `
+      <div class="k">
+        <div class="accent" style="background:${c}"></div>
+        <div class="in">
+          <b>${v}</b>
+          <span class="lab">${lab}</span>
+          <span class="sub2">${sub}</span>
+        </div>
+      </div>`).join("");
+  render();
+
+  /* the junior card needs role_breakdown, so fill it late */
+  get("role_breakdown").then(rb => {
+    if (!rb || !rb.length) return;
+    const tot = rb.reduce((s, r) => s + r.n_postings, 0);
+    const jr  = rb.filter(r => r.seniority === "junior")
+                  .reduce((s, r) => s + r.n_postings, 0);
+    const slot = cards.findIndex(c => c[2] === "Advertised as junior");
+    if (slot < 0) return;
+    cards[slot] = [SAGE, (100 * jr / tot).toFixed(1) + "%",
+                "Advertised as junior",
+                `${jr.toLocaleString()} of ${tot.toLocaleString()} postings`];
+    render();
+  });
+});
+
+/* ---------------- age strip ---------------- */
+get("age_distribution").then(d => {
+  if (!d || !d.length) return;
+  const strip = document.getElementById("agestrip");
+  const leg   = document.getElementById("agestriplegend");
+  if (!strip) return;
+
+  const order = ["0-7 days", "8-14 days", "15-30 days",
+                 "31-60 days", "61-90 days", "90+ days"];
+  const cols  = [MOSS, "#9DA97E", AMBER, CLAY, DEEP, "#8C3A22"];
+  const rows  = d.slice().sort(
+    (a, b) => order.indexOf(a.bucket) - order.indexOf(b.bucket));
+
+  strip.innerHTML = rows.map((r, i) =>
+    `<div style="width:${r.pct}%;background:${cols[i % cols.length]}"
+          title="${r.bucket}: ${r.n_postings} postings (${r.pct}%)">
+     </div>`).join("");
+
+  leg.innerHTML = rows.map((r, i) =>
+    `<span><i style="background:${cols[i % cols.length]}"></i>` +
+    `${r.bucket} — ${r.pct}%</span>`).join("");
+});
+
+/* ---------------- country comparison ---------------- */
+get("country_breakdown").then(d => {
+  if (!d || !d.length) return;
+
+  const byC = {};
+  d.forEach(r => byC[r.country] = r);
+  const rows = CORDER.filter(c => byC[c]).map(c => byC[c]);
+  if (!rows.length) return;
+
+  document.getElementById("ctrycards").innerHTML = rows.map(r => `
+    <div class="cc">
+      <div class="bar" style="background:${CCOL[r.country]}"></div>
+      <h4>${CNAME[r.country] || r.country}</h4>
+      <div class="n">${r.n_postings.toLocaleString()}</div>
+      <p class="sub">live postings from
+         ${(r.employers || 0).toLocaleString()} employers</p>
+      <dl>
+        <dt>Median age</dt><dd>${r.median_age_days} d</dd>
+        <dt>Mean age</dt><dd>${Math.round(r.avg_age_days)} d</dd>
+        <dt>Open &gt; 60 days</dt><dd>${r.pct_over_60d}%</dd>
+        <dt>In English</dt><dd>${r.pct_english}%</dd>
+        <dt>Salary shown</dt><dd>${r.pct_with_salary ?? "–"}%</dd>
+      </dl>
+    </div>`).join("");
+
+});
+
+/* ---------------- age distribution ---------------- */
+get("age_distribution").then(d => {
+  if (!d) return;
+  const order = ["0-7 days","8-14 days","15-30 days",
+                 "31-60 days","61-90 days","90+ days"];
+  d.sort((a, b) => order.indexOf(a.bucket) - order.indexOf(b.bucket));
+  const cols = [MOSS, "#9DA97E", AMBER, CLAY, DEEP, "#8C3A22"];
+  bar("age", d.map(r => r.bucket),
+      [ds("% of live postings", d.map(r => r.pct), cols)],
+      false, false, false,
+      { x: "days since the posting went live",
+        y: "% of live postings" });
+});
+
+/* ---------------- survival curve ----------------
+   Market-wide by default. If role_breakdown ships the pct_over_*
+   columns, a role picker appears and the curve can be narrowed to a
+   single role family (weighted across country and seniority).     */
+Promise.all([get("market_summary"), get("role_breakdown")])
+  .then(([ms, rb]) => {
+  if (!ms || !ms.length) return;
+  const m = ms[0];
+  set("f-agency", m.pct_agency);
+
+  const ALL  = "All roles";
+  const pick = document.getElementById("survpick");
+
+  /* does the published role_breakdown carry survival columns? */
+  const hasSurv = Array.isArray(rb) && rb.length &&
+                  rb[0].pct_over_30d !== undefined;
+
+  /* Weighted roll-up per role family. live() first: this picker is
+     built from whatever families the JSON happens to contain, so an
+     older snapshot would otherwise put a retired family back on the
+     page as a button. */
+  const byRole = {};
+  if (hasSurv) live(rb).forEach(r => {
+    const k = r.role_family;
+    const a = byRole[k] = byRole[k] ||
+      { n: 0, d7: 0, d30: 0, d60: 0, d90: 0, age: 0, med: 0 };
+    const w = r.n_postings || 0;
+    a.n   += w;
+    a.d7  += w * (r.pct_over_7d  ?? 0);
+    a.d30 += w * (r.pct_over_30d ?? 0);
+    a.d60 += w * (r.pct_over_60d ?? 0);
+    a.d90 += w * (r.pct_over_90d ?? 0);
+    a.age += w * (r.avg_age_days ?? 0);
+    a.med += w * (r.median_age_days ?? 0);
+  });
+
+  const roles = Object.keys(byRole).sort((a, b) => byRole[b].n - byRole[a].n);
+
+  const stats = role => {
+    if (role === ALL) return {
+      pts: [
+        { x: 0,  y: 100 },
+        { x: 7,  y: m.pct_over_7d },
+        { x: 30, y: m.pct_over_30d },
+        { x: 60, y: m.pct_over_60d },
+        { x: 90, y: m.pct_over_90d },
+      ],
+      mean: Math.round(m.avg_age_days),
+      median: m.median_age_days
+    };
+    const a = byRole[role], n = a.n || 1, r1 = v => Math.round(10 * v / n) / 10;
+    return {
+      pts: [
+        { x: 0,  y: 100 },
+        { x: 7,  y: r1(a.d7)  },
+        { x: 30, y: r1(a.d30) },
+        { x: 60, y: r1(a.d60) },
+        { x: 90, y: r1(a.d90) },
+      ],
+      mean: Math.round(a.age / n),
+      median: Math.round(a.med / n)
+    };
+  };
+
+  let current = ALL, chart = null;
+
+  function draw() {
+    const s = stats(current);
+    set("f-mean", s.mean);
+    set("f-median", s.median);
+    if (chart) chart.destroy();
+    chart = new Chart(document.getElementById("surv"), {
+      type: "line",
+      data: { datasets: [{
+        data: s.pts, borderColor: CORAL, backgroundColor: "#D9775722",
+        fill: true, tension: .25, pointRadius: 4,
+        pointBackgroundColor: CORAL }]},
+      options: {
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: {
+            title: () => current === ALL ? ALL : rlab(current),
+            label: c =>
+              `${c.raw.y}% still open after ${c.raw.x} days` } } },
+        scales: {
+          x: { type: "linear", title: { display: true,
+               text: "days since posted" }, grid: { color: LINE } },
+          y: { title: { display: true, text: "% still listed" },
+               min: 0, max: 100, grid: { color: LINE } }
+        }
+      }
+    });
+  }
+
+  if (pick && roles.length) {
+    const names = [ALL].concat(roles);
+    pick.innerHTML = names.map(n =>
+      `<button type="button" data-role="${n}"
+               title="${n === ALL ? "every posting"
+                        : byRole[n].n.toLocaleString() + " postings"}"
+               aria-pressed="${n === current}">` +
+      `${n === ALL ? ALL : rlab(n)}</button>`).join("");
+
+    pick.querySelectorAll("button").forEach(b => {
+      b.addEventListener("click", () => {
+        current = b.dataset.role;
+        pick.querySelectorAll("button").forEach(x =>
+          x.setAttribute("aria-pressed", x.dataset.role === current));
+        draw();
+      });
+    });
+  } else if (pick) {
+    pick.closest(".mapctl").hidden = true;
+  }
+
+  draw();
+});
+
+/* ---------------- geography ---------------- */
+/* keyed "country|city" because Baden exists in AT, CH and DE */
+const GEO = {
+  /* ---- Germany ---- */
+  "de|berlin":[13.40,52.52], "de|hamburg":[9.99,53.55],
+  "de|muenchen":[11.58,48.14], "de|koeln":[6.96,50.94],
+  "de|frankfurt":[8.68,50.11], "de|stuttgart":[9.18,48.78],
+  "de|duesseldorf":[6.77,51.23], "de|leipzig":[12.37,51.34],
+  "de|dortmund":[7.47,51.51], "de|essen":[7.01,51.46],
+  "de|bremen":[8.80,53.08], "de|dresden":[13.74,51.05],
+  "de|hannover":[9.73,52.38], "de|nuernberg":[11.08,49.45],
+  "de|duisburg":[6.76,51.43], "de|bochum":[7.22,51.48],
+  "de|wuppertal":[7.15,51.26], "de|bielefeld":[8.53,52.03],
+  "de|bonn":[7.10,50.73], "de|muenster":[7.63,51.96],
+  "de|karlsruhe":[8.40,49.01], "de|mannheim":[8.47,49.49],
+  "de|augsburg":[10.90,48.37], "de|wiesbaden":[8.24,50.08],
+  "de|mainz":[8.27,49.99], "de|braunschweig":[10.53,52.27],
+  "de|kiel":[10.14,54.32], "de|aachen":[6.08,50.78],
+  "de|halle":[11.97,51.48], "de|magdeburg":[11.63,52.13],
+  "de|freiburg":[7.85,47.99], "de|krefeld":[6.56,51.33],
+  "de|luebeck":[10.69,53.87], "de|erfurt":[11.03,50.98],
+  "de|rostock":[12.14,54.09], "de|kassel":[9.50,51.31],
+  "de|potsdam":[13.06,52.40], "de|saarbruecken":[6.99,49.24],
+  "de|heidelberg":[8.69,49.40], "de|darmstadt":[8.65,49.87],
+  "de|regensburg":[12.10,49.02], "de|ingolstadt":[11.43,48.76],
+  "de|ulm":[9.99,48.40], "de|jena":[11.59,50.93],
+  "de|osnabrueck":[8.05,52.28], "de|walldorf":[8.64,49.31],
+  "de|heilbronn":[9.22,49.14], "de|wolfsburg":[10.79,52.42],
+  "de|paderborn":[8.75,51.72], "de|koblenz":[7.59,50.36],
+  "de|trier":[6.64,49.76], "de|wuerzburg":[9.93,49.79],
+  "de|chemnitz":[12.92,50.83], "de|hamm":[7.82,51.68],
+  "de|moenchengladbach":[6.44,51.19],
+  "de|gelsenkirchen":[7.10,51.52], "de|oldenburg":[8.21,53.14],
+  "de|ludwigshafen":[8.44,49.48], "de|leverkusen":[7.00,51.03],
+  "de|solingen":[7.08,51.17], "de|neuss":[6.69,51.20],
+  "de|siegen":[8.02,50.87], "de|hildesheim":[9.95,52.15],
+  "de|gera":[12.08,50.88], "de|schwerin":[11.42,53.63],
+  "de|reutlingen":[9.21,48.49], "de|fuerth":[10.99,49.48],
+  "de|bremerhaven":[8.58,53.55], "de|offenbach":[8.77,50.10],
+  "de|esslingen":[9.31,48.74], "de|boeblingen":[9.01,48.69],
+  "de|friedrichshafen":[9.48,47.65], "de|konstanz":[9.17,47.66],
+  "de|passau":[13.46,48.57], "de|bayreuth":[11.58,49.95],
+  "de|bamberg":[10.89,49.89], "de|goettingen":[9.94,51.53],
+  "de|marburg":[8.77,50.80], "de|giessen":[8.68,50.59],
+  "de|fulda":[9.68,50.55], "de|cottbus":[14.33,51.76],
+  "de|greifswald":[13.38,54.09], "de|erlangen":[11.00,49.60],
+  "de|tuebingen":[9.06,48.52], "de|sindelfingen":[9.00,48.71],
+  "de|ratingen":[6.85,51.30], "de|ludwigsburg":[9.19,48.90],
+  "de|pforzheim":[8.70,48.89], "de|landshut":[12.15,48.54],
+  "de|rosenheim":[12.13,47.86], "de|hanau":[8.92,50.13],
+  "de|hagen":[7.47,51.36], "de|herne":[7.22,51.54],
+  "de|guetersloh":[8.38,51.91], "de|celle":[10.08,52.62],
+  "de|flensburg":[9.44,54.78], "de|kaiserslautern":[7.77,49.44],
+  "de|zwickau":[12.50,50.72], "de|weimar":[11.33,50.98],
+  "de|aschaffenburg":[9.15,49.98], "de|schweinfurt":[10.22,50.05],
+
+  /* ---- Austria ---- */
+  "at|wien":[16.37,48.21], "at|graz":[15.44,47.07],
+  "at|linz":[14.29,48.31], "at|salzburg":[13.05,47.81],
+  "at|innsbruck":[11.40,47.27], "at|klagenfurt":[14.31,46.62],
+  "at|villach":[13.85,46.61], "at|wels":[14.03,48.16],
+  "at|sankt poelten":[15.62,48.20], "at|st. poelten":[15.62,48.20],
+  "at|st poelten":[15.62,48.20], "at|dornbirn":[9.74,47.41],
+  "at|wiener neustadt":[16.25,47.81], "at|steyr":[14.42,48.04],
+  "at|feldkirch":[9.60,47.24], "at|bregenz":[9.75,47.50],
+  "at|leonding":[14.25,48.28], "at|klosterneuburg":[16.32,48.31],
+  "at|krems":[15.61,48.41], "at|traun":[14.24,48.22],
+  "at|amstetten":[14.87,48.12], "at|kufstein":[12.17,47.58],
+  "at|hallein":[13.10,47.68], "at|schwechat":[16.47,48.14],
+  "at|eisenstadt":[16.52,47.85], "at|baden":[16.23,48.01],
+  "at|moedling":[16.29,48.09], "at|voecklabruck":[13.66,48.01],
+  "at|hagenberg":[14.51,48.37],
+  "at|wolfsberg":[14.84,46.84], "at|leoben":[15.09,47.38],
+  "at|kapfenberg":[15.29,47.44], "at|bruck":[15.28,47.41],
+  "at|lustenau":[9.66,47.43], "at|hohenems":[9.69,47.36],
+  "at|ried":[13.49,48.21], "at|braunau":[13.04,48.26],
+  "at|spittal":[13.50,46.80], "at|zell am see":[12.79,47.32],
+
+  /* ---- Switzerland ---- */
+  "ch|zuerich":[8.54,47.38], "ch|genf":[6.14,46.20],
+  "ch|geneve":[6.14,46.20], "ch|geneva":[6.14,46.20],
+  "ch|basel":[7.59,47.56], "ch|bern":[7.45,46.95],
+  "ch|lausanne":[6.63,46.52], "ch|winterthur":[8.73,47.50],
+  "ch|luzern":[8.31,47.05], "ch|sankt gallen":[9.38,47.42],
+  "ch|st. gallen":[9.38,47.42], "ch|st gallen":[9.38,47.42],
+  "ch|lugano":[8.95,46.00], "ch|biel":[7.25,47.14],
+  "ch|thun":[7.63,46.76], "ch|koeniz":[7.41,46.92],
+  "ch|schaffhausen":[8.63,47.70], "ch|fribourg":[7.16,46.80],
+  "ch|freiburg":[7.16,46.80], "ch|chur":[9.53,46.85],
+  "ch|neuchatel":[6.93,46.99], "ch|sion":[7.36,46.23],
+  "ch|zug":[8.52,47.17], "ch|baar":[8.53,47.20],
+  "ch|rotkreuz":[8.43,47.14], "ch|duebendorf":[8.62,47.40],
+  "ch|kloten":[8.58,47.45], "ch|wallisellen":[8.60,47.41],
+  "ch|opfikon":[8.57,47.43], "ch|aarau":[8.05,47.39],
+  "ch|olten":[7.90,47.35], "ch|solothurn":[7.54,47.21],
+  "ch|wetzikon":[8.80,47.32], "ch|rapperswil":[8.82,47.23],
+  "ch|zollikon":[8.58,47.34], "ch|bellinzona":[9.02,46.19],
+  "ch|vernier":[6.09,46.21], "ch|lancy":[6.11,46.19],
+  "ch|meyrin":[6.08,46.23], "ch|nyon":[6.24,46.38],
+  "ch|morges":[6.50,46.51], "ch|yverdon":[6.64,46.78],
+  "ch|montreux":[6.91,46.43], "ch|sierre":[7.53,46.29],
+  "ch|martigny":[7.07,46.10], "ch|wil":[9.05,47.46],
+  "ch|frauenfeld":[8.90,47.56], "ch|kreuzlingen":[9.17,47.65],
+  "ch|arbon":[9.43,47.52], "ch|horgen":[8.60,47.26],
+  "ch|waedenswil":[8.67,47.23], "ch|uster":[8.72,47.35],
+  "ch|volketswil":[8.69,47.39], "ch|regensdorf":[8.47,47.43],
+  "ch|buelach":[8.54,47.52], "ch|baden":[8.31,47.47],
+  "ch|liestal":[7.73,47.48], "ch|allschwil":[7.54,47.55],
+  "ch|reinach":[7.59,47.49], "ch|pratteln":[7.69,47.52],
+  "ch|muttenz":[7.65,47.52], "ch|kaiseraugst":[7.73,47.54],
+  "ch|schlieren":[8.45,47.40], "ch|dietikon":[8.40,47.40],
+  "ch|thalwil":[8.56,47.29], "ch|kuesnacht":[8.58,47.32]
+};
+
+const OUTLINES = {
+ de: [[9.4,54.83],[8.6,54.90],[8.3,54.30],[8.5,53.90],[8.1,53.60],
+  [8.6,53.55],[8.2,53.40],[7.2,53.40],[7.0,52.60],[6.7,52.40],
+  [6.1,51.90],[5.95,51.80],[6.2,51.40],[6.0,50.90],[6.4,50.30],
+  [6.1,50.10],[6.5,49.80],[6.35,49.45],[7.0,49.10],[7.6,49.05],
+  [8.2,48.95],[7.6,48.60],[7.6,48.10],[8.0,47.70],[8.6,47.80],
+  [9.2,47.65],[9.55,47.53],[10.1,47.30],[10.45,47.55],[10.9,47.50],
+  [11.3,47.45],[12.2,47.70],[13.05,47.50],[13.05,47.90],
+  [12.80,48.10],[13.40,48.40],[13.85,48.77],[13.55,48.95],
+  [12.5,49.90],[12.1,50.30],[12.9,50.40],[14.4,50.90],[14.8,51.05],
+  [15.0,51.30],[14.7,52.10],[14.55,52.60],[14.15,52.90],
+  [14.4,53.30],[14.28,53.70],[13.8,53.90],[13.4,54.10],[12.5,54.50],
+  [11.5,54.20],[11.0,54.40],[10.8,54.00],[10.2,54.40],[9.9,54.50]],
+
+ at: [[9.55,47.53],[9.75,47.58],[10.1,47.30],[10.45,47.55],
+  [10.9,47.50],[11.3,47.45],[12.2,47.70],[13.05,47.50],
+  [13.05,47.90],[12.80,48.10],[13.40,48.40],[13.85,48.77],
+  [14.05,48.60],[14.70,48.58],[15.00,49.02],[16.10,48.75],
+  [16.95,48.55],[17.16,48.01],[16.88,47.70],[16.42,47.67],
+  [16.52,47.00],[16.10,46.87],[15.00,46.65],[14.55,46.43],
+  [13.70,46.52],[12.80,46.65],[12.15,47.09],[11.10,46.86],
+  [10.45,46.87],[10.10,46.85],[9.60,47.06]],
+
+ ch: [[9.55,47.53],[9.20,47.65],[8.60,47.80],[8.00,47.56],
+  [7.45,47.50],[7.00,47.35],[6.80,47.00],[6.10,46.40],[6.15,46.20],
+  [5.98,46.13],[6.80,46.10],[7.00,45.92],[8.10,46.10],[8.45,46.45],
+  [8.60,46.10],[9.00,46.00],[9.30,46.50],[10.10,46.60],
+  [10.45,46.87],[10.10,46.85],[9.60,47.06]]
+};
+
+const FILL = { de: "#F3EFE7", at: "#EDEFF2", ch: "#EDF2EE" };
+
+const W = 640, H = 800;
+const LON0 = 5.3, LON1 = 17.6, LAT0 = 45.6, LAT1 = 55.4;
+const px = lon => (lon - LON0) / (LON1 - LON0) * W;
+const py = lat => (LAT1 - lat) / (LAT1 - LAT0) * H;
+
+/* strip administrative suffixes before the coordinate lookup */
+const nk = s => String(s)
+  .toLowerCase()
+  .replace(/\s*\(.*?\)\s*$/g, "")
+  .replace(/\s+(kreis|stadt|region|landkreis|bezirk|kanton)$/g, "")
+  .replace(/\s+/g, " ")
+  .trim();
+
+
+
+/* ---------------- map, filterable by role family ----------------
+   Reads city_role_breakdown.json when the pipeline publishes it.
+   Falls back to city_breakdown.json (all roles combined) so the
+   page still works before that table exists.               */
+(function () {
+  const svg = document.getElementById("map");
+  const pick = document.getElementById("rolepick");
+  const tip = document.getElementById("maptip");
+  if (!svg) return;
+
+  const ns = "http://www.w3.org/2000/svg";
+  let byRole = null;          /* { role: [rows] } or null */
+  let current = "All roles";
+  let mode = "bubbles";       /* "bubbles" | "heat" */
+
+  /* ---- draw the three country outlines once ---- */
+  CORDER.forEach(c => {
+    const p = document.createElementNS(ns, "path");
+    p.setAttribute("class", "outline");
+    p.setAttribute("fill", FILL[c]);
+    p.setAttribute("d", "M" + OUTLINES[c]
+      .map(q => `${px(q[0]).toFixed(1)},${py(q[1]).toFixed(1)}`)
+      .join("L") + "Z");
+    svg.appendChild(p);
+  });
+
+  /* ---- merge raw rows into one entry per country+city ---- */
+  function merge(rows) {
+    const acc = {};
+    rows.forEach(r => {
+      const c = r.country || "de";
+      const k = `${c}|${nk(r.city)}`;
+      acc[k] = acc[k] || { key: k, country: c, city: nk(r.city),
+                           n: 0, wage: 0 };
+      acc[k].n    += r.n_postings;
+      acc[k].wage += r.n_postings * (r.avg_age_days || 0);
+    });
+    return Object.values(acc).map(m => ({
+      key: m.key, country: m.country,
+      city: m.city === "unknown" ? "not specified" : m.city,
+      n_postings: m.n,
+      avg_age_days: +(m.wage / m.n).toFixed(1),
+    }));
+  }
+
+  function showTip(e, r) {
+    if (!tip) return;
+    tip.innerHTML =
+      `<b>${cap(r.city)}</b>` +
+      `${CNAME[r.country] || r.country}<br>` +
+      `<em>${r.n_postings.toLocaleString()}</em> ` +
+      `posting${r.n_postings === 1 ? "" : "s"}` +
+      ` · avg ${Math.round(r.avg_age_days)} days open` +
+      (current !== "All roles" ? `<br>${current}` : "");
+    tip.style.opacity = 1;
+    moveTip(e);
+  }
+  function moveTip(e) {
+    if (!tip) return;
+    const pad = 14;
+    let x = e.clientX + pad, y = e.clientY + pad;
+    const w = tip.offsetWidth, hh = tip.offsetHeight;
+    if (x + w > window.innerWidth - 8) x = e.clientX - w - pad;
+    if (y + hh > window.innerHeight - 8) y = e.clientY - hh - pad;
+    tip.style.left = x + "px";
+    tip.style.top = y + "px";
+  }
+  function hideTip() { if (tip) tip.style.opacity = 0; }
+
+  /* ---- heat surface -------------------------------------------
+     A kernel density estimate rather than a pile of translucent
+     discs. Every city drops a Gaussian of weight sqrt(postings)
+     onto a 9px grid, the grid is normalised against its own peak
+     and painted through a six-stop cold-to-hot ramp, and a single
+     blur smooths the cells. Neighbouring cities therefore sum, so
+     the Rhine-Ruhr corridor reads as one hot region instead of
+     eight overlapping circles, which is the whole point of a heat
+     map over the bubble view. Cells outside all three country
+     outlines are dropped, so the surface never bleeds into the sea
+     or into France. Transparent hit circles sit on top, so the
+     tooltip behaves exactly as it does in bubble mode.          */
+  const HEAT = [[0, "#EDEAE2"], [.15, "#9FB4C4"], [.35, "#6E8CA0"],
+                [.55, "#C7A87C"], [.75, "#D97757"], [1, "#A63C22"]];
+  const CELL = 9, SIG = 24;
+  const GX = Math.ceil(W / CELL) + 1, GY = Math.ceil(H / CELL) + 1;
+
+  const hx = c => [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16));
+  function ramp(t) {
+    for (let i = 1; i < HEAT.length; i++) {
+      if (t <= HEAT[i][0]) {
+        const u = (t - HEAT[i - 1][0]) / (HEAT[i][0] - HEAT[i - 1][0]);
+        const A = hx(HEAT[i - 1][1]), B = hx(HEAT[i][1]);
+        return "rgb(" + A.map((v, k) =>
+          Math.round(v + (B[k] - v) * u)).join(",") + ")";
+      }
+    }
+    return HEAT[HEAT.length - 1][1];
+  }
+
+  function heatDefs() {
+    if (svg.querySelector("#heatdefs")) return;
+    const defs = document.createElementNS(ns, "defs");
+    defs.setAttribute("id", "heatdefs");
+    const f = document.createElementNS(ns, "filter");
+    f.setAttribute("id", "heatblur");
+    f.setAttribute("x", "-8%");  f.setAttribute("y", "-8%");
+    f.setAttribute("width", "116%"); f.setAttribute("height", "116%");
+    const b = document.createElementNS(ns, "feGaussianBlur");
+    b.setAttribute("stdDeviation", "6");
+    f.appendChild(b);
+    defs.appendChild(f);
+    svg.insertBefore(defs, svg.firstChild);
+  }
+
+  /* which grid cells fall on land, computed once */
+  let LAND = null;
+  function landMask() {
+    if (LAND) return LAND;
+    const polys = CORDER.map(c =>
+      OUTLINES[c].map(q => [px(q[0]), py(q[1])]));
+    const inside = (x, y, p) => {
+      let o = false;
+      for (let i = 0, j = p.length - 1; i < p.length; j = i++) {
+        const [xi, yi] = p[i], [xj, yj] = p[j];
+        if ((yi > y) !== (yj > y) &&
+            x < (xj - xi) * (y - yi) / (yj - yi) + xi) o = !o;
+      }
+      return o;
+    };
+    LAND = new Uint8Array(GX * GY);
+    for (let j = 0; j < GY; j++)
+      for (let i = 0; i < GX; i++)
+        LAND[j * GX + i] =
+          polys.some(p => inside(i * CELL, j * CELL, p)) ? 1 : 0;
+    return LAND;
+  }
+
+  /* ---- redraw the map and the ranking table ---- */
+  let lastRows = null;
+
+  /* ---- country totals ----------------------------------------
+     Counted from the same rows the map draws, not from
+     country_breakdown.json, so the strip always agrees with the
+     bubbles even when a role is selected. Cities the GEO table does
+     not know still count here: they are postings, they just have no
+     dot. */
+  function drawTotals(rows) {
+    const el = document.getElementById("ctrytot");
+    if (!el) return;
+
+    const n = {};
+    rows.forEach(r => n[r.country] = (n[r.country] || 0) + r.n_postings);
+    const total = CORDER.reduce((s, c) => s + (n[c] || 0), 0);
+    if (!total) { el.innerHTML = ""; return; }
+
+    const label = current === "All roles"
+      ? "across all roles" : rlab(current);
+
+    /* data-ab is what the narrow breakpoint shows in place of the
+       full name and share, so the chips still say which is which */
+    el.innerHTML = CORDER.filter(c => n[c]).map(c =>
+      `<div class="c" data-ab="${c.toUpperCase()}"
+            title="${CNAME[c]}: ${n[c].toLocaleString()} of ` +
+      `${total.toLocaleString()} (${(100 * n[c] / total).toFixed(1)}%)">
+         <i style="background:${CCOL[c]}"></i>
+         <b>${n[c].toLocaleString()}</b>
+         <u>${CNAME[c]}</u>
+         <s>${(100 * n[c] / total).toFixed(1)}%</s>
+       </div>`).join("") +
+      `<div class="c tot" data-ab="DACH"
+            title="${esc(label)}: ${total.toLocaleString()} postings">
+         <b>${total.toLocaleString()}</b>
+         <u>DACH total</u>
+         <s>${esc(label)}</s>
+       </div>`;
+  }
+
+  /* A bubble or a table row is a city plus whatever role is selected,
+     which is exactly the pair of filters the browser below takes. */
+  function drillCity(r) {
+    openPostings({
+      city: `${r.country}|${r.city}`,
+      country: r.country,
+      family: current === "All roles" ? "" : current
+    });
+  }
+
+  function draw(rows) {
+    if (rows) lastRows = rows;
+    rows = lastRows || [];
+
+    drawTotals(rows);
+
+    svg.querySelectorAll(".bub,.lbl,.heat,.hit").forEach(n => n.remove());
+
+    const d = merge(rows);
+    const known = d.filter(r => GEO[r.key])
+                   .sort((a, b) => b.n_postings - a.n_postings);
+
+    if (known.length) {
+      const max = known[0].n_postings;
+      const R = n => 5 + 28 * Math.sqrt(n / max);
+
+      if (mode === "heat") {
+        heatDefs();
+        const land = landMask();
+
+        const field = new Float64Array(GX * GY);
+        const span = Math.ceil(SIG * 2.5 / CELL);
+        known.forEach(r => {
+          const [lon, lat] = GEO[r.key];
+          const cx = px(lon), cy = py(lat);
+          const w = Math.sqrt(r.n_postings);
+          const gx = Math.round(cx / CELL), gy = Math.round(cy / CELL);
+          for (let i = gx - span; i <= gx + span; i++) {
+            if (i < 0 || i >= GX) continue;
+            for (let j = gy - span; j <= gy + span; j++) {
+              if (j < 0 || j >= GY) continue;
+              const dx = i * CELL - cx, dy = j * CELL - cy;
+              field[j * GX + i] +=
+                w * Math.exp(-(dx * dx + dy * dy) / (2 * SIG * SIG));
+            }
+          }
+        });
+
+        let fmax = 0;
+        for (let i = 0; i < field.length; i++)
+          if (field[i] > fmax) fmax = field[i];
+
+        const g = document.createElementNS(ns, "g");
+        g.setAttribute("class", "heat");
+        g.setAttribute("filter", "url(#heatblur)");
+        if (fmax > 0) {
+          for (let j = 0; j < GY; j++) {
+            for (let i = 0; i < GX; i++) {
+              const k = j * GX + i;
+              if (!land[k]) continue;
+              const t = field[k] / fmax;
+              if (t < 0.05) continue;
+              const rc = document.createElementNS(ns, "rect");
+              rc.setAttribute("x", i * CELL - CELL / 2);
+              rc.setAttribute("y", j * CELL - CELL / 2);
+              rc.setAttribute("width", CELL);
+              rc.setAttribute("height", CELL);
+              rc.setAttribute("fill", ramp(t));
+              rc.setAttribute("fill-opacity",
+                (0.18 + 0.72 * Math.min(1, t * 1.35)).toFixed(2));
+              g.appendChild(rc);
+            }
+          }
+        }
+        svg.appendChild(g);
+
+        /* transparent hit targets so the tooltip still works */
+        known.forEach(r => {
+          const [lon, lat] = GEO[r.key];
+          const c = document.createElementNS(ns, "circle");
+          c.setAttribute("class", "hit");
+          c.setAttribute("cx", px(lon));
+          c.setAttribute("cy", py(lat));
+          c.setAttribute("r", Math.max(9, R(r.n_postings)));
+          c.addEventListener("mouseenter", e => showTip(e, r));
+          c.addEventListener("mousemove", moveTip);
+          c.addEventListener("mouseleave", hideTip);
+          svg.appendChild(c);
+        });
+      } else {
+        known.forEach(r => {
+          const [lon, lat] = GEO[r.key];
+          const c = document.createElementNS(ns, "circle");
+          c.setAttribute("class", "bub");
+          c.setAttribute("cx", px(lon));
+          c.setAttribute("cy", py(lat));
+          c.setAttribute("r", R(r.n_postings));
+          c.setAttribute("fill", CCOL[r.country] || CORAL);
+          c.setAttribute("fill-opacity", .82);
+          c.addEventListener("mouseenter", e => showTip(e, r));
+          c.addEventListener("mousemove", moveTip);
+          c.addEventListener("mouseleave", hideTip);
+          c.addEventListener("click", () => drillCity(r));
+          svg.appendChild(c);
+        });
+      }
+
+      CORDER.forEach(cc => {
+        known.filter(r => r.country === cc).slice(0, 4).forEach(r => {
+          const [lon, lat] = GEO[r.key];
+          const tx = document.createElementNS(ns, "text");
+          tx.setAttribute("class", "lbl");
+          tx.setAttribute("x", px(lon) + R(r.n_postings) + 5);
+          tx.setAttribute("y", py(lat) + 4);
+          tx.textContent = cap(r.city);
+          svg.appendChild(tx);
+        });
+      });
+    }
+
+    const top = d.filter(r => r.city !== "not specified")
+                 .sort((a, b) => b.n_postings - a.n_postings)
+                 .slice(0, 11);
+    const body = document.getElementById("cityrank");
+    if (!body) return;
+    if (!top.length) {
+      body.innerHTML =
+        `<tr><td colspan="4" style="color:#8A857C">` +
+        `No cities for this role.</td></tr>`;
+      return;
+    }
+    const mx = top[0].n_postings;
+    body.innerHTML = top.map((r, i) => `
+      <tr class="drill" data-i="${i}">
+        <td>${cap(r.city)}
+            <span class="flag">${r.country}</span></td>
+        <td class="barcell">
+          <span class="b" style="width:${100 * r.n_postings / mx}%;
+                background:${CCOL[r.country] || CORAL}"></span>
+        </td>
+        <td class="num">${r.n_postings}</td>
+        <td class="num" style="color:${ageColour(r.avg_age_days)};
+            font-weight:600">${Math.round(r.avg_age_days)}</td>
+      </tr>`).join("");
+
+    body.querySelectorAll("tr.drill").forEach(tr =>
+      tr.addEventListener("click",
+        () => drillCity(top[+tr.dataset.i])));
+  }
+
+  /* ---- build the role buttons ---- */
+  function buildPicker(roles, enabled) {
+    if (!pick) return;
+    const names = ["All roles"].concat(roles);
+    pick.innerHTML = names.map(n =>
+      `<button type="button" data-role="${n}"
+               aria-pressed="${n === current}">${rlab(n)}</button>`).join("")
+      + (enabled ? "" :
+         `<span class="hint">per-role view needs
+          city_role_breakdown.json</span>`);
+
+    pick.querySelectorAll("button").forEach(b => {
+      b.addEventListener("click", () => {
+        current = b.dataset.role;
+        pick.querySelectorAll("button").forEach(x =>
+          x.setAttribute("aria-pressed", x.dataset.role === current));
+        draw(current === "All roles"
+             ? Object.values(byRole).flat()
+             : (byRole[current] || []));
+      });
+    });
+  }
+
+  /* ---- bubbles / heat toggle ---- */
+  const modePick = document.getElementById("mapmode");
+  if (modePick) {
+    modePick.querySelectorAll("button").forEach(b => {
+      b.addEventListener("click", () => {
+        mode = b.dataset.mode;
+        modePick.querySelectorAll("button").forEach(x =>
+          x.setAttribute("aria-pressed", x.dataset.mode === mode));
+        const lb = document.getElementById("leg-bubbles");
+        const lh = document.getElementById("leg-heat");
+        if (lb) lb.hidden = mode !== "bubbles";
+        if (lh) lh.hidden = mode !== "heat";
+        draw();
+      });
+    });
+  }
+
+  Promise.all([get("city_role_breakdown"), get("city_breakdown")])
+    .then(([cr, cb]) => {
+      if (cr && cr.length && cr[0].role_family !== undefined) {
+        byRole = {};
+        /* live() for the same reason as the survival picker: the
+           button list is whatever the JSON contains. */
+        live(cr).forEach(r => {
+          (byRole[r.role_family] = byRole[r.role_family] || []).push(r);
+        });
+        const roles = Object.keys(byRole).sort((a, b) =>
+          byRole[b].reduce((s, r) => s + r.n_postings, 0) -
+          byRole[a].reduce((s, r) => s + r.n_postings, 0));
+        buildPicker(roles, true);
+        draw(cr);
+      } else if (cb && cb.length) {
+        byRole = { "All roles": cb };
+        buildPicker([], false);
+        draw(cb);
+      }
+    });
+})();
+
+/* ---------------- roles ---------------- */
+get("role_breakdown").then(all => {
+  if (!all || !all.length) return;
+  const d = live(all);
+  if (!d.length) return;
+
+  const agg = {};
+  d.forEach(r => {
+    const k = r.role_family;
+    agg[k] = agg[k] || { n: 0, wage: 0 };
+    agg[k].n    += r.n_postings;
+    agg[k].wage += r.n_postings * r.avg_age_days;
+  });
+
+  const rows = Object.entries(agg)
+    .map(([role, v]) => ({ role, n: v.n, age: v.wage / v.n }))
+    .sort((a, b) => b.n - a.n);
+  const roles = rows.map(r => r.role);
+
+  bar("rolevol", roles.map(r => wrap(rlab(r))),
+      [ds("Live postings", rows.map(r => r.n),
+          rows.map((r, i) => rcol(r.role, i)))], true, false, false,
+      { x: "live postings", y: "role family",
+        pick: i => openPostings({ family: rows[i].role }) });
+
+  const byAge = rows.slice().sort((a, b) => b.age - a.age);
+  bar("roleage", byAge.map(r => wrap(rlab(r.role))),
+      [ds("Avg days open", byAge.map(r => Math.round(r.age)),
+          byAge.map(r => ageColour(r.age)))], true, false, false,
+      { x: "average days a posting stays open", y: "role family",
+        pick: i => openPostings({ family: byAge[i].role }) });
+
+  /* --- role mix by country, as an over/under-index -----------------
+     A 100% stacked bar over 15 roles is unreadable and mostly restates
+     that everyone hires Data Engineers. What is actually interesting is
+     deviation: this cell divides a country's share of a role by the
+     DACH-wide share of that role. 1.00 is "exactly normal", 2.00 is
+     "twice as into this as the region", 0.50 is half.
+
+     Counts under MIN_N are shown greyed and unclicked, because an index
+     computed off 3 postings is noise wearing a number's clothes.     */
+  const idxBox = document.getElementById("ctryidx");
+  if (idxBox && d[0].country !== undefined) {
+    const MIN_N = 8;
+    const tot = {};
+    d.forEach(r => tot[r.country] = (tot[r.country] || 0) + r.n_postings);
+    const countries = CORDER.filter(c => tot[c]);
+    const totalAll  = countries.reduce((s, c) => s + tot[c], 0);
+
+    const cnt = (c, rf) =>
+      d.filter(r => r.country === c && r.role_family === rf)
+       .reduce((s, r) => s + r.n_postings, 0);
+
+    /* index = country share of role ÷ DACH share of role */
+    const idx = (c, rf) => {
+      const base = rows.find(r => r.role === rf).n / totalAll;
+      if (!base || !tot[c]) return null;
+      return (cnt(c, rf) / tot[c]) / base;
+    };
+
+    /* Diverging scale anchored at 1. Log-ish so 0.5 and 2.0 sit
+       symmetrically either side of the neutral colour.            */
+    const CELL = v => {
+      /* eased so a 1.3× still reads as tinted, and clamped in
+         lightness so black text stays legible at both extremes. */
+      const raw = Math.max(-1, Math.min(1, Math.log2(v)));   /* ±2× */
+      const t   = Math.sign(raw) * Math.pow(Math.abs(raw), 0.65);
+      const mix = (n, a, b) => Math.round(n + (a - n) * b);
+      const N = [244, 242, 236];                 /* neutral  */
+      if (t >= 0) return `rgb(${mix(N[0], 231, t)},` +
+                         `${mix(N[1], 148, t)},` +
+                         `${mix(N[2], 106, t)})`;   /* warm  */
+      const a = -t;
+      return `rgb(${mix(N[0], 133, a)},` +
+             `${mix(N[1], 176, a)},` +
+             `${mix(N[2], 196, a)})`;
+    };
+    /* One ink colour everywhere; the scale above stays light
+       enough that black reads at both ends. */
+    const INK = () => "#191919";
+
+    /* Rows sorted by how much the countries disagree about them:
+       the top of the table is where the interesting divergence is. */
+    const ordered = roles.slice().sort((a, b) => {
+      const sp = rf => {
+        const vs = countries.map(c => idx(c, rf)).filter(v => v != null);
+        return vs.length ? Math.max(...vs) - Math.min(...vs) : 0;
+      };
+      return sp(b) - sp(a);
+    });
+
+    idxBox.style.gridTemplateColumns =
+      `minmax(150px,1.2fr) repeat(${countries.length}, minmax(0,1fr))`;
+
+    let ih = '<div class="hd"></div>' +
+             countries.map(c => `<div class="hd">${CNAME[c]}</div>`).join("");
+
+    ordered.forEach(rf => {
+      ih += `<div class="rw">${rlab(rf)}</div>`;
+      countries.forEach(c => {
+        const n = cnt(c, rf), v = idx(c, rf);
+        if (!n || v == null) {
+          ih += `<div style="background:#F5F3ED;color:#A9A49A">–</div>`;
+          return;
+        }
+        /* Thin cells stay clickable — the reader may well want to
+           see those 3 postings — but are washed toward neutral so the
+           eye does not read a 2.3× off four rows as a real signal. */
+        const thin = n < MIN_N;
+        const bg   = thin ? CELL(1 + (v - 1) * 0.25) : CELL(v);
+        const fg   = INK(v);
+        const tip  = `${CNAME[c]} · ${rlab(rf)}: ${n} postings, ` +
+                     `${v.toFixed(2)}× the DACH average` +
+                     (thin ? " (too few postings to read into)" : "");
+        ih += `<div class="cell${thin ? " thin" : ""}" title="${tip}"` +
+              ` data-c="${c}" data-rf="${rf}"` +
+              ` style="background:${bg};color:${fg}">` +
+              `<span class="big">${n}</span>` +
+              `<span class="sub">${v.toFixed(2)}×</span></div>`;
+      });
+    });
+    idxBox.innerHTML = ih;
+
+    idxBox.addEventListener("click", e => {
+      const el = e.target.closest(".cell");
+      if (!el) return;
+      openPostings({ country: el.dataset.c, family: el.dataset.rf });
+    });
+  }
+
+  /* seniority stack */
+  const levels = ["junior", "mid", "senior"];
+  const cols   = { junior: SAGE, mid: STEEL, senior: CORAL };
+  const cell = (rf, lv) =>
+    d.filter(r => r.role_family === rf && r.seniority === lv)
+     .reduce((s, r) => s + r.n_postings, 0);
+
+  bar("roles", roles.map(rlab),
+      levels.map(lv => ds(lv, roles.map(rf => cell(rf, lv)),
+                          cols[lv])), true, true, false,
+      { x: "live postings", y: "role family" });
+
+  /* heatmap */
+  const hm = document.getElementById("heat");
+  hm.style.gridTemplateColumns = "minmax(100px,1fr) repeat(3, 1fr)";
+  const maxCell = Math.max(...roles.flatMap(
+    rf => levels.map(lv => cell(rf, lv))));
+  let html = '<div class="hd"></div>' +
+             levels.map(l => `<div class="hd">${l}</div>`).join("");
+  roles.forEach(rf => {
+    html += `<div class="rw">${rlab(rf)}</div>`;
+    levels.forEach(lv => {
+      const v = cell(rf, lv);
+      const a = maxCell ? v / maxCell : 0;
+      html += `<div style="background:rgba(217,119,87,` +
+              `${(0.12 + 0.88 * a).toFixed(2)});` +
+              `color:${a > 0.45 ? "#fff" : "#26241F"}">${v}</div>`;
+    });
+  });
+  hm.innerHTML = html;
+
+  /* seniority totals */
+  const sen = levels.map(lv => {
+    const rs = d.filter(r => r.seniority === lv);
+    const n  = rs.reduce((s, r) => s + r.n_postings, 0);
+    const ag = n ? rs.reduce((s, r) =>
+                 s + r.n_postings * r.avg_age_days, 0) / n : 0;
+    return { lv, n, ag };
+  });
+
+
+
+  bar("senage", sen.map(s => s.lv),
+      [ds("Avg days open", sen.map(s => Math.round(s.ag)),
+          sen.map(s => ageColour(s.ag)))],
+      false, false, false,
+      { x: "seniority level", y: "average days a posting stays open" });
+});
+
+/* ---------------- agency ---------------- */
+get("agency_comparison").then(d => {
+  if (!d) return;
+  bar("agency", d.map(r => r.poster_type),
+      [ds("Avg days open", d.map(r => r.avg_age_days), CLAY),
+       ds("% open over 60 days", d.map(r => r.pct_over_60d), TEAL)],
+      false, false, false,
+      { x: "who posted the job",
+        y: "days open (bar 1) · % over 60 days (bar 2)" });
+});
+
+/* ---------------- employers ---------------- */
+get("stale_by_company").then(d => {
+  if (!d || !d.length) return;
+
+  const vol = d.slice().sort((a, b) => b.n_postings - a.n_postings)
+               .slice(0, 15);
+  bar("empvol", vol.map(r => wrap(r.company, 24)),
+      [ds("Live postings", vol.map(r => r.n_postings),
+          vol.map(r => ageColour(r.avg_age_days)))], true, false, false,
+      { x: "live postings (bar colour = average days open)",
+        y: "company",
+        /* no company dropdown: the search box already matches on
+           employer, so a click just fills it in */
+        pick: i => openPostings({ q: vol[i].company }) });
+
+});
+
+/* ---------------- the AI split ----------------
+   Reads the same role_breakdown table as the roles section, filtered
+   to the six AI families. The section stays hidden if the data
+   directory still holds a pre-split snapshot, so an old deploy does
+   not render an empty chart.                                      */
+get("role_breakdown").then(d => {
+  if (!d || !d.length) return;
+
+  const agg = {};
+  live(d).filter(r => isAI(r.role_family)).forEach(r => {
+    const k = String(r.role_family).toLowerCase();
+    agg[k] = agg[k] || { n: 0, wage: 0 };
+    agg[k].n    += r.n_postings;
+    agg[k].wage += r.n_postings * r.avg_age_days;
+  });
+
+  const fams = Object.keys(agg);
+  /* one family means the pipeline has not been re-run yet */
+  if (fams.length < 2) return;
+
+  const sec = document.getElementById("ai-section");
+  if (sec) sec.hidden = false;
+
+  const rows = fams.map(f => ({ role: f, n: agg[f].n,
+                                age: agg[f].wage / agg[f].n }))
+                   .sort((a, b) => b.n - a.n);
+
+  bar("aivol", rows.map(r => wrap(rlab(r.role))),
+      [ds("Live postings", rows.map(r => r.n),
+          rows.map((r, i) => rcol(r.role, i)))], true, false, false,
+      { x: "live postings", y: "AI family",
+        pick: i => openPostings({ family: rows[i].role }) });
+
+  const byAge = rows.slice().sort((a, b) => b.age - a.age);
+  bar("aiage", byAge.map(r => wrap(rlab(r.role))),
+      [ds("Avg days open", byAge.map(r => Math.round(r.age)),
+          byAge.map(r => ageColour(r.age)))], true, false, false,
+      { x: "average days a posting stays open", y: "AI family",
+        pick: i => openPostings({ family: byAge[i].role }) });
+
+});
+
+/* ---------------- postings browser ----------------------------
+   The only row-level view on the page. Everything else is a count;
+   this is what was counted.
+
+   Filtering runs over the whole array on every keystroke. At a few
+   thousand rows that is well under a frame, and an index would be
+   code to maintain for a speedup nobody can perceive. If postings.json
+   ever grows past ~20k rows, this is the thing to revisit.
+
+   Rendering is paged rather than appended. Painting 3,600 table rows
+   is what would actually be slow, not filtering them, and a page
+   number tells you where you are in a way an ever-growing scroll
+   does not.                                                    */
+const PAGE = 10;
+let POSTINGS = [], ppage = 1;
+
+const $p = id => document.getElementById(id);
+
+/* dd/mm-agnostic: created_date arrives as an ISO string. */
+const pDate = r => String(r.created_date || "").slice(0, 10);
+
+function pFill(sel, values, allLabel, label) {
+  if (!sel) return;
+  sel.innerHTML = `<option value="">${allLabel}</option>` +
+    values.map(v =>
+      `<option value="${v}">${label ? label(v) : cap(v)}</option>`)
+      .join("");
+}
+
+function pFiltered() {
+  const q    = ($p("pq").value || "").trim().toLowerCase();
+  const fam  = $p("pfam").value;
+  const ctry = $p("pctry").value;
+  const city = $p("pcity").value;
+  const sen  = $p("psen").value;
+
+  let out = POSTINGS.filter(r =>
+    (!fam  || r.role_family === fam) &&
+    (!ctry || r.country     === ctry) &&
+    /* keyed country|city: Baden exists in all three countries, and
+       so do several smaller names */
+    (!city || `${r.country}|${r.city}` === city) &&
+    (!sen  || r.seniority   === sen) &&
+    (!q    || (r.title   || "").toLowerCase().includes(q)
+           || (r.company || "").toLowerCase().includes(q)));
+
+  const sort = $p("psort").value;
+  const byTitle = (a, b) =>
+    String(a.title).localeCompare(String(b.title), "de");
+  out = out.slice().sort(
+    sort === "old" ? (a, b) => pDate(a).localeCompare(pDate(b))
+  : sort === "age" ? (a, b) => b.age_days - a.age_days
+  : sort === "az"  ? byTitle
+  :                  (a, b) => pDate(b).localeCompare(pDate(a)));
+
+  return out;
+}
+
+/* Which page buttons to show. Always the first and last page plus the
+   current one and its neighbours, with a gap marker where the run
+   breaks, so 182 pages do not become 182 buttons. */
+function pPageList(cur, last) {
+  const want = new Set([1, last, cur - 1, cur, cur + 1]);
+  const ns = [...want].filter(n => n >= 1 && n <= last)
+                      .sort((a, b) => a - b);
+  const out = [];
+  ns.forEach((n, i) => {
+    if (i && n - ns[i - 1] > 1) out.push("gap");
+    out.push(n);
+  });
+  return out;
+}
+
+function pPager(last) {
+  const nav = $p("ppag");
+  if (!nav) return;
+
+  /* one page needs no controls */
+  nav.hidden = last <= 1;
+  if (nav.hidden) { nav.innerHTML = ""; return; }
+
+  const btn = (label, page, extra) =>
+    `<button type="button" data-page="${page}"${extra || ""}>` +
+    `${label}</button>`;
+
+  nav.innerHTML =
+    btn("‹ Prev", ppage - 1, ppage === 1 ? " disabled" : "") +
+    pPageList(ppage, last).map(n =>
+      n === "gap" ? `<span class="gap">…</span>`
+        : btn(n, n, n === ppage
+            ? ` aria-current="page"` : "")).join("") +
+    btn("Next ›", ppage + 1, ppage === last ? " disabled" : "");
+
+  nav.querySelectorAll("button[data-page]").forEach(b =>
+    b.addEventListener("click", () => {
+      const n = +b.dataset.page;
+      if (n < 1 || n > last || n === ppage) return;
+      ppage = n;
+      pRender();
+      /* a page change replaces the rows under the reader, so put the
+         top of the table back in view rather than leaving them at the
+         pager they just clicked */
+      $p("postings-section").scrollIntoView({ behavior: "smooth",
+                                              block: "start" });
+    }));
+}
+
+function pRender() {
+  const rows = pFiltered();
+  const body = $p("pbody");
+
+  const last = Math.max(1, Math.ceil(rows.length / PAGE));
+  if (ppage > last) ppage = last;
+  if (ppage < 1) ppage = 1;
+
+  const from  = (ppage - 1) * PAGE;
+  const slice = rows.slice(from, from + PAGE);
+
+  body.innerHTML = slice.length ? slice.map(r => {
+    const fam = String(r.role_family || "").toLowerCase();
+    /* 60+ days is the threshold the rest of the page treats as stale,
+       so flag it here too rather than inventing a second one. */
+    const stale = r.age_days > 60 ? ' class="stale"' : "";
+    return `<tr>
+      <td><a href="${r.url}" target="_blank"
+             rel="noopener nofollow">${esc(r.title)}</a></td>
+      <td>${esc(r.company)}${r.is_agency
+            ? ' <span class="flag">agency</span>' : ""}</td>
+      <td>${esc(cap(r.city))}
+          <span class="flag">${String(r.country).toUpperCase()}</span></td>
+      <td class="fam"><span class="dot"
+            style="background:${rcol(fam, 0)}"></span>${rlab(fam)}</td>
+      <td>${esc(cap(r.seniority))}</td>
+      <td class="num"${stale}>${r.age_days}</td>
+    </tr>`;
+  }).join("")
+    : `<tr><td colspan="6" class="empty">
+         No postings match those filters.</td></tr>`;
+
+  $p("pcount").textContent = rows.length
+    ? `Showing ${(from + 1).toLocaleString()}–` +
+      `${(from + slice.length).toLocaleString()} of ` +
+      `${rows.length.toLocaleString()} postings` +
+      (last > 1 ? `  ·  page ${ppage} of ${last}` : "") +
+      (rows.length < POSTINGS.length
+        ? `  ·  filtered from ${POSTINGS.length.toLocaleString()}` : "")
+    : `No matches out of ${POSTINGS.length.toLocaleString()} postings`;
+
+  pPager(last);
+}
+
+/* escaping: employer names are third-party strings going into
+   innerHTML, so they do not get to carry markup. */
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+/* Entry point for the chart drill-downs. Reset by pCitiesRefresh so
+   a drill-down never inherits a city left over from browsing. */
+let pCitiesRefresh = () => {};
+
+function openPostings(filter) {
+  const sec = $p("postings-section");
+  if (!sec || sec.hidden) return;
+  $p("pq").value    = filter.q        || "";
+  $p("pfam").value  = filter.family   || "";
+  $p("pctry").value = filter.country  || "";
+  $p("pcity").value = "";
+  $p("psen").value  = filter.seniority || "";
+  pCitiesRefresh();
+  if (filter.city) $p("pcity").value = filter.city;
+  /* A drill-down is a "show me these" gesture, so lead with the ones
+     that have been open longest: that is where a reader's eye goes
+     after clicking a bar about how long postings stay open. */
+  $p("psort").value = "age";
+  ppage = 1;
+  pRender();
+  sec.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+get("postings").then(d => {
+  if (!Array.isArray(d) || !d.length) return;
+
+  POSTINGS = d.filter(r => r.url && isLive(r.role_family));
+  if (!POSTINGS.length) return;
+
+  $p("postings-section").hidden = false;
+
+  const uniq = k => [...new Set(POSTINGS.map(r => r[k]).filter(Boolean))];
+
+  pFill($p("pfam"),
+        uniq("role_family").sort((a, b) =>
+          rlab(a).localeCompare(rlab(b))),
+        "All role families", rlab);
+  pFill($p("pctry"),
+        uniq("country").sort(),
+        "All countries", c => (CNAME && CNAME[c]) || c.toUpperCase());
+  pFill($p("psen"),
+        ["junior", "mid", "senior"].filter(s =>
+          POSTINGS.some(r => r.seniority === s)),
+        "All levels");
+
+  /* ---- city list ------------------------------------------------
+     Rebuilt whenever the country changes, so picking Austria does not
+     leave 200 German cities in the dropdown. Ordered by posting count
+     rather than alphabetically: the cities anyone actually wants are
+     the big ones, and the count is worth showing because the tail is
+     mostly single postings.
+
+     The selected city survives a country change if it still exists in
+     the new list, so switching country with a city chosen does not
+     silently widen the result set. */
+  function pCities() {
+    const ctry = $p("pctry").value;
+    const n = {};
+    POSTINGS.forEach(r => {
+      if (ctry && r.country !== ctry) return;
+      if (!r.city || r.city === "unknown") return;
+      const k = `${r.country}|${r.city}`;
+      n[k] = (n[k] || 0) + 1;
+    });
+
+    const keys = Object.keys(n).sort((a, b) =>
+      n[b] - n[a] || a.localeCompare(b));
+
+    const keep = $p("pcity").value;
+    pFill($p("pcity"), keys, "All cities", k => {
+      const [c, city] = k.split("|");
+      return `${cap(city)}${ctry ? "" : " " + c.toUpperCase()}` +
+             ` (${n[k]})`;
+    });
+    if (keep && n[keep]) $p("pcity").value = keep;
+  }
+  pCitiesRefresh = pCities;
+  pCities();
+
+  ["pq", "pfam", "pctry", "pcity", "psen", "psort"].forEach(id =>
+    $p(id).addEventListener(id === "pq" ? "input" : "change", () => {
+      if (id === "pctry") pCities();
+      /* any filter change makes the old page number meaningless:
+         page 40 of a 3,600-row list is nowhere in a 12-row one */
+      ppage = 1;
+      pRender();
+    }));
+
+  $p("pclear").addEventListener("click", () => {
+    ["pq", "pfam", "pctry", "pcity", "psen"]
+      .forEach(id => $p(id).value = "");
+    $p("psort").value = "new";
+    pCities();
+    ppage = 1;
+    pRender();
+  });
+
+  pRender();
+});
+
+/* ---------------- tools ---------------- */
+get("skill_demand").then(d => {
+  if (!d || !d.length) return;
+
+  const byCat = {};
+  d.forEach(r => {
+    const c = r.skill_category || "other";
+    byCat[c] = (byCat[c] || 0) + r.n_postings;
+  });
+  const cats = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
+  bar("skillcat", cats.map(c => wrap(scat(c[0]), 12)),
+      [ds("Mentions", cats.map(c => c[1]),
+          cats.map((_, i) => cyc(i)))],
+      false, false, false,
+      { x: "tool category", y: "postings mentioning the category" });
+
+
+});
+
+/* ---------------- trend ---------------- */
+get("history").then(h => {
+  if (!h) return;
+  const pick = m => h.filter(r => r.metric === m &&
+                                  r.dimension === "all");
+  const weeks = [...new Set(pick("avg_age_days")
+                   .map(r => r.snapshot_date))].sort();
+  if (weeks.length < 3) return;
+
+  /* Pre-existing: there is no #trend-section in the markup, so this
+     used to throw inside the promise and take the rest of this
+     handler with it, silently. Guarded rather than removed, because
+     the section is presumably still coming.                      */
+  const tsec = document.getElementById("trend-section");
+  if (!tsec) return;
+  tsec.hidden = false;
+  const series = (m, colour, axis) => ({
+    label: m.replace(/_/g, " "),
+    data: weeks.map(w =>
+      (pick(m).find(r => r.snapshot_date === w) || {}).value),
+    borderColor: colour, backgroundColor: colour,
+    tension: .3, pointRadius: 3, fill: false, yAxisID: axis
+  });
+
+  new Chart(document.getElementById("trend"), {
+    type: "line",
+    data: { labels: weeks.map(w => String(w).slice(0, 10)),
+      datasets: [series("avg_age_days", CORAL, "y"),
+                 series("live_postings", STEEL, "y1")] },
+    options: {
+      plugins: { legend: { position: "bottom",
+                           labels: { boxWidth: 12 } } },
+      scales: {
+        x:  { grid: { display: false },
+              title: { display: true, text: "week of the snapshot" } },
+        y:  { position: "left",  grid: { color: LINE },
+              title: { display: true, text: "avg days open" } },
+        y1: { position: "right", grid: { display: false },
+              title: { display: true, text: "live postings" } }
+      }
+    }
+  });
+});
+</script>
+
+<!-- ===================================================== -->
+<!-- ===== NEW: script for the 7 additional charts ======== -->
+<!-- Self-contained IIFE. Reuses the helpers declared in    -->
+<!-- the main script above and declares nothing globally,   -->
+<!-- so it cannot collide with existing code.               -->
+<!-- ===================================================== -->
+<script>
+(function () {
+  const ROSE = "#B5657F", INDIGO = "#6B6E9B", OLIVE = "#8C9455";
+
+  /* ---- 1, 2, 3: seniority views from role_breakdown ---- */
+  get("role_breakdown").then(d => {
+    if (!d || !d.length) return;
+
+    /* per role family: junior count and total */
+    const byRole = {};
+    d.forEach(r => {
+      const k = r.role_family;
+      byRole[k] = byRole[k] || { n: 0, jr: 0 };
+      byRole[k].n += r.n_postings;
+      if (r.seniority === "junior") byRole[k].jr += r.n_postings;
+    });
+
+    const jr = Object.entries(byRole)
+      .map(([role, v]) => ({ role, jr: v.jr, n: v.n,
+                             pct: +(100 * v.jr / v.n).toFixed(1) }));
+
+
+
+    /* junior share of each role family */
+    const byShare = jr.slice().sort((a, b) => b.pct - a.pct);
+    bar("n1_juniorvol",
+        byShare.map(r => `${rlab(r.role)} (n=${r.n})`),
+        [ds("% advertised as junior", byShare.map(r => r.pct),
+            byShare.map(r => r.pct === 0 ? "#D8D3C7" : OLIVE))],
+        true, false, false,
+        { x: "% of that role's postings advertised as junior",
+          y: "role family (n = postings in that family)" });
+
+    /* 3. seniority mix by country */
+    if (d[0].country !== undefined) {
+      const levels = ["junior", "mid", "senior"];
+      const cols   = { junior: SAGE, mid: STEEL, senior: CORAL };
+      const tot = {};
+      d.forEach(r => tot[r.country] = (tot[r.country] || 0) + r.n_postings);
+      const cs = CORDER.filter(c => tot[c]);
+      const share = (c, lv) => {
+        const n = d.filter(r => r.country === c && r.seniority === lv)
+                   .reduce((s, r) => s + r.n_postings, 0);
+        return +(100 * n / tot[c]).toFixed(1);
+      };
+      bar("n3_senctry", cs.map(c => CNAME[c] || c),
+          levels.map(lv => ds(lv, cs.map(c => share(c, lv)), cols[lv])),
+          true, true, true,
+          { x: "% of that country's live postings", y: "country" });
+    }
+  });
+
+
+
+
+
+
+})();
+</script>
+
+
+<script>
+(function () {
+  const IND = "#6B6E9B", ROSE = "#B5657F";
+
+
+
+
+
+  /* ---- fragmentation and salary disclosure ---- */
+  get("country_breakdown").then(d => {
+    if (!d || !d.length) return;
+    const byC = {};
+    d.forEach(r => byC[r.country] = r);
+    const rows = CORDER.filter(c => byC[c]).map(c => byC[c]);
+    if (!rows.length) return;
+
+    bar("n10_fragment", rows.map(r => CNAME[r.country] || r.country),
+        [ds("postings per employer",
+            rows.map(r => r.employers
+              ? +(r.n_postings / r.employers).toFixed(2) : 0),
+            rows.map(r => CCOL[r.country] || CORAL))],
+        false, false, false,
+        { x: "country", y: "live postings per employer" });
+
+    bar("n11_salary", rows.map(r => CNAME[r.country] || r.country),
+        [ds("% stating a salary",
+            rows.map(r => r.pct_with_salary ?? 0),
+            rows.map(r => CCOL[r.country] || CORAL))],
+        false, false, false,
+        { x: "country", y: "% of live postings stating a salary" });
+  });
+
+  /* ---- this pipeline's own error rates ---- */
+  get("meta").then(m => {
+    if (!m) return;
+    const el = document.getElementById("n14_quality");
+    if (!el) return;
+
+    const cards = [
+      ["Records rejected by quality rules",
+       m.quarantine_rate != null
+         ? (100 * m.quarantine_rate).toFixed(1) + "%"
+         : (m.quarantined != null ? m.quarantined : "–")],
+      ["Source descriptions truncated",
+       m.desc_truncated_pct != null
+         ? m.desc_truncated_pct + "%" : "–"],
+      ["Tool matcher precision",
+       m.matcher_precision ?? "not measured"],
+      ["Tool matcher recall",
+       m.matcher_recall ?? "not measured"],
+    ];
+
+    el.innerHTML = cards.map(([k, v]) =>
+      `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join("");
+  });
+})();
+</script>
+
+
+<!-- ===================================================== -->
+<!-- ===== Interactive: skills by role, tool scatter, ==== -->
+<!-- ===== city head-to-head.                        ==== -->
+<!-- Reuses helpers from the main script. Declares nothing -->
+<!-- globally. Every block degrades to hidden or no-op if  -->
+<!-- its JSON is absent, so the page never half-renders.   -->
+<!-- ===================================================== -->
+<script>
+
+/* ---------------- 1 + 2. tools by role family ----------------
+   Needs gold.skill_by_role. The section stays hidden until the
+   pipeline publishes it, rather than showing empty axes.      */
+(function () {
+  const sec  = document.getElementById("skillrole-section");
+  const pick = document.getElementById("srpick");
+  const grid = document.getElementById("srgrid");
+  const diffwrap = document.getElementById("srdiffwrap");
+  const titleA = document.getElementById("srtitleA");
+  if (!sec || !pick) return;
+
+  const NBARS = 15;
+  let chartA = null, chartB = null;
+
+  const opts = (fmtLabel, fmtTip) => ({
+    indexAxis: "y",
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: fmtTip } }
+    },
+    scales: {
+      x: { grid: { color: LINE }, title: { display: true, text: fmtLabel } },
+      y: { grid: { display: false },
+           title: { display: true, text: "tool" } }
+    }
+  });
+
+  Promise.all([get("skill_by_role"), get("skill_demand")])
+    .then(([sr, sd]) => {
+      const hasRoles = sr && sr.length && sr[0].role_family !== undefined;
+      if (!hasRoles && (!sd || !sd.length)) return;
+
+      /* market-wide rate per skill, for the difference chart */
+      const base = {};
+      (sd || []).forEach(r => base[r.skill] = r.pct_postings);
+
+      /* live() because this picker is built from whatever families
+         skill_by_role.json contains, and that file lagged the split
+         for weeks: it kept offering an "AI/ML (pre-split)" button long
+         after the family stopped existing. Filtering here means a
+         stale export degrades to fewer buttons rather than to a wrong
+         one. */
+      const byRole = {};
+      (hasRoles ? live(sr) : []).forEach(r => {
+        (byRole[r.role_family] = byRole[r.role_family] || []).push(r);
+      });
+
+      const size = rf => ((byRole[rf] || [])[0] || {}).role_postings || 0;
+      const roles = Object.keys(byRole).sort((a, b) => size(b) - size(a));
+
+      const ALL = "All roles";
+      let current = ALL;
+      sec.hidden = false;
+
+      /* ---- All roles: one full-width market-wide chart ---- */
+      function drawAll() {
+        grid.classList.add("single");
+        if (diffwrap) diffwrap.hidden = true;
+        if (chartB) { chartB.destroy(); chartB = null; }
+        if (titleA) titleA.textContent =
+          "Share of all postings mentioning it";
+
+        const top = (sd || []).filter(r => r.skill !== "sap")
+          .slice(0, NBARS);
+        if (!top.length) return;
+
+        if (chartA) chartA.destroy();
+        chartA = new Chart(document.getElementById("skillrole"), {
+          type: "bar",
+          data: {
+            labels: top.map(r => r.skill),
+            datasets: [{
+              data: top.map(r => r.pct_postings),
+              backgroundColor: top.map((_, i) => cyc(i)),
+              borderRadius: 3, barPercentage: .82,
+              n: top.map(r => r.n_postings)
+            }]
+          },
+          options: opts("% of all postings mentioning it",
+            c => `${c.label}: ${c.raw}%` +
+                 (c.dataset.n[c.dataIndex] != null
+                   ? ` (${c.dataset.n[c.dataIndex].toLocaleString()} postings)`
+                   : ""))
+        });
+      }
+
+      function draw() {
+        if (current === ALL) return drawAll();
+
+        grid.classList.remove("single");
+        if (diffwrap) diffwrap.hidden = false;
+
+        const rows = byRole[current] || [];
+        const n = size(current);
+        if (titleA) titleA.textContent =
+          "Share of this role's postings mentioning it";
+
+        /* --- left: top tools inside this role --- */
+        const top = rows.slice()
+          .sort((a, b) => b.pct_role_postings - a.pct_role_postings)
+          .slice(0, NBARS);
+
+        if (chartA) chartA.destroy();
+        chartA = new Chart(document.getElementById("skillrole"), {
+          type: "bar",
+          data: {
+            labels: top.map(r => r.skill),
+            datasets: [{
+              data: top.map(r => r.pct_role_postings),
+              backgroundColor: top.map((_, i) => cyc(i)),
+              borderRadius: 3, barPercentage: .82,
+              n: top.map(r => r.n_postings)
+            }]
+          },
+          options: opts(
+            `% of the ${n.toLocaleString()} ${rlab(current)} postings`,
+            c => `${c.label}: ${c.raw}% ` +
+                 `(${c.dataset.n[c.dataIndex]} of ${n} postings)`)
+        });
+
+        /* --- right: over- and under-indexed against the market --- */
+        const diffs = rows
+          .map(r => ({ skill: r.skill,
+                       d: +(r.pct_role_postings -
+                            (base[r.skill] ?? 0)).toFixed(1),
+                       pct: r.pct_role_postings,
+                       mkt: base[r.skill] ?? 0 }))
+          .sort((a, b) => b.d - a.d);
+
+        const over  = diffs.filter(x => x.d > 0).slice(0, 8);
+        const under = diffs.filter(x => x.d < 0).slice(-7);
+        const both  = over.concat(under);
+
+        if (chartB) chartB.destroy();
+        if (!both.length) return;
+
+        chartB = new Chart(document.getElementById("skillrolediff"), {
+          type: "bar",
+          data: {
+            labels: both.map(r => r.skill),
+            datasets: [{
+              data: both.map(r => r.d),
+              backgroundColor: both.map(r => r.d >= 0 ? CORAL : STEEL),
+              borderRadius: 3, barPercentage: .82,
+              meta: both
+            }]
+          },
+          options: opts("percentage points vs the whole market",
+            c => {
+              const m = c.dataset.meta[c.dataIndex];
+              return `${m.skill}: ${m.pct}% in ${rlab(current)} ` +
+                     `vs ${m.mkt}% market-wide ` +
+                     `(${m.d > 0 ? "+" : ""}${m.d} pp)`;
+            })
+        });
+      }
+
+      const names = [ALL].concat(roles);
+      pick.innerHTML = names.map(n =>
+        `<button type="button" data-role="${n}"
+                 title="${n === ALL ? "every posting"
+                          : size(n).toLocaleString() + " postings"}"
+                 aria-pressed="${n === current}">` +
+        `${n === ALL ? ALL : rlab(n)}</button>`).join("")
+        + `<span class="hint">mentions in title or first
+             paragraph only</span>`;
+
+      pick.querySelectorAll("button").forEach(b => {
+        b.addEventListener("click", () => {
+          current = b.dataset.role;
+          pick.querySelectorAll("button").forEach(x =>
+            x.setAttribute("aria-pressed", x.dataset.role === current));
+          draw();
+        });
+      });
+
+      draw();
+    });
+})();
+
+
+/* ---------------- 3. tool popularity vs staleness ----------------
+   One Chart.js dataset per category, which gives click-to-filter
+   through the standard legend for free.                          */
+(function () {
+  const el = document.getElementById("skillscatter");
+  if (!el) return;
+
+  /* the shared CATS palette only holds 10, and there are ~15 tool
+     categories, so colours would repeat and become unreadable */
+  const PAL = ["#D97757", "#6E8CA0", "#7C9885", "#D9A05B", "#9B7B9B",
+               "#5F9EA0", "#CC785C", "#C7A87C", "#6E9384", "#A8462A",
+               "#B5657F", "#6B6E9B", "#8C9455", "#4F7A8C", "#8A857C"];
+
+  get("skill_demand").then(d => {
+    if (!d || !d.length) return;
+
+    const byCat = {};
+    d.forEach(r => {
+      const c = r.skill_category || "other";
+      (byCat[c] = byCat[c] || []).push(r);
+    });
+
+    const cats = Object.keys(byCat).sort();
+    const max  = Math.max(...d.map(r => r.n_postings)) || 1;
+
+    new Chart(el, {
+      type: "bubble",
+      data: {
+        datasets: cats.map((c, i) => ({
+          label: scat(c),
+          data: byCat[c].map(r => ({
+            x: r.pct_postings,
+            y: r.avg_age_days,
+            r: 4 + 15 * Math.sqrt(r.n_postings / max),
+            name: r.skill,
+            n: r.n_postings
+          })),
+          backgroundColor: PAL[i % PAL.length] + "C0",
+          borderColor: "#FAF9F5",
+          borderWidth: 1
+        }))
+      },
+      options: {
+        plugins: {
+          legend: { position: "bottom",
+                    labels: { boxWidth: 10, font: { size: 11 },
+                              usePointStyle: true } },
+          tooltip: { callbacks: { label: c =>
+            `${c.raw.name}: ${c.raw.x}% of postings · ` +
+            `avg ${Math.round(c.raw.y)} days open · ` +
+            `${c.raw.n.toLocaleString()} postings` } }
+        },
+        scales: {
+          x: { title: { display: true,
+                        text: "% of postings mentioning the tool" },
+               grid: { color: LINE }, beginAtZero: true },
+          y: { title: { display: true, text: "average days open" },
+               grid: { color: LINE } }
+        }
+      }
+    });
+  });
+})();
+
+
+/* ---------------- 4. city head to head ----------------
+   Radar axes are each scaled against the maximum across all
+   qualifying cities, so the shapes are comparable. Raw values
+   live in the tooltip and the table, never on the axis.
+
+   A role can be selected. "All roles" reads city_breakdown.
+   A single role reads city_role_breakdown, which is a narrower
+   table: it always carries n_postings and avg_age_days, and it
+   carries pct_english / pct_agency only once the gold layer has
+   been rerun with those two columns added. The axis list is
+   therefore built from the columns actually present, so the page
+   degrades to three axes instead of drawing empty ones.
+
+   Both dropdowns are grouped by country in CORDER, and ordered
+   by live listings descending inside each country group.        */
+(function () {
+  const el   = document.getElementById("citycmp");
+  const selA = document.getElementById("cmpA");
+  const selB = document.getElementById("cmpB");
+  const selR = document.getElementById("cmpRole");
+  const tbl  = document.getElementById("cmptable");
+  if (!el || !selA || !selB) return;
+
+  /* a city needs at least this many live postings to be offered */
+  const MIN_N = 3;
+
+  /* country first, then volume descending inside the country */
+  const cidx = c => {
+    const i = CORDER.indexOf(c);
+    return i < 0 ? 99 : i;
+  };
+  const byCountryThenSize = (a, b) =>
+    cidx(a.country) - cidx(b.country) || b.listings - a.listings;
+
+  let chart = null;
+
+  Promise.all([get("city_breakdown"), get("city_role_breakdown")])
+    .then(([cb, cr]) => {
+      if (!cb || !cb.length) return;
+
+      const hasRoles =
+        !!(cr && cr.length && cr[0].role_family !== undefined && selR);
+
+      /* ---- totals and AI share per city, from the role cut ----
+         AI is six families, so this sums the set rather than testing
+         one string. AI_SET is defined once at the top. Retired
+         families are stripped first, so an old data/ snapshot cannot
+         quietly inflate a city's AI share with rows the rest of the
+         page no longer counts.
+
+         One axis, not two. There used to be a second "role named"
+         share because the vague bucket was published alongside the
+         named ones; now nothing vague is published and the two
+         numbers would be identical.                              */
+      const crLive = (cr && cr.length) ? live(cr) : [];
+      const cityTotal = {}, aiShare = {};
+      if (crLive.length && crLive[0].role_family !== undefined) {
+        const ai = {};
+        crLive.forEach(r => {
+          const k = `${r.country}|${r.city}`;
+          const rf = String(r.role_family).toLowerCase();
+          cityTotal[k] = (cityTotal[k] || 0) + r.n_postings;
+          if (AI_SET.has(rf)) ai[k] = (ai[k] || 0) + r.n_postings;
+        });
+        Object.keys(cityTotal).forEach(k => {
+          aiShare[k] = +(100 * (ai[k] || 0) / cityTotal[k]).toFixed(1);
+        });
+      }
+
+      /* does the role cut carry the language / agency columns? */
+      const roleHasPct = !!(cr && cr.length &&
+                            cr[0].pct_english !== undefined &&
+                            cr[0].pct_agency  !== undefined);
+
+      /* ---- city list for "All roles" ---- */
+      const allCities = cb
+        .filter(r => r.city && r.city !== "unknown" && r.n_postings >= MIN_N)
+        .map(r => ({
+          key: `${r.country}|${r.city}`,
+          label: cap(r.city),
+          country: r.country,
+          n: r.n_postings,
+          listings: r.n_postings,
+          age: r.avg_age_days,
+          english: r.pct_english,
+          agency: r.pct_agency,
+          ai:     aiShare[`${r.country}|${r.city}`]     ?? 0
+        }))
+        .sort(byCountryThenSize);
+
+      if (allCities.length < 2) return;
+
+      /* the set of cities that clear MIN_N overall, so a role view
+         never offers a city the all-roles view would have hidden */
+      const eligible = new Set(allCities.map(c => c.key));
+
+      /* ---- city list per role ---- */
+      const roleCities = {};
+      if (hasRoles) {
+        crLive.forEach(r => {
+          if (!r.city || r.city === "unknown") return;
+          const key = `${r.country}|${r.city}`;
+          if (!eligible.has(key)) return;
+          const tot = cityTotal[key] || 0;
+          (roleCities[r.role_family] = roleCities[r.role_family] || [])
+            .push({
+              key,
+              label: cap(r.city),
+              country: r.country,
+              n: r.n_postings,
+              listings: r.n_postings,
+              age: r.avg_age_days,
+              english: r.pct_english,
+              agency: r.pct_agency,
+              share: tot ? +(100 * r.n_postings / tot).toFixed(1) : 0
+            });
+        });
+        Object.values(roleCities).forEach(l => l.sort(byCountryThenSize));
+      }
+
+      /* ---- axis definitions ---- */
+      const AX_ALL = [
+        ["Live listings",   "listings", v => v.toLocaleString()],
+        ["Avg days open",   "age",      v => Math.round(v) + " d"],
+        ["% in English",    "english",  v => v + "%"],
+        ["% via agency",    "agency",   v => v + "%"],
+        ["% AI roles",      "ai",       v => v + "%"]
+      ];
+      const AX_ROLE = [
+        ["Live listings", "listings", v => v.toLocaleString()],
+        ["Avg days open", "age",      v => Math.round(v) + " d"]
+      ].concat(roleHasPct ? [
+        ["% in English",  "english",  v => v + "%"],
+        ["% via agency",  "agency",   v => v + "%"]
+      ] : []).concat([
+        ["% of city's postings", "share", v => v + "%"]
+      ]);
+
+      /* ---- role dropdown ---- */
+      if (hasRoles) {
+        const roles = Object.keys(roleCities)
+          .filter(rf => roleCities[rf].length >= 2)
+          .sort((a, b) =>
+            roleCities[b].reduce((s, r) => s + r.listings, 0) -
+            roleCities[a].reduce((s, r) => s + r.listings, 0));
+        selR.innerHTML =
+          `<option value="__all">All roles</option>` +
+          roles.map(rf => `<option value="${rf}">${rlab(rf)}</option>`)
+               .join("");
+      } else if (selR) {
+        selR.innerHTML = `<option value="__all">All roles</option>`;
+        selR.disabled = true;
+      }
+
+      /* current working set, refreshed whenever the role changes */
+      let cities = allCities, AX = AX_ALL, maxes = {};
+
+      function rescale() {
+        const rf = selR ? selR.value : "__all";
+        if (rf === "__all" || !roleCities[rf]) {
+          cities = allCities;
+          AX = AX_ALL;
+        } else {
+          cities = roleCities[rf];
+          AX = AX_ROLE;
+        }
+        maxes = {};
+        AX.forEach(([, f]) =>
+          maxes[f] = Math.max(...cities.map(c => +c[f] || 0)) || 1);
+      }
+
+      /* one <optgroup> per country, in CORDER, options already in
+         volume order because the array itself is sorted that way */
+      function optionMarkup() {
+        let html = "", open = null;
+        cities.forEach((c, i) => {
+          if (c.country !== open) {
+            if (open !== null) html += `</optgroup>`;
+            open = c.country;
+            html += `<optgroup label="${CNAME[c.country] ||
+                     String(c.country).toUpperCase()}">`;
+          }
+          html += `<option value="${i}">${c.label} ` +
+                  `(${String(c.country).toUpperCase()}) &middot; ` +
+                  `${c.n}</option>`;
+        });
+        if (open !== null) html += `</optgroup>`;
+        return html;
+      }
+
+      function fillCities(keepA, keepB) {
+        const markup = optionMarkup();
+        selA.innerHTML = markup;
+        selB.innerHTML = markup;
+        const ia = cities.findIndex(c => c.key === keepA);
+        const ib = cities.findIndex(c => c.key === keepB);
+        selA.value = ia >= 0 ? ia : 0;
+        selB.value = (ib >= 0 && ib !== +selA.value)
+                   ? ib
+                   : (cities.length > 1 ? (+selA.value === 0 ? 1 : 0) : 0);
+      }
+
+      function series(c, colour) {
+        return {
+          label: `${c.label} (${String(c.country).toUpperCase()})`,
+          data: AX.map(([, f]) =>
+            +(100 * (+c[f] || 0) / maxes[f]).toFixed(1)),
+          raws: AX.map(([, f, fmt]) => fmt(+c[f] || 0)),
+          borderColor: colour,
+          backgroundColor: colour + "33",
+          pointBackgroundColor: colour,
+          pointRadius: 3.5,
+          borderWidth: 2
+        };
+      }
+
+      function draw() {
+        const a = cities[+selA.value], b = cities[+selB.value];
+        if (!a || !b) return;
+
+        const sa = series(a, CORAL), sb = series(b, STEEL);
+
+        if (chart) chart.destroy();
+        chart = new Chart(el, {
+          type: "radar",
+          data: { labels: AX.map(x => x[0]), datasets: [sa, sb] },
+          options: {
+            plugins: {
+              legend: { position: "bottom",
+                        labels: { boxWidth: 12, font: { size: 11 } } },
+              tooltip: { callbacks: { label: c =>
+                `${c.dataset.label}: ${c.dataset.raws[c.dataIndex]}` } }
+            },
+            scales: {
+              r: { min: 0, max: 100,
+                   ticks: { display: false, stepSize: 25 },
+                   grid: { color: LINE },
+                   angleLines: { color: LINE },
+                   pointLabels: { font: { size: 11.5 }, color: SLATE } }
+            }
+          }
+        });
+
+        if (tbl) {
+          const rf = selR ? selR.value : "__all";
+          tbl.innerHTML =
+            `<tr><td>${rf === "__all" ? "All roles" : rlab(rf)}</td>
+               <td class="num" style="color:${CORAL}">${sa.label}</td>
+               <td class="num" style="color:${STEEL}">${sb.label}</td></tr>` +
+            AX.map(([name, f, fmt]) =>
+              `<tr><td>${name}</td>
+                 <td class="num">${fmt(+a[f] || 0)}</td>
+                 <td class="num">${fmt(+b[f] || 0)}</td></tr>`).join("") +
+            (rf !== "__all" && !roleHasPct
+              ? `<tr><td colspan="3" style="color:#8A857C;font-weight:400">
+                   Language and agency splits are not published per city
+                   and role yet, so those axes are hidden in the role
+                   view.</td></tr>`
+              : "");
+        }
+      }
+
+      function refresh() {
+        const keepA = (cities[+selA.value] || {}).key;
+        const keepB = (cities[+selB.value] || {}).key;
+        rescale();
+        fillCities(keepA, keepB);
+        draw();
+      }
+
+      selA.addEventListener("change", draw);
+      selB.addEventListener("change", draw);
+      if (selR) selR.addEventListener("change", refresh);
+
+      rescale();
+      fillCities(null, null);
+      draw();
+    });
+})();
+</script>
+
+</body>
+</html>
