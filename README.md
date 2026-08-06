@@ -2,11 +2,11 @@
 
 ![tests](https://github.com/Chrisinho8/DACH-data-job-market/actions/workflows/tests.yml/badge.svg)
 
-**[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** · last updated 5 August 2026
+**[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** · last updated 6 August 2026
 
-A weekly snapshot of the DACH data-job market: **3,625 live postings from 1,462 employers** across Germany, Austria and Switzerland. Every Monday at 06:00 a Databricks pipeline queries the Adzuna API for 15 job titles in all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 47-term skills dictionary, and publishes to a static site.
+A weekly snapshot of the DACH data-job market: **3,625 live postings from 1,462 employers** across Germany, Austria and Switzerland. Every Monday at 06:00 a Databricks pipeline queries the Adzuna API for 16 data related job titles in all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 47-term skills dictionary. It then gets published to a static GitHub Page.
 
-## What you can do with it
+## How the tracker might help you
 
 - **See the shape of the market** - volumes by role, city and country, how long postings stay open, seniority mix, tool mentions, English-language share, salary disclosure.
 - **Read the postings behind any number.** Every chart is a count of real adverts, and those adverts are browsable: search by title or employer, filter by role family, country, city and seniority, sort by newest or longest-open, 20 per page. Titles link out to the aggregator.
@@ -27,10 +27,9 @@ Above: the map view. Bubbles are sized by posting count and coloured by country 
  
 **Speed varies more by city than by role.** Düsseldorf clears in 48 days and Munich in 49, while Frankfurt sits at 80, Zurich at 104 and Vienna at 105. The two non-German capitals are the slowest markets on the board, at more than twice Munich's pace, and the red figures in the "Avg days" column are where that shows.
  
-**Berlin and Munich are where AI hiring is the most prominent.** 37% of Berlin's postings and 42% of Munich's are AI roles, against 19% in Hamburg and 13% in Düsseldorf. Berlin is also the most international: 58.5% of its postings are in English, versus 14.9% in Düsseldorf.
+**Berlin and Munich are where AI hiring is the most prominent.** 37% of Berlin's postings and 42% of Munich's are AI-related roles, against 19% in Hamburg and 13% in Düsseldorf. Berlin is also the most international: 58.5% of its postings are in English, versus 14.9% in Düsseldorf.
 
  
-
 
 ## Scope: what counts as a data job
 
@@ -72,11 +71,10 @@ Adzuna API (de, at, ch)
 
 **Deduplication.** Postings are hashed on title, company, city and the first 200 characters of the description; the earliest listing wins. Query overlap is counted separately from genuine reposts and is not published as a finding.
 
-**Posting age.** Days between the API's `created` date and the snapshot date, for postings still returned as live.
 
 **Location.** From each posting's own location array. In the city-states (Berlin, Hamburg, Bremen, Vienna, Basel, Geneva) the third level is a district and is collapsed into the parent. Administrative wrappers (`(Kreis)`, `-Umgebung`, `-Land`, `Region ...`) are stripped.
 
-## Limitations
+## Limitations of this tracker
 
 
 - **`created` is the aggregator's date**, possibly when it indexed the posting rather than when the employer published it.
@@ -86,7 +84,7 @@ Adzuna API (de, at, ch)
 - **Roles and seniority are inferred from titles**, so both carry classification error.
 - **Agency detection is keyword based** and flags only 3.9%, almost certainly an undercount.
 - **6.3% of records are rejected** by the quality rules each run and quarantined rather than silently dropped.
-- **The history table has a break at 2026-08-05.** Rows before it counted a seventh AI family for titles naming no role; rows after do not. The step in `role_count` and `ai_family_pct` is a definition change, not the market moving.
+
 
 ## Running it yourself
 
