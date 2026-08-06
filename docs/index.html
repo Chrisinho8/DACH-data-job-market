@@ -360,10 +360,8 @@
         <div id="rolepick" class="pick"></div>
       </div>
     </div>
-    <!-- Country totals for whatever role is selected. The map answers
-         "which cities", the bubbles are hard to add up by eye, and the
-         city table is truncated to the top 11, so nothing on this
-         screen otherwise tells you the size of each country. -->
+
+        
     <div class="ctot" id="ctrytot"></div>
     <div class="maprow">
       <div>
@@ -472,12 +470,7 @@
 Pick a role: the left chart shows what its postings ask for, the
   right subtracts the market rate to show what makes it
   <em>distinctive</em>. Denominators are per role.
-  <strong>These are floors, not requirement rates</strong> &mdash; the API
-  caps descriptions at 500 characters, so this only counts tools
-  named up front. Comparing tools holds; reading one percentage as
-  the real requirement rate does not.
-
-
+  <strong>NOTE: These are floors, not requirement rates</strong> 
     </p>
     
     <div class="mapctl">
@@ -517,7 +510,7 @@ Pick a role: the left chart shows what its postings ask for, the
 
   <!-- ============ ROLES AND SENIORITY ============ -->
   <section>
-    <h2>Role and seniority</h2>
+    <h2>Role and seniority distribution per country</h2>
     <p class="note">
     </p>
     <div class="seg" id="heatseg" style="margin:0 0 12px">
@@ -534,7 +527,7 @@ Pick a role: the left chart shows what its postings ask for, the
     <canvas id="senage" height="130"></canvas>
   </section>
   <section>
-    <h2>Comparison between the different data jobs and their posting lenghts</h2>
+    <h2>Comparison between the different data jobs and their average opening lenghts</h2>
     <p class="note">
     </p>
     <div class="grid2">
