@@ -70,14 +70,18 @@ FROM (
     WHEN age_days <= 30 THEN '15-30 days'
     WHEN age_days <= 60 THEN '31-60 days'
     WHEN age_days <= 90 THEN '61-90 days'
-    ELSE '90+ days' END AS bucket,
+    -- the top bucket is now bounded: 03 drops anything over a year,
+    -- so "90+" cannot hide a 900-day advert any more
+    WHEN age_days <= 180 THEN '91-180 days'
+    ELSE '181-365 days' END AS bucket,
     CASE
     WHEN age_days <=  7 THEN 1
     WHEN age_days <= 14 THEN 2
     WHEN age_days <= 30 THEN 3
     WHEN age_days <= 60 THEN 4
     WHEN age_days <= 90 THEN 5
-    ELSE 6 END AS sort_key
+    WHEN age_days <= 180 THEN 6
+    ELSE 7 END AS sort_key
   FROM postings)
 GROUP BY bucket, sort_key
 ORDER BY sort_key
@@ -220,7 +224,11 @@ SELECT
   city,
   role_family,
   COUNT(*)                AS n_postings,
-  ROUND(AVG(age_days), 1) AS avg_age_days
+  ROUND(AVG(age_days), 1) AS avg_age_days,
+  ROUND(100 * AVG(CASE WHEN language = 'en' THEN 1 ELSE 0 END), 1)
+                           AS pct_english,
+  ROUND(100 * AVG(CASE WHEN is_agency THEN 1 ELSE 0 END), 1)
+                           AS pct_agency
 FROM postings
 GROUP BY country, city, role_family
 HAVING COUNT(*) >= 1
@@ -515,10 +523,17 @@ assert n > 500, f"only {n} postings, refusing to publish"
 q = spark.table(f"{SILVER}.quarantine").count()
 assert q / (n + q) < 0.10, f"quarantine rate {q/(n+q):.1%} too high"
 
+# 03 drops anything over a year old as no longer a live vacancy, so
+# this is now a tight bound rather than a sanity check on date parsing.
+# If it fires, 03 was run from an older revision and every age figure
+# on the site is being dragged by adverts nobody took down.
 age_max = p.agg(F.max("age_days")).first()[0]
-assert age_max < 2000, "implausible age, check date parsing"
+assert age_max <= 365, (
+    f"oldest posting is {age_max} days. 03_silver_clean caps this at "
+    f"365; re-run it before publishing.")
 
-print(f"validation passed: {n:,} postings, {q:,} quarantined")
+print(f"validation passed: {n:,} postings, {q:,} quarantined, "
+      f"oldest {age_max} d")
 
 # COMMAND ----------
 

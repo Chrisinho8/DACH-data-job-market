@@ -2,64 +2,6 @@
 # MAGIC %md
 # MAGIC # 03 - Silver: parse, classify, deduplicate, validate
 # MAGIC
-# MAGIC ## Scope decisions encoded here
-# MAGIC
-# MAGIC The Adzuna `what=` parameter is a keyword search, not a title
-# MAGIC match, so broad queries like "business intelligence" and
-# MAGIC "ai engineer" drag in a lot of unrelated roles. Every posting is
-# MAGIC therefore reclassified from its **actual job title**, and anything
-# MAGIC that is not a data or AI role is excluded.
-# MAGIC
-# MAGIC | Group | Decision |
-# MAGIC |---|---|
-# MAGIC | Classic data roles | kept, split into families |
-# MAGIC | AI / ML roles | kept, split into **seven** families, see below |
-# MAGIC | German *Controlling* / finance | excluded |
-# MAGIC | Entry programmes (Ausbildung, duales Studium, Werkstudent, Praktikum, Trainee) | excluded |
-# MAGIC | Data **centre** infrastructure | excluded, false friend |
-# MAGIC | General software / cloud / DevOps | excluded |
-# MAGIC | Speculative applications, parse artefacts | quarantined as invalid |
-# MAGIC
-# MAGIC Where a title names both data and AI, **data wins**, so
-# MAGIC "Data & AI Consultant" is a data role, not an AI one.
-# MAGIC
-# MAGIC Excluded rows are written to `silver.excluded` so the decision is
-# MAGIC auditable rather than invisible.
-# MAGIC
-# MAGIC ## Why AI was split
-# MAGIC
-# MAGIC A single `ai / ml` bucket was the largest family on the site and
-# MAGIC also the least trustworthy one, because the rule ended in a bare
-# MAGIC `\bai\b|\bki\b` catch-all. Any title containing "AI" landed in it,
-# MAGIC including plain software engineering roles. The old caveat said so
-# MAGIC out loud, which is not a fix.
-# MAGIC
-# MAGIC It is now six published families, tested most specific first:
-# MAGIC
-# MAGIC | Family | What it means |
-# MAGIC |---|---|
-# MAGIC | `genai / llm` | LLM, RAG, agentic, prompt, foundation models |
-# MAGIC | `mlops` | ML platform, ML infrastructure, model serving |
-# MAGIC | `ml engineer` | classic ML, deep learning, CV, NLP |
-# MAGIC | `ai research` | applied / research scientist, research engineer |
-# MAGIC | `ai consultant` | AI consulting, architecture, strategy, product |
-# MAGIC | `ai engineer` | title says exactly "AI Engineer" / "KI-Entwickler" |
-# MAGIC
-# MAGIC A seventh rule, `ai (other)`, still runs last and still catches
-# MAGIC every title that says "AI" or "KI" and nothing else. It is **not**
-# MAGIC published. Those rows are dropped at the scope filter and land in
-# MAGIC `silver.excluded` alongside the finance and data-centre roles.
-# MAGIC
-# MAGIC The rule is kept rather than deleted for two reasons. It stops a
-# MAGIC vague title leaking into a named family by widening one of the six
-# MAGIC rules to catch it, and the excluded count is the diagnostic that
-# MAGIC tells you whether the six rules are drifting. Watch it: if it grows
-# MAGIC as a share of AI titles, the specific rules are going stale.
-# MAGIC
-# MAGIC Consequence to remember when reading any number on the site: the
-# MAGIC six families do **not** sum to "every posting that mentions AI".
-# MAGIC They sum to every posting that mentions AI *and says what the job
-# MAGIC is*.
 
 # COMMAND ----------
 
@@ -93,21 +35,19 @@ print(f"using snapshot {latest}: {b.count():,} rows")
 # COMMAND ----------
 
 def col_or_null(df, name, cast="string"):
-    """Adzuna omits some fields entirely on some records."""
     if name in df.columns:
         return F.col(name).cast(cast)
     return F.lit(None).cast(cast)
 
 
 def fold(c):
-    """Fold umlauts so grouping and joins behave."""
     c = F.lower(F.trim(c))
     for a, b_ in [("ä", "ae"), ("ö", "oe"),
                   ("ü", "ue"), ("ß", "ss")]:
         c = F.regexp_replace(c, a, b_)
     return c
 
-
+#Agency keywords
 AGENCY_RX = (r"(consulting|personal|recruit|staffing|hays|"
              r"randstad|michael page|robert half|experis|"
              r"gulp|solcom|amoria|darwin|huzzle|talent)")
@@ -165,16 +105,7 @@ R_BI = (r"\bbi\b|business intelligence|power ?bi|\btableau\b|"
         r"process intelligence|\bsac\b|reporting analyst|"
         r"\bjedox\b")
 
-# --- AI, split seven ways -------------------------------------
-# Applied in this order: research, genai, mlops, ml, consultant,
-# engineer, other. A title matching more than one lands in the FIRST
-# that hits, so the specific rules must come before the vague ones.
-# Nothing here contains a bare \bai\b except R_AI_OTHER, which is the
-# last rule on purpose.
 
-# Generative AI. The word "generative"/"gen" carries the meaning, so
-# do not let a bare "model" or "agent" in here: "agent" alone is an
-# insurance job in German postings.
 R_GENAI = (r"\bgenai\b|\bgen[\s\-]?ai\b|generative ai|generative ki|"
            r"\bllms?\b|\bllmops\b|large language model|"
            r"sprachmodell|foundation model|grundlagenmodell|"
@@ -220,9 +151,7 @@ R_AI_CONSULT = (r"\bai\s+(consultant|consulting|architect|advisor|"
                 r"(consultant|architect|berater)\s+(fuer\s+)?"
                 r"(ai|ki|artificial intelligence)\b")
 
-# The title literally says "AI Engineer" / "KI-Entwickler" and no more.
-# A real and growing job family in DACH, but a vague one, so it is
-# reported separately rather than folded into ML engineering.
+
 R_AI_ENGINEER = (r"\bai\s*[\-/]?\s*(engineer|developer|entwickler|"
                  r"specialist|spezialist|expert)|"
                  r"\bki\s*[\-/]?\s*(engineer|developer|entwickler|"
@@ -388,10 +317,7 @@ s = (b
 
     .withColumn("category", F.col("category.label"))
 
-    # The aggregator's own redirect. It is the only link we are entitled
-    # to publish: it sends the reader to Adzuna, which sends them on to
-    # the employer. Never rebuild an employer URL from the description
-    # and never publish the description itself.
+   
     .withColumn("redirect_url", col_or_null(b, "redirect_url"))
 
     .withColumn("salary_min", col_or_null(b, "salary_min", "double"))
@@ -420,8 +346,8 @@ s = (b
             r"einsteiger|associate)\b"), "junior")
          .otherwise("mid"))
 
-    # --- role classification ----------------------------------
-    # Order is deliberate:
+  
+    # Order:
     #   1. junk        -> invalid
     #   2. hard excludes that must beat every positive rule
     #   3. data families, most specific first
@@ -499,7 +425,7 @@ s = (b
 # COMMAND ----------
 
 # MAGIC %md ## Duplicates
-# MAGIC Two different numbers, and only the second is a finding.
+# MAGIC
 
 # COMMAND ----------
 
@@ -590,42 +516,66 @@ VAGUE_FAMILY = "ai (other)"
 
 KEEP = DATA_FAMILIES + AI_FAMILIES
 
-clean    = passed.filter(F.col("role_family").isin(KEEP))
-excluded = passed.filter(~F.col("role_family").isin(KEEP))
+# A posting still listed a year after it appeared is not a vacancy, it
+# is an advert nobody took down: a pipeline-building listing, an
+# agency's permanent shopfront, or a dead page. Keeping them does not
+# make the market look slower, it makes the *mean* look slower, because
+# a handful of 900-day rows drag an average that most readers take as
+# "how long it takes to fill a job".
+#
+# This is a scope decision, not a quality one, so it does not go in
+# RULES: quarantine means "the record is broken" and the site publishes
+# that rate as a data-quality figure. These rows are perfectly valid,
+# they are just not live vacancies.
+MAX_AGE_DAYS = 365
 
-n_keep, n_drop = clean.count(), excluded.count()
+in_scope = passed.filter(F.col("role_family").isin(KEEP))
 
-print(f"kept     : {n_keep:,} data and AI roles")
-print(f"excluded : {n_drop:,} "
-      f"({n_drop / (n_keep + n_drop):.1%})")
+clean = in_scope.filter(F.col("age_days") <= MAX_AGE_DAYS)
+stale = in_scope.filter(F.col("age_days") >  MAX_AGE_DAYS)
+
+# Both go to silver.excluded, tagged, so either decision can be
+# audited or reversed without re-running the ingest.
+off_scope = (passed.filter(~F.col("role_family").isin(KEEP))
+                   .withColumn("exclude_reason", F.lit("out of scope")))
+excluded  = off_scope.unionByName(
+    stale.withColumn("exclude_reason",
+                     F.lit(f"older than {MAX_AGE_DAYS} days")))
+
+n_keep  = clean.count()
+n_stale = stale.count()
+n_drop  = off_scope.count()
+n_all   = n_keep + n_stale + n_drop
+
+print(f"kept        : {n_keep:,} live data and AI roles")
+print(f"out of scope: {n_drop:,} ({n_drop / n_all:.1%})")
+print(f"stale >{MAX_AGE_DAYS}d : {n_stale:,} ({n_stale / n_all:.1%})")
 print()
-display(excluded.groupBy("role_family").count()
+
+# What the cut costs, printed so the change to the headline mean is
+# never a surprise. If dropping under 5% of rows moves the mean by
+# more than a few days, that is the long tail, and it is worth saying
+# so out loud rather than quietly shipping a different number.
+before = in_scope.agg(F.avg("age_days")).first()[0]
+after  = clean.agg(F.avg("age_days")).first()[0]
+print(f"mean age before cut : {before:.1f} d")
+print(f"mean age after cut  : {after:.1f} d  "
+      f"({after - before:+.1f})")
+print()
+
+display(excluded.groupBy("exclude_reason", "role_family").count()
                 .orderBy(F.desc("count")))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### How the AI split landed
-# MAGIC Three things to read here.
-# MAGIC
-# MAGIC 1. The six published families plus the dropped `ai (other)` must
-# MAGIC    together equal what the old single `ai / ml` family produced.
-# MAGIC    If they do not, a title is escaping into `other` and a rule is
-# MAGIC    too narrow.
-# MAGIC 2. The `ai (other)` share of all AI-mentioning titles. This is now
-# MAGIC    a **drift alarm rather than a published finding**. It is the
-# MAGIC    share of the AI market this site cannot describe and therefore
-# MAGIC    does not report. Above roughly a third means the six rules are
-# MAGIC    missing real patterns and should be widened before anything
-# MAGIC    per-family is quoted.
-# MAGIC 3. The random sample of dropped titles. Read it. If recognisable
-# MAGIC    job families keep appearing, that is a missing rule, not noise,
-# MAGIC    and the fix belongs upstream in the regexes.
-
-# COMMAND ----------
-
 ai = clean.filter(F.col("role_group") == "ai")
-vague_rows = excluded.filter(F.col("role_family") == VAGUE_FAMILY)
+
+# Age-capped on both sides. This measures classification drift, not
+# liveness, so comparing live named families against vague ones of any
+# age would inflate the vague share with adverts the site drops anyway.
+vague_rows = excluded.filter(
+    (F.col("role_family") == VAGUE_FAMILY)
+    & (F.col("age_days") <= MAX_AGE_DAYS))
 
 n_ai, vague = ai.count(), vague_rows.count()
 n_mentions = n_ai + vague
@@ -687,7 +637,9 @@ COLS = ["posting_id", "adzuna_id", "country", "title_raw",
       .option("overwriteSchema", "true")
       .saveAsTable(f"{SILVER}.postings"))
 
-(excluded.select(*COLS).write.mode("overwrite")
+# excluded carries the extra reason column so the two cuts stay
+# separable: role scope and staleness are different decisions.
+(excluded.select(*COLS, "exclude_reason").write.mode("overwrite")
          .option("overwriteSchema", "true")
          .saveAsTable(f"{SILVER}.excluded"))
 

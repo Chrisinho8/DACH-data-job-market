@@ -5,12 +5,7 @@
 # MAGIC Incrementally ingests the cached JSON into Delta. Append only,
 # MAGIC nothing cleaned, `_rescued_data` preserved.
 # MAGIC
-# MAGIC `trigger(availableNow=True)` processes everything waiting and then
-# MAGIC **stops**. That is what keeps this inside the Free Edition compute
-# MAGIC budget. A continuous stream would drain it overnight.
 # MAGIC
-# MAGIC Filenames follow `country__role__pN__date.json`, so the query that
-# MAGIC produced each row is recoverable without storing it separately.
 
 # COMMAND ----------
 

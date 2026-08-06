@@ -11,7 +11,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md ## Config
+# MAGIC %md ## Configuration
 
 # COMMAND ----------
 
@@ -42,9 +42,8 @@ MAX_PAGES = 45
 
 # COMMAND ----------
 
-# MAGIC %md ## Credentials
-# MAGIC Stored in a Unity Catalog volume, outside the git repo. Never
-# MAGIC hardcoded.
+# MAGIC %md ## Credentials 
+# MAGIC
 
 # COMMAND ----------
 
@@ -59,7 +58,7 @@ assert APP_ID and APP_KEY, "credentials file is empty"
 # COMMAND ----------
 
 # MAGIC %md ## Verify the country endpoints
-# MAGIC Three calls. Do this before the full pull.
+# MAGIC
 
 # COMMAND ----------
 
@@ -76,7 +75,7 @@ for c in COUNTRIES:
 
 # COMMAND ----------
 
-# MAGIC %md ## The pull
+# MAGIC %md ## Pulling the actual data
 
 # COMMAND ----------
 
@@ -132,6 +131,11 @@ def fetch(country, role, page):
 
     raise RuntimeError(f"gave up on {country}/{role}/p{page}")
 
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ##Load
 
 # COMMAND ----------
 

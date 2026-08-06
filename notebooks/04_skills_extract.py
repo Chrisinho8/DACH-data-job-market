@@ -18,26 +18,7 @@
 # MAGIC 2. **Defensibility** - every match points at a specific string.
 # MAGIC 3. **Cost** - you have no quota to spare.
 # MAGIC
-# MAGIC ## The AI half of this dictionary
-# MAGIC It used to be four entries under one `ml` category, of which one
-# MAGIC entry lumped `llm`, `genai` and `rag` together. That made the
-# MAGIC entire generative-AI question unanswerable: you could not tell
-# MAGIC whether an employer wanted someone to train models, serve them,
-# MAGIC or build retrieval on top of a vendor API.
 # MAGIC
-# MAGIC It is now four categories, which map onto the role split in 03:
-# MAGIC
-# MAGIC | Category | Question it answers |
-# MAGIC |---|---|
-# MAGIC | `ml_framework` | can they train a model |
-# MAGIC | `mlops` | can they run one in production |
-# MAGIC | `genai` | are they building on top of somebody else's model |
-# MAGIC | `nlp_cv` | which modality |
-# MAGIC
-# MAGIC The truncation caveat above applies to all of it, and applies
-# MAGIC *harder* here: GenAI tooling tends to be named in the requirements
-# MAGIC list, which is exactly the part Adzuna cuts off. Treat these
-# MAGIC counts as a floor, never as a level.
 
 # COMMAND ----------
 
@@ -385,21 +366,3 @@ skills = (p
 (skills.write.mode("overwrite")
        .option("overwriteSchema", "true")
        .saveAsTable(f"{SILVER}.posting_skills"))
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC ## Coverage: the number that tells you how far to trust this
-# MAGIC If a large share of postings yield zero skills, that is the
-# MAGIC truncation showing. Report it openly rather than hiding it.
-
-# COMMAND ----------
-
-n_post = p.count()
-with_skill = skills.select("posting_id").distinct().count()
-
-print(f"postings                    : {n_post:,}")
-print(f"postings with >=1 skill hit : {with_skill:,}")
-print(f"coverage                    : {with_skill/n_post:.1%}")
-print(f"avg skills per matched post : "
-      f"{skills.count()/max(with_skill,1):.2f}")
