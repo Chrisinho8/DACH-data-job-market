@@ -517,9 +517,15 @@ Pick a role: the left chart shows what its postings ask for, the
 
   <!-- ============ ROLES AND SENIORITY ============ -->
   <section>
-    <h2>Role and seniority  (Austria, Germany and Switzerland)</h2>
+    <h2>Role and seniority</h2>
     <p class="note">
     </p>
+    <div class="seg" id="heatseg" style="margin:0 0 12px">
+      <button type="button" data-c="" aria-pressed="true">All DACH</button>
+      <button type="button" data-c="de" aria-pressed="false">Germany</button>
+      <button type="button" data-c="at" aria-pressed="false">Austria</button>
+      <button type="button" data-c="ch" aria-pressed="false">Switzerland</button>
+    </div>
     <div id="heat" class="hm"></div>
   </section>
   <section>
@@ -1871,24 +1877,46 @@ get("role_breakdown").then(all => {
                           cols[lv])), true, true, false,
       { x: "live postings", y: "role family" });
 
-  /* heatmap */
+  /* heatmap — country filterable.
+     Row order is frozen to the all-DACH ranking so switching country
+     compares like with like instead of reshuffling the table. The
+     colour scale is rescaled per view, otherwise Austria and
+     Switzerland render as one flat pale block next to Germany. */
   const hm = document.getElementById("heat");
   hm.style.gridTemplateColumns = "minmax(100px,1fr) repeat(3, 1fr)";
-  const maxCell = Math.max(...roles.flatMap(
-    rf => levels.map(lv => cell(rf, lv))));
-  let html = '<div class="hd"></div>' +
-             levels.map(l => `<div class="hd">${l}</div>`).join("");
-  roles.forEach(rf => {
-    html += `<div class="rw">${rlab(rf)}</div>`;
-    levels.forEach(lv => {
-      const v = cell(rf, lv);
-      const a = maxCell ? v / maxCell : 0;
-      html += `<div style="background:rgba(217,119,87,` +
-              `${(0.12 + 0.88 * a).toFixed(2)});` +
-              `color:${a > 0.45 ? "#fff" : "#26241F"}">${v}</div>`;
+
+  const cellC = (rf, lv, c) =>
+    d.filter(r => r.role_family === rf && r.seniority === lv &&
+                  (!c || r.country === c))
+     .reduce((s, r) => s + r.n_postings, 0);
+
+  function drawHeat(c) {
+    const maxCell = Math.max(1, ...roles.flatMap(
+      rf => levels.map(lv => cellC(rf, lv, c))));
+    let html = '<div class="hd"></div>' +
+               levels.map(l => `<div class="hd">${l}</div>`).join("");
+    roles.forEach(rf => {
+      html += `<div class="rw">${rlab(rf)}</div>`;
+      levels.forEach(lv => {
+        const v = cellC(rf, lv, c);
+        const a = v / maxCell;
+        html += `<div style="background:rgba(217,119,87,` +
+                `${(0.12 + 0.88 * a).toFixed(2)});` +
+                `color:${a > 0.45 ? "#fff" : "#26241F"}">${v}</div>`;
+      });
     });
+    hm.innerHTML = html;
+  }
+  drawHeat("");
+
+  const hseg = document.getElementById("heatseg");
+  if (hseg) hseg.addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    hseg.querySelectorAll("button").forEach(x =>
+      x.setAttribute("aria-pressed", String(x === b)));
+    drawHeat(b.dataset.c);
   });
-  hm.innerHTML = html;
 
   /* seniority totals */
   const sen = levels.map(lv => {
