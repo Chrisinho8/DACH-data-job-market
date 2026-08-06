@@ -123,26 +123,32 @@
   /* Fixed row height: the two numbers are the only content, so the
      row is sized to them once instead of letting padding stack up.
      .hm.hm-idx outranks the generic .hm rules above.              */
-  .hm.hm-idx{gap:3px;margin-top:2px;font-size:13px;
-             grid-auto-rows:46px}
+  .hm.hm-idx{gap:4px;margin-top:10px;font-size:12px;
+             grid-auto-rows:34px;max-width:760px}
   .hm.hm-idx div{padding:0;margin:0;min-height:0;height:100%;
-                 line-height:1;display:flex;flex-direction:column;
-                 justify-content:center;align-items:center;
-                 text-align:center}
-  .hm.hm-idx .hd{height:auto;padding:0 6px 3px;font-size:15px;
-                 color:#26241F;justify-content:flex-end}
-  .hm.hm-idx .rw{padding:0 12px 0 0;font-size:15px;line-height:1.15;
-                 align-items:flex-start;justify-content:center;
-                 text-align:left;color:#191919}
-  .hm.hm-idx .thin .sub{opacity:.42}
+                 line-height:1;display:flex;flex-direction:row;
+                 justify-content:center;align-items:center;gap:7px;
+                 text-align:center;border-radius:5px}
+  .hm.hm-idx .hd{height:auto;padding:0 0 4px;font-size:11.5px;
+                 font-weight:600;letter-spacing:.05em;
+                 text-transform:uppercase;color:#8A857C;
+                 justify-content:center;align-items:flex-end}
+  .hm.hm-idx .rw{padding:0 14px 0 0;font-size:13px;font-weight:500;
+                 line-height:1.2;align-items:center;
+                 justify-content:flex-start;
+                 text-align:left;color:#26241F}
+  .hm.hm-idx .thin .sub{opacity:.38}
   .hm.hm-idx div.cell{cursor:pointer;transition:transform .08s ease,
                    box-shadow .08s ease;position:relative}
-  .hm.hm-idx div.cell:hover{transform:scale(1.03);
-                   box-shadow:0 2px 10px rgba(0,0,0,.18);z-index:2}
-  .hm.hm-idx .big{display:block;font-size:16px;font-weight:700;
-                  line-height:1;letter-spacing:-.01em;color:#191919}
-  .hm.hm-idx .sub{display:block;font-weight:600;font-size:12px;
-                  line-height:1;color:#191919;opacity:.6;margin-top:5px}
+  .hm.hm-idx div.cell:hover{transform:scale(1.02);
+                   box-shadow:0 2px 8px rgba(0,0,0,.14);z-index:2}
+  .hm.hm-idx .big{font-size:13px;font-weight:700;
+                  line-height:1;letter-spacing:-.01em;color:#191919;
+                  min-width:22px;text-align:right}
+  .hm.hm-idx .sub{font-weight:500;font-size:11.5px;
+                  line-height:1;color:#191919;opacity:.55;
+                  min-width:34px;text-align:left;
+                  font-variant-numeric:tabular-nums}
   .idxlegend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;
              color:#5C5A54;margin:8px 0 0}
   .idxlegend span{display:flex;align-items:center;gap:5px}
@@ -1815,7 +1821,7 @@ get("role_breakdown").then(all => {
     });
 
     idxBox.style.gridTemplateColumns =
-      `minmax(120px,1.4fr) repeat(${countries.length}, 1fr)`;
+      `minmax(150px,1.2fr) repeat(${countries.length}, minmax(0,1fr))`;
 
     let ih = '<div class="hd"></div>' +
              countries.map(c => `<div class="hd">${CNAME[c]}</div>`).join("");
