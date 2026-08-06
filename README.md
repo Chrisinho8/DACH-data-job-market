@@ -65,7 +65,7 @@ Adzuna API (de, at, ch)
 
 ![Visualized architecture](assets/pipeline-architecture.png)
 
-**Browsing the postings.** Everything on the site is a count except one table. `gold.postings_public` ships as `docs/data/postings.json` and backs the searchable list. It carries title, employer, city, role family, seniority, age and the aggregator's `redirect_url` — not descriptions (not ours to redistribute, and 99.6% are truncated anyway) and not salary (mostly the aggregator's own prediction). Rows without a link are dropped rather than rendered dead.
+**Browsing the postings.** Everything on the site is a count except one table. `gold.postings_public` ships as `docs/data/postings.json` and backs the searchable list. It carries title, employer, city, role family, seniority, age and the aggregator's `redirect_url` - not descriptions (not ours to redistribute, and 99.6% are truncated anyway) and not salary (mostly the aggregator's own prediction). Rows without a link are dropped rather than rendered dead.
 
 **Skill extraction.** A curated dictionary of 47 terms, not an LLM, so every match points at a specific string in a specific posting and the counts are reproducible. The traps are real: "SQL" hides inside "PostgreSQL", "Java" inside "JavaScript", a bare "R" matches "R&D" and half of every German address block. Each one is pinned by a test in `tests/test_matcher.py` that runs in CI on every push. See `src/matcher.py`.
 
@@ -78,7 +78,7 @@ Adzuna API (de, at, ch)
 
 
 - **`created` is the aggregator's date**, possibly when it indexed the posting rather than when the employer published it.
-- **Descriptions are capped at 500 characters** and 99.6% are truncated. Tool counts measure *mentioned in the title or opening paragraph* — a floor, not a requirement rate. The window is identical for every posting, so comparing tools holds; absolute rates do not.
+- **Descriptions are capped at 500 characters** and 99.6% are truncated. Tool counts measure *mentioned in the title or opening paragraph* - a floor, not a requirement rate. The window is identical for every posting, so comparing tools holds; absolute rates do not.
 - **AI counts are a floor**, for the reason in the scope table. The dropped share is printed on every run of `03_silver_clean.py`; if it climbs, the six rules are going stale.
 - **A posting in the browser is not necessarily open.** It was live at the last refresh. Nothing re-checks whether it has since been filled or withdrawn.
 - **Roles and seniority are inferred from titles**, so both carry classification error.
