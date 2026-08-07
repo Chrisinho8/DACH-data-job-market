@@ -1026,7 +1026,6 @@ get("country_breakdown").then(d => {
       <p class="sub">live postings from
          ${(r.employers || 0).toLocaleString()} employers</p>
       <dl>
-        <dt>Median age</dt><dd>${r.median_age_days} d</dd>
         <dt>Mean age</dt><dd>${Math.round(r.avg_age_days)} d</dd>
         <dt>Open &gt; 60 days</dt><dd>${r.pct_over_60d}%</dd>
         <dt>In English</dt><dd>${r.pct_english}%</dd>
@@ -1050,10 +1049,7 @@ get("age_distribution").then(d => {
         y: "% of live postings" });
 });
 
-/* ---------------- survival curve ----------------
-   Market-wide by default. If role_breakdown ships the pct_over_*
-   columns, a role picker appears and the curve can be narrowed to a
-   single role family (weighted across country and seniority).     */
+
 Promise.all([get("market_summary"), get("role_breakdown")])
   .then(([ms, rb]) => {
   if (!ms || !ms.length) return;
@@ -1067,10 +1063,7 @@ Promise.all([get("market_summary"), get("role_breakdown")])
   const hasSurv = Array.isArray(rb) && rb.length &&
                   rb[0].pct_over_30d !== undefined;
 
-  /* Weighted roll-up per role family. live() first: this picker is
-     built from whatever families the JSON happens to contain, so an
-     older snapshot would otherwise put a retired family back on the
-     page as a button. */
+
   const byRole = {};
   if (hasSurv) live(rb).forEach(r => {
     const k = r.role_family;
