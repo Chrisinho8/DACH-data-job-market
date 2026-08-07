@@ -4,7 +4,7 @@
 
 **[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** · last updated 6 August 2026
 
-A weekly snapshot of the DACH data-job market: **3,900+ live postings from 1,400+ employers** across Germany, Austria and Switzerland. Every Monday at 06:00 a Databricks pipeline queries the Adzuna API for 16 data related job titles in all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 47-term skills dictionary. It then gets published to a static GitHub Page.
+A daily snapshot of the DACH data-job market: **3,200+ live postings from 1,350+ employers** across Germany, Austria and Switzerland. Every day at 08:00 UTC+2 a Databricks pipeline queries the Adzuna API for 16 data related job titles in all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 71-term skills dictionary. It then gets published to a static GitHub Page.
 
 ## How the tracker might help you
 
@@ -68,7 +68,7 @@ BRONZE    Delta         append-only, every snapshot preserved
 SILVER    Delta         parsed, classified, scope-filtered,
     │                   deduplicated, quality-gated
     ▼
-GOLD      Delta         aggregates + weekly history,
+GOLD      Delta         aggregates + daily history,
     │                   postings_public (the one row-level table)
     ▼
 docs/data/*.json        committed to this repo
@@ -113,7 +113,7 @@ pathlib.Path("/Volumes/jobs/bronze/conf/adzuna.json").write_text(
 ```
 
 4. Import `notebooks/` and run 01 to 06 in order.
-5. Chain them into a weekly Databricks Workflow.
+5. Chain them into a daily Databricks Workflow (08:00 UTC+2).
 
 ```bash
 pip install -r requirements.txt && pytest tests/ -v
