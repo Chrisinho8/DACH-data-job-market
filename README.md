@@ -53,16 +53,28 @@ Excluded rows land in `silver.excluded` so the decision stays auditable.
 ## Architecture
 
 ```
-Adzuna API (de, at, ch)
-  -> raw JSON cached in a Unity Catalog volume
-  -> Auto Loader (trigger availableNow)
-  -> BRONZE   append-only, every snapshot preserved
-  -> SILVER   parsed, classified, scope-filtered, deduplicated,
-              quality-gated
-  -> GOLD     aggregates + weekly history
-              + postings_public (the one row-level table)
-  -> JSON committed to this repo
-  -> GitHub Pages
+Adzuna API              de · at · ch, 16 job titles
+    │
+    ▼
+Unity Catalog volume    raw JSON cached, one file per query
+    │
+    ▼
+Auto Loader             trigger availableNow
+    │
+    ▼
+BRONZE    Delta         append-only, every snapshot preserved
+    │
+    ▼
+SILVER    Delta         parsed, classified, scope-filtered,
+    │                   deduplicated, quality-gated
+    ▼
+GOLD      Delta         aggregates + weekly history,
+    │                   postings_public (the one row-level table)
+    ▼
+docs/data/*.json        committed to this repo
+    │
+    ▼
+GitHub Pages            static site, no backend
 ```
 
 ![Visualized architecture](assets/pipeline-architecture.png)
