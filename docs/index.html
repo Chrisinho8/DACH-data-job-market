@@ -41,7 +41,8 @@
             paint-order:stroke;stroke:#FFFFFF;stroke-width:3px}
 
   .legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;
-          font-size:12.5px;color:#5C5A54;align-items:center}
+          font-size:12.5px;color:#5C5A54;align-items:center;
+          justify-content:center}
   .legend .sw{display:inline-block;width:12px;height:12px;
               border-radius:50%;margin-right:6px;vertical-align:-1px}
   .legend .dots{display:inline-flex;align-items:center;gap:6px}
@@ -50,6 +51,9 @@
   .rank td{padding:5px 8px;border-bottom:1px solid #EAE6DC}
   .rank td:first-child{color:#191919;font-weight:600}
   .rank .barcell{width:44%}
+  /* city + country code never wrap; the bar column gives up the room */
+  .rank-city td:first-child{white-space:nowrap;width:1%}
+  .rank-city .barcell{width:32%}
   .rank tr.drill{cursor:pointer}
   .rank tr.drill:hover td{background:#F0EEE6}
   .rank .b{height:9px;border-radius:2px;display:block}
@@ -58,18 +62,28 @@
 
   .subh{font-size:14px;margin:0 0 10px;color:#5C5A54;font-weight:600}
 
-  .pfilters{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 12px}
+  /* Search gets its own full-width row; the five dropdowns sit in an
+     even grid below it so the controls line up in columns instead of
+     wrapping into a ragged staircase. */
+  .pfilters{display:grid;gap:10px;margin:18px 0 12px;
+            grid-template-columns:repeat(5,1fr) auto}
+  .pfilters input{grid-column:1/-1}
   .pfilters input,.pfilters select,.pfilters button{
-    font:inherit;font-size:13.5px;padding:8px 11px;
+    width:100%;font:inherit;font-size:13.5px;padding:9px 11px;
     border:1px solid var(--line);border-radius:9px;background:#FDFAF4;
     color:#26241F;transition:border-color .12s,box-shadow .12s}
   .pfilters input:focus,.pfilters select:focus{
     border-color:var(--coral);box-shadow:0 0 0 3px rgba(229,103,67,.14)}
-  .pfilters input{flex:1 1 260px;min-width:180px}
   .pfilters select{cursor:pointer}
-  .pfilters button{cursor:pointer;color:#5C5A54}
-  .pfilters button:hover{background:#F0EEE6}
+  .pfilters button{cursor:pointer;color:#5C5A54;font-weight:600;
+    background:transparent;border-style:dashed}
+  .pfilters button:hover{background:#F0EEE6;border-style:solid;
+    color:#26241F}
   .pfilters :focus-visible{outline:2px solid #8A4A2E;outline-offset:1px}
+  @media(max-width:720px){
+    .pfilters{grid-template-columns:repeat(2,1fr)}
+    .pfilters button{grid-column:1/-1}
+  }
 
 
   .ptable-wrap{overflow-x:auto;border:1px solid var(--line);
@@ -184,7 +198,7 @@
           letter-spacing:inherit;white-space:nowrap}
   /* breathing room between a section title and its role pills */
   h2 + .mapctl{margin-top:20px}
-  .byline{margin:10px 0 0;font-size:15px;color:var(--slate)}
+  .byline{margin:10px 0 0;font-size:16.5px;color:var(--slate)}
   .byline a{display:inline-flex;align-items:center;gap:6px}
   .byline .li{flex:0 0 auto;position:relative;top:-1px;border-radius:5px}
   .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;
