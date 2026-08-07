@@ -35,6 +35,14 @@ h1,h2,h3,h4{font-family:"Inter",system-ui,sans-serif}
 
 .wrap{max-width:880px;margin:0 auto;padding:0 24px}
 
+/* charts/data get the full width, prose stays readable */
+main.wrap{max-width:1240px}
+main h2,
+main .note,
+main p,
+main li{max-width:72ch}
+main .caveats ul{max-width:78ch}
+
 /* ---------- header ---------- */
 header{
   background:
