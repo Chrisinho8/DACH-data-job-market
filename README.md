@@ -13,7 +13,7 @@ A weekly snapshot of the DACH data-job market: **3,900+ live postings from 1,400
 - **Drill down from a chart.** Click a city on the map or a bar in any role chart and the list below filters to it. Nothing on the site is a number you have to take on trust.
 - **Watch it move.** Nothing is ever overwritten, so each run adds to the record and every figure gains a second dimension: not just how many AI roles are open, but whether that number is climbing.
 
-## Overview
+## Overview of the Map
 
 Snapshot of 2026-08-05.
  
@@ -21,7 +21,8 @@ Snapshot of 2026-08-05.
  
 Above: the map view. Bubbles are sized by posting count and coloured by country - Germany coral, Austria blue, Switzerland green. Pick any of the 15 role families and the whole view re-cuts to it: bubbles, the four country totals, and the top-cities table with each city's average days open. Click a bubble or a table row and the browsable posting list below filters to that city.
 
-**Main take-aways**
+## Main take-aways
+
 **Germany is the biggest market; Austria and Switzerland are footnotes.** 3,133 of 3,625 postings are German - 86.4%, against 6.2% Austrian and 7.3% Swiss. The blue and green clusters on the map are Vienna, Graz, Linz, Innsbruck and the Zurich–Bern–Geneva line, and that is close to all of them. Any single-country claim about AT or CH rests on a few dozen adverts per family.
  
 **Hiring is concentrated in a handful of cities.** Berlin (422) and Munich (344) are 21% of DACH between them; the top five are 36%. The rest is spread across 250-odd cities - the scatter of small bubbles through the Rhine-Ruhr and the south - most of them carrying single-digit counts.
