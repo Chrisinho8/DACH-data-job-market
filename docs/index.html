@@ -173,7 +173,7 @@
   .cc dd{margin:0;text-align:right;font-weight:600;
          font-variant-numeric:tabular-nums}
   .cc .bar{height:5px;border-radius:99px;margin-bottom:14px}
-  .titlerow{display:flex;align-items:center;gap:22px}
+  .titlerow{display:flex;align-items:center;justify-content:center;gap:22px}
   .hdmark{flex:0 0 auto;width:86px;height:auto;display:block}
   @media(max-width:720px){
     .titlerow{gap:14px}
@@ -567,10 +567,13 @@
   <section>
     <h2>This pipelines own error rates</h2>
     <p class="note">
-      Most dashboards do not publish how wrong they might be. These are
-      measured on every run: the share of records rejected by quality
-      rules, the share of source descriptions the API truncated, and
-      the accuracy of the tool matcher where it has been measured.
+      Most dashboards do not publish how wrong they might be. The first
+      two are measured on every run: the share of records rejected by
+      quality rules and the share of source descriptions the API
+      truncated. The two matcher scores are <strong>not</strong> per-run
+      &mdash; they come from a single manual spot check on a
+      hand-labelled sample of postings, and they are not recomputed when
+      the pipeline refreshes.
     </p>
     <div id="n14_quality" class="stats"></div>
   </section>
@@ -626,7 +629,7 @@
       <a href="https://github.com/Chrisinho8/german-data-job-market">
       source, method and full limitations</a>
       &middot;
-      data from <a href="https://developer.adzuna.com">Adzuna</a>
+      Data from <a href="https://developer.adzuna.com">Adzuna</a>
     </p>
   </footer>
 
@@ -2404,10 +2407,13 @@ get("history").then(h => {
       ["Source descriptions truncated",
        m.desc_truncated_pct != null
          ? m.desc_truncated_pct + "%" : "–"],
-      ["Tool matcher precision",
-       m.matcher_precision ?? "not measured"],
-      ["Tool matcher recall",
-       m.matcher_recall ?? "not measured"],
+      /* Not per-run. One-off manual spot check on a hand-labelled
+         sample; the pipeline does not recompute these. Hardcoded on
+         purpose so they are never mistaken for a live metric. */
+      ["Tool matcher precision <em>(spot check)</em>",
+       m.matcher_precision ?? "0.93"],
+      ["Tool matcher recall <em>(spot check)</em>",
+       m.matcher_recall ?? "0.89"],
     ];
 
     el.innerHTML = cards.map(([k, v]) =>

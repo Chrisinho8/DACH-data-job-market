@@ -41,7 +41,8 @@ main h2,
 main .note,
 main p,
 main li{max-width:72ch}
-main .caveats ul{max-width:78ch}
+main .caveats ul,
+main .caveats li{max-width:none}
 
 /* ---------- header ---------- */
 header{
@@ -50,29 +51,26 @@ header{
     radial-gradient(520px 300px at 5% 90%,rgba(229,103,67,.10),transparent 70%),
     linear-gradient(160deg,#FBF2E3,#F6E9D6);
   border-bottom:1px solid var(--line);
-  padding:72px 0 54px;
+  padding:72px 0 76px;
   position:relative;
   overflow:hidden;
+  text-align:center;
 }
 .eyebrow{
-  display:inline-block;
+  display:block;
   text-transform:uppercase;
-  letter-spacing:.14em;
+  letter-spacing:.16em;
   font-size:11.5px;
   font-weight:700;
   color:var(--coral);
-  background:rgba(229,103,67,.10);
-  border:1px solid rgba(229,103,67,.22);
-  border-radius:99px;
-  padding:6px 14px;
-  margin:0 0 18px;
+  margin:0 0 22px;
 }
 h1{
   font-size:46px;
   line-height:1.1;
   letter-spacing:-.02em;
   font-weight:700;
-  margin:0 0 18px;
+  margin:0 auto 18px;
   max-width:24ch;
   text-wrap:balance;
 }
@@ -84,7 +82,8 @@ h1 em{
   font-size:18px;
   color:var(--slate);
   max-width:62ch;
-  margin:0 0 22px;
+  margin:0 auto 22px;
+  text-wrap:pretty;
 }
 .sub strong{color:var(--ink)}
 .meta{
