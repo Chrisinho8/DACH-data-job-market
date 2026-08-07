@@ -9,7 +9,7 @@ A weekly snapshot of the DACH data-job market: **3,900+ live postings from 1,400
 ## How the tracker might help you
 
 - **See the shape of the market** - volumes by role, city and country, how long postings stay open, seniority mix, tool mentions, English-language share, salary disclosure.
-- **Read the postings behind any number.** Every chart is a count of real adverts, and those adverts are browsable: search by title or employer, filter by role family, country, city and seniority, sort by newest or longest-open, 20 per page. Titles link out to the aggregator.
+- **Read the postings behind any number.** Every chart is a count of real adverts, and those adverts are browsable: search by title or employer, filter by role, country, city and seniority, sort by newest or longest-open, 20 per page. Titles link out to the aggregator.
 - **Drill down from a chart.** Click a city on the map or a bar in any role chart and the list below filters to it. Nothing on the site is a number you have to take on trust.
 - **Watch it move.** Nothing is ever overwritten, so each run adds to the record and every figure gains a second dimension: not just how many AI roles are open, but whether that number is climbing.
 
@@ -19,11 +19,11 @@ Snapshot of 2026-08-05.
  
 ![The map view: a DACH bubble map with the role filter, per-country totals and the top-cities table](assets/mappy.png)
  
-Above: the map view. Bubbles are sized by posting count and coloured by country - Germany coral, Austria blue, Switzerland green. Pick any of the 15 role families and the whole view re-cuts to it: bubbles, the four country totals, and the top-cities table with each city's average days open. Click a bubble or a table row and the browsable posting list below filters to that city.
+Above: the map view. Bubbles are sized by posting count and coloured by country - Germany coral, Austria blue, Switzerland green. Pick any of the 15 roles and the whole view re-cuts to it: bubbles, the four country totals, and the top-cities table with each city's average days open. Click a bubble or a table row and the browsable posting list below filters to that city.
 
 ## Main take-aways
 
-**Germany is the biggest market; Austria and Switzerland are footnotes.** 3,133 of 3,625 postings are German - 86.4%, against 6.2% Austrian and 7.3% Swiss. The blue and green clusters on the map are Vienna, Graz, Linz, Innsbruck and the Zurich–Bern–Geneva line, and that is close to all of them. Any single-country claim about AT or CH rests on a few dozen adverts per family.
+**Germany is the biggest market; Austria and Switzerland are footnotes.** 3,133 of 3,625 postings are German - 86.4%, against 6.2% Austrian and 7.3% Swiss. The blue and green clusters on the map are Vienna, Graz, Linz, Innsbruck and the Zurich-Bern-Geneva line, and that is close to all of them. Any single-country claim about AT or CH rests on a few dozen adverts per family.
  
 **Hiring is concentrated in a handful of cities.** Berlin (422) and Munich (344) are 21% of DACH between them; the top five are 36%. The rest is spread across 250-odd cities - the scatter of small bubbles through the Rhine-Ruhr and the south - most of them carrying single-digit counts.
  
@@ -42,6 +42,8 @@ Above: the map view. Bubbles are sized by posting count and coloured by country 
 | Excluded | Why |
 |---|---|
 | Titles saying "AI"/"KI" and naming no role | A title cannot tell an AI job from a job at a company that likes the word. The rule still runs and still catches them, but they are dropped. **AI figures are a floor, not a total.** |
+| German *Controlling*, FP&A, finance | Management accounting, a separate profession |
+| Ausbildung, duales Studium, Werkstudent, Praktikum, Trainee | Education programmes, and they stay listed for months, distorting the age figures |
 | Data **centre** infrastructure | False friend: "Data Center Engineering Operations" is physical infrastructure |
 | General software, cloud and DevOps engineering | Not data roles, pulled in by keyword overlap |
 | Speculative applications, parse artefacts | Not job postings at all |
@@ -77,7 +79,7 @@ GitHub Pages            static site, no backend
 
 ![Visualized architecture](assets/pipeline-architecture.png)
 
-**Browsing the postings.** Everything on the site is a count except one table. `gold.postings_public` ships as `docs/data/postings.json` and backs the searchable list. It carries title, employer, city, role family, seniority, age and the aggregator's `redirect_url` - not descriptions (not ours to redistribute, and 99.6% are truncated anyway) and not salary (mostly the aggregator's own prediction). Rows without a link are dropped rather than rendered dead.
+**Browsing the postings.** Everything on the site is a count except one table. `gold.postings_public` ships as `docs/data/postings.json` and backs the searchable list. It carries title, employer, city, role, seniority, age and the aggregator's `redirect_url` - not descriptions (not ours to redistribute, and 99.6% are truncated anyway) and not salary (mostly the aggregator's own prediction). Rows without a link are dropped rather than rendered dead.
 
 **Skill extraction.** A curated dictionary of 47 terms, not an LLM, so every match points at a specific string in a specific posting and the counts are reproducible. The traps are real: "SQL" hides inside "PostgreSQL", "Java" inside "JavaScript", a bare "R" matches "R&D" and half of every German address block. Each one is pinned by a test in `tests/test_matcher.py` that runs in CI on every push. See `src/matcher.py`.
 
@@ -94,8 +96,9 @@ GitHub Pages            static site, no backend
 - **AI counts are a floor**, for the reason in the scope table. The dropped share is printed on every run of `03_silver_clean.py`; if it climbs, the six rules are going stale.
 - **A posting in the browser is not necessarily open.** It was live at the last refresh. Nothing re-checks whether it has since been filled or withdrawn.
 - **Roles and seniority are inferred from titles**, so both carry classification error.
-- **Agency detection is keyword based** and flags only 3.9%, almost certainly an undercount.
-- **6.3% of records are rejected** by the quality rules each run and quarantined rather than silently dropped.
+- **There is no remote or on-site distinction, and no multi-location handling.** The aggregator returns a single city per listing and no remote flag, so the pipeline cannot tell a remote job from an on-site one. Only 4.4% of titles mention remote or hybrid at all, and that is not a reliable proxy. The practical consequence is that a role advertised in several cities arrives as several rows and is counted several times: 55 title/employer combinations appear 5 or more times, together 16.9% of all postings. Consultancies drive most of this - one employer lists the same architect role across a dozen offices. **City counts, employer counts and the headline total are inflated by roughly 490 postings as a result.** Fixing it means dropping city from the deduplication key, which is not yet done.
+- **Agency detection is keyword based** and flags only 4.2%, almost certainly an undercount.
+- **7.0% of records are rejected** by the quality rules each run and quarantined rather than silently dropped.
 
 
 ## Running it yourself
