@@ -143,14 +143,7 @@ h2{
   border-bottom:0;
   position:relative;
 }
-h2::after{
-  content:"";
-  position:absolute;
-  left:0;bottom:0;
-  width:52px;height:4px;
-  border-radius:99px;
-  background:var(--grad);
-}
+
 .note{
   font-size:14px;
   color:var(--slate);
