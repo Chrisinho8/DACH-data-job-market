@@ -637,6 +637,16 @@
       <li><strong>Roles are classified from the job title</strong> with
           keyword rules, not from the description, which the aggregator
           truncates.</li>
+      <li><strong>There is no remote or on-site distinction, and
+          multi-location jobs are counted more than once.</strong> The
+          aggregator returns one city per listing and no remote flag,
+          so a role advertised across a dozen offices arrives as a
+          dozen rows. 55 title/employer combinations appear 5 or more
+          times, together 16.9% of all postings, and consultancies
+          drive most of it. City counts, employer counts and the
+          headline total are inflated by roughly 490 postings as a
+          result. Only 4.4% of titles mention remote or hybrid, which
+          is not a reliable enough signal to correct for.</li>
       <li><strong>AI is six families, and the AI numbers here are a
           floor, not a total.</strong> The rules run most specific
           first (research, GenAI, MLOps, ML, consulting, AI engineer).
@@ -1664,7 +1674,7 @@ const nk = s => String(s)
 
     const top = d.filter(r => r.city !== "not specified")
                  .sort((a, b) => b.n_postings - a.n_postings)
-                 .slice(0, 11);
+                 .slice(0, 14);
     const body = document.getElementById("cityrank");
     if (!body) return;
     if (!top.length) {
