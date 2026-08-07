@@ -42,8 +42,6 @@ Above: the map view. Bubbles are sized by posting count and coloured by country 
 | Excluded | Why |
 |---|---|
 | Titles saying "AI"/"KI" and naming no role | A title cannot tell an AI job from a job at a company that likes the word. The rule still runs and still catches them, but they are dropped. **AI figures are a floor, not a total.** |
-| German *Controlling*, FP&A, finance | Management accounting, a separate profession |
-| Ausbildung, duales Studium, Werkstudent, Praktikum, Trainee | Education programmes, and they stay listed for months, distorting the age figures |
 | Data **centre** infrastructure | False friend: "Data Center Engineering Operations" is physical infrastructure |
 | General software, cloud and DevOps engineering | Not data roles, pulled in by keyword overlap |
 | Speculative applications, parse artefacts | Not job postings at all |
