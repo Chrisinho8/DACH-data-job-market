@@ -1,4 +1,5 @@
 # What's up with the data-job market in Austria/Germany/Switzerland?
+![updated](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/Chrisinho8/DACH-data-job-market/main/docs/data/meta.json&query=$.updated&label=last%20updated&color=E56743)
 
 ![tests](https://github.com/Chrisinho8/DACH-data-job-market/actions/workflows/tests.yml/badge.svg)
 
