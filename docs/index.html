@@ -33,12 +33,12 @@
   @media(max-width:720px){.maprow{grid-template-columns:1fr}}
 
   #map{width:100%;height:auto;display:block}
-  #map .outline{stroke:#DCD6C8;stroke-width:1.3}
-  #map .bub{stroke:#FAF9F5;stroke-width:1.2;cursor:pointer;
+  #map .outline{stroke:#E3D5BE;stroke-width:1.3}
+  #map .bub{stroke:#FFFFFF;stroke-width:1.2;cursor:pointer;
             transition:opacity .15s}
   #map .bub:hover{opacity:.72}
-  #map .lbl{font:600 11px system-ui,sans-serif;fill:#26241F;
-            paint-order:stroke;stroke:#FAF9F5;stroke-width:3px}
+  #map .lbl{font:600 11px "Inter",system-ui,sans-serif;fill:#26241F;
+            paint-order:stroke;stroke:#FFFFFF;stroke-width:3px}
 
   .legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;
           font-size:12.5px;color:#5C5A54;align-items:center}
@@ -53,16 +53,18 @@
   .rank tr.drill{cursor:pointer}
   .rank tr.drill:hover td{background:#F0EEE6}
   .rank .b{height:9px;border-radius:2px;display:block}
-  .flag{font-size:10px;font-weight:700;letter-spacing:.06em;
+  .flag{font-size:13px;font-weight:700;letter-spacing:.06em;
         color:#8A857C;text-transform:uppercase}
 
   .subh{font-size:14px;margin:0 0 10px;color:#5C5A54;font-weight:600}
 
   .pfilters{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 12px}
   .pfilters input,.pfilters select,.pfilters button{
-    font:inherit;font-size:13.5px;padding:7px 10px;
-    border:1px solid #DCD6C8;border-radius:6px;background:#FFFDF8;
-    color:#26241F}
+    font:inherit;font-size:13.5px;padding:8px 11px;
+    border:1px solid var(--line);border-radius:9px;background:#FDFAF4;
+    color:#26241F;transition:border-color .12s,box-shadow .12s}
+  .pfilters input:focus,.pfilters select:focus{
+    border-color:var(--coral);box-shadow:0 0 0 3px rgba(229,103,67,.14)}
   .pfilters input{flex:1 1 260px;min-width:180px}
   .pfilters select{cursor:pointer}
   .pfilters button{cursor:pointer;color:#5C5A54}
@@ -72,7 +74,8 @@
   /* The table scrolls sideways on a phone rather than reflowing: six
      columns of one-line facts stay readable that way, and stacking
      them into cards would make scanning a list of jobs worse. */
-  .ptable-wrap{overflow-x:auto;border:1px solid #EAE6DC;border-radius:8px}
+  .ptable-wrap{overflow-x:auto;border:1px solid var(--line);
+               border-radius:13px;box-shadow:var(--shadow)}
   .ptable{width:100%;border-collapse:collapse;font-size:13.5px;
           min-width:680px}
   .ptable th{text-align:left;font-size:11px;letter-spacing:.06em;
@@ -100,16 +103,18 @@
     border:1px solid #DCD6C8;border-radius:6px;background:#FFFDF8;
     color:#5C5A54;cursor:pointer;font-variant-numeric:tabular-nums}
   .ppag button:hover:not(:disabled){background:#F0EEE6;color:#26241F}
-  .ppag button[aria-current="page"]{background:#26241F;border-color:#26241F;
-    color:#FAF9F5;font-weight:700}
+  .ppag button[aria-current="page"]{background:var(--grad);
+    border-color:var(--coral);color:#fff;font-weight:700}
   .ppag button:disabled{opacity:.4;cursor:default}
   .ppag .gap{color:#8A857C;padding:0 2px;user-select:none}
   .ppag[hidden]{display:none}
   @media(max-width:560px){.ppag button{min-width:30px;padding:6px 7px}}
 
-  .pill{display:inline-block;padding:2px 9px;border-radius:99px;
-        font-size:11px;font-weight:600;background:#F0EEE6;
-        color:#8A4A2E;margin-left:8px;vertical-align:2px}
+  .pill{display:inline-block;padding:3px 11px;border-radius:99px;
+        font-size:11px;font-weight:700;letter-spacing:.03em;
+        background:rgba(229,103,67,.12);
+        border:1px solid rgba(229,103,67,.28);
+        color:#B04A28;margin-left:8px;vertical-align:2px}
 
   .hm{display:grid;gap:3px;font-size:12px;margin-top:6px}
   .hm div{padding:9px 6px;text-align:center;border-radius:3px;
@@ -159,10 +164,13 @@
   .ctry{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
         margin-bottom:34px}
   @media(max-width:720px){.ctry{grid-template-columns:1fr}}
-  .cc{border:1px solid var(--line);border-radius:9px;padding:20px 22px;
-      background:#FCFBF8}
-  .cc h4{margin:0 0 3px;font-size:16px;font-weight:600}
-  .cc .n{font-size:30px;font-weight:600;letter-spacing:-.02em;
+  .cc{border:1px solid var(--line);border-radius:15px;padding:20px 22px;
+      background:#FEFCF8;box-shadow:var(--shadow);
+      transition:transform .15s ease,box-shadow .15s ease}
+  .cc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .cc h4{margin:0 0 3px;font-size:16px;font-weight:700}
+  .cc .n{font-size:32px;font-weight:700;letter-spacing:-.02em;
+         font-family:"Inter",sans-serif;
          line-height:1.15;margin:6px 0 2px}
   .cc .sub{font-size:12px;color:#5C5A54;margin:0 0 14px}
   .cc dl{display:grid;grid-template-columns:1fr auto;gap:5px 10px;
@@ -170,7 +178,7 @@
   .cc dt{color:#5C5A54}
   .cc dd{margin:0;text-align:right;font-weight:600;
          font-variant-numeric:tabular-nums}
-  .cc .bar{height:4px;border-radius:2px;margin-bottom:14px}
+  .cc .bar{height:5px;border-radius:99px;margin-bottom:14px}
   .titlerow{display:flex;align-items:center;gap:22px}
   .hdmark{flex:0 0 auto;width:86px;height:auto;display:block}
   @media(max-width:720px){
@@ -188,11 +196,15 @@
   /* ---------- enhanced KPI block ---------- */
   .kpi{display:grid;gap:14px;margin-bottom:22px;
        grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
-  .k{background:#FCFBF8;border:1px solid var(--line);
-     border-radius:10px;padding:0 0 16px;overflow:hidden}
-  .k .accent{height:4px}
+  .k{background:#FEFCF8;border:1px solid var(--line);
+     border-radius:15px;padding:0 0 16px;overflow:hidden;
+     box-shadow:var(--shadow);
+     transition:transform .15s ease,box-shadow .15s ease}
+  .k:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .k .accent{height:5px}
   .k .in{padding:14px 18px 0}
-  .k b{display:block;font-size:31px;font-weight:600;
+  .k b{display:block;font-size:32px;font-weight:700;
+       font-family:"Inter",sans-serif;
        letter-spacing:-.025em;line-height:1.1;color:var(--ink);
        font-variant-numeric:tabular-nums}
   .k .lab{display:block;margin-top:5px;font-size:12.5px;
@@ -201,7 +213,7 @@
            line-height:1.45;color:#8A857C}
 
   .agebox{background:var(--cream);border:1px solid var(--line);
-          border-radius:10px;padding:18px 20px;margin-bottom:52px}
+          border-radius:15px;padding:18px 20px;margin-bottom:52px}
   .agebox .t{font-size:12.5px;font-weight:600;color:var(--ink);
              margin-bottom:10px}
   .strip{display:flex;height:22px;border-radius:4px;
@@ -213,11 +225,11 @@
                border-radius:2px;margin-right:6px}
 
 
-  .ctot{display:flex;flex-wrap:nowrap;gap:8px;margin:0 0 18px}
-  .ctot .c{display:flex;align-items:baseline;gap:6px;padding:7px 11px;
-           border:1px solid #EAE6DC;border-radius:7px;background:#FAF9F5;
-           flex-grow:1;flex-shrink:1;flex-basis:auto;
-           min-width:0;white-space:nowrap;overflow:hidden}
+  .ctot{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+  .ctot .c{display:flex;align-items:baseline;gap:6px;padding:8px 12px;
+           border:1px solid var(--line);border-radius:11px;
+           background:#FDFAF4;box-shadow:var(--shadow);
+           white-space:nowrap}
   .ctot .c i{width:7px;height:7px;border-radius:50%;flex:none;
              align-self:center}
   .ctot .c b{font-size:14.5px;font-weight:700;color:#191919;
@@ -225,9 +237,7 @@
   .ctot .c u{text-decoration:none;font-size:11.5px;color:#5C5A54;
              flex:none}
   .ctot .c s{text-decoration:none;font-size:11px;color:#8A857C;
-             font-variant-numeric:tabular-nums;margin-left:auto;
-             padding-left:6px;flex-shrink:1;min-width:0;
-             overflow:hidden;text-overflow:ellipsis}
+             font-variant-numeric:tabular-nums;padding-left:6px}
   .ctot .tot{background:#F0EEE6;border-color:#DCD6C8}
   @media(max-width:560px){
     .ctot{gap:5px}
@@ -249,14 +259,15 @@
     .ctlrow{flex-direction:column;align-items:flex-start;gap:7px}
     .ctl-lab{flex:none;line-height:1.4}
   }
-  .seg{display:inline-flex;border:1px solid var(--clay);
-       border-radius:8px;overflow:hidden;background:#FCFBF8}
-  .seg button{font:600 12.5px/1 system-ui,sans-serif;cursor:pointer;
-    padding:8px 15px;border:0;background:transparent;
+  .seg{display:inline-flex;border:1px solid var(--line);
+       border-radius:11px;overflow:hidden;background:#FDFAF4;
+       box-shadow:var(--shadow)}
+  .seg button{font:600 12.5px/1 "Inter",system-ui,sans-serif;
+    cursor:pointer;padding:9px 16px;border:0;background:transparent;
     color:var(--slate);transition:.12s}
   .seg button + button{border-left:1px solid var(--line)}
-  .seg button:hover{background:#F3EFE7;color:var(--ink)}
-  .seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+  .seg button:hover{background:#F6EFE3;color:var(--ink)}
+  .seg button[aria-pressed="true"]{background:var(--grad);color:#fff}
 
   #map .hit{fill:transparent;cursor:default}
   #leg-heat .ramp{display:inline-block;width:132px;height:11px;
@@ -267,12 +278,15 @@
   .legend[hidden]{display:none}
 
   .pick{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
-  .pick button{font:600 12px/1 system-ui,sans-serif;cursor:pointer;
-    padding:7px 12px;border-radius:99px;border:1px solid var(--line);
-    background:#FCFBF8;color:var(--slate);transition:.12s}
-  .pick button:hover{border-color:var(--clay);color:var(--ink)}
-  .pick button[aria-pressed="true"]{background:var(--coral);
-    border-color:var(--coral);color:#fff}
+  .pick button{font:600 12px/1 "Inter",system-ui,sans-serif;
+    cursor:pointer;padding:8px 13px;border-radius:99px;
+    border:1px solid var(--line);
+    background:#FDFAF4;color:var(--slate);transition:.12s}
+  .pick button:hover{border-color:var(--clay);color:var(--ink);
+    transform:translateY(-1px)}
+  .pick button[aria-pressed="true"]{background:var(--grad);
+    border-color:var(--coral);color:#fff;
+    box-shadow:0 3px 10px rgba(229,103,67,.30)}
   .pick .hint{font-size:11.5px;color:#8A857C;align-self:center;
               margin-left:4px}
 
@@ -280,9 +294,10 @@
   .cmp{display:flex;gap:20px;flex-wrap:wrap;margin:0 0 22px}
   .cmp label{font-size:12.5px;font-weight:600;color:var(--slate);
              display:flex;align-items:center;gap:9px}
-  .cmp select{font:600 13px system-ui,sans-serif;padding:7px 11px;
-    border-radius:7px;border:1px solid var(--line);background:#FCFBF8;
-    color:var(--ink);cursor:pointer;max-width:210px}
+  .cmp select{font:600 13px "Inter",system-ui,sans-serif;padding:8px 12px;
+    border-radius:10px;border:1px solid var(--line);background:#FDFAF4;
+    color:var(--ink);cursor:pointer;max-width:210px;
+    box-shadow:var(--shadow)}
   .cmp select:hover{border-color:var(--clay)}
   .cmp optgroup{font-weight:700;color:var(--slate)}
   .cmp .hint{font-size:11.5px;color:#8A857C;align-self:center;
@@ -291,9 +306,9 @@
   #cmptable td.num{font-variant-numeric:tabular-nums;font-weight:600}
 
   #maptip{position:fixed;z-index:50;pointer-events:none;opacity:0;
-    transition:opacity .1s;background:#191919;color:#fff;
-    padding:8px 11px;border-radius:6px;font-size:12px;line-height:1.45;
-    box-shadow:0 4px 14px rgba(0,0,0,.18);max-width:230px}
+    transition:opacity .1s;background:#26221B;color:#fff;
+    padding:9px 12px;border-radius:10px;font-size:12px;line-height:1.45;
+    box-shadow:0 6px 20px rgba(0,0,0,.22);max-width:230px}
   #maptip b{display:block;font-size:13px;margin-bottom:2px}
   #maptip em{font-style:normal;color:#C7A87C}
 </style>
@@ -336,7 +351,7 @@
 
   <!-- ============ GEOGRAPHY ============ -->
   <section>
-    <h2>Main stats for Austria, Germany and Switzerland</h2>
+    <h2>Main stats for Germany, Austria and Switzerland</h2>
     <p class="note">
     </p>
     <div id="ctrycards" class="ctry"></div>
@@ -376,9 +391,9 @@
             </svg>
             postings
           </span>
-          <span><i class="sw" style="background:#D97757"></i>Germany</span>
-          <span><i class="sw" style="background:#6E8CA0"></i>Austria</span>
-          <span><i class="sw" style="background:#7C9885"></i>Switzerland</span>
+          <span><i class="sw" style="background:#E56743"></i>Germany</span>
+          <span><i class="sw" style="background:#5C87A8"></i>Austria</span>
+          <span><i class="sw" style="background:#6FA37F"></i>Switzerland</span>
         </div>
         <div class="legend" id="leg-heat" hidden>
           <span class="dots"><i class="ramp"></i></span>
@@ -515,9 +530,9 @@ Pick a role: the left chart shows what its postings ask for, the
     </p>
     <div class="seg" id="heatseg" style="margin:0 0 12px">
       <button type="button" data-c="" aria-pressed="true">All DACH</button>
-      <button type="button" data-c="de" aria-pressed="false">Germany</button>
-      <button type="button" data-c="at" aria-pressed="false">Austria</button>
-      <button type="button" data-c="ch" aria-pressed="false">Switzerland</button>
+      <button type="button" data-c="de" aria-pressed="false">🇩🇪 Germany</button>
+      <button type="button" data-c="at" aria-pressed="false">🇦🇹 Austria</button>
+      <button type="button" data-c="ch" aria-pressed="false">🇨🇭 Switzerland</button>
     </div>
     <div id="heat" class="hm"></div>
   </section>
@@ -646,17 +661,17 @@ Pick a role: the left chart shows what its postings ask for, the
 
 <script>
 /* ---------------- palette ---------------- */
-const CORAL = "#D97757", CLAY = "#CC785C", SAGE = "#7C9885",
-      SLATE = "#5C5A54", LINE = "#E3DFD5",
-      DEEP  = "#A8462A", AMBER = "#D9A05B", TEAL = "#5F9EA0",
-      PLUM  = "#9B7B9B", STEEL = "#6E8CA0", MOSS = "#6E9384",
-      SAND  = "#C7A87C";
+const CORAL = "#E56743", CLAY = "#D07B55", SAGE = "#6FA37F",
+      SLATE = "#6B6558", LINE = "#EDE4D3",
+      DEEP  = "#AC4123", AMBER = "#E3A23F", TEAL = "#4E9FA5",
+      PLUM  = "#9C6B9E", STEEL = "#5C87A8", MOSS = "#5F977F",
+      SAND  = "#CBA55F";
 
 /* Splitting AI into families took the role count from 10 to 15, so a
    10-colour cycle would have repeated. Six more, chosen to stay
    distinguishable in the same muted range.                         */
-const ROSE = "#B5657F", INDIGO = "#6B6E9B", OLIVE = "#8C9455",
-      OCEAN = "#4F7A8C", STONE = "#8A857C", RUST  = "#9C5A3C";
+const ROSE = "#BE5B7E", INDIGO = "#6A6DB0", OLIVE = "#93A04B",
+      OCEAN = "#3E7E96", STONE = "#8A857C", RUST  = "#A55A33";
 
 const CATS = [CORAL, STEEL, SAGE, AMBER, PLUM, TEAL,
               CLAY, SAND, MOSS, DEEP,
@@ -729,11 +744,12 @@ const SKILL_CAT_LABEL = {
 const scat = c => SKILL_CAT_LABEL[c] || String(c).replace(/_/g, " ");
 
 const CNAME = { de: "Germany", at: "Austria", ch: "Switzerland" };
+const CFLAG = { de: "🇩🇪", at: "🇦🇹", ch: "🇨🇭" };
 const CCOL  = { de: CORAL,     at: STEEL,     ch: SAGE };
 const CORDER = ["de", "at", "ch"];
 
 Chart.defaults.font.family =
-  "system-ui, -apple-system, Segoe UI, sans-serif";
+  "Inter, system-ui, -apple-system, Segoe UI, sans-serif";
 Chart.defaults.color = SLATE;
 Chart.defaults.borderColor = LINE;
 
@@ -1016,7 +1032,7 @@ get("country_breakdown").then(d => {
   document.getElementById("ctrycards").innerHTML = rows.map(r => `
     <div class="cc">
       <div class="bar" style="background:${CCOL[r.country]}"></div>
-      <h4>${CNAME[r.country] || r.country}</h4>
+      <h4>${CFLAG[r.country] || ""} ${CNAME[r.country] || r.country}</h4>
       <div class="n">${r.n_postings.toLocaleString()}</div>
       <p class="sub">live postings from
          ${(r.employers || 0).toLocaleString()} employers</p>
@@ -1489,7 +1505,7 @@ const nk = s => String(s)
       `${total.toLocaleString()} (${(100 * n[c] / total).toFixed(1)}%)">
          <i style="background:${CCOL[c]}"></i>
          <b>${n[c].toLocaleString()}</b>
-         <u>${CNAME[c]}</u>
+         <u>${CFLAG[c] || ""} ${CNAME[c]}</u>
          <s>${(100 * n[c] / total).toFixed(1)}%</s>
        </div>`).join("") +
       `<div class="c tot" data-ab="DACH"
@@ -1635,7 +1651,8 @@ const nk = s => String(s)
     body.innerHTML = top.map((r, i) => `
       <tr class="drill" data-i="${i}">
         <td>${cap(r.city)}
-            <span class="flag">${r.country}</span></td>
+            <span class="flag" title="${CNAME[r.country] || r.country}"
+            >${String(r.country).toUpperCase()}</span></td>
         <td class="barcell">
           <span class="b" style="width:${100 * r.n_postings / mx}%;
                 background:${CCOL[r.country] || CORAL}"></span>
