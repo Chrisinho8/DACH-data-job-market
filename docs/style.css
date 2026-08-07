@@ -36,13 +36,16 @@ h1,h2,h3,h4{font-family:"Inter",system-ui,sans-serif}
 .wrap{max-width:880px;margin:0 auto;padding:0 24px}
 
 /* charts/data get the full width, prose stays readable */
-main.wrap{max-width:1000px}
-/* text runs the full column width, no left indent */
-main h2,
+/* padding must live here, not on bare `main` — the `.wrap` rule's
+   `padding:0 24px` shorthand outranks an element selector and was
+   silently zeroing the vertical padding. */
+main.wrap{max-width:1000px;padding:88px 24px 90px}
+/* text caps at 700px; charts and tables still use the full 1000px */
+main h2{max-width:none}
 main .note,
 main p,
 main ul,
-main li{max-width:none}
+main li{max-width:700px}
 
 /* ---------- header ---------- */
 header{

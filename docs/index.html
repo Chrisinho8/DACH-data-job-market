@@ -182,7 +182,7 @@
 
   .byline{margin:10px 0 0;font-size:13px;color:var(--slate)}
   .byline a{display:inline-flex;align-items:center;gap:6px}
-  .byline .li{flex:0 0 auto;color:#0A66C2;position:relative;top:-1px}
+  .byline .li{flex:0 0 auto;position:relative;top:-1px;border-radius:5px}
   .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;
            clip:rect(0 0 0 0);white-space:nowrap}
   .byline a{color:var(--coral);text-decoration:none;
@@ -333,13 +333,14 @@
     <p class="byline">
       Built by <a href="https://www.linkedin.com/in/cruckensteiner112"
                   target="_blank" rel="noopener">Christoph
-      Ruckensteiner<svg class="li" viewBox="0 0 24 24" width="15"
-        height="15" aria-hidden="true" focusable="false"><path
-        fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1
-        0-5zM3 9h4v12H3V9zm7 0h3.8v1.71h.05c.53-.95 1.83-1.96 3.76-1.96
-        4.02 0 4.76 2.5 4.76 5.76V21h-4v-5.6c0-1.34-.02-3.06-1.9-3.06-1.9
-        0-2.19 1.45-2.19 2.96V21h-4V9z"/></svg><span class="sr-only">
-        (LinkedIn)</span></a>
+      Ruckensteiner<svg class="li" viewBox="0 0 24 24" width="16"
+        height="16" aria-hidden="true" focusable="false"><rect width="24"
+        height="24" rx="5" fill="#0A66C2"/><path fill="#fff"
+        d="M7.1 9.2H4.4V19h2.7V9.2zM5.75 8.05a1.57 1.57 0 1 0 0-3.13
+        1.57 1.57 0 0 0 0 3.13zM19.6 19h-2.7v-4.78c0-1.14-.02-2.6-1.59-2.6
+        -1.59 0-1.83 1.24-1.83 2.52V19h-2.7V9.2h2.59v1.34h.04c.36-.68
+        1.24-1.4 2.55-1.4 2.73 0 3.24 1.8 3.24 4.13V19z"/></svg
+        ><span class="sr-only"> (LinkedIn)</span></a>
     </p>
   </div>
 </header>
@@ -571,6 +572,12 @@
     <h2>Which company has the most listings?</h2>
     <p class="note">
     </p>
+    <div class="mapctl">
+      <div class="ctlrow ctlrow-roles">
+        <span class="ctl-lab">Role</span>
+        <div id="emppick" class="pick"></div>
+      </div>
+    </div>
     <canvas id="empvol" height="260"></canvas>
   </section>
  
@@ -1922,22 +1929,88 @@ get("agency_comparison").then(d => {
         y: "days open (bar 1) · % over 60 days (bar 2)" });
 });
 
-/* ---------------- employers ---------------- */
-get("stale_by_company").then(d => {
-  if (!d || !d.length) return;
+/* ---------------- employers ----------------
+   Built from POSTINGS rather than stale_by_company, because the role
+   filter needs a company x role_family cut and the precomputed table
+   only carries company totals. POSTINGS is already fetched for the
+   postings browser, so this costs no extra request. Counts can sit a
+   little under stale_by_company: POSTINGS drops rows with no url and
+   rows in retired role families. */
+function initEmployers() {
+  if (!POSTINGS.length) return;
 
-  const vol = d.slice().sort((a, b) => b.n_postings - a.n_postings)
-               .slice(0, 15);
-  bar("empvol", vol.map(r => wrap(r.company, 24)),
-      [ds("Live postings", vol.map(r => r.n_postings),
-          vol.map(r => ageColour(r.avg_age_days)))], true, false, false,
-      { x: "live postings (bar colour = average days open)",
-        y: "company",
-        /* no company dropdown: the search box already matches on
-           employer, so a click just fills it in */
-        pick: i => openPostings({ q: vol[i].company }) });
+  const EALL = "All roles";
+  const pick = document.getElementById("emppick");
+  let current = EALL;
 
-});
+  /* role families ordered by how many postings they hold */
+  const famCount = {};
+  POSTINGS.forEach(r => {
+    if (r.role_family) famCount[r.role_family] =
+      (famCount[r.role_family] || 0) + 1;
+  });
+  const fams = Object.keys(famCount)
+    .sort((a, b) => famCount[b] - famCount[a]);
+
+  function topCompanies(role) {
+    const agg = {};
+    POSTINGS.forEach(r => {
+      if (!r.company) return;
+      if (role !== EALL && r.role_family !== role) return;
+      const a = agg[r.company] = agg[r.company] || { n: 0, age: 0 };
+      a.n++;
+      a.age += (r.age_days || 0);
+    });
+    return Object.entries(agg)
+      .map(([company, a]) => ({ company, n: a.n, avg: a.age / a.n }))
+      .sort((x, y) => y.n - x.n || x.company.localeCompare(y.company))
+      .slice(0, 15);
+  }
+
+  function draw() {
+    const vol = topCompanies(current);
+    const el = document.getElementById("empvol");
+    if (el && Chart.getChart) {
+      const old = Chart.getChart(el);
+      if (old) old.destroy();
+    }
+    if (!vol.length) return;
+    bar("empvol", vol.map(r => wrap(r.company, 24)),
+        [ds("Live postings", vol.map(r => r.n),
+            vol.map(r => ageColour(r.avg)))], true, false, false,
+        { x: "live postings (bar colour = average days open)",
+          y: "company",
+          /* no company dropdown: the search box already matches on
+             employer, so a click just fills it in */
+          pick: i => openPostings(current === EALL
+            ? { q: vol[i].company }
+            : { q: vol[i].company, family: current }) });
+  }
+
+  if (pick && fams.length) {
+    const names = [EALL].concat(fams);
+    pick.innerHTML = names.map(n =>
+      `<button type="button" data-role="${esc(n)}"
+               title="${n === EALL
+                 ? POSTINGS.length.toLocaleString() + " postings"
+                 : famCount[n].toLocaleString() + " postings"}"
+               aria-pressed="${n === current}">` +
+      `${n === EALL ? EALL : esc(rlab(n))}</button>`).join("");
+
+    pick.querySelectorAll("button").forEach(b => {
+      b.addEventListener("click", () => {
+        current = b.dataset.role;
+        pick.querySelectorAll("button").forEach(x =>
+          x.setAttribute("aria-pressed", x.dataset.role === current));
+        draw();
+      });
+    });
+  } else if (pick) {
+    pick.closest(".mapctl").hidden = true;
+  }
+
+  draw();
+}
 
 /* ---------------- the AI split ----------------
    Reads the same role_breakdown table as the roles section, filtered
@@ -2170,6 +2243,7 @@ get("postings").then(d => {
   if (!POSTINGS.length) return;
 
   $p("postings-section").hidden = false;
+  initEmployers();
 
   const uniq = k => [...new Set(POSTINGS.map(r => r[k]).filter(Boolean))];
 
