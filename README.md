@@ -3,7 +3,7 @@
 
 ![tests](https://github.com/Chrisinho8/DACH-data-job-market/actions/workflows/tests.yml/badge.svg)
 
-**[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** · last updated 6 August 2026
+**[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** · ![updated](https://img.shields.io/badge/dynamic/json?url=https://raw.githubusercontent.com/Chrisinho8/DACH-data-job-market/main/docs/data/meta.json&query=$.updated&label=last%20updated&color=E56743)
 
 A daily snapshot of the DACH data-job market: **3,200+ live postings from 1,350+ employers** across Germany, Austria and Switzerland. Every day at 08:00 UTC+2 a Databricks pipeline queries the Adzuna API for 16 data related job titles in all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 71-term skills dictionary. It then gets published to a static GitHub Page.
 
