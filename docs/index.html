@@ -122,10 +122,6 @@
   .hm .rw{background:none;color:#191919;text-align:left;
           font-weight:600;padding:9px 8px 9px 0}
 
-  /* over/under-index heatmap */
-  /* Fixed row height: the two numbers are the only content, so the
-     row is sized to them once instead of letting padding stack up.
-     .hm.hm-idx outranks the generic .hm rules above.              */
   .hm.hm-idx{gap:4px;margin-top:10px;font-size:12px;
              grid-auto-rows:34px;max-width:760px}
   .hm.hm-idx div{padding:0;margin:0;min-height:0;height:100%;
@@ -191,7 +187,6 @@
 
   .kpiblock{padding-top:40px}
 
-  /* ---------- enhanced KPI block ---------- */
   .kpi{display:grid;gap:14px;margin-bottom:22px;
        grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
   .k{background:#FEFCF8;border:1px solid var(--line);
@@ -326,16 +321,14 @@
     </div>
     <p class="sub">
       Every monday, data from job-postings across all three DACH
-      countries gets pulled from a public API (Adzuna), loaded into a Delta Lake
-      pipeline on Databricks, and aggregated for various insights
+      countries gets pulled from an API (Adzuna), loaded into a Delta Lake
+      pipeline in Databricks, and aggregated for various insights.
     </p>
     <p class="meta" id="meta">Loading&hellip;</p>
     <p class="byline">
       Built by <a href="https://www.linkedin.com/in/cruckensteiner112"
                   target="_blank" rel="noopener">Christoph
       Ruckensteiner</a> &middot;
-      <a href="https://github.com/Chrisinho8/DACH-data-job-market"
-         target="_blank" rel="noopener">GitHub page</a>
     </p>
   </div>
 </header>
@@ -418,7 +411,7 @@
   <section id="postings-section" hidden>
     <h2>The live postings behind the map</h2>
     <p class="note">
-      The listings can be filtered by choosing the role/city on the map or by filling in the filters manually.
+      The listings can be filtered by selecting the role/city on the map or by filling in the filters manually.
     </p>
 
     <div class="pfilters">
@@ -477,11 +470,7 @@
   <section id="skillrole-section" hidden>
     <h2>Which technical skills do postings ask for?
        
-    <p class="note">
-Pick a role: the left chart shows what its postings ask for, the
-  right subtracts the market rate to show what makes it
-  <em>distinctive</em>. Denominators are per role.
-  <strong>NOTE: These are floors, not requirement rates</strong> 
+
     </p>
     
     <div class="mapctl">
@@ -533,11 +522,7 @@ Pick a role: the left chart shows what its postings ask for, the
     <div id="heat" class="hm"></div>
   </section>
   <section>
-    <h2>Does seniority change how long a job stays open?</h2>
-    <p class="note"></p>
-    <canvas id="senage" height="130"></canvas>
-  </section>
-  <section>
+     <section>
     <h2>Comparison between the different data jobs and their average opening lenghts</h2>
     <p class="note">
     </p>
