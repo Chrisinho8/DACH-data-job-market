@@ -180,6 +180,8 @@
     .hdmark{width:56px}
   }
 
+  .h2when{font-size:14px;font-weight:500;color:var(--slate);
+          letter-spacing:0;white-space:nowrap}
   .byline{margin:10px 0 0;font-size:13px;color:var(--slate)}
   .byline a{display:inline-flex;align-items:center;gap:6px}
   .byline .li{flex:0 0 auto;position:relative;top:-1px;border-radius:5px}
@@ -335,7 +337,7 @@
                   target="_blank" rel="noopener">Christoph
       Ruckensteiner<svg class="li" viewBox="0 0 24 24" width="16"
         height="16" aria-hidden="true" focusable="false"><rect width="24"
-        height="24" rx="5" fill="#0A66C2"/><path fill="#fff"
+        height="24" rx="5" fill="#0077B5"/><path fill="#fff"
         d="M7.1 9.2H4.4V19h2.7V9.2zM5.75 8.05a1.57 1.57 0 1 0 0-3.13
         1.57 1.57 0 0 0 0 3.13zM19.6 19h-2.7v-4.78c0-1.14-.02-2.6-1.59-2.6
         -1.59 0-1.83 1.24-1.83 2.52V19h-2.7V9.2h2.59v1.34h.04c.36-.68
@@ -348,7 +350,7 @@
 <main class="wrap">
 
 <section class="kpiblock">
-    <h2>Current overview</h2>
+    <h2>Current overview <span id="kpi-when" class="h2when"></span></h2>
     <p class="note" id="kpi-updated"></p>
     <div id="kpi" class="kpi"></div>
   </section>
@@ -431,7 +433,7 @@
       <input id="pq" type="search" autocomplete="off"
              placeholder="Search title or employer…"
              aria-label="Search postings by title or employer">
-      <select id="pfam"  aria-label="Filter by role family"></select>
+      <select id="pfam"  aria-label="Filter by role"></select>
       <select id="pctry" aria-label="Filter by country"></select>
       <select id="pcity" aria-label="Filter by city"></select>
       <select id="psen"  aria-label="Filter by seniority"></select>
@@ -481,11 +483,20 @@
 
   <!-- ============ TOOLS ============ -->
   <section id="skillrole-section" hidden>
-    <h2>Which technical skills do postings ask for?
-       
-
+    <h2>Which technical skills do postings ask for?</h2>
+    <p class="note">
+      Every posting is scanned against a curated dictionary of 47 tools
+      and technologies. A bar is the share of postings that name that
+      term at least once, so the bars do not add to 100% - one advert
+      can ask for Python, SQL and Airflow and counts in all three.
+      Pick a role to see how its mix differs from the market as a whole.
+      <strong>These are mention rates, not requirement rates:</strong>
+      the aggregator truncates descriptions at 500 characters, so a tool
+      only counts if it appears early. The window is the same for every
+      posting, so comparing tools to each other holds; the absolute
+      percentages are a floor.
     </p>
-    
+
     <div class="mapctl">
       <div class="ctlrow ctlrow-roles">
         <span class="ctl-lab">Role</span>
@@ -588,7 +599,7 @@
       two are measured on every run: the share of records rejected by
       quality rules and the share of source descriptions the API
       truncated. The two matcher scores are <strong>not</strong> per-run
-      &mdash; they come from a single manual spot check on a
+      - they come from a single manual spot check on a
       hand-labelled sample of postings, and they are not recomputed when
       the pipeline refreshes.
     </p>
@@ -628,7 +639,7 @@
 
 
       <li><strong>Listings link out, they are not republished.</strong>
-          The postings browser shows title, employer, city, role family
+          The postings browser shows title, employer, city, role
           and age, and every row links to the aggregator. Job
           descriptions and salary estimates are not redistributed.</li>
       <li><strong>A posting in the browser is not necessarily
@@ -672,7 +683,7 @@ const CATS = [CORAL, STEEL, SAGE, AMBER, PLUM, TEAL,
               CLAY, SAND, MOSS, DEEP,
               ROSE, INDIGO, OLIVE, OCEAN, STONE, RUST];
 
-/* Fixed colour per role family, so a family keeps its colour across
+/* Fixed colour per role, so a role keeps its colour across
    every chart on the page even when the sort order differs. The AI
    families share the warm end of the palette and the data families
    the cool end, which makes the AI block readable as a block.     */
@@ -754,7 +765,7 @@ const get = f =>
 const cyc = i => CATS[i % CATS.length];
 const cap = s => String(s).charAt(0).toUpperCase() + String(s).slice(1);
 
-/* ---- display names for role families ----------------------------
+/* ---- display names for roles ----------------------------
    The keys are the raw values published by the pipeline and must
    not change. Only the labels shown to a reader are rewritten, so
    nothing downstream of gold breaks.                              */
@@ -813,7 +824,7 @@ function ds(label, data, colour) {
 /* ---- sizing horizontal bar charts ------------------------------
    These charts were laid out by canvas aspect ratio, which fixes the
    height and then divides it by however many rows there happen to be.
-   Sixteen role families in a half-width column left about 19px per
+   Sixteen roles in a half-width column left about 19px per
    row, and `wrap()` had already turned the longer names into two and
    three line labels needing more than that, so they overprinted each
    other and the axis title.
@@ -943,10 +954,10 @@ function ageColour(d) {
 /* ---------------- enhanced KPI block ---------------- */
 get("meta").then(m => {
   if (!m) return;
+  if (m.updated) set("kpi-when", `(updated ${m.updated})`);
   set("kpi-updated",
     `${m.live_postings.toLocaleString()} live postings · ` +
-    `${m.employers.toLocaleString()} employers · ` +
-    `last updated ${m.updated}`);
+    `${m.employers.toLocaleString()} employers`);
   set("f-mean", Math.round(m.avg_age_days));
   set("f-median", m.median_age_days);
   if (m.updated) set("cav_updated", m.updated);
@@ -1012,7 +1023,7 @@ get("age_distribution").then(d => {
 
   leg.innerHTML = rows.map((r, i) =>
     `<span><i style="background:${cols[i % cols.length]}"></i>` +
-    `${r.bucket} — ${r.pct}%</span>`).join("");
+    `${r.bucket} - ${r.pct}%</span>`).join("");
 });
 
 /* ---------------- country comparison ---------------- */
@@ -1035,7 +1046,7 @@ get("country_breakdown").then(d => {
         <dt>Mean age</dt><dd>${Math.round(r.avg_age_days)} d</dd>
         <dt>Open &gt; 60 days</dt><dd>${r.pct_over_60d}%</dd>
         <dt>In English</dt><dd>${r.pct_english}%</dd>
-        <dt>Salary shown</dt><dd>${r.pct_with_salary ?? "–"}%</dd>
+        <dt>Salary shown</dt><dd>${r.pct_with_salary ?? "-"}%</dd>
       </dl>
     </div>`).join("");
 
@@ -1327,7 +1338,7 @@ const nk = s => String(s)
 
 
 
-/* ---------------- map, filterable by role family ----------------
+/* ---------------- map, filterable by role ----------------
    Reads city_role_breakdown.json when the pipeline publishes it.
    Falls back to city_breakdown.json (all roles combined) so the
    page still works before that table exists.               */
@@ -1739,14 +1750,14 @@ get("role_breakdown").then(all => {
   bar("rolevol", roles.map(r => wrap(rlab(r))),
       [ds("Live postings", rows.map(r => r.n),
           rows.map((r, i) => rcol(r.role, i)))], true, false, false,
-      { x: "live postings", y: "role family",
+      { x: "live postings", y: "role",
         pick: i => openPostings({ family: rows[i].role }) });
 
   const byAge = rows.slice().sort((a, b) => b.age - a.age);
   bar("roleage", byAge.map(r => wrap(rlab(r.role))),
       [ds("Avg days open", byAge.map(r => Math.round(r.age)),
           byAge.map(r => ageColour(r.age)))], true, false, false,
-      { x: "average days a posting stays open", y: "role family",
+      { x: "average days a posting stays open", y: "role",
         pick: i => openPostings({ family: byAge[i].role }) });
 
   /* --- role mix by country, as an over/under-index -----------------
@@ -1819,11 +1830,11 @@ get("role_breakdown").then(all => {
       countries.forEach(c => {
         const n = cnt(c, rf), v = idx(c, rf);
         if (!n || v == null) {
-          ih += `<div style="background:#F5F3ED;color:#A9A49A">–</div>`;
+          ih += `<div style="background:#F5F3ED;color:#A9A49A">-</div>`;
           return;
         }
-        /* Thin cells stay clickable — the reader may well want to
-           see those 3 postings — but are washed toward neutral so the
+        /* Thin cells stay clickable - the reader may well want to
+           see those 3 postings - but are washed toward neutral so the
            eye does not read a 2.3× off four rows as a real signal. */
         const thin = n < MIN_N;
         const bg   = thin ? CELL(1 + (v - 1) * 0.25) : CELL(v);
@@ -1857,9 +1868,9 @@ get("role_breakdown").then(all => {
   bar("roles", roles.map(rlab),
       levels.map(lv => ds(lv, roles.map(rf => cell(rf, lv)),
                           cols[lv])), true, true, false,
-      { x: "live postings", y: "role family" });
+      { x: "live postings", y: "role" });
 
-  /* heatmap — country filterable.
+  /* heatmap - country filterable.
      Row order is frozen to the all-DACH ranking so switching country
      compares like with like instead of reshuffling the table. The
      colour scale is rescaled per view, otherwise Austria and
@@ -1935,7 +1946,7 @@ get("agency_comparison").then(d => {
    only carries company totals. POSTINGS is already fetched for the
    postings browser, so this costs no extra request. Counts can sit a
    little under stale_by_company: POSTINGS drops rows with no url and
-   rows in retired role families. */
+   rows in retired roles. */
 function initEmployers() {
   if (!POSTINGS.length) return;
 
@@ -1943,7 +1954,7 @@ function initEmployers() {
   const pick = document.getElementById("emppick");
   let current = EALL;
 
-  /* role families ordered by how many postings they hold */
+  /* roles ordered by how many postings they hold */
   const famCount = {};
   POSTINGS.forEach(r => {
     if (r.role_family) famCount[r.role_family] =
@@ -1976,9 +1987,9 @@ function initEmployers() {
     }
     if (!vol.length) return;
     bar("empvol", vol.map(r => wrap(r.company, 24)),
-        [ds("Live postings", vol.map(r => r.n),
-            vol.map(r => ageColour(r.avg)))], true, false, false,
-        { x: "live postings (bar colour = average days open)",
+        [ds("Live postings", vol.map(r => r.n), CORAL)],
+        true, false, false,
+        { x: "live postings",
           y: "company",
           /* no company dropdown: the search box already matches on
              employer, so a click just fills it in */
@@ -2194,7 +2205,7 @@ function pRender() {
          No postings match those filters.</td></tr>`;
 
   $p("pcount").textContent = rows.length
-    ? `Showing ${(from + 1).toLocaleString()}–` +
+    ? `Showing ${(from + 1).toLocaleString()}-` +
       `${(from + slice.length).toLocaleString()} of ` +
       `${rows.length.toLocaleString()} postings` +
       (last > 1 ? `  ·  page ${ppage} of ${last}` : "") +
@@ -2250,7 +2261,7 @@ get("postings").then(d => {
   pFill($p("pfam"),
         uniq("role_family").sort((a, b) =>
           rlab(a).localeCompare(rlab(b))),
-        "All role families", rlab);
+        "All roles", rlab);
   pFill($p("pctry"),
         uniq("country").sort(),
         "All countries", c => (CNAME && CNAME[c]) || c.toUpperCase());
@@ -2392,7 +2403,7 @@ get("history").then(h => {
   get("role_breakdown").then(d => {
     if (!d || !d.length) return;
 
-    /* per role family: junior count and total */
+    /* per role: junior count and total */
     const byRole = {};
     d.forEach(r => {
       const k = r.role_family;
@@ -2407,7 +2418,7 @@ get("history").then(h => {
 
 
 
-    /* junior share of each role family */
+    /* junior share of each role */
     const byShare = jr.slice().sort((a, b) => b.pct - a.pct);
     bar("n1_juniorvol",
         byShare.map(r => `${rlab(r.role)} (n=${r.n})`),
@@ -2415,7 +2426,7 @@ get("history").then(h => {
             byShare.map(r => r.pct === 0 ? "#D8D3C7" : OLIVE))],
         true, false, false,
         { x: "% of that role's postings advertised as junior",
-          y: "role family (n = postings in that family)" });
+          y: "role (n = postings in that role)" });
 
     /* 3. seniority mix by country */
     if (d[0].country !== undefined) {
@@ -2487,10 +2498,10 @@ get("history").then(h => {
       ["Records rejected by quality rules",
        m.quarantine_rate != null
          ? (100 * m.quarantine_rate).toFixed(1) + "%"
-         : (m.quarantined != null ? m.quarantined : "–")],
+         : (m.quarantined != null ? m.quarantined : "-")],
       ["Source descriptions truncated",
        m.desc_truncated_pct != null
-         ? m.desc_truncated_pct + "%" : "–"],
+         ? m.desc_truncated_pct + "%" : "-"],
       /* Not per-run. One-off manual spot check on a hand-labelled
          sample; the pipeline does not recompute these. Hardcoded on
          purpose so they are never mistaken for a live metric. */
@@ -2516,7 +2527,7 @@ get("history").then(h => {
 <!-- ===================================================== -->
 <script>
 
-/* ---------------- 1 + 2. tools by role family ----------------
+/* ---------------- 1 + 2. tools by role ----------------
    Needs gold.skill_by_role. The section stays hidden until the
    pipeline publishes it, rather than showing empty axes.      */
 (function () {
