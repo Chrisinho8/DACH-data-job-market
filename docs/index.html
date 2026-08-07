@@ -71,9 +71,7 @@
   .pfilters button:hover{background:#F0EEE6}
   .pfilters :focus-visible{outline:2px solid #8A4A2E;outline-offset:1px}
 
-  /* The table scrolls sideways on a phone rather than reflowing: six
-     columns of one-line facts stay readable that way, and stacking
-     them into cards would make scanning a list of jobs worse. */
+
   .ptable-wrap{overflow-x:auto;border:1px solid var(--line);
                border-radius:13px;box-shadow:var(--shadow)}
   .ptable{width:100%;border-collapse:collapse;font-size:13.5px;
@@ -317,13 +315,13 @@
 
 <header>
   <div class="wrap">
-    <p class="eyebrow">Germany &middot; Austria &middot; Switzerland
+    <p class="eyebrow">Germany 🇩🇪 &middot; Austria 🇦🇹 &middot; Switzerland 🇨🇭
        &middot; updated every Monday at 06:00</p>
     <div class="titlerow">
       <img class="hdmark" src="assets/dach.svg" alt=""
            width="86" height="107" loading="eager"
            onerror="this.remove()">
-      <h1>Whats up with the
+      <h1>What's up with the
           <em>data-job-market</em> in the DACH region?</h1>
     </div>
     <p class="sub">
@@ -434,8 +432,6 @@
       <select id="psort" aria-label="Sort postings">
         <option value="new">Newest first</option>
         <option value="old">Oldest first</option>
-        <option value="age">Longest open</option>
-        <option value="az">Title A–Z</option>
       </select>
       <button id="pclear" type="button">Clear</button>
     </div>
@@ -618,19 +614,12 @@ Pick a role: the left chart shows what its postings ask for, the
           AI posting that <em>describes itself</em>. The count of
           postings using AI as an adjective is larger and is not
           published.</li>
-      <li><strong>The boundaries between AI families are judgement
-          calls.</strong> "Applied Scientist, Machine Learning" is
-          counted as research rather than ML engineering; a title
-          naming both data and AI is counted as data. Reasonable people
-          would draw these lines differently, and the rules are in
-          <code>03_silver_clean.py</code> so you can check where yours
-          would differ.</li>
+ 
       <li><strong>Entry programmes are excluded</strong> (Ausbildung,
           duales Studium, Werkstudent, Praktikum, Trainee), along with
           Controlling and finance roles and data-centre infrastructure
           jobs pulled in by keyword search.</li>
-      <li><strong>Reposts are detected by content hash</strong> (title,
-          company, city, first 200 characters).</li>
+
 
       <li><strong>Listings link out, they are not republished.</strong>
           The postings browser shows title, employer, city, role family
