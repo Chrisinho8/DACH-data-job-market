@@ -1,21 +1,9 @@
-"""Dictionary-based skill extraction.
 
-Two design decisions worth knowing about:
-
-1. **Longest alias first, then blank the span.** Without this, "sql"
-   matches inside "postgresql" and inflates the SQL count by every
-   Postgres posting.
-
-2. **"R" needs context.** A naive \\bR\\b matches "R&D", "R. Mueller"
-   and half of every German address block. We only accept it when the
-   surrounding document looks like it is listing technologies.
-"""
 
 import re
 
 from skills_dictionary import SKILLS, CATEGORY
 
-# longest alias first so specific patterns win
 PATTERNS = sorted(
     ((skill, alias)
      for skill, d in SKILLS.items()
@@ -31,7 +19,6 @@ R_CONTEXT = re.compile(
 
 
 def extract(text):
-    """Return the sorted set of skill keys mentioned in `text`."""
     if not text:
         return []
 
@@ -48,8 +35,7 @@ def extract(text):
 
         found.append(skill)
 
-        # blank the matched span so shorter aliases cannot
-        # re-match inside it
+   
         remaining = (remaining[:m.start()]
                      + " " * (m.end() - m.start())
                      + remaining[m.end():])
@@ -63,11 +49,7 @@ def categorise(skill):
 
 def evaluate(labelled_rows, text_key="description",
              truth_key="skills_true"):
-    """Precision and recall against hand-labelled rows.
 
-    `labelled_rows` is an iterable of dicts. `truth_key` holds
-    semicolon-separated skill keys.
-    """
     tp = fp = fn = 0
 
     for row in labelled_rows:
