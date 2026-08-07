@@ -73,7 +73,8 @@ h1{
   letter-spacing:-.02em;
   font-weight:700;
   margin:0 0 18px;
-  max-width:17ch;
+  max-width:24ch;
+  text-wrap:balance;
 }
 h1 em{
   font-style:italic;
