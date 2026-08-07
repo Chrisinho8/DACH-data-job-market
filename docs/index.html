@@ -2622,9 +2622,7 @@ get("history").then(h => {
                  title="${n === ALL ? "every posting"
                           : size(n).toLocaleString() + " postings"}"
                  aria-pressed="${n === current}">` +
-        `${n === ALL ? ALL : rlab(n)}</button>`).join("")
-        + `<span class="hint">mentions in title or first
-             paragraph only</span>`;
+        `${n === ALL ? ALL : rlab(n)}</button>`).join("");
 
       pick.querySelectorAll("button").forEach(b => {
         b.addEventListener("click", () => {
