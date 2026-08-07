@@ -37,12 +37,12 @@ h1,h2,h3,h4{font-family:"Inter",system-ui,sans-serif}
 
 /* charts/data get the full width, prose stays readable */
 main.wrap{max-width:1000px}
+/* text runs the full column width, no left indent */
 main h2,
 main .note,
 main p,
-main li{max-width:72ch}
-main .caveats ul,
-main .caveats li{max-width:none}
+main ul,
+main li{max-width:none}
 
 /* ---------- header ---------- */
 header{
@@ -51,7 +51,7 @@ header{
     radial-gradient(520px 300px at 5% 90%,rgba(229,103,67,.10),transparent 70%),
     linear-gradient(160deg,#FBF2E3,#F6E9D6);
   border-bottom:1px solid var(--line);
-  padding:72px 0 76px;
+  padding:72px 0 44px;
   position:relative;
   overflow:hidden;
   text-align:center;
@@ -86,22 +86,8 @@ h1 em{
   text-wrap:pretty;
 }
 .sub strong{color:var(--ink)}
-.meta{
-  display:inline-block;
-  font-size:13px;
-  font-weight:600;
-  color:var(--slate);
-  background:var(--card);
-  border:1px solid var(--line);
-  border-left:4px solid var(--coral);
-  border-radius:10px;
-  box-shadow:var(--shadow);
-  padding:9px 14px;
-  margin:0;
-}
-
 /* ---------- stat cards ---------- */
-main{padding:56px 24px 90px}
+main{padding:88px 24px 90px}
 .stats{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
