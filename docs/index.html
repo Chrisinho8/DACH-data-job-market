@@ -180,8 +180,10 @@
     .hdmark{width:56px}
   }
 
-  .h2when{font-size:inherit;font-weight:inherit;color:var(--slate);
+  .h2when{font-size:inherit;font-weight:inherit;color:inherit;
           letter-spacing:inherit;white-space:nowrap}
+  /* breathing room between a section title and its role pills */
+  h2 + .mapctl{margin-top:20px}
   .byline{margin:10px 0 0;font-size:15px;color:var(--slate)}
   .byline a{display:inline-flex;align-items:center;gap:6px}
   .byline .li{flex:0 0 auto;position:relative;top:-1px;border-radius:5px}
@@ -317,6 +319,12 @@
   .cmp optgroup{font-weight:700;color:var(--slate)}
   .cmp .hint{font-size:11.5px;color:#8A857C;align-self:center;
              font-weight:400}
+  /* numbers sit centred under their heading rather than ragged-right */
+  .rank-city th.num,
+  .rank-city td.num{text-align:center}
+  /* drop the radar chart's neighbour to roughly the plot's eye line */
+  .subh.figs{margin-top:54px}
+  @media(max-width:720px){.subh.figs{margin-top:18px}}
   #cmptable td:first-child{font-weight:500;color:#5C5A54}
   #cmptable td.num{font-variant-numeric:tabular-nums;font-weight:600}
 
@@ -402,14 +410,6 @@
         <svg id="map" viewBox="0 0 640 800"
              xmlns="http://www.w3.org/2000/svg"></svg>
         <div class="legend" id="leg-bubbles">
-          <span class="dots">
-            <svg width="64" height="20">
-              <circle cx="7"  cy="10" r="4"  fill="#B8B2A4"/>
-              <circle cx="26" cy="10" r="7"  fill="#B8B2A4"/>
-              <circle cx="50" cy="10" r="11" fill="#B8B2A4"/>
-            </svg>
-            postings
-          </span>
           <span><i class="sw" style="background:#E56743"></i>Germany</span>
           <span><i class="sw" style="background:#5C87A8"></i>Austria</span>
           <span><i class="sw" style="background:#6FA37F"></i>Switzerland</span>
@@ -422,7 +422,7 @@
       </div>
       <div>
         <h3 class="subh">Top cities by listings</h3>
-        <table class="rank">
+        <table class="rank rank-city">
           <thead><tr>
             <th>City</th>
             <th></th>
@@ -488,7 +488,7 @@
     <div class="maprow">
       <div><canvas id="citycmp" height="300"></canvas></div>
       <div>
-        <h3 class="subh">Actual figures</h3>
+        <h3 class="subh figs">Actual figures</h3>
         <table class="rank"><tbody id="cmptable"></tbody></table>
       </div>
     </div>
@@ -947,6 +947,13 @@ function scatter(id, points, xLabel, yLabel, colourFn) {
   });
 }
 
+/* ISO date -> DD-MM-YYYY. Anything that is not a plain ISO date is
+   passed through untouched rather than mangled. */
+function euroDate(s) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s || "").slice(0, 10));
+  return m ? `${m[3]}-${m[2]}-${m[1]}` : s;
+}
+
 function ageColour(d) {
   if (d == null) return "#B8B2A4";
   if (d < 25) return MOSS;
@@ -962,10 +969,11 @@ function ageColour(d) {
 /* ---------------- enhanced KPI block ---------------- */
 get("meta").then(m => {
   if (!m) return;
-  if (m.updated) set("kpi-when", `(updated ${m.updated})`);
+  /* meta.updated arrives ISO (YYYY-MM-DD); the page reads European */
+  if (m.updated) set("kpi-when", `(updated ${euroDate(m.updated)})`);
   set("f-mean", Math.round(m.avg_age_days));
   set("f-median", m.median_age_days);
-  if (m.updated) set("cav_updated", m.updated);
+  if (m.updated) set("cav_updated", euroDate(m.updated));
 
   const ratio = m.median_age_days
     ? (m.avg_age_days / m.median_age_days).toFixed(1) : null;
