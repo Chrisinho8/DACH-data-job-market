@@ -57,8 +57,10 @@
   .rank tr.drill{cursor:pointer}
   .rank tr.drill:hover td{background:#F0EEE6}
   .rank .b{height:9px;border-radius:2px;display:block}
-  .flag{font-size:13px;font-weight:700;letter-spacing:.06em;
-        color:#8A857C;text-transform:uppercase}
+  .flag{font-size:12.5px;font-weight:600;color:#8A857C}
+  .fl{width:15px;height:10px;border-radius:2px;margin-right:7px;
+      vertical-align:-1px}
+  .fl-ch{width:10px;border-radius:0}
 
   .subh{font-size:14px;margin:0 0 10px;color:#5C5A54;font-weight:600}
 
@@ -90,8 +92,8 @@
                border-radius:13px;box-shadow:var(--shadow)}
   .ptable{width:100%;border-collapse:collapse;font-size:13.5px;
           min-width:680px}
-  .ptable th{text-align:left;font-size:11px;letter-spacing:.06em;
-             text-transform:uppercase;color:#8A857C;font-weight:700;
+  .ptable th{text-align:left;font-size:12.5px;color:#8A857C;
+             font-weight:600;
              padding:9px 12px;border-bottom:1px solid #EAE6DC;
              background:#FAF9F5;position:sticky;top:0}
   .ptable td{padding:9px 12px;border-bottom:1px solid #F0EEE6;
@@ -115,7 +117,7 @@
     border:1px solid #DCD6C8;border-radius:6px;background:#FFFDF8;
     color:#5C5A54;cursor:pointer;font-variant-numeric:tabular-nums}
   .ppag button:hover:not(:disabled){background:#F0EEE6;color:#26241F}
-  .ppag button[aria-current="page"]{background:var(--grad);
+  .ppag button[aria-current="page"]{background:var(--coral);
     border-color:var(--coral);color:#fff;font-weight:700}
   .ppag button:disabled{opacity:.4;cursor:default}
   .ppag .gap{color:#8A857C;padding:0 2px;user-select:none}
@@ -142,9 +144,8 @@
                  line-height:1;display:flex;flex-direction:row;
                  justify-content:center;align-items:center;gap:7px;
                  text-align:center;border-radius:5px}
-  .hm.hm-idx .hd{height:auto;padding:0 0 4px;font-size:11.5px;
-                 font-weight:600;letter-spacing:.05em;
-                 text-transform:uppercase;color:#8A857C;
+  .hm.hm-idx .hd{height:auto;padding:0 0 4px;font-size:12px;
+                 font-weight:600;color:#8A857C;
                  justify-content:center;align-items:flex-end}
   .hm.hm-idx .rw{padding:0 14px 0 0;font-size:13px;font-weight:500;
                  line-height:1.2;align-items:center;
@@ -186,7 +187,6 @@
   .cc dt{color:#5C5A54}
   .cc dd{margin:0;text-align:right;font-weight:600;
          font-variant-numeric:tabular-nums}
-  .cc .bar{height:5px;border-radius:99px;margin-bottom:14px}
   .titlerow{display:flex;align-items:center;justify-content:center;gap:22px}
   .hdmark{flex:0 0 auto;width:86px;height:auto;display:block}
   @media(max-width:720px){
@@ -216,8 +216,7 @@
      box-shadow:var(--shadow);
      transition:transform .15s ease,box-shadow .15s ease}
   .k:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-  .k .accent{height:5px}
-  .k .in{padding:14px 18px 0}
+  .k .in{padding:16px 18px 0}
   .k b{display:block;font-size:32px;font-weight:700;
        font-family:"Inter",sans-serif;
        letter-spacing:-.025em;line-height:1.1;color:var(--ink);
@@ -267,8 +266,7 @@
   .ctlrow{display:flex;align-items:center;gap:12px;margin-bottom:12px}
   .ctlrow-roles{align-items:flex-start;margin-bottom:0}
   .mapctl .pick{margin:0;flex:1}
-  .ctl-lab{flex:0 0 74px;font-size:11px;font-weight:700;
-           letter-spacing:.07em;text-transform:uppercase;
+  .ctl-lab{flex:0 0 74px;font-size:12.5px;font-weight:600;
            color:#8A857C;line-height:1.9}
   @media(max-width:720px){
     .ctlrow{flex-direction:column;align-items:flex-start;gap:7px}
@@ -282,7 +280,8 @@
     color:var(--slate);transition:.12s}
   .seg button + button{border-left:1px solid var(--line)}
   .seg button:hover{background:#F6EFE3;color:var(--ink)}
-  .seg button[aria-pressed="true"]{background:var(--grad);color:#fff}
+  .seg button[aria-pressed="true"]{background:var(--coral);color:#fff}
+  .seg button[aria-pressed="true"] .fl{outline:1px solid rgba(255,255,255,.5)}
 
   #map .hit{fill:transparent;cursor:default}
   #leg-heat .ramp{display:inline-block;width:132px;height:11px;
@@ -301,9 +300,7 @@
     transform:translateY(-1px)}
   .pick button[aria-pressed="true"]{
     background-color:var(--coral);
-    background-image:var(--grad);
-    border-color:var(--coral);color:#fff;
-    box-shadow:0 3px 10px rgba(229,103,67,.30)}
+    border-color:var(--coral);color:#fff}
   .pick .hint{font-size:11.5px;color:#8A857C;align-self:center;
               margin-left:4px}
   /* The "All" pill is a reset, not one more sibling role, so it gets
@@ -352,16 +349,28 @@
 </head>
 <body>
 
+<nav class="topnav">
+  <div class="wrap navwrap">
+    <a class="brand" href="#overview">DACH Data Job Market</a>
+    <div class="navlinks">
+      <a href="#geo">Map</a>
+      <a href="#postings-section">Postings</a>
+      <a href="#skillrole-section">Skills</a>
+      <a href="#ai-section">AI roles</a>
+      <a href="#roles">Roles</a>
+      <a href="#limitations">Caveats</a>
+    </div>
+  </div>
+</nav>
+
 <header>
   <div class="wrap">
-    <p class="eyebrow">Germany 🇩🇪 &middot; Austria 🇦🇹 &middot; Switzerland 🇨🇭
-       &middot; updated every day at 08:00 UTC+2</p>
     <div class="titlerow">
       <img class="hdmark" src="assets/dach.svg" alt=""
            width="86" height="107" loading="eager"
            onerror="this.remove()">
       <h1>What's up with the
-          <em>data-job-market</em> in the DACH region?</h1>
+          data job market in the DACH region?</h1>
     </div>
     <p class="sub">
       Every day at 08:00 UTC+2, data from job-postings across all three DACH
@@ -385,7 +394,7 @@
 
 <main class="wrap">
 
-<section class="kpiblock">
+<section class="kpiblock" id="overview">
     <h2>Current overview <span id="kpi-when" class="h2when"></span></h2>
     <div id="kpi" class="kpi"></div>
   </section>
@@ -397,7 +406,7 @@
     </p>
     <div id="ctrycards" class="ctry"></div>
   </section>
-  <section>
+  <section id="geo">
     <h2>Where are the jobs located?</h2>
     <p class="note">
     </p>
@@ -555,15 +564,25 @@
   </section>
 
   <!-- ============ ROLES AND SENIORITY ============ -->
-  <section>
+  <section id="roles">
     <h2>Role and seniority distribution per country</h2>
     <p class="note">
     </p>
     <div class="seg" id="heatseg" style="margin:0 0 12px">
       <button type="button" data-c="" aria-pressed="true">All DACH</button>
-      <button type="button" data-c="de" aria-pressed="false">🇩🇪 Germany</button>
-      <button type="button" data-c="at" aria-pressed="false">🇦🇹 Austria</button>
-      <button type="button" data-c="ch" aria-pressed="false">🇨🇭 Switzerland</button>
+      <button type="button" data-c="de" aria-pressed="false"><svg class="fl"
+        viewBox="0 0 15 10" aria-hidden="true"><rect width="15" height="10"
+        fill="#262626"/><rect y="3.4" width="15" height="6.6" fill="#CE2029"/><rect
+        y="6.7" width="15" height="3.3" fill="#F0B637"/></svg>Germany</button>
+      <button type="button" data-c="at" aria-pressed="false"><svg class="fl"
+        viewBox="0 0 15 10" aria-hidden="true"><rect width="15" height="10"
+        fill="#CE2029"/><rect y="3.4" width="15" height="3.3"
+        fill="#FFFFFF"/></svg>Austria</button>
+      <button type="button" data-c="ch" aria-pressed="false"><svg class="fl fl-ch"
+        viewBox="0 0 10 10" aria-hidden="true"><rect width="10" height="10"
+        rx="1.5" fill="#CE2029"/><rect x="4.1" y="2" width="1.8" height="6"
+        fill="#FFFFFF"/><rect x="2" y="4.1" width="6" height="1.8"
+        fill="#FFFFFF"/></svg>Switzerland</button>
     </div>
     <div id="heat" class="hm"></div>
   </section>
@@ -609,7 +628,7 @@
   </section>
  
   <section>
-    <h2>This pipelines own error rates</h2>
+    <h2>The pipeline's own error rates</h2>
     <p class="note">
       Most dashboards do not publish how wrong they might be. The first
       two are measured on every run: the share of records rejected by
@@ -623,8 +642,10 @@
   </section>
 
   <!-- ============ CAVEATS ============ -->
-  <section class="caveats">
-    <h2>What this pipeline will not tell you</h2>
+  <section class="caveats" id="limitations">
+    <details>
+    <summary>What this pipeline will not tell you<span class="chev"
+      aria-hidden="true"></span></summary>
     <ul>
      
       
@@ -673,6 +694,7 @@
           (<span id="cav_updated">see the footer</span>). Nothing here
           re-checks whether a job has since been filled or withdrawn.</li>
     </ul>
+    </details>
   </section>
 
   <footer>

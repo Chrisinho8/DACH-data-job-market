@@ -82,7 +82,20 @@ const SKILL_CAT_LABEL = {
 const scat = c => SKILL_CAT_LABEL[c] || String(c).replace(/_/g, " ");
 
 const CNAME = { de: "Germany", at: "Austria", ch: "Switzerland" };
-const CFLAG = { de: "🇩🇪", at: "🇦🇹", ch: "🇨🇭" };
+/* inline SVG flags: the emoji ones do not render on Windows */
+const CFLAG = {
+  de: '<svg class="fl" viewBox="0 0 15 10" aria-hidden="true">' +
+      '<rect width="15" height="10" fill="#262626"/>' +
+      '<rect y="3.4" width="15" height="6.6" fill="#CE2029"/>' +
+      '<rect y="6.7" width="15" height="3.3" fill="#F0B637"/></svg>',
+  at: '<svg class="fl" viewBox="0 0 15 10" aria-hidden="true">' +
+      '<rect width="15" height="10" fill="#CE2029"/>' +
+      '<rect y="3.4" width="15" height="3.3" fill="#FFFFFF"/></svg>',
+  ch: '<svg class="fl fl-ch" viewBox="0 0 10 10" aria-hidden="true">' +
+      '<rect width="10" height="10" rx="1.5" fill="#CE2029"/>' +
+      '<rect x="4.1" y="2" width="1.8" height="6" fill="#FFFFFF"/>' +
+      '<rect x="2" y="4.1" width="6" height="1.8" fill="#FFFFFF"/></svg>',
+};
 const CCOL  = { de: CORAL,     at: STEEL,     ch: SAGE };
 const CORDER = ["de", "at", "ch"];
 
@@ -96,6 +109,33 @@ const get = f =>
 
 const cyc = i => CATS[i % CATS.length];
 const cap = s => String(s).charAt(0).toUpperCase() + String(s).slice(1);
+
+/* ---- city display names -------------------------------------------
+   The pipeline folds umlauts for matching (ä->ae, ü->ue, ö->oe), so
+   the JSON carries "muenchen". Un-folding generically is unsafe
+   ("auerbach" is not "äurbach"), so known cities are mapped
+   explicitly and everything else is just title-cased per word. */
+const CITY_NAMES = {
+  muenchen: "München", koeln: "Köln", duesseldorf: "Düsseldorf",
+  nuernberg: "Nürnberg", muenster: "Münster", wuerzburg: "Würzburg",
+  saarbruecken: "Saarbrücken", fuerth: "Fürth", tuebingen: "Tübingen",
+  goettingen: "Göttingen", luebeck: "Lübeck", osnabrueck: "Osnabrück",
+  moenchengladbach: "Mönchengladbach", muelheim: "Mülheim",
+  guetersloh: "Gütersloh", lueneburg: "Lüneburg", dueren: "Düren",
+  huerth: "Hürth", ruesselsheim: "Rüsselsheim", zuerich: "Zürich",
+  luedenscheid: "Lüdenscheid", tuttlingen: "Tuttlingen",
+  fuessen: "Füssen", muellheim: "Müllheim", pruem: "Prüm",
+  guenzburg: "Günzburg", nuertingen: "Nürtingen",
+  boeblingen: "Böblingen", goeppingen: "Göppingen",
+  luebbecke: "Lübbecke", zuelpich: "Zülpich",
+};
+const cityName = s => {
+  if (!s) return s;
+  const k = String(s).toLowerCase();
+  if (CITY_NAMES[k]) return CITY_NAMES[k];
+  return k.split(/([ -])/).map(w =>
+    w.charAt(0).toUpperCase() + w.slice(1)).join("");
+};
 
 /* ---- display names for roles ----------------------------
    The keys are the raw values published by the pipeline and must
@@ -316,8 +356,7 @@ get("meta").then(m => {
   const render = () => document.getElementById("kpi").innerHTML =
     cards.map(([c, v, lab, sub]) => `
       <div class="k">
-        <div class="accent" style="background:${c}"></div>
-        <div class="in">
+                <div class="in">
           <b>${v}</b>
           <span class="lab">${lab}</span>
           <span class="sub2">${sub}</span>
@@ -374,8 +413,7 @@ get("country_breakdown").then(d => {
 
   document.getElementById("ctrycards").innerHTML = rows.map(r => `
     <div class="cc">
-      <div class="bar" style="background:${CCOL[r.country]}"></div>
-      <h4>${CFLAG[r.country] || ""} ${CNAME[r.country] || r.country}</h4>
+            <h4>${CFLAG[r.country] || ""} ${CNAME[r.country] || r.country}</h4>
       <div class="n">${r.n_postings.toLocaleString()}</div>
       <p class="sub">live postings from
          ${(r.employers || 0).toLocaleString()} employers</p>
@@ -723,7 +761,7 @@ const nk = s => String(s)
   function showTip(e, r) {
     if (!tip) return;
     tip.innerHTML =
-      `<b>${cap(r.city)}</b>` +
+      `<b>${cityName(r.city)}</b>` +
       `${CNAME[r.country] || r.country}<br>` +
       `<em>${r.n_postings.toLocaleString()}</em> ` +
       `posting${r.n_postings === 1 ? "" : "s"}` +
@@ -966,7 +1004,7 @@ const nk = s => String(s)
           tx.setAttribute("class", "lbl");
           tx.setAttribute("x", px(lon) + R(r.n_postings) + 5);
           tx.setAttribute("y", py(lat) + 4);
-          tx.textContent = cap(r.city);
+          tx.textContent = cityName(r.city);
           svg.appendChild(tx);
         });
       });
@@ -986,7 +1024,7 @@ const nk = s => String(s)
     const mx = top[0].n_postings;
     body.innerHTML = top.map((r, i) => `
       <tr class="drill" data-i="${i}">
-        <td>${cap(r.city)}
+        <td>${cityName(r.city)}
             <span class="flag" title="${CNAME[r.country] || r.country}"
             >${String(r.country).toUpperCase()}</span></td>
         <td class="barcell">
@@ -1556,7 +1594,7 @@ function pRender() {
              rel="noopener nofollow">${esc(r.title)}</a></td>
       <td>${esc(r.company)}${r.is_agency
             ? ' <span class="flag">agency</span>' : ""}</td>
-      <td>${esc(cap(r.city))}
+      <td>${esc(cityName(r.city))}
           <span class="flag">${String(r.country).toUpperCase()}</span></td>
       <td class="fam"><span class="dot"
             style="background:${rcol(fam, 0)}"></span>${rlab(fam)}</td>
@@ -1659,7 +1697,7 @@ get("postings").then(d => {
     const keep = $p("pcity").value;
     pFill($p("pcity"), keys, "All cities", k => {
       const [c, city] = k.split("|");
-      return `${cap(city)}${ctry ? "" : " " + c.toUpperCase()}` +
+      return `${cityName(city)}${ctry ? "" : " " + c.toUpperCase()}` +
              ` (${n[k]})`;
     });
     if (keep && n[keep]) $p("pcity").value = keep;
@@ -2214,7 +2252,7 @@ get("history").then(h => {
         .filter(r => r.city && r.city !== "unknown" && r.n_postings >= MIN_N)
         .map(r => ({
           key: `${r.country}|${r.city}`,
-          label: cap(r.city),
+          label: cityName(r.city),
           country: r.country,
           n: r.n_postings,
           listings: r.n_postings,
@@ -2242,7 +2280,7 @@ get("history").then(h => {
           (roleCities[r.role_family] = roleCities[r.role_family] || [])
             .push({
               key,
-              label: cap(r.city),
+              label: cityName(r.city),
               country: r.country,
               n: r.n_postings,
               listings: r.n_postings,
