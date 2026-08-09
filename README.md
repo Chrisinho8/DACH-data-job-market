@@ -91,9 +91,8 @@ GitHub Pages            static site, no backend
 - **AI counts are a floor**, for the reason in the scope table. The dropped share is printed on every run of `03_silver_clean.py`; if it climbs, the six rules are going stale.
 - **A posting in the browser is not necessarily open.** It was live at the last refresh. Nothing re-checks whether it has since been filled or withdrawn.
 - **Roles and seniority are inferred from titles**, so both carry classification error.
-- **There is no remote or on-site distinction, and no multi-location handling.** The aggregator returns a single city per listing and no remote flag, so the pipeline cannot tell a remote job from an on-site one. Only 4.4% of titles mention remote or hybrid at all, and that is not a reliable proxy. The practical consequence is that a role advertised in several cities arrives as several rows and is counted several times: 55 title/employer combinations appear 5 or more times, together 16.9% of all postings. Consultancies drive most of this - one employer lists the same architect role across a dozen offices. **City counts, employer counts and the headline total are inflated by roughly 490 postings as a result.** Fixing it means dropping city from the deduplication key, which is not yet done.
-- **Agency detection is keyword based** and flags only 4.2%, almost certainly an undercount.
-
+- **There is no remote or on-site distinction.** The aggregator returns a single city per listing and no remote flag, so the pipeline cannot tell a remote job from an on-site one.
+- **There is no remote or on-site distinction.** This means, that jobs that are listed in more than one city, are also displayed in more than one city. I thought about putting up a threshold number, but the inflation is fairly minimal so I left it like this.
 
 
 ## Running it yourself
