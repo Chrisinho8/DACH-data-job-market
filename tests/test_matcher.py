@@ -1,18 +1,10 @@
-"""Tests for the skill matcher.
-
-Each of these encodes a trap that silently corrupts the numbers if
-the matcher gets it wrong. They run in CI on every push.
-"""
 
 import sys
 import pathlib
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent / "src"))
 
-from matcher import extract, evaluate      # noqa: E402
-
-
-# --- substring traps -------------------------------------------------
+from matcher import extract, evaluate      
 
 def test_sql_not_matched_inside_postgresql():
     assert extract("We use PostgreSQL daily") == ["postgres"]
@@ -30,8 +22,6 @@ def test_java_still_matched_on_its_own():
     assert "java" in extract("Java and Scala experience")
 
 
-# --- the R problem ---------------------------------------------------
-
 def test_r_not_matched_in_rnd():
     assert "r_lang" not in extract("Our R&D team in Berlin")
 
@@ -43,8 +33,6 @@ def test_r_not_matched_in_a_name():
 def test_r_matched_with_tech_context():
     assert "r_lang" in extract("Sprachen: Python, R, SQL")
 
-
-# --- German-language postings ---------------------------------------
 
 def test_german_posting():
     txt = "Kenntnisse in Python und Erfahrung mit Apache Spark"
@@ -63,8 +51,6 @@ def test_umlauts_do_not_break_matching():
     assert "databricks" in extract(txt)
 
 
-# --- basic behaviour -------------------------------------------------
-
 def test_empty_input():
     assert extract("") == []
     assert extract(None) == []
@@ -79,8 +65,6 @@ def test_result_is_sorted():
     out = extract("Spark, Airflow, Python")
     assert out == sorted(out)
 
-
-# --- the evaluation helper ------------------------------------------
 
 def test_evaluate_perfect_score():
     rows = [{"description": "We use Python and Spark",
