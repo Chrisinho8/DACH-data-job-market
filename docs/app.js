@@ -347,7 +347,7 @@ get("meta").then(m => {
      "Germany, Austria and Switzerland"],
     [STEEL, m.employers.toLocaleString(), "Employers",
      "advertising at least one data role"],
-    [CLAY, Math.round(m.avg_age_days) + " d", "Mean days open",
+    [CLAY, Math.round(m.avg_age_days) + " days", "Mean days open",
      ratio ? `${ratio}× the median of ${m.median_age_days} days`
            : ""],
     [SAGE, "…", "Advertised as junior", "loading"],
@@ -355,7 +355,8 @@ get("meta").then(m => {
 
   const render = () => document.getElementById("kpi").innerHTML =
     cards.map(([c, v, lab, sub]) => `
-      <div class="k">
+      <div class="k" style="background:
+          linear-gradient(0deg,${c}10,${c}10),#FEFCF8">
         <div class="in">
           <b style="color:${c}">${v}</b>
           <span class="lab">${lab}</span>
@@ -1033,7 +1034,8 @@ const nk = s => String(s)
           <span class="b" style="width:${100 * r.n_postings / mx}%;
                 background:${CCOL[r.country] || CORAL}"></span>
         </td>
-        <td class="num">${r.n_postings}</td>
+        <td class="num" style="color:${CCOL[r.country] || CORAL};
+            font-weight:600">${r.n_postings}</td>
         <td class="num" style="color:${CCOL[r.country] || CORAL};
             font-weight:600">${Math.round(r.avg_age_days)}</td>
       </tr>`).join("");
@@ -1750,45 +1752,87 @@ get("skill_demand").then(d => {
 /* ---------------- trend ---------------- */
 get("history").then(h => {
   if (!h) return;
-  const pick = m => h.filter(r => r.metric === m &&
-                                  r.dimension === "all");
-  const weeks = [...new Set(pick("avg_age_days")
-                   .map(r => r.snapshot_date))].sort();
-  if (weeks.length < 3) return;
 
-  /* Pre-existing: there is no #trend-section in the markup, so this
-     used to throw inside the promise and take the rest of this
-     handler with it, silently. Guarded rather than removed, because
-     the section is presumably still coming.                      */
+  /* Snapshots before 2026-08-08 were written while the AI split and
+     the staleness cap were still changing, so their numbers are not
+     comparable. The tracker starts on the first clean day. */
+  const MIN_DATE = "2026-08-08";
+  h = h.filter(r => String(r.snapshot_date) >= MIN_DATE);
+
+  const rows = (m, dim) => h.filter(r => r.metric === m &&
+                                         r.dimension === dim);
+  const weeks = [...new Set(h.map(r => r.snapshot_date))].sort();
+  if (weeks.length < 2) return;
+
   const tsec = document.getElementById("trend-section");
   if (!tsec) return;
   tsec.hidden = false;
-  const series = (m, colour, axis) => ({
-    label: m.replace(/_/g, " "),
+
+  const RETIRED = new Set(["ai (other)", "ai / ml"]);
+  const roles = [...new Set(h.filter(r => r.metric === "role_count"
+                                       && !RETIRED.has(r.dimension))
+      .map(r => r.dimension))]
+      .sort((a, b) => {
+        const v = f => (rows("role_count", f).slice(-1)[0] || {}).value || 0;
+        return v(b) - v(a);
+      });
+
+  const ALL = "All roles";
+  let current = ALL;
+  let chart = null;
+
+  const series = (m, dim, label, colour, axis) => ({
+    label,
     data: weeks.map(w =>
-      (pick(m).find(r => r.snapshot_date === w) || {}).value),
+      (rows(m, dim).find(r => r.snapshot_date === w) || {}).value),
     borderColor: colour, backgroundColor: colour,
     tension: .3, pointRadius: 3, fill: false, yAxisID: axis
   });
 
-  new Chart(document.getElementById("trend"), {
-    type: "line",
-    data: { labels: weeks.map(w => String(w).slice(0, 10)),
-      datasets: [series("avg_age_days", CORAL, "y"),
-                 series("live_postings", STEEL, "y1")] },
-    options: {
-      plugins: { legend: { position: "bottom",
-                           labels: { boxWidth: 12 } } },
-      scales: {
-        x:  { grid: { display: false },
-              title: { display: true, text: "week of the snapshot" } },
-        y:  { position: "left",  grid: { color: LINE },
-              title: { display: true, text: "avg days open" } },
-        y1: { position: "right", grid: { display: false },
-              title: { display: true, text: "live postings" } }
+  function draw() {
+    if (chart) chart.destroy();
+    const datasets = current === ALL
+      ? [series("avg_age_days", "all", "avg days open", CORAL, "y"),
+         series("live_postings", "all", "live postings", STEEL, "y1")]
+      : [series("role_count", current,
+                rlab(current) + " postings", CORAL, "y1")];
+
+    chart = new Chart(document.getElementById("trend"), {
+      type: "line",
+      data: { labels: weeks.map(w => String(w).slice(0, 10)), datasets },
+      options: {
+        plugins: { legend: { position: "bottom",
+                             labels: { boxWidth: 12 } } },
+        scales: {
+          x:  { grid: { display: false },
+                title: { display: true, text: "snapshot date" } },
+          y:  { position: "left", grid: { color: LINE },
+                display: current === ALL,
+                title: { display: true, text: "avg days open" } },
+          y1: { position: "right", grid: { display: false },
+                title: { display: true, text: "live postings" } }
+        }
       }
-    }
-  });
+    });
+  }
+
+  const pickEl = document.getElementById("trendpick");
+  if (pickEl) {
+    pickEl.innerHTML = [ALL, ...roles].map(f =>
+      `<button type="button" data-f="${f}"
+         aria-pressed="${f === ALL}">` +
+      `${f === ALL ? ALL : rlab(f)}</button>`).join("");
+    pickEl.addEventListener("click", e => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      current = b.dataset.f;
+      pickEl.querySelectorAll("button").forEach(x =>
+        x.setAttribute("aria-pressed", x === b));
+      draw();
+    });
+  }
+
+  draw();
 });
 
 

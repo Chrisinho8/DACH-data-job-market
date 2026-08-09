@@ -207,7 +207,9 @@ footer{
   padding-top:24px;
   font-size:14px;
   color:var(--slate);
+  text-align:center;
 }
+footer .byline{margin-left:auto;margin-right:auto}
 a{color:var(--clay)}
 a:hover{color:var(--coral)}
 

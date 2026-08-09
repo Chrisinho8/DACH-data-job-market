@@ -320,11 +320,12 @@
 
   /* ---------- city comparator ---------- */
   .cmp{display:flex;gap:20px;flex-wrap:wrap;margin:0 0 22px}
-  .cmp label{font-size:12.5px;font-weight:600;color:var(--slate);
+  .cmp label{font-size:14.5px;font-weight:600;color:var(--slate);
              display:flex;align-items:center;gap:9px}
-  .cmp select{font:600 13px "Inter",system-ui,sans-serif;padding:8px 12px;
+  .cmp select{font:600 14.5px "Inter",system-ui,sans-serif;
+    padding:10px 14px;
     border-radius:10px;border:1px solid var(--line);background:#FDFAF4;
-    color:var(--ink);cursor:pointer;max-width:210px;
+    color:var(--ink);cursor:pointer;max-width:230px;
     box-shadow:var(--shadow)}
   .cmp select:hover{border-color:var(--clay)}
   .cmp optgroup{font-weight:700;color:var(--slate)}
@@ -370,7 +371,7 @@
            width="86" height="107" loading="eager"
            onerror="this.remove()">
       <h1>What's up with the
-          data job market in the DACH region?</h1>
+          AI/data job market in the DACH region?</h1>
     </div>
     <p class="sub">
       Every day at 08:00 UTC+2, data from job-postings across all three DACH
@@ -522,7 +523,7 @@
     <h2>Which technical skills do postings ask for?</h2>
     <p class="note">
       Each bar is the share of postings naming that tool, so the bars do
-      not add to 100% - one advert can ask for Python, SQL and Airflow.
+      not add to 100%. One advert can ask for Python, SQL and Airflow.
       <strong>These are mention rates, not requirement rates:</strong>
       descriptions are truncated at 500 characters, so a tool only
       counts if it appears early. Roles with three or fewer extracted
@@ -620,8 +621,15 @@
     <p class="note">
       Every snapshot adds a point, nothing is overwritten. Days open
       and posting volume come from the same daily runs that feed the
-      rest of the page.
+      rest of the page. Tracking starts on 08-08-2026, the first day
+      the current classification ran.
     </p>
+    <div class="mapctl">
+      <div class="ctlrow ctlrow-roles">
+        <span class="ctl-lab">Role</span>
+        <div id="trendpick" class="pick"></div>
+      </div>
+    </div>
     <canvas id="trend" height="220"></canvas>
   </section>
 
@@ -667,26 +675,15 @@
       <li><strong>Roles are classified from the job title</strong> with
           keyword rules, not from the description, which the aggregator
           truncates.</li>
-      <li><strong>There is no remote or on-site distinction, and
-          multi-location jobs are counted more than once.</strong> The
-          aggregator returns one city per listing and no remote flag,
-          so a role advertised across a dozen offices arrives as a
-          dozen rows. 55 title/employer combinations appear 5 or more
-          times, together 16.9% of all postings, and consultancies
-          drive most of it. City counts, employer counts and the
-          headline total are inflated by roughly 490 postings as a
-          result. Only 4.4% of titles mention remote or hybrid, which
-          is not a reliable enough signal to correct for.</li>
-      <li><strong>AI is six families, and the AI numbers here are a
-          floor, not a total.</strong> The rules run most specific
-          first (research, GenAI, MLOps, ML, consulting, AI engineer).
-          A title that says only "AI" or "KI" and names no role is
-          dropped rather than counted, because the pipeline cannot tell
-          from a title whether it is an AI job or a job advertised by a
-          company that likes the word. Summing the six gives you every
-          AI posting that <em>describes itself</em>. The count of
-          postings using AI as an adjective is larger and is not
-          published.</li>
+      <li><strong>Multi-location jobs are counted more than
+          once.</strong> The aggregator returns one city per listing
+          and no remote flag, so a role advertised in a dozen offices
+          becomes a dozen rows. This inflates the headline total by
+          roughly 490 postings.</li>
+      <li><strong>The AI numbers are a floor, not a total.</strong>
+          Titles that say only "AI" or "KI" without naming a role are
+          dropped, so the six AI families cover every posting that
+          describes itself, not every posting that mentions AI.</li>
  
       <li><strong>Entry programmes are excluded</strong> (Ausbildung,
           duales Studium, Werkstudent, Praktikum, Trainee), along with
