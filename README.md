@@ -12,7 +12,6 @@ A daily snapshot of the DACH AI/data-job market: **3,000+ live postings from 1,2
 
 - **See the shape of the market** - volumes by role, city and country, how long postings stay open, seniority mix, tool mentions, English-language share, salary disclosure.
 - **Read the postings behind any number.** Every chart is a count of real adverts, and those adverts are browsable: search by title or employer, filter by role, country, city and seniority, sort by newest or longest-open, 20 per page. Titles link out to the aggregator.
-- **Drill down from a chart.** Click a city on the map or a bar in any role chart and the list below filters to it. Nothing on the site is a number you have to take on trust.
 - **Watch it move.** Nothing is ever overwritten, so each run adds to the record and every figure gains a second dimension: not just how many AI roles are open, but whether that number is climbing.
 
 ## Overview of the Map
