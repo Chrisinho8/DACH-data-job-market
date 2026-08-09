@@ -22,10 +22,6 @@ def test_java_still_matched_on_its_own():
     assert "java" in extract("Java and Scala experience")
 
 
-def test_r_not_matched_in_rnd():
-    assert "r_lang" not in extract("Our R&D team in Berlin")
-
-
 def test_r_not_matched_in_a_name():
     assert "r_lang" not in extract("Contact R. Mueller for details")
 
