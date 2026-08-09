@@ -62,7 +62,7 @@
       vertical-align:-1px}
   .fl-ch{width:10px;border-radius:0}
 
-  .subh{font-size:14px;margin:0 0 10px;color:#5C5A54;font-weight:600}
+  .subh{font-size:16px;margin:0 0 10px;color:#5C5A54;font-weight:600}
 
   /* Search gets its own full-width row; the five dropdowns sit in an
      even grid below it so the controls line up in columns instead of
@@ -292,8 +292,8 @@
   .legend[hidden]{display:none}
 
   .pick{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
-  .pick button{font:600 12px/1 "Inter",system-ui,sans-serif;
-    cursor:pointer;padding:8px 13px;border-radius:99px;
+  .pick button{font:600 13.5px/1 "Inter",system-ui,sans-serif;
+    cursor:pointer;padding:10px 16px;border-radius:99px;
     border:1px solid var(--line);
     background:#FDFAF4;color:var(--slate);transition:.12s}
   .pick button:hover{border-color:var(--clay);color:var(--ink);
@@ -358,7 +358,7 @@
       <a href="#skillrole-section">Skills</a>
       <a href="#ai-section">AI roles</a>
       <a href="#roles">Roles</a>
-      <a href="#limitations">Caveats</a>
+      <a href="#limitations">Limitations</a>
     </div>
   </div>
 </nav>
@@ -525,7 +525,8 @@
       not add to 100% - one advert can ask for Python, SQL and Airflow.
       <strong>These are mention rates, not requirement rates:</strong>
       descriptions are truncated at 500 characters, so a tool only
-      counts if it appears early.
+      counts if it appears early. Roles with three or fewer extracted
+      skills are not offered in the picker.
     </p>
 
     <div class="mapctl">
@@ -614,6 +615,16 @@
 
 
 
+  <section id="trend-section" hidden>
+    <h2>How the market moves over time</h2>
+    <p class="note">
+      Every snapshot adds a point, nothing is overwritten. Days open
+      and posting volume come from the same daily runs that feed the
+      rest of the page.
+    </p>
+    <canvas id="trend" height="220"></canvas>
+  </section>
+
   <section>
     <h2>Which company has the most listings?</h2>
     <p class="note">
@@ -643,9 +654,7 @@
 
   <!-- ============ CAVEATS ============ -->
   <section class="caveats" id="limitations">
-    <details>
-    <summary>What this pipeline will not tell you<span class="chev"
-      aria-hidden="true"></span></summary>
+    <h2>Limitations</h2>
     <ul>
      
       
@@ -694,7 +703,6 @@
           (<span id="cav_updated">see the footer</span>). Nothing here
           re-checks whether a job has since been filled or withdrawn.</li>
     </ul>
-    </details>
   </section>
 
   <footer>

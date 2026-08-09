@@ -356,8 +356,8 @@ get("meta").then(m => {
   const render = () => document.getElementById("kpi").innerHTML =
     cards.map(([c, v, lab, sub]) => `
       <div class="k">
-                <div class="in">
-          <b>${v}</b>
+        <div class="in">
+          <b style="color:${c}">${v}</b>
           <span class="lab">${lab}</span>
           <span class="sub2">${sub}</span>
         </div>
@@ -925,7 +925,9 @@ const nk = s => String(s)
         known.forEach(r => {
           const [lon, lat] = GEO[r.key];
           const cx = px(lon), cy = py(lat);
-          const w = Math.sqrt(r.n_postings);
+          /* linear weight, not sqrt: Munich's 300 postings must read
+             hotter than eight neighbouring towns with 5 each */
+          const w = r.n_postings;
           const gx = Math.round(cx / CELL), gy = Math.round(cy / CELL);
           for (let i = gx - span; i <= gx + span; i++) {
             if (i < 0 || i >= GX) continue;
@@ -1032,7 +1034,7 @@ const nk = s => String(s)
                 background:${CCOL[r.country] || CORAL}"></span>
         </td>
         <td class="num">${r.n_postings}</td>
-        <td class="num" style="color:${ageColour(r.avg_age_days)};
+        <td class="num" style="color:${CCOL[r.country] || CORAL};
             font-weight:600">${Math.round(r.avg_age_days)}</td>
       </tr>`).join("");
 
@@ -1977,7 +1979,11 @@ get("history").then(h => {
       });
 
       const size = rf => ((byRole[rf] || [])[0] || {}).role_postings || 0;
-      const roles = Object.keys(byRole).sort((a, b) => size(b) - size(a));
+      /* a role with three or fewer extracted skills draws a chart
+         that is mostly empty axes, so it is not offered */
+      const roles = Object.keys(byRole)
+        .filter(rf => byRole[rf].length > 3)
+        .sort((a, b) => size(b) - size(a));
 
       const ALL = "All roles";
       let current = ALL;
