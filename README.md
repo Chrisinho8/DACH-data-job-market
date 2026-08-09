@@ -6,7 +6,7 @@
 **[Open the live tracker](https://Chrisinho8.github.io/DACH-data-job-market/)** • [![updated](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FChrisinho8%2FDACH-data-job-market%2Fmain%2Fdocs%2Fdata%2Fmeta.json&query=%24.updated&label=updated&labelColor=221F1A&color=E56743&style=flat-square&cacheSeconds=1800)](https://Chrisinho8.github.io/DACH-data-job-market/)
 
 
-A daily snapshot of the DACH data-job market: **3,000+ live postings from 1,200+ employers** across Germany, Austria and Switzerland. Every day at 08:00 UTC+2 a Databricks pipeline queries the Adzuna API for 16 data related job titles in all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 71-term skills dictionary. It then gets published to a static GitHub Page.
+A daily snapshot of the DACH AI/data-job market: **3,000+ live postings from 1,200+ employers** across Germany, Austria and Switzerland. Every day at 08:00 UTC+2 a Databricks pipeline queries the Adzuna API for 16 data related job titles in all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 71-term skills dictionary. It then gets published to a static GitHub Page.
 
 ## How the tracker might help you
 
@@ -41,16 +41,12 @@ Above: the map view. Bubbles are sized by posting count and coloured by country 
 
 **AI:** AI engineer, GenAI / LLM, ML engineer, MLOps, AI consultant, AI research.
 
-| Excluded | Why |
-|---|---|
-| Titles saying "AI"/"KI" and naming no role | A title cannot tell an AI job from a job at a company that likes the word. The rule still runs and still catches them, but they are dropped. **AI figures are a floor, not a total.** |
-| Data **centre** infrastructure | False friend: "Data Center Engineering Operations" is physical infrastructure |
-| General software, cloud and DevOps engineering | Not data roles, pulled in by keyword overlap |
-| Speculative applications, parse artefacts | Not job postings at all |
+**Excluded:**  Titles saying "AI"/"KI" and naming no role, Data centre infrastructure, General software, cloud and DevOps engineering, 
+Speculative applications.
 
 Excluded rows land in `silver.excluded` so the decision stays auditable.
 
-## Architecture
+## Architecture of the pipeline
 
 ```
 Adzuna API              de · at · ch, 16 job titles
@@ -98,7 +94,7 @@ GitHub Pages            static site, no backend
 - **Roles and seniority are inferred from titles**, so both carry classification error.
 - **There is no remote or on-site distinction, and no multi-location handling.** The aggregator returns a single city per listing and no remote flag, so the pipeline cannot tell a remote job from an on-site one. Only 4.4% of titles mention remote or hybrid at all, and that is not a reliable proxy. The practical consequence is that a role advertised in several cities arrives as several rows and is counted several times: 55 title/employer combinations appear 5 or more times, together 16.9% of all postings. Consultancies drive most of this - one employer lists the same architect role across a dozen offices. **City counts, employer counts and the headline total are inflated by roughly 490 postings as a result.** Fixing it means dropping city from the deduplication key, which is not yet done.
 - **Agency detection is keyword based** and flags only 4.2%, almost certainly an undercount.
-- **7.0% of records are rejected** by the quality rules each run and quarantined rather than silently dropped.
+
 
 
 ## Running it yourself
@@ -113,15 +109,21 @@ pathlib.Path("/Volumes/jobs/bronze/conf/adzuna.json").write_text(
 ```
 
 4. Import `notebooks/` and run 01 to 06 in order.
-5. Chain them into a daily Databricks Workflow (08:00 UTC+2).
+5. Chain them into a daily Databricks Workflow-
 
-```bash
-pip install -r requirements.txt && pytest tests/ -v
-```
 
 ## Tech stack
 
-Databricks Free Edition, Delta Lake, Auto Loader, Unity Catalog, PySpark, Databricks Workflows, GitHub Actions and Pages, Chart.js, SQL.
+![Databricks](https://img.shields.io/badge/Databricks_Free_Edition-221F1A?style=flat-square&logo=databricks&logoColor=E56743)
+![Python](https://img.shields.io/badge/Python-221F1A?style=flat-square&logo=python&logoColor=E3A23F)
+![Delta Lake](https://img.shields.io/badge/Delta_Lake-221F1A?style=flat-square&logo=databricks&logoColor=6FA37F)
+![PySpark](https://img.shields.io/badge/PySpark-221F1A?style=flat-square&logo=apachespark&logoColor=E56743)
+![Databricks Workflows](https://img.shields.io/badge/Databricks_Workflows-221F1A?style=flat-square&logo=databricks&logoColor=E3A23F)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-221F1A?style=flat-square&logo=githubactions&logoColor=6FA37F)
+![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-221F1A?style=flat-square&logo=github&logoColor=E56743)
+![Chart.js](https://img.shields.io/badge/Chart.js-221F1A?style=flat-square&logo=chartdotjs&logoColor=E3A23F)
+![SQL](https://img.shields.io/badge/SQL-221F1A?style=flat-square&logo=postgresql&logoColor=6FA37F)
+
 
 ## Licence
 
