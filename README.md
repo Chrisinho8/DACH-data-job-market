@@ -122,6 +122,8 @@ pathlib.Path("/Volumes/jobs/bronze/conf/adzuna.json").write_text(
 ![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-221F1A?style=flat-square&logo=github&logoColor=E56743)
 ![Chart.js](https://img.shields.io/badge/Chart.js-221F1A?style=flat-square&logo=chartdotjs&logoColor=E3A23F)
 ![SQL](https://img.shields.io/badge/SQL-221F1A?style=flat-square&logo=postgresql&logoColor=6FA37F)
+![pytest](https://img.shields.io/badge/pytest-221F1A?style=flat-square&logo=pytest&logoColor=6FA37F)
+![JavaScript](https://img.shields.io/badge/Vanilla_JS-221F1A?style=flat-square&logo=javascript&logoColor=E3A23F)
 
 
 ## Licence
