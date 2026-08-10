@@ -4068,6 +4068,96 @@
   "value": 0.0
  },
  {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "ai consultant",
+  "value": 45.5
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "mlops",
+  "value": 53.6
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "dwh / etl",
+  "value": 48.1
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data scientist",
+  "value": 49.7
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data governance",
+  "value": 86.6
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "bi developer",
+  "value": 40.5
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "ai research",
+  "value": 54.4
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data architect",
+  "value": 42.7
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data consultant",
+  "value": 78.8
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "analytics engineer",
+  "value": 41.6
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "ml engineer",
+  "value": 53.2
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "genai / llm",
+  "value": 35.0
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data analyst",
+  "value": 43.6
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data engineer",
+  "value": 44.2
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "ai engineer",
+  "value": 46.4
+ },
+ {
   "snapshot_date": "2026-08-07T00:00:00.000",
   "metric": "role_count",
   "dimension": "ai consultant",
@@ -4602,12 +4692,6 @@
   "value": 3122.0
  },
  {
-  "snapshot_date": "2026-08-10T00:00:00.000",
-  "metric": "live_postings",
-  "dimension": "all",
-  "value": 3133.0
- },
- {
   "snapshot_date": "2026-08-07T00:00:00.000",
   "metric": "live_postings",
   "dimension": "all",
@@ -4618,6 +4702,12 @@
   "metric": "live_postings",
   "dimension": "all",
   "value": 3117.0
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "live_postings",
+  "dimension": "all",
+  "value": 3133.0
  },
  {
   "snapshot_date": "2026-08-08T00:00:00.000",
@@ -4644,27 +4734,27 @@
   "value": 44.8
  },
  {
-  "snapshot_date": "2026-08-10T00:00:00.000",
-  "metric": "avg_age_days",
-  "dimension": "all",
-  "value": 47.1
- },
- {
   "snapshot_date": "2026-08-07T00:00:00.000",
   "metric": "pct_over_60d",
   "dimension": "all",
   "value": 23.7
  },
  {
-  "snapshot_date": "2026-08-10T00:00:00.000",
-  "metric": "pct_over_60d",
-  "dimension": "all",
-  "value": 25.7
- },
- {
   "snapshot_date": "2026-08-09T00:00:00.000",
   "metric": "pct_over_60d",
   "dimension": "all",
   "value": 24.6
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "avg_age_days",
+  "dimension": "all",
+  "value": 47.1
+ },
+ {
+  "snapshot_date": "2026-08-10T00:00:00.000",
+  "metric": "pct_over_60d",
+  "dimension": "all",
+  "value": 25.7
  }
 ]
