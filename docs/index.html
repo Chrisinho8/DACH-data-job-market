@@ -62,7 +62,7 @@
       vertical-align:-1px}
   .fl-ch{width:10px;border-radius:0}
 
-  .subh{font-size:16px;margin:0 0 10px;color:#5C5A54;font-weight:600}
+  .subh{font-size:19px;margin:0 0 10px;color:#5C5A54;font-weight:600}
 
   /* Search gets its own full-width row; the five dropdowns sit in an
      even grid below it so the controls line up in columns instead of
@@ -177,13 +177,13 @@
       background:#FEFCF8;box-shadow:var(--shadow);
       transition:transform .15s ease,box-shadow .15s ease}
   .cc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-  .cc h4{margin:0 0 3px;font-size:16px;font-weight:700}
+  .cc h4{margin:0 0 3px;font-size:17px;font-weight:700}
   .cc .n{font-size:32px;font-weight:700;letter-spacing:-.02em;
          font-family:"Inter",sans-serif;
          line-height:1.15;margin:6px 0 2px}
-  .cc .sub{font-size:12px;color:#5C5A54;margin:0 0 14px}
+  .cc .sub{font-size:13.5px;color:#5C5A54;margin:0 0 14px}
   .cc dl{display:grid;grid-template-columns:1fr auto;gap:5px 10px;
-         margin:0;font-size:13px}
+         margin:0;font-size:14.5px}
   .cc dt{color:#5C5A54}
   .cc dd{margin:0;text-align:right;font-weight:600;
          font-variant-numeric:tabular-nums}
@@ -216,15 +216,19 @@
      box-shadow:var(--shadow);
      transition:transform .15s ease,box-shadow .15s ease}
   .k:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-  .k .in{padding:16px 18px 0}
+  .k{display:flex;flex-direction:column}
+  .k .in{padding:18px 18px 0;text-align:center;
+         display:flex;flex-direction:column;align-items:center;
+         justify-content:flex-start;flex:1}
   .k b{display:block;font-size:32px;font-weight:700;
        font-family:"Inter",sans-serif;
        letter-spacing:-.025em;line-height:1.1;color:var(--ink);
        font-variant-numeric:tabular-nums}
-  .k .lab{display:block;margin-top:5px;font-size:12.5px;
+  .k .lab{display:block;margin-top:5px;font-size:14px;
           font-weight:600;color:var(--ink)}
-  .k .sub2{display:block;margin-top:3px;font-size:11.5px;
-           line-height:1.45;color:#8A857C}
+  .k .sub2{display:block;margin-top:3px;font-size:13px;
+           line-height:1.45;color:#8A857C;max-width:22ch;
+           text-wrap:pretty}
 
   .agebox{background:var(--cream);border:1px solid var(--line);
           border-radius:15px;padding:18px 20px;margin-bottom:52px}
@@ -292,8 +296,8 @@
   .legend[hidden]{display:none}
 
   .pick{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
-  .pick button{font:600 13.5px/1 "Inter",system-ui,sans-serif;
-    cursor:pointer;padding:10px 16px;border-radius:99px;
+  .pick button{font:600 12.5px/1 "Inter",system-ui,sans-serif;
+    cursor:pointer;padding:8px 13px;border-radius:99px;
     border:1px solid var(--line);
     background:#FDFAF4;color:var(--slate);transition:.12s}
   .pick button:hover{border-color:var(--clay);color:var(--ink);
@@ -303,6 +307,13 @@
     border-color:var(--coral);color:#fff}
   .pick .hint{font-size:11.5px;color:#8A857C;align-self:center;
               margin-left:4px}
+
+  .checks{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+  .checks label{display:inline-flex;align-items:center;gap:7px;
+    font:600 13px/1 "Inter",system-ui,sans-serif;color:var(--slate);
+    cursor:pointer}
+  .checks input{width:15px;height:15px;accent-color:var(--coral);
+    cursor:pointer;margin:0}
   /* The "All" pill is a reset, not one more sibling role, so it gets
      its own weight and a gap after it instead of blending into the
      row of fifteen identical capsules. */
@@ -319,13 +330,15 @@
   .hm .hcell:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
 
   /* ---------- city comparator ---------- */
-  .cmp{display:flex;gap:20px;flex-wrap:wrap;margin:0 0 22px}
-  .cmp label{font-size:14.5px;font-weight:600;color:var(--slate);
+  .cmp{display:flex;gap:16px 20px;flex-wrap:wrap;margin:0 0 22px}
+  .cmp label{font-size:16.5px;font-weight:600;color:var(--slate);
              display:flex;align-items:center;gap:9px}
-  .cmp select{font:600 14.5px "Inter",system-ui,sans-serif;
-    padding:10px 14px;
+  /* Role gets its own row instead of trailing the two city pickers */
+  .cmp label:nth-of-type(3){flex-basis:100%}
+  .cmp select{font:600 16.5px "Inter",system-ui,sans-serif;
+    padding:12px 16px;
     border-radius:10px;border:1px solid var(--line);background:#FDFAF4;
-    color:var(--ink);cursor:pointer;max-width:230px;
+    color:var(--ink);cursor:pointer;max-width:270px;
     box-shadow:var(--shadow)}
   .cmp select:hover{border-color:var(--clay)}
   .cmp optgroup{font-weight:700;color:var(--slate)}
@@ -337,6 +350,8 @@
   /* drop the radar chart's neighbour to roughly the plot's eye line */
   .subh.figs{margin-top:54px}
   @media(max-width:720px){.subh.figs{margin-top:18px}}
+  #cmptable{font-size:15.5px}
+  #cmptable td{padding:8px 10px}
   #cmptable td:first-child{font-weight:500;color:#5C5A54}
   #cmptable td.num{font-variant-numeric:tabular-nums;font-weight:600}
 
@@ -352,7 +367,7 @@
 
 <nav class="topnav">
   <div class="wrap navwrap">
-    <a class="brand" href="#overview">DACH Data Job Market</a>
+    <a class="brand" href="#overview">DACH AI/Data Job Market</a>
     <div class="navlinks">
       <a href="#geo">Map</a>
       <a href="#postings-section">Postings</a>
@@ -441,7 +456,7 @@
         <div class="legend" id="leg-heat" hidden>
           <span class="dots"><i class="ramp"></i></span>
           <span>fewer postings</span>
-          <span style="margin-left:auto">more postings</span>
+          <span>more postings</span>
         </div>
       </div>
       <div>
@@ -628,6 +643,15 @@
       <div class="ctlrow ctlrow-roles">
         <span class="ctl-lab">Role</span>
         <div id="trendpick" class="pick"></div>
+      </div>
+      <div class="ctlrow">
+        <span class="ctl-lab">Show</span>
+        <div class="checks" id="trendshow">
+          <label><input type="checkbox" id="tshow-age" checked>
+                 Avg days open</label>
+          <label><input type="checkbox" id="tshow-vol" checked>
+                 Number of postings</label>
+        </div>
       </div>
     </div>
     <canvas id="trend" height="220"></canvas>

@@ -419,7 +419,7 @@ get("country_breakdown").then(d => {
       <p class="sub">live postings from
          ${(r.employers || 0).toLocaleString()} employers</p>
       <dl>
-        <dt>Mean age</dt><dd>${Math.round(r.avg_age_days)} d</dd>
+        <dt>Mean age</dt><dd>${Math.round(r.avg_age_days)} days</dd>
         <dt>Open &gt; 60 days</dt><dd>${r.pct_over_60d}%</dd>
         <dt>In English</dt><dd>${r.pct_english}%</dd>
         <dt>Salary shown</dt><dd>${r.pct_with_salary ?? "-"}%</dd>
@@ -1789,13 +1789,38 @@ get("history").then(h => {
     tension: .3, pointRadius: 3, fill: false, yAxisID: axis
   });
 
+  /* whole numbers only on both value axes - "47" not "47.0" */
+  const intTicks = {
+    precision: 0,
+    callback: v => Number.isInteger(v) ? v.toLocaleString("en-US") : null
+  };
+
+  const showAge = () => document.getElementById("tshow-age").checked;
+  const showVol = () => document.getElementById("tshow-vol").checked;
+
   function draw() {
     if (chart) chart.destroy();
-    const datasets = current === ALL
-      ? [series("avg_age_days", "all", "avg days open", CORAL, "y"),
-         series("live_postings", "all", "live postings", STEEL, "y1")]
-      : [series("role_count", current,
-                rlab(current) + " postings", CORAL, "y1")];
+
+    /* Snapshots from 05_gold_aggregate write role_avg_age_days per
+       family. Older snapshots predate it, so fall back to the
+       market-wide average and say so in the label. */
+    const hasRoleAge = current !== ALL &&
+      rows("role_avg_age_days", current).length > 0;
+    const ageLabel = current === ALL ? "avg days open"
+      : hasRoleAge ? rlab(current) + " avg days open"
+                   : "avg days open (all roles)";
+    const volLabel = current === ALL
+      ? "live postings" : rlab(current) + " postings";
+
+    const datasets = [];
+    if (showAge())
+      datasets.push(hasRoleAge
+        ? series("role_avg_age_days", current, ageLabel, CORAL, "y")
+        : series("avg_age_days", "all", ageLabel, CORAL, "y"));
+    if (showVol())
+      datasets.push(current === ALL
+        ? series("live_postings", "all", volLabel, STEEL, "y1")
+        : series("role_count", current, volLabel, STEEL, "y1"));
 
     chart = new Chart(document.getElementById("trend"), {
       type: "line",
@@ -1807,10 +1832,13 @@ get("history").then(h => {
           x:  { grid: { display: false },
                 title: { display: true, text: "snapshot date" } },
           y:  { position: "left", grid: { color: LINE },
-                display: current === ALL,
+                display: showAge(), ticks: intTicks,
                 title: { display: true, text: "avg days open" } },
           y1: { position: "right", grid: { display: false },
-                title: { display: true, text: "live postings" } }
+                display: showVol(), ticks: intTicks,
+                title: { display: true,
+                         text: current === ALL ? "live postings"
+                                               : "postings in role" } }
         }
       }
     });
@@ -1831,6 +1859,15 @@ get("history").then(h => {
       draw();
     });
   }
+
+  ["tshow-age", "tshow-vol"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("change", () => {
+      /* never leave the chart empty - re-tick the one just cleared */
+      if (!showAge() && !showVol()) { el.checked = true; return; }
+      draw();
+    });
+  });
 
   draw();
 });
