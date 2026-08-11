@@ -18,7 +18,7 @@ A daily snapshot of the DACH AI/data-job market: **3,000+ live postings from 1,2
 
 Snapshot of 10/08/2026.
  
-![The map view: a DACH bubble map with the role filter, per-country totals and the top-cities table](assets/MappyV2.png)
+![The map view: a DACH bubble map with the role filter, per-country totals and the top-cities table](assets/map-demo.gif)
 
 <p align="center">
   <img src="assets/map-demo.gif" width="820"
