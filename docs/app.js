@@ -1807,7 +1807,7 @@ get("history").then(h => {
   };
 
   const showAge = () => document.getElementById("tshow-age").checked;
-  const showVol = () => document.getElementById("tshow-vol").checked;
+  const showVol = () => true;   /* volume is always on the chart */
 
   function draw() {
     if (chart) chart.destroy();
@@ -1837,15 +1837,30 @@ get("history").then(h => {
       type: "line",
       data: { labels: weeks.map(w => String(w).slice(0, 10)), datasets },
       options: {
-        plugins: { legend: { position: "bottom",
-                             labels: { boxWidth: 12 } } },
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom",
+                    labels: { boxWidth: 16, boxHeight: 16, padding: 16,
+                              font: { size: 15 } } },
+          tooltip: {
+            enabled: true, mode: "index", intersect: false,
+            titleFont: { size: 13 }, bodyFont: { size: 13 },
+            callbacks: {
+              label: c => `${c.dataset.label}: ` +
+                (c.parsed.y == null ? "n/a"
+                  : Number(c.parsed.y).toLocaleString("en-US",
+                      { maximumFractionDigits: 1 }))
+            }
+          }
+        },
         scales: {
-          x:  { grid: { display: false },
+          x:  { grid: { display: true, color: LINE, drawTicks: true },
                 title: { display: true, text: "snapshot date" } },
-          y:  { position: "left", grid: { color: LINE },
+          y:  { position: "left", grid: { display: showAge(), color: LINE },
                 display: showAge(), ticks: intTicks,
                 title: { display: true, text: "avg days open" } },
-          y1: { position: "right", grid: { display: false },
+          y1: { position: "right",
+                grid: { display: !showAge(), color: LINE },
                 display: showVol(), ticks: intTicks,
                 title: { display: true,
                          text: current === ALL ? "live postings"
@@ -1871,14 +1886,8 @@ get("history").then(h => {
     });
   }
 
-  ["tshow-age", "tshow-vol"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener("change", () => {
-      /* never leave the chart empty - re-tick the one just cleared */
-      if (!showAge() && !showVol()) { el.checked = true; return; }
-      draw();
-    });
-  });
+  const ageEl = document.getElementById("tshow-age");
+  if (ageEl) ageEl.addEventListener("change", draw);
 
   draw();
 });
