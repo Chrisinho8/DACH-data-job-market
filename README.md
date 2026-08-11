@@ -16,9 +16,9 @@ A daily snapshot of the DACH AI/data-job market: **3,000+ live postings from 1,2
 
 ## Overview of the Map
 
-Snapshot of 2026-08-05.
+Snapshot of 10/08/2026.
  
-![The map view: a DACH bubble map with the role filter, per-country totals and the top-cities table](assets/mappy.png)
+![The map view: a DACH bubble map with the role filter, per-country totals and the top-cities table](assets/MappyV2.png)
  
 Above: the map view. Bubbles are sized by posting count and coloured by country - Germany coral, Austria blue, Switzerland green. Pick any of the 15 roles and the whole view re-cuts to it: bubbles, the four country totals, and the top-cities table with each city's average days open. Click a bubble or a table row and the browsable posting list below filters to that city.
 
