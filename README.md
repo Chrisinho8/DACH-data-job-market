@@ -19,7 +19,12 @@ A daily snapshot of the DACH AI/data-job market: **3,000+ live postings from 1,2
 Snapshot of 10/08/2026.
  
 ![The map view: a DACH bubble map with the role filter, per-country totals and the top-cities table](assets/MappyV2.png)
- 
+
+<p align="center">
+  <img src="assets/map-demo.gif" width="820"
+       alt="Filtering the DACH map by role and switching between the bubble and heat-map views">
+</p>
+
 Above: the map view. Bubbles are sized by posting count and coloured by country - Germany coral, Austria blue, Switzerland green. Pick any of the 15 roles and the whole view re-cuts to it: bubbles, the four country totals, and the top-cities table with each city's average days open. Click a bubble or a table row and the browsable posting list below filters to that city.
 
 ## Main take-aways
@@ -72,6 +77,7 @@ docs/data/*.json        committed to this repo
 GitHub Pages            static site, no backend
 ```
 
+![Visualized architecture](assets/pipeline-architecture.png)
 
 **Browsing the postings.** Everything on the site is a count except one table. `gold.postings_public` ships as `docs/data/postings.json` and backs the searchable list. It carries title, employer, city, role, seniority, age and the aggregator's `redirect_url` - not descriptions (not ours to redistribute, and 99.6% are truncated anyway) and not salary (mostly the aggregator's own prediction). Rows without a link are dropped rather than rendered dead.
 
