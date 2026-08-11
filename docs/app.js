@@ -353,16 +353,15 @@ get("meta").then(m => {
     [SAGE, "…", "Advertised as junior", "loading"],
   ];
 
+  /* one divided row inside the overview panel; the colour each
+     measure used to be washed in survives as the dot on its label */
   const render = () => document.getElementById("kpi").innerHTML =
     cards.map(([c, v, lab, sub]) => `
-      <div class="k" style="border-color:${c}55;background:
-          linear-gradient(180deg,${c}26,${c}0D),#FEFCF8">
-        <span class="cap" style="background:${c}"></span>
-        <div class="in">
-          <b style="color:${c}">${v}</b>
-          <span class="lab">${lab}</span>
-          <span class="sub2">${sub}</span>
-        </div>
+      <div class="ovw-cell">
+        <b>${v}</b>
+        <span class="lab">
+          <i class="dot" style="background:${c}"></i>${lab}</span>
+        <span class="sub2">${sub}</span>
       </div>`).join("");
   render();
 
@@ -772,13 +771,24 @@ const nk = s => String(s)
     tip.style.opacity = 1;
     moveTip(e);
   }
+  /* The page ships at html{zoom:.9}, which also scales position:fixed
+     children, while clientX/clientY stay in unzoomed viewport pixels.
+     Dividing by the computed zoom puts the tooltip back under the
+     cursor; it reads 1 on browsers that ignore zoom.               */
+  function rootZoom() {
+    const z = parseFloat(
+      getComputedStyle(document.documentElement).zoom);
+    return (z && isFinite(z) && z > 0) ? z : 1;
+  }
   function moveTip(e) {
     if (!tip) return;
-    const pad = 14;
-    let x = e.clientX + pad, y = e.clientY + pad;
+    const pad = 14, z = rootZoom();
+    const cx = e.clientX / z, cy = e.clientY / z;
+    const vw = window.innerWidth / z, vh = window.innerHeight / z;
+    let x = cx + pad, y = cy + pad;
     const w = tip.offsetWidth, hh = tip.offsetHeight;
-    if (x + w > window.innerWidth - 8) x = e.clientX - w - pad;
-    if (y + hh > window.innerHeight - 8) y = e.clientY - hh - pad;
+    if (x + w > vw - 8) x = cx - w - pad;
+    if (y + hh > vh - 8) y = cy - hh - pad;
     tip.style.left = x + "px";
     tip.style.top = y + "px";
   }
@@ -2572,4 +2582,32 @@ get("history").then(h => {
       fillCities(null, null);
       draw();
     });
+})();
+
+
+/* ---------------- foldable limitations ----------------
+   The caveats block ships collapsed. Anything that points at it,
+   the nav link or a deep link, has to open it first, otherwise the
+   jump lands on a closed panel and looks broken.               */
+(function () {
+  const btn  = document.getElementById("limbtn");
+  const body = document.getElementById("limbody");
+  if (!btn || !body) return;
+
+  function setOpen(on) {
+    body.hidden = !on;
+    btn.setAttribute("aria-expanded", on ? "true" : "false");
+    const txt = btn.querySelector(".txt");
+    if (txt) txt.textContent = on ? "Hide" : "Show";
+  }
+
+  btn.addEventListener("click", () =>
+    setOpen(btn.getAttribute("aria-expanded") !== "true"));
+
+  document.querySelectorAll('a[href="#limitations"]')
+          .forEach(a => a.addEventListener("click", () => setOpen(true)));
+  window.addEventListener("hashchange", () => {
+    if (location.hash === "#limitations") setOpen(true);
+  });
+  if (location.hash === "#limitations") setOpen(true);
 })();

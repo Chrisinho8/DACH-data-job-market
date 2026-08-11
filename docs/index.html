@@ -17,8 +17,15 @@
 <meta property="og:url" content="https://chrisinho8.github.io/DACH-data-job-market/">
 <meta name="twitter:card" content="summary_large_image">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=4">
 <style>
+  /* Ships one browser zoom step out (the Cmd+minus default), so the
+     page opens at the density it was designed for. Only on pointer
+     screens: phones already scale through the viewport meta. */
+  @media(min-width:721px){
+    html{zoom:.9}
+  }
+
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
   @media(max-width:720px){.grid2{grid-template-columns:1fr}}
   .chartbox{position:relative;height:560px}
@@ -205,7 +212,7 @@
   /* the trend section stacks role pills over the Show checkboxes,
      so the two rows need air between them */
   #trend-section .ctlrow-roles{margin-bottom:22px}
-  .byline{margin:10px 0 0;font-size:16.5px;color:var(--slate)}
+  .byline{margin:14px 0 0;font-size:18.5px;color:var(--slate)}
   .byline a{display:inline-flex;align-items:center;gap:6px}
   .byline .li{flex:0 0 auto;position:relative;top:-1px;border-radius:5px}
   .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;
@@ -216,49 +223,54 @@
 
   .kpiblock{padding-top:40px}
 
-  .kpi{display:grid;gap:14px;margin-bottom:14px;
-       grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
-  .k{background:#FEFCF8;border:1px solid var(--line);
-     border-radius:15px;padding:0 0 16px;overflow:hidden;
-     box-shadow:var(--shadow);
-     transition:transform .15s ease,box-shadow .15s ease}
-  .k:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-  .k{display:flex;flex-direction:column}
-  /* a colour bar on top of each card, tinted body, tinted border */
-  .k .cap{height:5px;flex:0 0 auto}
-  .k .in{padding:18px 18px 0;text-align:center;
-         display:flex;flex-direction:column;align-items:center;
-         justify-content:flex-start;flex:1}
-  .k b{display:block;font-size:32px;font-weight:700;
-       font-family:"Inter",sans-serif;
-       letter-spacing:-.025em;line-height:1.1;color:var(--ink);
-       font-variant-numeric:tabular-nums}
-  .k .lab{display:block;margin-top:5px;font-size:14px;
-          font-weight:600;color:var(--ink)}
-  .k .sub2{display:block;margin-top:3px;font-size:13px;
-           line-height:1.45;color:#8A857C;max-width:22ch;
-           text-wrap:pretty}
+  /* ---------- current overview ----------
+     One panel, not six tinted cards. The date leads across the top,
+     the four measures sit below it in a divided row. Colour is down
+     to a single accent rule and one dot per measure. */
+  .ovw{border:1px solid var(--line);border-radius:16px;
+       background:#FEFCF8;box-shadow:var(--shadow);overflow:hidden;
+       margin-bottom:34px}
+  .ovw-lead{text-align:center;padding:24px 20px 22px;
+            border-bottom:1px solid var(--line);
+            background:linear-gradient(180deg,#FDF6EE,#FEFCF8);
+            position:relative}
+  .ovw-lead::before{content:"";position:absolute;inset:0 0 auto;
+            height:3px;background:var(--coral)}
+  .ovw-lead .lab{display:block;font-size:14px;font-weight:600;
+            letter-spacing:.1em;text-transform:uppercase;color:#A0998B}
+  .ovw-lead b{display:block;margin-top:7px;font-size:44px;
+            font-weight:700;font-family:"Inter",sans-serif;
+            letter-spacing:-.03em;line-height:1;color:var(--ink);
+            font-variant-numeric:tabular-nums}
+  .ovw-lead .sub2{display:block;margin-top:9px;font-size:16px;
+            color:#8A857C}
 
-  /* the headline card: last refresh, centred under the four KPIs */
-  .kpi-main{display:flex;justify-content:center;margin-bottom:22px}
-  .kmain{width:min(100%,380px);text-align:center;
-         border:1px solid rgba(217,119,87,.38);border-radius:15px;
-         padding:0 0 18px;overflow:hidden;background:
-         linear-gradient(180deg,rgba(217,119,87,.14),rgba(217,119,87,.05)),
-         #FEFCF8;
-         box-shadow:var(--shadow);
-         transition:transform .15s ease,box-shadow .15s ease}
-  .kmain:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-  .kmain .cap{display:block;height:5px;background:var(--coral)}
-  .kmain .in{padding:18px 20px 0}
-  .kmain b{display:block;font-size:38px;font-weight:700;
-           font-family:"Inter",sans-serif;letter-spacing:-.025em;
-           line-height:1.1;color:var(--coral);
-           font-variant-numeric:tabular-nums}
-  .kmain .lab{display:block;margin-top:5px;font-size:14px;
-              font-weight:600;color:var(--ink)}
-  .kmain .sub2{display:block;margin-top:3px;font-size:13px;
-               line-height:1.45;color:#8A857C}
+  .ovw-row{display:grid;grid-template-columns:repeat(4,1fr)}
+  .ovw-cell{padding:22px 18px 24px;text-align:center;
+            border-left:1px solid var(--line)}
+  .ovw-cell:first-child{border-left:0}
+  .ovw-cell b{display:block;font-size:31px;font-weight:700;
+            font-family:"Inter",sans-serif;letter-spacing:-.025em;
+            line-height:1.1;color:var(--ink);
+            font-variant-numeric:tabular-nums}
+  .ovw-cell .lab{display:inline-flex;align-items:center;gap:7px;
+            margin-top:7px;font-size:15.5px;font-weight:600;
+            color:var(--ink)}
+  .ovw-cell .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+  .ovw-cell .sub2{display:block;margin:5px auto 0;font-size:15px;
+            line-height:1.45;color:#8A857C;max-width:24ch;
+            text-wrap:pretty}
+  @media(max-width:860px){
+    .ovw-row{grid-template-columns:repeat(2,1fr)}
+    .ovw-cell:nth-child(odd){border-left:0}
+    .ovw-cell:nth-child(n+3){border-top:1px solid var(--line)}
+  }
+  @media(max-width:480px){
+    .ovw-row{grid-template-columns:1fr}
+    .ovw-cell{border-left:0}
+    .ovw-cell + .ovw-cell{border-top:1px solid var(--line)}
+    .ovw-lead b{font-size:34px}
+  }
 
   .agebox{background:var(--cream);border:1px solid var(--line);
           border-radius:15px;padding:18px 20px;margin-bottom:52px}
@@ -360,27 +372,43 @@
   .hm .hcell:hover{filter:brightness(.93);transform:scale(1.015)}
   .hm .hcell:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
 
-  /* ---------- city comparator ---------- */
-  .cmp{display:flex;gap:16px 20px;flex-wrap:wrap;margin:0 0 22px}
-  .cmp label{font-size:16.5px;font-weight:600;color:var(--slate);
-             display:flex;align-items:center;gap:9px}
-  /* Role gets its own row instead of trailing the two city pickers */
-  .cmp label:nth-of-type(3){flex-basis:100%}
-  .cmp select{font:600 16.5px "Inter",system-ui,sans-serif;
-    padding:12px 16px;
+  /* ---------- city comparator ----------
+     Each picker is one card: caption, search box, dropdown. The
+     search and the select share a single border so they read as one
+     control instead of two stray boxes floating beside a label. */
+  .cmp{display:grid;gap:16px 20px;margin:0 0 26px;
+       grid-template-columns:repeat(2,minmax(0,310px));
+       align-items:end}
+  @media(max-width:620px){.cmp{grid-template-columns:1fr}}
+  .cmp label{font:600 12.5px/1 "Inter",system-ui,sans-serif;
+             letter-spacing:.07em;text-transform:uppercase;
+             color:#8A857C;display:flex;flex-direction:column;
+             gap:8px;min-width:0}
+  /* Role gets its own row under the two city pickers */
+  .cmp label:nth-of-type(3){grid-column:1/-1;max-width:310px}
+  .cmp select{font:600 15px "Inter",system-ui,sans-serif;
+    padding:12px 14px;width:100%;
     border-radius:10px;border:1px solid var(--line);background:#FDFAF4;
-    color:var(--ink);cursor:pointer;max-width:270px;
-    box-shadow:var(--shadow)}
+    color:var(--ink);cursor:pointer;box-shadow:var(--shadow)}
   .cmp select:hover{border-color:var(--clay)}
-  /* search box sits above its city dropdown and filters the options */
-  .cmp .selwrap{display:flex;flex-direction:column;gap:6px}
-  .cmp .citysearch{font:500 14px "Inter",system-ui,sans-serif;
-    padding:8px 12px;border-radius:10px;border:1px solid var(--line);
-    background:#FDFAF4;color:var(--ink);max-width:270px;width:100%;
-    box-shadow:var(--shadow)}
-  .cmp .citysearch:hover{border-color:var(--clay)}
-  .cmp .citysearch::placeholder{color:#A8A296;font-weight:400}
-  .cmp .citysearch.nohit{border-color:var(--coral)}
+  .cmp select:focus-visible{outline:2px solid var(--clay);
+    outline-offset:1px}
+
+  /* search box stacked on top of its dropdown, one shared frame */
+  .cmp .selwrap{display:flex;flex-direction:column;
+    border:1px solid var(--line);border-radius:11px;overflow:hidden;
+    background:#FDFAF4;box-shadow:var(--shadow);
+    transition:border-color .12s ease}
+  .cmp .selwrap:hover{border-color:var(--clay)}
+  .cmp .selwrap:focus-within{border-color:var(--clay)}
+  .cmp .selwrap .citysearch{font:500 14.5px "Inter",system-ui,sans-serif;
+    padding:11px 14px;border:0;border-bottom:1px solid var(--line);
+    background:#F7F3EA;color:var(--ink);width:100%;outline:0}
+  .cmp .selwrap .citysearch::placeholder{color:#A8A296;font-weight:400}
+  .cmp .selwrap .citysearch.nohit{background:#FBEDE7;color:#8A4A2E}
+  .cmp .selwrap select{border:0;border-radius:0;box-shadow:none;
+    background:transparent;padding:12px 14px}
+  .cmp .selwrap select:focus-visible{outline:0}
   .cmp optgroup{font-weight:700;color:var(--slate)}
   .cmp .hint{font-size:11.5px;color:#8A857C;align-self:center;
              font-weight:400}
@@ -452,15 +480,14 @@
 
 <section class="kpiblock" id="overview">
     <h2>Current overview</h2>
-    <div id="kpi" class="kpi"></div>
-    <div class="kpi-main"><div class="kmain">
-      <span class="cap"></span>
-      <div class="in">
-        <b id="kpi-when">-</b>
+    <div class="ovw">
+      <div class="ovw-lead">
         <span class="lab">Last updated</span>
+        <b id="kpi-when">-</b>
         <span class="sub2">every day at 08:00 UTC+2</span>
       </div>
-    </div></div>
+      <div id="kpi" class="ovw-row"></div>
+    </div>
   </section>
 
   <!-- ============ GEOGRAPHY ============ -->
@@ -527,9 +554,6 @@
 
   <section id="postings-section" hidden>
     <h2>The live postings behind the map</h2>
-    <p class="note">
-      The listings can be filtered by selecting the role/city on the map or by filling in the filters manually.
-    </p>
 
     <div class="pfilters">
       <input id="pq" type="search" autocomplete="off"
@@ -595,6 +619,32 @@
         <table class="rank"><tbody id="cmptable"></tbody></table>
       </div>
     </div>
+  </section>
+
+  <section id="trend-section" hidden>
+    <h2>How the market moves over time</h2>
+    <p class="note">
+      Every snapshot adds a point, nothing is overwritten. Days open
+      and posting volume come from the same daily runs that feed the
+      rest of the page. Tracking starts on 08-08-2026, the first day
+      the current classification ran.
+    </p>
+    <div class="mapctl">
+      <div class="ctlrow ctlrow-roles">
+        <span class="ctl-lab">Role</span>
+        <div id="trendpick" class="pick"></div>
+      </div>
+      <div class="ctlrow">
+        <span class="ctl-lab">Show</span>
+        <div class="checks" id="trendshow">
+          <label><input type="checkbox" id="tshow-age" checked>
+                 Avg days open</label>
+          <label><input type="checkbox" id="tshow-vol" checked>
+                 Number of postings</label>
+        </div>
+      </div>
+    </div>
+    <canvas id="trend" height="220"></canvas>
   </section>
 
   <!-- ============ TOOLS ============ -->
@@ -668,21 +718,6 @@
     <div id="heat" class="hm"></div>
   </section>
   <section>
-    <h2>Comparison between the different data jobs and their average opening lengths</h2>
-    <p class="note">
-    </p>
-    <div class="grid2">
-      <div>
-        <h3 class="subh">Absolute postings per job title</h3>
-        <canvas id="rolevol" height="230"></canvas>
-      </div>
-      <div>
-        <h3 class="subh">Average days open per job title</h3>
-        <canvas id="roleage" height="230"></canvas>
-      </div>
-    </div>
-  </section>
-  <section>
     <h2>How long do postings stay open?</h2>
     <div class="mapctl">
       <div class="ctlrow ctlrow-roles">
@@ -695,31 +730,6 @@
 
 
 
-  <section id="trend-section" hidden>
-    <h2>How the market moves over time</h2>
-    <p class="note">
-      Every snapshot adds a point, nothing is overwritten. Days open
-      and posting volume come from the same daily runs that feed the
-      rest of the page. Tracking starts on 08-08-2026, the first day
-      the current classification ran.
-    </p>
-    <div class="mapctl">
-      <div class="ctlrow ctlrow-roles">
-        <span class="ctl-lab">Role</span>
-        <div id="trendpick" class="pick"></div>
-      </div>
-      <div class="ctlrow">
-        <span class="ctl-lab">Show</span>
-        <div class="checks" id="trendshow">
-          <label><input type="checkbox" id="tshow-age" checked>
-                 Avg days open</label>
-          <label><input type="checkbox" id="tshow-vol" checked>
-                 Number of postings</label>
-        </div>
-      </div>
-    </div>
-    <canvas id="trend" height="220"></canvas>
-  </section>
 
   <section>
     <h2>Which company has the most listings?</h2>
@@ -736,21 +746,32 @@
  
   <section>
     <h2>The pipeline's own error rates</h2>
-    <p class="note">
+    <p class="note" id="n14-note">
       Most dashboards do not publish how wrong they might be. The first
-      two are measured on every run: the share of records rejected by
-      quality rules and the share of source descriptions the API
-      truncated. The two matcher scores are <strong>not</strong> per-run.
-      They come from a single manual spot check on a hand-labelled
-      sample of postings, and they are not recomputed when the pipeline
-      refreshes.
+      two are measured on every run. The two matcher scores are
+      <strong>not</strong>: they come from one manual spot check on a
+      hand-labelled sample and are not recomputed on refresh.
     </p>
     <div id="n14_quality" class="stats"></div>
   </section>
 
   <!-- ============ CAVEATS ============ -->
   <section class="caveats" id="limitations">
-    <h2>Limitations of this tracker</h2>
+    <div class="foldhead">
+      <h2>Limitations of this tracker</h2>
+      <button type="button" class="foldbtn" id="limbtn"
+              aria-expanded="false" aria-controls="limbody">
+        <span class="txt">Show</span>
+        <span class="chev" aria-hidden="true">
+          <svg viewBox="0 0 12 8" width="12" height="8" fill="none">
+            <path d="M1 1.5 6 6.5l5-5" stroke="currentColor"
+                  stroke-width="1.8" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+    <div class="foldbody" id="limbody" hidden>
     <ul>
      
       
@@ -788,6 +809,7 @@
           (<span id="cav_updated">see the footer</span>). Nothing here
           re-checks whether a job has since been filled or withdrawn.</li>
     </ul>
+    </div>
   </section>
 
   <footer>
@@ -812,7 +834,7 @@
 
 <div id="maptip" role="tooltip"></div>
 
-<script src="app.js"></script>
+<script src="app.js?v=3"></script>
 
 
 </body>
