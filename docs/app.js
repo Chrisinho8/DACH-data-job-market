@@ -334,7 +334,7 @@ function ageColour(d) {
 get("meta").then(m => {
   if (!m) return;
   /* meta.updated arrives ISO (YYYY-MM-DD); the page reads European */
-  if (m.updated) set("kpi-when", `(updated ${euroDate(m.updated)})`);
+  if (m.updated) set("kpi-when", euroDate(m.updated));
   set("f-mean", Math.round(m.avg_age_days));
   set("f-median", m.median_age_days);
   if (m.updated) set("cav_updated", euroDate(m.updated));
@@ -355,8 +355,9 @@ get("meta").then(m => {
 
   const render = () => document.getElementById("kpi").innerHTML =
     cards.map(([c, v, lab, sub]) => `
-      <div class="k" style="background:
-          linear-gradient(0deg,${c}10,${c}10),#FEFCF8">
+      <div class="k" style="border-color:${c}55;background:
+          linear-gradient(180deg,${c}26,${c}0D),#FEFCF8">
+        <span class="cap" style="background:${c}"></span>
         <div class="in">
           <b style="color:${c}">${v}</b>
           <span class="lab">${lab}</span>
@@ -1458,14 +1459,14 @@ get("role_breakdown").then(d => {
   bar("aivol", rows.map(r => wrap(rlab(r.role))),
       [ds("Live postings", rows.map(r => r.n),
           rows.map((r, i) => rcol(r.role, i)))], true, false, false,
-      { x: "live postings", y: "AI family",
+      { x: "live postings", y: "AI role",
         pick: i => openPostings({ family: rows[i].role }) });
 
   const byAge = rows.slice().sort((a, b) => b.age - a.age);
   bar("aiage", byAge.map(r => wrap(rlab(r.role))),
       [ds("Avg days open", byAge.map(r => Math.round(r.age)),
           byAge.map(r => ageColour(r.age)))], true, false, false,
-      { x: "average days a posting stays open", y: "AI family",
+      { x: "average days a posting stays open", y: "AI role",
         pick: i => openPostings({ family: byAge[i].role }) });
 
 });
@@ -1979,19 +1980,19 @@ get("history").then(h => {
     if (!el) return;
 
     const cards = [
-      ["Records rejected by quality rules",
+      ["Records rejected",
        m.quarantine_rate != null
          ? (100 * m.quarantine_rate).toFixed(1) + "%"
          : (m.quarantined != null ? m.quarantined : "-")],
-      ["Source descriptions truncated",
+      ["Descriptions truncated",
        m.desc_truncated_pct != null
          ? m.desc_truncated_pct + "%" : "-"],
       /* Not per-run. One-off manual spot check on a hand-labelled
          sample; the pipeline does not recompute these. Hardcoded on
          purpose so they are never mistaken for a live metric. */
-      ["Tool matcher precision (spot checked)",
+      ["Matcher precision (spot check)",
        m.matcher_precision ?? "0.93"],
-      ["Tool matcher recall (spot checked)",
+      ["Matcher recall (spot check)",
        m.matcher_recall ?? "0.89"],
     ];
 
@@ -2433,9 +2434,11 @@ get("history").then(h => {
 
       /* one <optgroup> per country, in CORDER, options already in
          volume order because the array itself is sorted that way */
-      function optionMarkup() {
+      function optionMarkup(q) {
+        const needle = (q || "").trim().toLowerCase();
         let html = "", open = null;
         cities.forEach((c, i) => {
+          if (needle && !c.label.toLowerCase().includes(needle)) return;
           if (c.country !== open) {
             if (open !== null) html += `</optgroup>`;
             open = c.country;
@@ -2450,16 +2453,38 @@ get("history").then(h => {
         return html;
       }
 
+      /* free-text filters, one per dropdown. A search that matches
+         nothing keeps the full list rather than emptying the picker,
+         and flags the box instead.                                 */
+      const qA = document.getElementById("cmpAq");
+      const qB = document.getElementById("cmpBq");
+
+      function fillOne(sel, box, keep, fallbackIdx) {
+        const q = box ? box.value : "";
+        let markup = optionMarkup(q);
+        if (!markup) {
+          markup = optionMarkup("");
+          if (box) box.classList.add("nohit");
+        } else if (box) {
+          box.classList.remove("nohit");
+        }
+        sel.innerHTML = markup;
+        const has = v => !!sel.querySelector(`option[value="${v}"]`);
+        const ik = cities.findIndex(c => c.key === keep);
+        if (ik >= 0 && has(ik)) sel.value = ik;
+        else if (fallbackIdx != null && has(fallbackIdx))
+          sel.value = fallbackIdx;
+        else sel.selectedIndex = 0;
+      }
+
       function fillCities(keepA, keepB) {
-        const markup = optionMarkup();
-        selA.innerHTML = markup;
-        selB.innerHTML = markup;
-        const ia = cities.findIndex(c => c.key === keepA);
-        const ib = cities.findIndex(c => c.key === keepB);
-        selA.value = ia >= 0 ? ia : 0;
-        selB.value = (ib >= 0 && ib !== +selA.value)
-                   ? ib
-                   : (cities.length > 1 ? (+selA.value === 0 ? 1 : 0) : 0);
+        fillOne(selA, qA, keepA, 0);
+        fillOne(selB, qB, keepB, null);
+        if (+selB.value === +selA.value) {
+          const alt = [...selB.options]
+            .find(o => +o.value !== +selA.value);
+          if (alt) selB.value = alt.value;
+        }
       }
 
       function series(c, colour) {
@@ -2533,6 +2558,15 @@ get("history").then(h => {
       selA.addEventListener("change", draw);
       selB.addEventListener("change", draw);
       if (selR) selR.addEventListener("change", refresh);
+
+      [[qA, selA], [qB, selB]].forEach(([box, sel]) => {
+        if (!box) return;
+        box.addEventListener("input", () => {
+          const keep = (cities[+sel.value] || {}).key;
+          fillOne(sel, box, keep, 0);
+          draw();
+        });
+      });
 
       rescale();
       fillCities(null, null);

@@ -100,7 +100,7 @@
              vertical-align:top}
   .ptable tr:last-child td{border-bottom:none}
   .ptable tbody tr:hover{background:#FAF9F5}
-  .ptable .num{text-align:right;font-variant-numeric:tabular-nums;
+  .ptable .num{text-align:center;font-variant-numeric:tabular-nums;
                white-space:nowrap}
   .ptable a{color:#26241F;text-decoration:none;font-weight:600;
             border-bottom:1px solid #DCD6C8}
@@ -177,7 +177,11 @@
       background:#FEFCF8;box-shadow:var(--shadow);
       transition:transform .15s ease,box-shadow .15s ease}
   .cc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-  .cc h4{margin:0 0 3px;font-size:17px;font-weight:700}
+  .cc h4{margin:0 0 6px;font-size:24px;font-weight:700;
+         display:flex;align-items:center;gap:10px}
+  .cc h4 .fl{width:30px;height:20px;margin-right:0;border-radius:3px;
+             vertical-align:0;flex:0 0 auto}
+  .cc h4 .fl-ch{width:20px;border-radius:0}
   .cc .n{font-size:32px;font-weight:700;letter-spacing:-.02em;
          font-family:"Inter",sans-serif;
          line-height:1.15;margin:6px 0 2px}
@@ -198,6 +202,9 @@
           letter-spacing:inherit;white-space:nowrap}
   /* breathing room between a section title and its role pills */
   h2 + .mapctl{margin-top:20px}
+  /* the trend section stacks role pills over the Show checkboxes,
+     so the two rows need air between them */
+  #trend-section .ctlrow-roles{margin-bottom:22px}
   .byline{margin:10px 0 0;font-size:16.5px;color:var(--slate)}
   .byline a{display:inline-flex;align-items:center;gap:6px}
   .byline .li{flex:0 0 auto;position:relative;top:-1px;border-radius:5px}
@@ -209,7 +216,7 @@
 
   .kpiblock{padding-top:40px}
 
-  .kpi{display:grid;gap:14px;margin-bottom:22px;
+  .kpi{display:grid;gap:14px;margin-bottom:14px;
        grid-template-columns:repeat(auto-fit,minmax(168px,1fr))}
   .k{background:#FEFCF8;border:1px solid var(--line);
      border-radius:15px;padding:0 0 16px;overflow:hidden;
@@ -217,6 +224,8 @@
      transition:transform .15s ease,box-shadow .15s ease}
   .k:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
   .k{display:flex;flex-direction:column}
+  /* a colour bar on top of each card, tinted body, tinted border */
+  .k .cap{height:5px;flex:0 0 auto}
   .k .in{padding:18px 18px 0;text-align:center;
          display:flex;flex-direction:column;align-items:center;
          justify-content:flex-start;flex:1}
@@ -229,6 +238,27 @@
   .k .sub2{display:block;margin-top:3px;font-size:13px;
            line-height:1.45;color:#8A857C;max-width:22ch;
            text-wrap:pretty}
+
+  /* the headline card: last refresh, centred under the four KPIs */
+  .kpi-main{display:flex;justify-content:center;margin-bottom:22px}
+  .kmain{width:min(100%,380px);text-align:center;
+         border:1px solid rgba(217,119,87,.38);border-radius:15px;
+         padding:0 0 18px;overflow:hidden;background:
+         linear-gradient(180deg,rgba(217,119,87,.14),rgba(217,119,87,.05)),
+         #FEFCF8;
+         box-shadow:var(--shadow);
+         transition:transform .15s ease,box-shadow .15s ease}
+  .kmain:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+  .kmain .cap{display:block;height:5px;background:var(--coral)}
+  .kmain .in{padding:18px 20px 0}
+  .kmain b{display:block;font-size:38px;font-weight:700;
+           font-family:"Inter",sans-serif;letter-spacing:-.025em;
+           line-height:1.1;color:var(--coral);
+           font-variant-numeric:tabular-nums}
+  .kmain .lab{display:block;margin-top:5px;font-size:14px;
+              font-weight:600;color:var(--ink)}
+  .kmain .sub2{display:block;margin-top:3px;font-size:13px;
+               line-height:1.45;color:#8A857C}
 
   .agebox{background:var(--cream);border:1px solid var(--line);
           border-radius:15px;padding:18px 20px;margin-bottom:52px}
@@ -288,11 +318,12 @@
   .seg button[aria-pressed="true"] .fl{outline:1px solid rgba(255,255,255,.5)}
 
   #map .hit{fill:transparent;cursor:default}
-  #leg-heat .ramp{display:inline-block;width:132px;height:11px;
+  #leg-heat .ramp{display:block;width:150px;height:11px;flex:0 0 auto;
     border-radius:99px;border:1px solid var(--line);
-    background:linear-gradient(90deg,#EDEAE2,#9FB4C4,#6E8CA0,
-                               #C7A87C,#D97757,#A63C22)}
-  #leg-heat span{display:flex;align-items:center;gap:8px}
+    background:linear-gradient(90deg,#EDEAE2 0%,#9FB4C4 15%,#6E8CA0 35%,
+                               #C7A87C 55%,#D97757 75%,#A63C22 100%)}
+  #leg-heat .heatscale{display:inline-flex;align-items:center;gap:10px}
+  #leg-heat em{font-style:normal;white-space:nowrap}
   .legend[hidden]{display:none}
 
   .pick{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
@@ -341,6 +372,15 @@
     color:var(--ink);cursor:pointer;max-width:270px;
     box-shadow:var(--shadow)}
   .cmp select:hover{border-color:var(--clay)}
+  /* search box sits above its city dropdown and filters the options */
+  .cmp .selwrap{display:flex;flex-direction:column;gap:6px}
+  .cmp .citysearch{font:500 14px "Inter",system-ui,sans-serif;
+    padding:8px 12px;border-radius:10px;border:1px solid var(--line);
+    background:#FDFAF4;color:var(--ink);max-width:270px;width:100%;
+    box-shadow:var(--shadow)}
+  .cmp .citysearch:hover{border-color:var(--clay)}
+  .cmp .citysearch::placeholder{color:#A8A296;font-weight:400}
+  .cmp .citysearch.nohit{border-color:var(--coral)}
   .cmp optgroup{font-weight:700;color:var(--slate)}
   .cmp .hint{font-size:11.5px;color:#8A857C;align-self:center;
              font-weight:400}
@@ -411,8 +451,16 @@
 <main class="wrap">
 
 <section class="kpiblock" id="overview">
-    <h2>Current overview <span id="kpi-when" class="h2when"></span></h2>
+    <h2>Current overview</h2>
     <div id="kpi" class="kpi"></div>
+    <div class="kpi-main"><div class="kmain">
+      <span class="cap"></span>
+      <div class="in">
+        <b id="kpi-when">-</b>
+        <span class="lab">Last updated</span>
+        <span class="sub2">every day at 08:00 UTC+2</span>
+      </div>
+    </div></div>
   </section>
 
   <!-- ============ GEOGRAPHY ============ -->
@@ -454,9 +502,11 @@
           <span><i class="sw" style="background:#6FA37F"></i>Switzerland</span>
         </div>
         <div class="legend" id="leg-heat" hidden>
-          <span class="dots"><i class="ramp"></i></span>
-          <span>fewer postings</span>
-          <span>more postings</span>
+          <span class="heatscale">
+            <em>fewer postings</em>
+            <i class="ramp"></i>
+            <em>more postings</em>
+          </span>
         </div>
       </div>
       <div>
@@ -520,8 +570,22 @@
     <p class="note">
     </p>
     <div class="cmp">
-      <label>City A <select id="cmpA"></select></label>
-      <label>City B <select id="cmpB"></select></label>
+      <label>City A
+        <span class="selwrap">
+          <input id="cmpAq" class="citysearch" type="search"
+                 autocomplete="off" placeholder="Search city…"
+                 aria-label="Search cities for city A">
+          <select id="cmpA"></select>
+        </span>
+      </label>
+      <label>City B
+        <span class="selwrap">
+          <input id="cmpBq" class="citysearch" type="search"
+                 autocomplete="off" placeholder="Search city…"
+                 aria-label="Search cities for city B">
+          <select id="cmpB"></select>
+        </span>
+      </label>
       <label>Role <select id="cmpRole"></select></label>
     </div>
     <div class="maprow">
@@ -570,11 +634,11 @@
     </p>
     <div class="grid2">
       <div>
-        <h3 class="subh">Postings per AI family</h3>
+        <h3 class="subh">Postings per AI role</h3>
         <canvas id="aivol" height="230"></canvas>
       </div>
       <div>
-        <h3 class="subh">Average days open per AI family</h3>
+        <h3 class="subh">Average days open per AI role</h3>
         <canvas id="aiage" height="230"></canvas>
       </div>
     </div>
@@ -676,17 +740,17 @@
       Most dashboards do not publish how wrong they might be. The first
       two are measured on every run: the share of records rejected by
       quality rules and the share of source descriptions the API
-      truncated. The two matcher scores are <strong>not</strong> per-run
-      - they come from a single manual spot check on a
-      hand-labelled sample of postings, and they are not recomputed when
-      the pipeline refreshes.
+      truncated. The two matcher scores are <strong>not</strong> per-run.
+      They come from a single manual spot check on a hand-labelled
+      sample of postings, and they are not recomputed when the pipeline
+      refreshes.
     </p>
     <div id="n14_quality" class="stats"></div>
   </section>
 
   <!-- ============ CAVEATS ============ -->
   <section class="caveats" id="limitations">
-    <h2>Limitations</h2>
+    <h2>Limitations of this tracker</h2>
     <ul>
      
       
