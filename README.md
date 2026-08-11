@@ -24,7 +24,7 @@ Demo of 10/08/2026.
        alt="Filtering the DACH map by role and switching between the bubble and heat-map views">
 </p>
 
-Above: the map view. Bubbles are sized by posting count and coloured by country - Germany coral, Austria blue, Switzerland green. Pick any of the 15 roles and the whole view re-cuts to it: bubbles, the four country totals, and the top-cities table with each city's average days open. Click a bubble or a table row and the browsable posting list below filters to that city.
+Above: the map view and the capabilities of searching a job this way.
 
 ## Main take-aways
 
@@ -47,7 +47,7 @@ Above: the map view. Bubbles are sized by posting count and coloured by country 
 **Excluded:**  Titles saying "AI"/"KI" and naming no role, Data centre infrastructure, General software, cloud and DevOps engineering, 
 Speculative applications.
 
-Excluded rows land in `silver.excluded` so the decision stays auditable.
+Note: Excluded rows land in `silver.excluded` so the decision stays auditable.
 
 ## Architecture of the pipeline
 
@@ -78,14 +78,13 @@ GitHub Pages            static site, no backend
 
 ![Visualized architecture](assets/pipeline-architecture.png)
 
-**Browsing the postings.** Everything on the site is a count except one table. `gold.postings_public` ships as `docs/data/postings.json` and backs the searchable list. It carries title, employer, city, role, seniority, age and the aggregator's `redirect_url` - not descriptions (not ours to redistribute, and 99.6% are truncated anyway) and not salary (mostly the aggregator's own prediction). Rows without a link are dropped rather than rendered dead.
+**Browsing the postings.** Everything on the site is a count except one table. `gold.postings_public` ships as `docs/data/postings.json` and backs the searchable list: title, employer, city, role, seniority, age, and the aggregator's `redirect_url`. No descriptions (not ours to redistribute, 99.6% truncated) and no salary (mostly the aggregator's guess). Rows without a link are dropped.
 
-**Skill extraction.** A curated dictionary of 47 terms, not an LLM, so every match points at a specific string in a specific posting and the counts are reproducible. The traps are real: "SQL" hides inside "PostgreSQL", "Java" inside "JavaScript", a bare "R" matches "R&D" and half of every German address block. Each one is pinned by a test in `tests/test_matcher.py` that runs in CI on every push. See `src/matcher.py`.
+**Skill extraction.** A curated dictionary of 47 terms, not an LLM, so every match points at a specific string and counts are reproducible. The traps are real: "SQL" hides in "PostgreSQL", "Java" in "JavaScript", a bare "R" matches "R&D" and half of every German address. Each is pinned by a test in `tests/test_matcher.py` running in CI. See `src/matcher.py`.
 
-**Deduplication.** Postings are hashed on title, company, city and the first 200 characters of the description; the earliest listing wins. Query overlap is counted separately from genuine reposts and is not published as a finding.
+**Deduplication.** Hashed on title, company, city and the first 200 characters of the description; earliest listing wins. Query overlap is counted separately from genuine reposts and not published as a finding.
 
-
-**Location.** From each posting's own location array. In the city-states (Berlin, Hamburg, Bremen, Vienna, Basel, Geneva) the third level is a district and is collapsed into the parent. Administrative wrappers (`(Kreis)`, `-Umgebung`, `-Land`, `Region ...`) are stripped.
+**Location.** From each posting's own location array. In city-states (Berlin, Hamburg, Bremen, Vienna, Basel, Geneva) the third level is a district and collapses into the parent. Administrative wrappers (`(Kreis)`, `-Umgebung`, `-Land`, `Region ...`) are stripped.
 
 ## Limitations of this tracker
 
@@ -94,7 +93,6 @@ GitHub Pages            static site, no backend
 - **Descriptions are capped at 500 characters** and 99.6% are truncated. Tool counts measure *mentioned in the title or opening paragraph* - a floor, not a requirement rate. The window is identical for every posting, so comparing tools holds; absolute rates do not.
 - **AI counts are a floor**, for the reason in the scope table. The dropped share is printed on every run of `03_silver_clean.py`; if it climbs, the six rules are going stale.
 - **A posting in the browser is not necessarily open.** It was live at the last refresh. Nothing re-checks whether it has since been filled or withdrawn.
-- **Roles and seniority are inferred from titles**, so both carry classification error.
 - **There is no remote or on-site distinction.** The aggregator returns a single city per listing and no remote flag, so the pipeline cannot tell a remote job from an on-site one.
 - **There is no remote or on-site distinction.** This means, that jobs that are listed in more than one city, are also displayed in more than one city. I thought about putting up a threshold number, but the inflation is fairly minimal so I left it like this.
 
