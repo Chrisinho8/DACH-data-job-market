@@ -357,7 +357,7 @@ get("meta").then(m => {
      measure used to be washed in survives as the dot on its label */
   const render = () => document.getElementById("kpi").innerHTML =
     cards.map(([c, v, lab, sub]) => `
-      <div class="ovw-cell">
+      <div class="ovw-cell" style="--accent:${c}">
         <b>${v}</b>
         <span class="lab">
           <i class="dot" style="background:${c}"></i>${lab}</span>

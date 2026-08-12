@@ -17,7 +17,7 @@
 <meta property="og:url" content="https://chrisinho8.github.io/DACH-data-job-market/">
 <meta name="twitter:card" content="summary_large_image">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=18">
 <style>
   /* Ships one browser zoom step out (the Cmd+minus default), so the
      page opens at the density it was designed for. Only on pointer
@@ -221,40 +221,53 @@
             border-bottom:1px solid rgba(217,119,87,.35)}
   .byline a:hover{border-bottom-color:var(--coral)}
 
-  .kpiblock{padding-top:40px}
+  /* This section is nothing but the panel, so it drops the white card
+     every other section sits in - otherwise it is a card in a card. */
+  .kpiblock{background:none;border:0;box-shadow:none;
+            padding:0;margin-bottom:36px}
 
   /* ---------- current overview ----------
      One panel, not six tinted cards. The date leads across the top,
      the four measures sit below it in a divided row. Colour is down
      to a single accent rule and one dot per measure. */
+  /* ---------- current overview ----------
+     One panel, not six tinted cards. The date leads across the top,
+     the four measures sit below it in a divided row. Colour is down
+     to a single accent rule and one dot per measure. */
   .ovw{border:1px solid var(--line);border-radius:16px;
-       background:#FEFCF8;box-shadow:var(--shadow);overflow:hidden;
-       margin-bottom:34px}
-  .ovw-lead{text-align:center;padding:24px 20px 22px;
+       background:var(--card);box-shadow:var(--shadow);overflow:hidden;
+       margin-bottom:0}
+  .ovw-lead{text-align:center;padding:26px 20px 26px;
             border-bottom:1px solid var(--line);
-            background:linear-gradient(180deg,#FDF6EE,#FEFCF8);
+            background:var(--card);
             position:relative}
-  .ovw-lead::before{content:"";position:absolute;inset:0 0 auto;
-            height:3px;background:var(--coral)}
-  .ovw-lead .lab{display:block;font-size:14px;font-weight:600;
-            letter-spacing:.1em;text-transform:uppercase;color:#A0998B}
-  .ovw-lead b{display:block;margin-top:7px;font-size:44px;
-            font-weight:700;font-family:"Inter",sans-serif;
-            letter-spacing:-.03em;line-height:1;color:var(--ink);
-            font-variant-numeric:tabular-nums}
-  .ovw-lead .sub2{display:block;margin-top:9px;font-size:16px;
+  .ovw-lead .lab{display:inline-flex;align-items:center;gap:8px;
+            padding:5px 13px;border-radius:99px;
+            background:rgba(229,103,67,.10);
+            border:1px solid rgba(229,103,67,.24);
+            font-size:11.5px;font-weight:700;letter-spacing:.15em;
+            text-transform:uppercase;color:#B04A28}
+  .ovw-lead .lab::before{content:"";width:6px;height:6px;
+            border-radius:50%;background:var(--coral)}
+  /* same face and weight as the four figures below it, just larger */
+  .ovw-lead b{display:block;margin-top:13px;font-size:44px;
+            font-weight:600;font-family:"Inter",system-ui,sans-serif;
+            letter-spacing:-.02em;line-height:1;
+            color:var(--ink);font-variant-numeric:tabular-nums}
+  .ovw-lead .sub2{display:block;margin-top:12px;font-size:15px;
             color:#8A857C}
 
   .ovw-row{display:grid;grid-template-columns:repeat(4,1fr)}
-  .ovw-cell{padding:22px 18px 24px;text-align:center;
-            border-left:1px solid var(--line)}
-  .ovw-cell:first-child{border-left:0}
-  .ovw-cell b{display:block;font-size:31px;font-weight:700;
-            font-family:"Inter",sans-serif;letter-spacing:-.025em;
+  .ovw-cell{padding:26px 20px 28px;text-align:center;
+            position:relative}
+  .ovw-cell+.ovw-cell::before{content:"";position:absolute;
+            left:0;top:18px;bottom:18px;width:1px;background:var(--line)}
+  .ovw-cell b{display:block;font-size:30px;font-weight:600;
+            font-family:"Inter",sans-serif;letter-spacing:-.02em;
             line-height:1.1;color:var(--ink);
             font-variant-numeric:tabular-nums}
   .ovw-cell .lab{display:inline-flex;align-items:center;gap:7px;
-            margin-top:7px;font-size:15.5px;font-weight:600;
+            margin-top:9px;font-size:15px;font-weight:600;
             color:var(--ink)}
   .ovw-cell .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
   .ovw-cell .sub2{display:block;margin:5px auto 0;font-size:15px;
@@ -262,12 +275,12 @@
             text-wrap:pretty}
   @media(max-width:860px){
     .ovw-row{grid-template-columns:repeat(2,1fr)}
-    .ovw-cell:nth-child(odd){border-left:0}
+    .ovw-cell:nth-child(odd)::before{display:none}
     .ovw-cell:nth-child(n+3){border-top:1px solid var(--line)}
   }
   @media(max-width:480px){
     .ovw-row{grid-template-columns:1fr}
-    .ovw-cell{border-left:0}
+    .ovw-cell::before{display:none}
     .ovw-cell + .ovw-cell{border-top:1px solid var(--line)}
     .ovw-lead b{font-size:34px}
   }
@@ -421,7 +434,11 @@
   #cmptable{font-size:15.5px}
   #cmptable td{padding:8px 10px}
   #cmptable td:first-child{font-weight:500;color:#5C5A54}
-  #cmptable td.num{font-variant-numeric:tabular-nums;font-weight:600}
+  /* the two city columns get equal width and their figures sit
+     centred under the city name rather than ragged against the edge */
+  #cmptable td.num{font-variant-numeric:tabular-nums;font-weight:600;
+    text-align:center;width:30%}
+  #cmptable td:first-child{width:40%}
 
   #maptip{position:fixed;z-index:50;pointer-events:none;opacity:0;
     transition:opacity .1s;background:#26221B;color:#fff;
@@ -479,7 +496,6 @@
 <main class="wrap">
 
 <section class="kpiblock" id="overview">
-    <h2>Current overview</h2>
     <div class="ovw">
       <div class="ovw-lead">
         <span class="lab">Last updated</span>
@@ -613,7 +629,7 @@
       <label>Role <select id="cmpRole"></select></label>
     </div>
     <div class="maprow">
-      <div><canvas id="citycmp" height="300"></canvas></div>
+      <div><canvas id="citycmp" height="360"></canvas></div>
       <div>
         <h3 class="subh figs">Actual figures</h3>
         <table class="rank"><tbody id="cmptable"></tbody></table>
@@ -832,7 +848,7 @@
 
 <div id="maptip" role="tooltip"></div>
 
-<script src="app.js?v=3"></script>
+<script src="app.js?v=8"></script>
 
 
 </body>

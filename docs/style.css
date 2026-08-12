@@ -91,19 +91,20 @@ header{
   overflow:hidden;
   text-align:center;
 }
+header .wrap{max-width:1040px}
 h1{
   font-size:46px;
   line-height:1.1;
   letter-spacing:-.02em;
   font-weight:700;
   margin:0 auto 18px;
-  max-width:24ch;
+  max-width:34ch;
   text-wrap:balance;
 }
 .sub{
   font-size:20px;
   color:var(--slate);
-  max-width:60ch;
+  max-width:78ch;
   margin:0 auto 22px;
   text-wrap:pretty;
 }
@@ -199,9 +200,9 @@ td:first-child{color:var(--ink)}
   border-radius:var(--radius);
   padding:30px 34px;
 }
-.caveats h2{border:0;padding:0;font-size:27px;margin:0;
+.caveats h2{border:0;padding:0;font-size:21px;margin:0;
             flex:1 1 auto;min-width:0}
-.caveats ul{margin:14px 0 0;padding-left:20px;font-size:15.5px;
+.caveats ul{margin:14px 0 0;padding-left:20px;font-size:17px;
             color:var(--slate)}
 .caveats li{margin-bottom:10px}
 .caveats strong{color:var(--ink)}
@@ -239,13 +240,13 @@ footer{
   color:var(--slate);
   text-align:center;
 }
-footer .byline{margin-left:auto;margin-right:auto;font-size:21px;
+footer .byline{margin-left:auto;margin-right:auto;font-size:16px;
                line-height:1.5}
 footer .byline a{font-weight:600}
-footer .byline .li{width:21px;height:21px}
+footer .byline .li{width:16px;height:16px}
 @media(max-width:600px){
-  footer .byline{font-size:19px}
-  footer .byline .li{width:19px;height:19px}
+  footer .byline{font-size:15px}
+  footer .byline .li{width:15px;height:15px}
 }
 a{color:var(--clay)}
 a:hover{color:var(--coral)}
