@@ -79,7 +79,13 @@ for c in COUNTRIES:
 
 # COMMAND ----------
 
-import time, datetime
+import time, datetime, random
+
+RETRIES = 7      # 7 attempts with the backoff below spans ~2 minutes
+PACE    = 1.0    # seconds between successful calls
+
+def backoff(attempt):
+     return min(30, 2 ** attempt) * (0.5 + random.random())
 
 TODAY = datetime.date.today().isoformat()
 pathlib.Path(VOL).mkdir(parents=True, exist_ok=True)
@@ -110,13 +116,26 @@ def fetch(country, role, page):
         "content-type": "application/json",
     }
 
-    for attempt in range(5):
-        r = requests.get(f"{BASE}/{country}/search/{page}",
-                         params=params, timeout=30)
+ 
+    RETRY_STATUS = {429, 500, 502, 503, 504}
 
-        if r.status_code == 429:                 # rate limited
-            wait = 2 ** attempt
-            print(f"  429, sleeping {wait}s")
+    for attempt in range(RETRIES):
+        try:
+            r = requests.get(f"{BASE}/{country}/search/{page}",
+                             params=params, timeout=30)
+        except requests.exceptions.RequestException as e:
+            # connection reset / read timeout - same treatment
+            wait = backoff(attempt)
+            print(f"  {type(e).__name__}, sleeping {wait:.1f}s")
+            time.sleep(wait)
+            continue
+
+        if r.status_code in RETRY_STATUS:
+            # honour Retry-After when the server sends one
+            ra = r.headers.get("Retry-After")
+            wait = float(ra) if ra and ra.isdigit() else backoff(attempt)
+            print(f"  {r.status_code}, sleeping {wait:.1f}s "
+                  f"(attempt {attempt + 1}/{RETRIES})")
             time.sleep(wait)
             continue
 
@@ -126,10 +145,11 @@ def fetch(country, role, page):
         r.raise_for_status()
         path.write_text(r.text)                  # cache before parsing
         calls_made += 1
-        time.sleep(1)                            # be polite
+        time.sleep(PACE)                         # be polite
         return r.json()
 
-    raise RuntimeError(f"gave up on {country}/{role}/p{page}")
+    raise RuntimeError(
+        f"gave up on {country}/{role}/p{page} after {RETRIES} attempts")
 
 
 # COMMAND ----------

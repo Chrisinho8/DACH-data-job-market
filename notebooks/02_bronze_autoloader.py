@@ -52,7 +52,6 @@ print("bronze load complete")
 
 raw = spark.table(f"{BRONZE}.responses_raw")
 
-# filename: country__role__pN__YYYY-MM-DD.json
 fname = F.element_at(F.split(F.col("source_file"), "/"), -1)
 parts = F.split(F.regexp_replace(fname, r"\.json$", ""), "__")
 

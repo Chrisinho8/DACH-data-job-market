@@ -315,7 +315,6 @@ ok &= check("php+mysql from a real snippet",
                         "modernen Node-Stack"))
             == {"php", "mysql"})
 
-# --- the AI additions, where the false-positive risk lives ------
 ok &= check("LoRaWAN is not fine-tuning",
             "finetuning" not in extract("LoRaWAN Sensorik im Feld"))
 ok &= check("LoRA is fine-tuning",

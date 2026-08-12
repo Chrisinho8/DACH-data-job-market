@@ -491,6 +491,15 @@ SELECT current_date(), 'role_count', role_family,
        CAST(SUM(n_postings) AS DOUBLE)
 FROM {GOLD}.role_breakdown GROUP BY role_family
 UNION ALL
+-- Days open per role family, so the trend chart can show a real
+-- per-role age line instead of falling back on the market-wide
+-- average. Computed straight off postings rather than averaging
+-- role_breakdown's rows, which are split by seniority and would
+-- need weighting.
+SELECT current_date(), 'role_avg_age_days', role_family,
+       ROUND(AVG(age_days), 1)
+FROM postings WHERE role_family <> 'other' GROUP BY role_family
+UNION ALL
 -- The AI split over time. 'ai_share_of_market' is the headline, and it
 -- covers the six described families only: titles that say AI and name
 -- no role are dropped in 03, so this understates raw AI keyword volume

@@ -211,7 +211,6 @@ def classify(title):
 
 
 CASES = [
-    # the seven AI families
     ("Machine Learning Engineer (m/w/d)",    "ml engineer"),
     ("Senior ML Engineer - Computer Vision", "ml engineer"),
     ("Deep Learning Engineer",               "ml engineer"),
@@ -376,10 +375,7 @@ s = (b
                "data consultant")
          .when(F.col("title_norm").rlike(R_BI), "bi developer")
 
-         # research first: it is the narrowest rule, and it is a
-         # separate hiring track. "Applied Scientist, Machine
-         # Learning" is a research job, not an ML engineering one,
-         # so it must not be caught by R_ML.
+     
          .when(F.col("title_norm").rlike(R_AI_RESEARCH), "ai research")
          .when(F.col("title_norm").rlike(R_GENAI), "genai / llm")
          .when(F.col("title_norm").rlike(R_MLOPS), "mlops")
@@ -479,8 +475,7 @@ for name, rule in RULES.items():
 
 cond = " AND ".join(f"({r})" for r in RULES.values())
 
-# keep the EARLIEST listing of each job, so age_days measures how
-# long the role has really been advertised
+
 w = Window.partitionBy("posting_id").orderBy(F.asc("created_ts"))
 
 passed = (s.filter(cond)
@@ -516,17 +511,7 @@ VAGUE_FAMILY = "ai (other)"
 
 KEEP = DATA_FAMILIES + AI_FAMILIES
 
-# A posting still listed a year after it appeared is not a vacancy, it
-# is an advert nobody took down: a pipeline-building listing, an
-# agency's permanent shopfront, or a dead page. Keeping them does not
-# make the market look slower, it makes the *mean* look slower, because
-# a handful of 900-day rows drag an average that most readers take as
-# "how long it takes to fill a job".
-#
-# This is a scope decision, not a quality one, so it does not go in
-# RULES: quarantine means "the record is broken" and the site publishes
-# that rate as a data-quality figure. These rows are perfectly valid,
-# they are just not live vacancies.
+
 MAX_AGE_DAYS = 365
 
 in_scope = passed.filter(F.col("role_family").isin(KEEP))
@@ -552,10 +537,6 @@ print(f"out of scope: {n_drop:,} ({n_drop / n_all:.1%})")
 print(f"stale >{MAX_AGE_DAYS}d : {n_stale:,} ({n_stale / n_all:.1%})")
 print()
 
-# What the cut costs, printed so the change to the headline mean is
-# never a surprise. If dropping under 5% of rows moves the mean by
-# more than a few days, that is the long tail, and it is worth saying
-# so out loud rather than quietly shipping a different number.
 before = in_scope.agg(F.avg("age_days")).first()[0]
 after  = clean.agg(F.avg("age_days")).first()[0]
 print(f"mean age before cut : {before:.1f} d")
@@ -570,9 +551,7 @@ display(excluded.groupBy("exclude_reason", "role_family").count()
 
 ai = clean.filter(F.col("role_group") == "ai")
 
-# Age-capped on both sides. This measures classification drift, not
-# liveness, so comparing live named families against vague ones of any
-# age would inflate the vague share with adverts the site drops anyway.
+
 vague_rows = excluded.filter(
     (F.col("role_family") == VAGUE_FAMILY)
     & (F.col("age_days") <= MAX_AGE_DAYS))
@@ -595,7 +574,6 @@ if vague / max(n_mentions, 1) > 0.35:
     print("  <-- too vague. Widen the specific rules before "
           "publishing per-family findings.")
 
-# a hand check: 15 random dropped titles, to see what is being missed
 display(vague_rows.select("title_raw", "company")
                   .orderBy(F.rand()).limit(15))
 
