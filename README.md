@@ -1,6 +1,6 @@
 <div align="center">
 
-# What's up with the AI/data job market in Austria, Germany and Switzerland?
+# What's up with the AI/Data job market in Austria, Germany and Switzerland?
 
 [![tests](https://img.shields.io/github/actions/workflow/status/Chrisinho8/DACH-data-job-market/tests.yml?branch=main&label=tests&labelColor=221F1A&color=6FA37F&style=flat-square)](https://github.com/Chrisinho8/DACH-data-job-market/actions/workflows/tests.yml)
 [![live postings](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FChrisinho8%2FDACH-data-job-market%2Fmain%2Fdocs%2Fdata%2Fmeta.json&query=%24.live_postings&label=live%20postings&labelColor=221F1A&color=E3A23F&style=flat-square&cacheSeconds=1800)](https://Chrisinho8.github.io/DACH-data-job-market/)
@@ -41,7 +41,7 @@ Above: the map view and the capabilities of searching a job this way.
 
  
 
-## Scope: what counts as a data job
+## Scope: what counts as a AI/Data job
 
 **Data:** data engineer, data analyst, data scientist, data architect, analytics engineer, DWH / ETL, data governance, data consultant, BI developer.
 
@@ -124,7 +124,6 @@ pathlib.Path("/Volumes/jobs/bronze/conf/adzuna.json").write_text(
 ![Databricks Workflows](https://img.shields.io/badge/Databricks_Workflows-221F1A?style=flat-square&logo=databricks&logoColor=E3A23F)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-221F1A?style=flat-square&logo=githubactions&logoColor=6FA37F)
 ![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-221F1A?style=flat-square&logo=github&logoColor=E56743)
-![Chart.js](https://img.shields.io/badge/Chart.js-221F1A?style=flat-square&logo=chartdotjs&logoColor=E3A23F)
 ![SQL](https://img.shields.io/badge/SQL-221F1A?style=flat-square&logo=postgresql&logoColor=6FA37F)
 ![pytest](https://img.shields.io/badge/pytest-221F1A?style=flat-square&logo=pytest&logoColor=6FA37F)
 ![JavaScript](https://img.shields.io/badge/Vanilla_JS-221F1A?style=flat-square&logo=javascript&logoColor=E3A23F)
