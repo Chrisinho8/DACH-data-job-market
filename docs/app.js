@@ -333,8 +333,29 @@ function ageColour(d) {
 /* ---------------- enhanced KPI block ---------------- */
 get("meta").then(m => {
   if (!m) return;
-  /* meta.updated arrives ISO (YYYY-MM-DD); the page reads European */
-  if (m.updated) set("kpi-when", euroDate(m.updated));
+  /* meta.updated arrives ISO (YYYY-MM-DD). The lead panel spells it
+     out, with the weekday set quieter than the date itself. */
+  if (m.updated) {
+    const el = document.getElementById("kpi-when");
+    const d = new Date(String(m.updated).slice(0, 10) + "T00:00:00Z");
+    if (!el) {
+      /* nothing to do */
+    } else if (isNaN(d.getTime())) {
+      el.textContent = euroDate(m.updated);
+    } else {
+      const full = ["January", "February", "March", "April", "May",
+                    "June", "July", "August", "September", "October",
+                    "November", "December"];
+      const day = ["Sunday", "Monday", "Tuesday", "Wednesday",
+                   "Thursday", "Friday", "Saturday"];
+      const dow = document.createElement("span");
+      dow.className = "dow";
+      dow.textContent = day[d.getUTCDay()] + " ";
+      el.textContent = "";
+      el.append(dow, d.getUTCDate() + " " + full[d.getUTCMonth()]
+                     + " " + d.getUTCFullYear());
+    }
+  }
   set("f-mean", Math.round(m.avg_age_days));
   set("f-median", m.median_age_days);
   if (m.updated) set("cav_updated", euroDate(m.updated));

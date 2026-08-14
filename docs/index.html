@@ -237,24 +237,24 @@
   .ovw{border:1px solid var(--line);border-radius:16px;
        background:var(--card);box-shadow:var(--shadow);overflow:hidden;
        margin-bottom:0}
-  .ovw-lead{text-align:center;padding:26px 20px 26px;
+  /* The date is the point of this panel, so it gets the whole width
+     and everything else is a caption around it. A line-drawn calendar
+     glyph marks the label; no fake paper tile. */
+  .ovw-lead{padding:34px 26px 32px;text-align:center;
             border-bottom:1px solid var(--line);
             background:var(--card);
             position:relative}
   .ovw-lead .lab{display:inline-flex;align-items:center;gap:8px;
-            padding:5px 13px;border-radius:99px;
-            background:rgba(229,103,67,.10);
-            border:1px solid rgba(229,103,67,.24);
-            font-size:11.5px;font-weight:700;letter-spacing:.15em;
-            text-transform:uppercase;color:#B04A28}
-  .ovw-lead .lab::before{content:"";width:6px;height:6px;
-            border-radius:50%;background:var(--coral)}
-  /* same face and weight as the four figures below it, just larger */
-  .ovw-lead b{display:block;margin-top:13px;font-size:44px;
-            font-weight:600;font-family:"Inter",system-ui,sans-serif;
-            letter-spacing:-.02em;line-height:1;
-            color:var(--ink);font-variant-numeric:tabular-nums}
-  .ovw-lead .sub2{display:block;margin-top:12px;font-size:15px;
+            font-size:13.5px;font-weight:700;letter-spacing:.16em;
+            text-transform:uppercase;color:#A8A196}
+  .calico{color:var(--coral);flex:0 0 auto;position:relative;top:-.5px}
+  .ovw-lead b{display:block;margin-top:10px;
+            font-size:clamp(34px,6.2vw,58px);
+            font-weight:700;letter-spacing:-.03em;line-height:1;
+            color:var(--ink)}
+  /* the weekday leads in quieter than the numerals it introduces */
+  .ovw-lead b .dow{color:#B3ADA1;font-weight:600}
+  .ovw-lead .sub2{display:block;margin-top:14px;font-size:17px;
             color:#8A857C}
 
   .ovw-row{display:grid;grid-template-columns:repeat(4,1fr)}
@@ -262,7 +262,8 @@
             position:relative}
   .ovw-cell+.ovw-cell::before{content:"";position:absolute;
             left:0;top:18px;bottom:18px;width:1px;background:var(--line)}
-  .ovw-cell b{display:block;font-size:30px;font-weight:600;
+  /* same face, weight and tracking as the country-card figures */
+  .ovw-cell b{display:block;font-size:30px;font-weight:700;
             font-family:"Inter",sans-serif;letter-spacing:-.02em;
             line-height:1.1;color:var(--ink);
             font-variant-numeric:tabular-nums}
@@ -498,9 +499,23 @@
 <section class="kpiblock" id="overview">
     <div class="ovw">
       <div class="ovw-lead">
-        <span class="lab">Last updated</span>
-        <b id="kpi-when">-</b>
-        <span class="sub2">every day at 08:00 UTC+2</span>
+        <div class="cal-txt">
+          <span class="lab">
+            <svg class="calico" viewBox="0 0 20 20" width="17" height="17"
+                 fill="none" aria-hidden="true">
+              <rect x="2.2" y="4.2" width="15.6" height="13.6" rx="2.4"
+                    stroke="currentColor" stroke-width="1.5"/>
+              <path d="M2.2 8.4h15.6M6.6 2.2v3.6M13.4 2.2v3.6"
+                    stroke="currentColor" stroke-width="1.5"
+                    stroke-linecap="round"/>
+              <rect x="8.6" y="11.4" width="2.8" height="2.8" rx=".7"
+                    fill="currentColor"/>
+            </svg>
+            Last updated
+          </span>
+          <b id="kpi-when">-</b>
+          <span class="sub2">refreshed every day at 08:00 UTC+2</span>
+        </div>
       </div>
       <div id="kpi" class="ovw-row"></div>
     </div>
