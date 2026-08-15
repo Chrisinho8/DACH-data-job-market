@@ -348,12 +348,8 @@ get("meta").then(m => {
                     "November", "December"];
       const day = ["Sunday", "Monday", "Tuesday", "Wednesday",
                    "Thursday", "Friday", "Saturday"];
-      const dow = document.createElement("span");
-      dow.className = "dow";
-      dow.textContent = day[d.getUTCDay()] + " ";
-      el.textContent = "";
-      el.append(dow, d.getUTCDate() + " " + full[d.getUTCMonth()]
-                     + " " + d.getUTCFullYear());
+      el.textContent = day[d.getUTCDay()] + " - " + d.getUTCDate() + " "
+                       + full[d.getUTCMonth()] + " " + d.getUTCFullYear();
     }
   }
   set("f-mean", Math.round(m.avg_age_days));
