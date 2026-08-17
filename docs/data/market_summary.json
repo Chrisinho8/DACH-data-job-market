@@ -1,15 +1,15 @@
 [
  {
-  "snapshot_date": "2026-08-16T00:00:00.000",
-  "live_postings": 2960,
-  "employers": 1313,
-  "avg_age_days": 49.8,
-  "median_age_days": 26,
-  "pct_over_7d": 81.7,
-  "pct_over_30d": 44.6,
-  "pct_over_60d": 26.3,
-  "pct_over_90d": 18.8,
+  "snapshot_date": "2026-08-17T00:00:00.000",
+  "live_postings": 2968,
+  "employers": 1315,
+  "avg_age_days": 50.7,
+  "median_age_days": 27,
+  "pct_over_7d": 83.0,
+  "pct_over_30d": 46.0,
+  "pct_over_60d": 26.6,
+  "pct_over_90d": 19.0,
   "pct_agency": 4.4,
-  "pct_english": 35.2
+  "pct_english": 35.1
  }
 ]
