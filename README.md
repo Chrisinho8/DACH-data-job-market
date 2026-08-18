@@ -79,7 +79,6 @@ docs/data/*.json        committed to this repo
 GitHub Pages            static site, no backend
 ```
 
-![Visualized architecture](assets/pipeline-architecture.png)
 
 **Browsing the postings.** Everything on the site is a count except one table. `gold.postings_public` ships as `docs/data/postings.json` and backs the searchable list: title, employer, city, role, seniority, age, and the aggregator's `redirect_url`. No descriptions (not ours to redistribute, 99.6% truncated) and no salary (mostly the aggregator's guess). Rows without a link are dropped.
 
