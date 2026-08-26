@@ -2642,34 +2642,24 @@ get("history").then(h => {
 /* ===================================================== */
 /* ===== New postings per day (below the trend) ======== */
 /* Reads new_postings_daily.json, built from the gold    */
-/* registry (05, section 8b) so expired listings stay    */
-/* counted. Falls back to counting postings.json (live   */
-/* only) until the pipeline has published the file once. */
+/* registry (05, section 8b) and keyed on first_seen -   */
+/* the day the pipeline first observed the advert.       */
+/* There is deliberately no fallback to counting         */
+/* postings.json: that keys on the advert's own          */
+/* created_date, which backfills a year of history from  */
+/* whatever is live in one snapshot. Expiry has already  */
+/* gutted those old days, so they read as a ramp that    */
+/* never happened. Empty until the second pipeline run.  */
 /* ===================================================== */
 
 (function () {
-  const fromPostings = d => {
-    const m = new Map();
-    d.forEach(r => {
-      const k = [String(r.created_date).slice(0, 10), r.country,
-                 r.role_family, r.seniority].join("|");
-      m.set(k, (m.get(k) || 0) + 1);
-    });
-    return [...m].map(([k, n]) => {
-      const [day, country, role_family, seniority] = k.split("|");
-      return { day, country, role_family, seniority, n };
-    });
-  };
+  get("new_postings_daily").then(nd => {
 
-  Promise.all([get("new_postings_daily"), get("postings")])
-    .then(([nd, pd]) => {
-
-    let rows = (nd && nd.length)
-      ? nd.map(r => ({ ...r, day: String(r.created_date).slice(0, 10) }))
-      : (pd && pd.length ? fromPostings(pd) : null);
-    if (!rows) return;
+    let rows = (nd || [])
+      .map(r => ({ ...r, day: String(r.day || "").slice(0, 10) }));
     rows = rows.filter(r => isLive(r.role_family) &&
-                            r.role_family !== "other" && r.day);
+                            r.role_family !== "other" &&
+                            /^\d{4}-\d{2}-\d{2}$/.test(r.day));
     if (!rows.length) return;
 
     const sec = document.getElementById("newposts-section");
@@ -2677,13 +2667,20 @@ get("history").then(h => {
     if (!sec || !pickEl) return;
     sec.hidden = false;
 
-    const maxDay = rows.map(r => r.day).sort().slice(-1)[0];
+    const dayKeys = [...new Set(rows.map(r => r.day))].sort();
+    const minDay = dayKeys[0];
+    const maxDay = dayKeys[dayKeys.length - 1];
+    /* how many calendar days the tracker has actually covered */
+    const tracked = Math.round(
+      (Date.parse(maxDay) - Date.parse(minDay)) / 864e5) + 1;
 
-    /* zero-filled day axis ending on the newest day */
+    /* zero-filled day axis ending on the newest day, never reaching
+       back past the first tracked day - a 60-day window in week one
+       would otherwise be 55 zero bars pretending to be no hiring */
     const mkDays = span => {
       const days = [];
       const end = new Date(maxDay + "T00:00:00Z");
-      for (let i = span - 1; i >= 0; i--) {
+      for (let i = Math.min(span, tracked) - 1; i >= 0; i--) {
         const d = new Date(end);
         d.setUTCDate(d.getUTCDate() - i);
         days.push(d.toISOString().slice(0, 10));
@@ -2712,7 +2709,7 @@ get("history").then(h => {
     let selRoles = [];   /* empty = all roles; up to 3 to compare */
     let country = "all";
     let sen = "all";
-    let span = 60;
+    let span = 30;
     let chart = null;
 
     const filt = r => (country === "all" || r.country === country) &&
@@ -2743,12 +2740,20 @@ get("history").then(h => {
         ? sum(combined.slice(-14, -7)) : 0;
       const delta = prev ? Math.round(100 * (wk - prev) / prev) : null;
       const cls = delta == null ? "" : delta >= 0 ? " up" : " down";
+      /* week-over-week needs two full tracked weeks behind it,
+         otherwise it compares a real week against a partial one */
+      const wow = delta != null
+        ? `<b>${(delta >= 0 ? "+" : "") + delta}%</b>` +
+          `<span>vs the 7 days before</span>`
+        : tracked < 14
+          ? `<b>–</b><span>week over week needs 14 tracked days` +
+            ` (${tracked} so far)</span>`
+          : `<b>–</b><span>week over week needs a longer` +
+            ` timeframe</span>`;
       el.innerHTML =
         `<div class="npkpi"><b>${wk.toLocaleString("en-US")}</b>` +
-        `<span>new in the last 7 days</span></div>` +
-        `<div class="npkpi${cls}"><b>${delta == null ? "–"
-            : (delta >= 0 ? "+" : "") + delta + "%"}</b>` +
-        `<span>vs the 7 days before</span></div>` +
+        `<span>new in the last ${Math.min(7, tracked)} days</span></div>` +
+        `<div class="npkpi${cls}">${wow}</div>` +
         `<div class="npkpi"><b>${sum(combined)
             .toLocaleString("en-US")}</b>` +
         `<span>total in this view</span></div>`;
@@ -2771,7 +2776,7 @@ get("history").then(h => {
           type: "bar", label: name, data: vals, order: 2,
           backgroundColor: col + "66", borderColor: col, borderWidth: 1
         });
-        if (showAvg && span > 7)
+        if (showAvg && days.length > 7)
           datasets.push({
             type: "line", label: name + " (7-day avg)",
             data: roll7(vals), borderColor: col, backgroundColor: col,
@@ -2796,7 +2801,7 @@ get("history").then(h => {
             x: { grid: { display: false },
                  ticks: { maxTicksLimit: 15, maxRotation: 0 },
                  title: { display: true,
-                          text: "date the advert was created" } },
+                          text: "day the advert was first seen" } },
             y: { beginAtZero: true, grid: { color: LINE },
                  ticks: { precision: 0 },
                  title: { display: true, text: "new postings" } }
@@ -2853,7 +2858,7 @@ get("history").then(h => {
     simpleRow("npsen",
       [["all", "All"], ...senList.map(s => [s, cap(s)])],
       v => sen = v, "all");
-    simpleRow("nprange", RANGES, v => span = +v, "60");
+    simpleRow("nprange", RANGES, v => span = +v, "30");
 
     const avgEl = document.getElementById("npavg");
     if (avgEl) avgEl.addEventListener("change", draw);

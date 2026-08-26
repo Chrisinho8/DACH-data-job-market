@@ -259,8 +259,6 @@ a:hover{color:var(--coral)}
 
 
 /* ---------- new postings per day ---------- */
-/* default view one browser zoom step out, per request */
-html{zoom:.9}
 
 #newposts-section .np-since{
   font-size:17px;font-weight:600;color:#191919;
