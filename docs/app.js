@@ -2637,3 +2637,227 @@ get("history").then(h => {
   });
   if (location.hash === "#limitations") setOpen(true);
 })();
+
+
+/* ===================================================== */
+/* ===== New postings per day (below the trend) ======== */
+/* Reads new_postings_daily.json, built from the gold    */
+/* registry (05, section 8b) so expired listings stay    */
+/* counted. Falls back to counting postings.json (live   */
+/* only) until the pipeline has published the file once. */
+/* ===================================================== */
+
+(function () {
+  const fromPostings = d => {
+    const m = new Map();
+    d.forEach(r => {
+      const k = [String(r.created_date).slice(0, 10), r.country,
+                 r.role_family, r.seniority].join("|");
+      m.set(k, (m.get(k) || 0) + 1);
+    });
+    return [...m].map(([k, n]) => {
+      const [day, country, role_family, seniority] = k.split("|");
+      return { day, country, role_family, seniority, n };
+    });
+  };
+
+  Promise.all([get("new_postings_daily"), get("postings")])
+    .then(([nd, pd]) => {
+
+    let rows = (nd && nd.length)
+      ? nd.map(r => ({ ...r, day: String(r.created_date).slice(0, 10) }))
+      : (pd && pd.length ? fromPostings(pd) : null);
+    if (!rows) return;
+    rows = rows.filter(r => isLive(r.role_family) &&
+                            r.role_family !== "other" && r.day);
+    if (!rows.length) return;
+
+    const sec = document.getElementById("newposts-section");
+    const pickEl = document.getElementById("nppick");
+    if (!sec || !pickEl) return;
+    sec.hidden = false;
+
+    const maxDay = rows.map(r => r.day).sort().slice(-1)[0];
+
+    /* zero-filled day axis ending on the newest day */
+    const mkDays = span => {
+      const days = [];
+      const end = new Date(maxDay + "T00:00:00Z");
+      for (let i = span - 1; i >= 0; i--) {
+        const d = new Date(end);
+        d.setUTCDate(d.getUTCDate() - i);
+        days.push(d.toISOString().slice(0, 10));
+      }
+      return days;
+    };
+
+    const roleTot = {};
+    rows.forEach(r =>
+      roleTot[r.role_family] = (roleTot[r.role_family] || 0) + r.n);
+    const roles = Object.keys(roleTot)
+      .sort((a, b) => roleTot[b] - roleTot[a]);
+
+    const SORDER = ["junior", "mid", "senior"];
+    const sens = [...new Set(rows.map(r => r.seniority))].filter(Boolean);
+    const senList = SORDER.filter(s => sens.includes(s))
+      .concat(sens.filter(s => !SORDER.includes(s)).sort());
+
+    const cs = CORDER.filter(c => rows.some(r => r.country === c));
+
+    const RANGES = [["7", "1 week"], ["30", "1 month"],
+                    ["60", "2 months"], ["90", "3 months"],
+                    ["365", "All"]];
+
+    const ALL = "All roles";
+    let selRoles = [];   /* empty = all roles; up to 3 to compare */
+    let country = "all";
+    let sen = "all";
+    let span = 60;
+    let chart = null;
+
+    const filt = r => (country === "all" || r.country === country) &&
+                      (sen === "all" || r.seniority === sen);
+
+    const daily = (role, days) => {
+      const m = Object.fromEntries(days.map(d => [d, 0]));
+      rows.forEach(r => {
+        if (filt(r) && (role == null || r.role_family === role) &&
+            m[r.day] != null) m[r.day] += r.n;
+      });
+      return days.map(d => m[d]);
+    };
+
+    /* trailing 7-day mean; first six days have no full window */
+    const roll7 = a => a.map((_, i) => i < 6 ? null :
+      +(a.slice(i - 6, i + 1).reduce((x, y) => x + y, 0) / 7)
+        .toFixed(1));
+
+    const fmtDay = d => `${d.slice(8, 10)}.${d.slice(5, 7)}.`;
+
+    function chips(combined, days) {
+      const el = document.getElementById("npstats");
+      if (!el) return;
+      const sum = a => a.reduce((x, y) => x + y, 0);
+      const wk = sum(combined.slice(-7));
+      const prev = combined.length >= 14
+        ? sum(combined.slice(-14, -7)) : 0;
+      const delta = prev ? Math.round(100 * (wk - prev) / prev) : null;
+      const cls = delta == null ? "" : delta >= 0 ? " up" : " down";
+      el.innerHTML =
+        `<div class="npkpi"><b>${wk.toLocaleString("en-US")}</b>` +
+        `<span>new in the last 7 days</span></div>` +
+        `<div class="npkpi${cls}"><b>${delta == null ? "–"
+            : (delta >= 0 ? "+" : "") + delta + "%"}</b>` +
+        `<span>vs the 7 days before</span></div>` +
+        `<div class="npkpi"><b>${sum(combined)
+            .toLocaleString("en-US")}</b>` +
+        `<span>total in this view</span></div>`;
+    }
+
+    function draw() {
+      if (chart) chart.destroy();
+      const days = mkDays(span);
+      const picks = selRoles.length ? selRoles : [null];
+      const showAvg = document.getElementById("npavg").checked;
+      const datasets = [];
+      const combined = days.map(() => 0);
+
+      picks.forEach((role, i) => {
+        const vals = daily(role, days);
+        vals.forEach((v, j) => combined[j] += v);
+        const col = role == null ? STEEL : rcol(role, i);
+        const name = role == null ? ALL : rlab(role);
+        datasets.push({
+          type: "bar", label: name, data: vals, order: 2,
+          backgroundColor: col + "66", borderColor: col, borderWidth: 1
+        });
+        if (showAvg && span > 7)
+          datasets.push({
+            type: "line", label: name + " (7-day avg)",
+            data: roll7(vals), borderColor: col, backgroundColor: col,
+            tension: .3, pointRadius: 0, borderWidth: 2.5,
+            fill: false, order: 1, spanGaps: true
+          });
+      });
+
+      chart = new Chart(document.getElementById("npchart"), {
+        data: { labels: days.map(fmtDay), datasets },
+        options: {
+          aspectRatio: 2,
+          interaction: { mode: "index", intersect: false },
+          plugins: {
+            legend: { position: "bottom",
+                      labels: { boxWidth: 16, boxHeight: 16,
+                                padding: 16, font: { size: 15 } } },
+            tooltip: { mode: "index", intersect: false,
+                       titleFont: { size: 13 }, bodyFont: { size: 13 } }
+          },
+          scales: {
+            x: { grid: { display: false },
+                 ticks: { maxTicksLimit: 15, maxRotation: 0 },
+                 title: { display: true,
+                          text: "date the advert was created" } },
+            y: { beginAtZero: true, grid: { color: LINE },
+                 ticks: { precision: 0 },
+                 title: { display: true, text: "new postings" } }
+          }
+        }
+      });
+      chips(combined, days);
+    }
+
+    /* role pills - multi-select, "All roles" clears */
+    pickEl.innerHTML = [ALL, ...roles].map(f =>
+      `<button type="button" data-f="${f}"
+         aria-pressed="${f === ALL}">` +
+      `${f === ALL ? ALL : rlab(f)}</button>`).join("");
+    pickEl.addEventListener("click", e => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      const f = b.dataset.f;
+      if (f === ALL) selRoles = [];
+      else {
+        const i = selRoles.indexOf(f);
+        if (i >= 0) selRoles.splice(i, 1);
+        else {
+          selRoles.push(f);
+          if (selRoles.length > 3) selRoles.shift();
+        }
+      }
+      pickEl.querySelectorAll("button").forEach(x =>
+        x.setAttribute("aria-pressed",
+          x.dataset.f === ALL ? String(!selRoles.length)
+                              : String(selRoles.includes(x.dataset.f))));
+      draw();
+    });
+
+    /* single-select pill rows */
+    const simpleRow = (id, items, set, init) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = items.map(v =>
+        `<button type="button" data-f="${v[0]}"
+           aria-pressed="${v[0] === init}">${v[1]}</button>`).join("");
+      el.addEventListener("click", e => {
+        const b = e.target.closest("button");
+        if (!b) return;
+        set(b.dataset.f);
+        el.querySelectorAll("button").forEach(x =>
+          x.setAttribute("aria-pressed", String(x === b)));
+        draw();
+      });
+    };
+    simpleRow("npcountry",
+      [["all", "All"], ...cs.map(c => [c, String(c).toUpperCase()])],
+      v => country = v, "all");
+    simpleRow("npsen",
+      [["all", "All"], ...senList.map(s => [s, cap(s)])],
+      v => sen = v, "all");
+    simpleRow("nprange", RANGES, v => span = +v, "60");
+
+    const avgEl = document.getElementById("npavg");
+    if (avgEl) avgEl.addEventListener("change", draw);
+
+    draw();
+  });
+})();

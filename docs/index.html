@@ -17,7 +17,7 @@
 <meta property="og:url" content="https://chrisinho8.github.io/DACH-data-job-market/">
 <meta name="twitter:card" content="summary_large_image">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link rel="stylesheet" href="style.css?v=18">
+<link rel="stylesheet" href="style.css?v=26">
 <style>
   /* Ships one browser zoom step out (the Cmd+minus default), so the
      page opens at the density it was designed for. Only on pointer
@@ -674,6 +674,43 @@
     <canvas id="trend" height="220"></canvas>
   </section>
 
+  <section id="newposts-section" hidden>
+    <h2>New job postings per day
+      <span class="np-since">(started tracking 26.08.2026)</span></h2>
+    <p class="note">
+      Counted by the date the advert was created. Days before tracking
+      began undercount, since expired adverts from back then are gone.
+      Pick up to three roles to compare them.
+    </p>
+    <div id="npstats" class="npkpis"></div>
+    <div class="mapctl">
+      <div class="ctlrow ctlrow-roles">
+        <span class="ctl-lab">Role</span>
+        <div id="nppick" class="pick"></div>
+      </div>
+      <div class="ctlrow">
+        <span class="ctl-lab">Country</span>
+        <div id="npcountry" class="pick"></div>
+      </div>
+      <div class="ctlrow">
+        <span class="ctl-lab">Seniority</span>
+        <div id="npsen" class="pick"></div>
+      </div>
+      <div class="ctlrow">
+        <span class="ctl-lab">Timeframe</span>
+        <div id="nprange" class="pick"></div>
+      </div>
+      <div class="ctlrow">
+        <span class="ctl-lab">Show</span>
+        <div class="checks">
+          <label><input type="checkbox" id="npavg" checked>
+                 7-day average</label>
+        </div>
+      </div>
+    </div>
+    <canvas id="npchart" height="220"></canvas>
+  </section>
+
   <!-- ============ TOOLS ============ -->
   <section id="skillrole-section" hidden>
     <h2>Which technical skills do postings ask for?</h2>
@@ -861,7 +898,7 @@
 
 <div id="maptip" role="tooltip"></div>
 
-<script src="app.js?v=8"></script>
+<script src="app.js?v=15"></script>
 
 
 </body>
