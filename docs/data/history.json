@@ -14322,16 +14322,16 @@
   "value": 3231.0
  },
  {
-  "snapshot_date": "2026-08-26T00:00:00.000",
-  "metric": "avg_age_days",
-  "dimension": "all",
-  "value": 45.3
- },
- {
   "snapshot_date": "2026-08-25T00:00:00.000",
   "metric": "avg_age_days",
   "dimension": "all",
   "value": 44.9
+ },
+ {
+  "snapshot_date": "2026-08-26T00:00:00.000",
+  "metric": "avg_age_days",
+  "dimension": "all",
+  "value": 45.3
  },
  {
   "snapshot_date": "2026-08-24T00:00:00.000",
@@ -14346,13 +14346,13 @@
   "value": 21.9
  },
  {
-  "snapshot_date": "2026-08-25T00:00:00.000",
+  "snapshot_date": "2026-08-26T00:00:00.000",
   "metric": "pct_over_60d",
   "dimension": "all",
   "value": 22.3
  },
  {
-  "snapshot_date": "2026-08-26T00:00:00.000",
+  "snapshot_date": "2026-08-25T00:00:00.000",
   "metric": "pct_over_60d",
   "dimension": "all",
   "value": 22.3
