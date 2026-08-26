@@ -270,32 +270,11 @@ display(spark.table(f"{GOLD}.skill_demand").limit(40))
 
 # MAGIC %md
 # MAGIC ## 7a. Skills per role family
-# MAGIC Backs the role picker on the tools chart. This table was
-# MAGIC previously created by hand and only re-exported by 06, so it kept
-# MAGIC shipping a stale snapshot: long after `ai / ml` was split into six
-# MAGIC families, the site still offered an "AI/ML (pre-split)" button
-# MAGIC because the underlying table had never been rebuilt. Building it
-# MAGIC here means it cannot drift from `postings` again.
 # MAGIC
-# MAGIC `pct_role_postings` is the share of that family's postings
-# MAGIC mentioning the tool, so the denominator changes per row group.
-# MAGIC Never compare a raw `n_postings` across families.
-# MAGIC
-# MAGIC **Denominator note.** `role_postings` counts every posting in the
-# MAGIC family, including those that matched no skill at all, because the
-# MAGIC chart is labelled "share of postings mentioning it" and that is
-# MAGIC the only reading which makes the label true. `ai_skill_by_family`
-# MAGIC below divides by postings with at least one match instead, so its
-# MAGIC percentages run higher. Do not put the two on the same axis.
 
 # COMMAND ----------
 
-# posting_skills already carries role_family: 04 selects it alongside
-# the skill columns. Joining postings back on just to fetch it yields
-# two role_family columns and an AMBIGUOUS_REFERENCE error. The only
-# thing worth joining for is the family size, and that has to come from
-# postings anyway so that postings matching no skill still count in the
-# denominator.
+
 spark.sql(f"""
 CREATE OR REPLACE TABLE {GOLD}.skill_by_role AS
 WITH fam AS (
@@ -491,21 +470,12 @@ SELECT current_date(), 'role_count', role_family,
        CAST(SUM(n_postings) AS DOUBLE)
 FROM {GOLD}.role_breakdown GROUP BY role_family
 UNION ALL
--- Days open per role family, so the trend chart can show a real
--- per-role age line instead of falling back on the market-wide
--- average. Computed straight off postings rather than averaging
--- role_breakdown's rows, which are split by seniority and would
--- need weighting.
+
 SELECT current_date(), 'role_avg_age_days', role_family,
        ROUND(AVG(age_days), 1)
 FROM postings WHERE role_family <> 'other' GROUP BY role_family
 UNION ALL
--- The AI split over time. 'ai_share_of_market' is the headline, and it
--- covers the six described families only: titles that say AI and name
--- no role are dropped in 03, so this understates raw AI keyword volume
--- by design. Older snapshots in this table were written when the vague
--- family was still published and are NOT comparable to rows from
--- 2026-08 onwards.
+
 SELECT current_date(), 'ai_family_pct', role_family, pct_of_ai
 FROM {GOLD}.ai_breakdown
 UNION ALL
@@ -521,6 +491,55 @@ FROM {GOLD}.history GROUP BY snapshot_date ORDER BY 1
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ## 8b. Postings registry - listings we keep after they expire
+# MAGIC
+
+# COMMAND ----------
+
+spark.sql(f"""
+CREATE TABLE IF NOT EXISTS {GOLD}.postings_registry (
+  posting_id   STRING,
+  created_date DATE,
+  country      STRING,
+  role_group   STRING,
+  role_family  STRING,
+  seniority    STRING,
+  first_seen   DATE
+)
+""")
+
+spark.sql(f"""
+MERGE INTO {GOLD}.postings_registry t
+USING (
+  SELECT posting_id,
+         CAST(created_date AS DATE) AS created_date,
+         country, role_group, role_family, seniority,
+         current_date() AS first_seen
+  FROM postings
+
+  QUALIFY ROW_NUMBER() OVER (
+    PARTITION BY posting_id ORDER BY created_date) = 1
+) s
+ON t.posting_id = s.posting_id
+WHEN NOT MATCHED THEN INSERT *
+""")
+
+spark.sql(f"""
+CREATE OR REPLACE TABLE {GOLD}.new_postings_daily AS
+SELECT created_date, country, role_family, seniority,
+       COUNT(*) AS n
+FROM {GOLD}.postings_registry
+WHERE role_family <> 'other'
+GROUP BY created_date, country, role_family, seniority
+ORDER BY created_date
+""")
+
+print(spark.table(f"{GOLD}.postings_registry").count(), "in registry,",
+      spark.table(f"{GOLD}.new_postings_daily").count(), "daily rows")
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC ## Validation gate
 # MAGIC The publish task must not run if any of this fails.
 
@@ -532,10 +551,7 @@ assert n > 500, f"only {n} postings, refusing to publish"
 q = spark.table(f"{SILVER}.quarantine").count()
 assert q / (n + q) < 0.10, f"quarantine rate {q/(n+q):.1%} too high"
 
-# 03 drops anything over a year old as no longer a live vacancy, so
-# this is now a tight bound rather than a sanity check on date parsing.
-# If it fires, 03 was run from an older revision and every age figure
-# on the site is being dragged by adverts nobody took down.
+
 age_max = p.agg(F.max("age_days")).first()[0]
 assert age_max <= 365, (
     f"oldest posting is {age_max} days. 03_silver_clean caps this at "
@@ -552,18 +568,7 @@ print(f"validation passed: {n:,} postings, {q:,} quarantined, "
 # MAGIC individual rows, so the reader can click from a bar to the jobs
 # MAGIC behind it instead of taking the bar on trust.
 # MAGIC
-# MAGIC What it deliberately does **not** contain:
 # MAGIC
-# MAGIC * `description` - not ours to redistribute, and 99.6% of them are
-# MAGIC   truncated by the aggregator anyway, so a full-text search over
-# MAGIC   them would return boilerplate intros and nothing else.
-# MAGIC * `salary` - mostly the aggregator's own prediction, not the
-# MAGIC   employer's number. Publishing it per row would read as fact.
-# MAGIC * any employer URL. `redirect_url` goes to the aggregator, which
-# MAGIC   is the arrangement its terms expect.
-# MAGIC
-# MAGIC Rows without a link are dropped: a posting the reader cannot open
-# MAGIC is worse than no row, because it looks like a broken site.
 
 # COMMAND ----------
 

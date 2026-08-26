@@ -2,11 +2,6 @@
 # MAGIC %md
 # MAGIC # 06 - Publish gold tables to GitHub
 # MAGIC
-# MAGIC Commits the gold tables as small JSON files into `docs/data/` in your
-# MAGIC repo. GitHub Pages redeploys automatically, so the public site is
-# MAGIC current within a couple of minutes of the job finishing.
-# MAGIC
-# MAGIC No servers, no hosting bill, nothing to maintain.
 
 # COMMAND ----------
 
@@ -102,6 +97,8 @@ EXPORTS = [
     # narrowed to six when the vague one stopped being published
     (f"{GOLD}.ai_breakdown", "ai_breakdown", 20),
     (f"{GOLD}.ai_skill_by_family", "ai_skill_by_family", 3000),
+    # per-day new postings from the insert-only registry (8b in 05)
+    (f"{GOLD}.new_postings_daily", "new_postings_daily", 200000),
 ]
 
 for table, name, limit in EXPORTS:
@@ -113,10 +110,7 @@ for table, name, limit in EXPORTS:
 
 # MAGIC %md
 # MAGIC ## The postings file
-# MAGIC Separate from `EXPORTS` because it is the only row-level file and
-# MAGIC the only one where a truncation would be a lie rather than a
-# MAGIC shorter chart. Newest first, so a reader who ignores the search
-# MAGIC box still lands on something current.
+# MAGIC
 
 # COMMAND ----------
 
