@@ -19,9 +19,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="style.css?v=27">
 <style>
-  /* Ships one browser zoom step out (the Cmd+minus default), so the
-     page opens at the density it was designed for. Only on pointer
-     screens: phones already scale through the viewport meta. */
+
   @media(min-width:721px){
     html{zoom:.8}
   }
@@ -71,9 +69,7 @@
 
   .subh{font-size:19px;margin:0 0 10px;color:#5C5A54;font-weight:600}
 
-  /* Search gets its own full-width row; the five dropdowns sit in an
-     even grid below it so the controls line up in columns instead of
-     wrapping into a ragged staircase. */
+ 
   .pfilters{display:grid;gap:10px;margin:18px 0 12px;
             grid-template-columns:repeat(5,1fr) auto}
   .pfilters input{grid-column:1/-1}
@@ -226,20 +222,11 @@
   .kpiblock{background:none;border:0;box-shadow:none;
             padding:0;margin-bottom:36px}
 
-  /* ---------- current overview ----------
-     One panel, not six tinted cards. The date leads across the top,
-     the four measures sit below it in a divided row. Colour is down
-     to a single accent rule and one dot per measure. */
-  /* ---------- current overview ----------
-     One panel, not six tinted cards. The date leads across the top,
-     the four measures sit below it in a divided row. Colour is down
-     to a single accent rule and one dot per measure. */
+
   .ovw{border:1px solid var(--line);border-radius:16px;
        background:var(--card);box-shadow:var(--shadow);overflow:hidden;
        margin-bottom:0}
-  /* The date is the point of this panel, so it gets the whole width
-     and everything else is a caption around it. A line-drawn calendar
-     glyph marks the label; no fake paper tile. */
+
   .ovw-lead{padding:34px 26px 32px;text-align:center;
             border-bottom:1px solid var(--line);
             background:var(--card);
@@ -676,13 +663,11 @@
 
   <section id="newposts-section" hidden>
     <h2>New job postings per day
-      <span class="np-since">(tracking since 26.08.2026)</span></h2>
+      <span class="np-since">(tracking since 27.08.2026)</span></h2>
     <p class="note">
-      Counted on the day this tracker first saw the advert, so nothing
-      before 26.08.2026 is counted and the chart fills in one day at a
-      time. Adverts already live on that first day are a bulk load, not
-      a day of hiring, and are left out. Pick up to three roles to
-      compare them.
+      Started counting on the day this tracker first saw the advert, so nothing
+      before 27.08.2026 is counted and the chart fills in one day at a
+      time. 
     </p>
     <div id="npstats" class="npkpis"></div>
     <div class="mapctl">
@@ -713,7 +698,6 @@
     <canvas id="npchart" height="220"></canvas>
   </section>
 
-  <!-- ============ TOOLS ============ -->
   <section id="skillrole-section" hidden>
     <h2>Which technical skills do postings ask for?</h2>
     <p class="note">
