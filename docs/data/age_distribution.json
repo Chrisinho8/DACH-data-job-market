@@ -2,43 +2,43 @@
  {
   "bucket": "0-7 days",
   "sort_key": 1,
-  "n_postings": 900,
-  "pct": 28.6
+  "n_postings": 793,
+  "pct": 26.3
  },
  {
   "bucket": "8-14 days",
   "sort_key": 2,
-  "n_postings": 431,
-  "pct": 13.7
+  "n_postings": 418,
+  "pct": 13.8
  },
  {
   "bucket": "15-30 days",
   "sort_key": 3,
-  "n_postings": 530,
-  "pct": 16.8
+  "n_postings": 556,
+  "pct": 18.4
  },
  {
   "bucket": "31-60 days",
   "sort_key": 4,
-  "n_postings": 584,
-  "pct": 18.6
+  "n_postings": 564,
+  "pct": 18.7
  },
  {
   "bucket": "61-90 days",
   "sort_key": 5,
-  "n_postings": 183,
+  "n_postings": 175,
   "pct": 5.8
  },
  {
   "bucket": "91-180 days",
   "sort_key": 6,
-  "n_postings": 341,
-  "pct": 10.8
+  "n_postings": 340,
+  "pct": 11.3
  },
  {
   "bucket": "181-365 days",
   "sort_key": 7,
-  "n_postings": 177,
-  "pct": 5.6
+  "n_postings": 174,
+  "pct": 5.8
  }
 ]
