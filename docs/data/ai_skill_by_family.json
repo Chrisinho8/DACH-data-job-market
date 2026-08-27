@@ -3,233 +3,225 @@
   "role_family": "ai engineer",
   "skill": "ai_agents",
   "skill_category": "genai",
-  "n_postings": 60,
-  "pct_of_family": 43.2,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "n_postings": 54,
+  "pct_of_family": 40.6,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "llm",
   "skill_category": "genai",
-  "n_postings": 48,
-  "pct_of_family": 34.5,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "n_postings": 47,
+  "pct_of_family": 35.3,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "genai",
   "skill_category": "genai",
   "n_postings": 24,
-  "pct_of_family": 17.3,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "pct_of_family": 18.0,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "rag",
   "skill_category": "genai",
-  "n_postings": 20,
-  "pct_of_family": 14.4,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "n_postings": 21,
+  "pct_of_family": 15.8,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "python",
   "skill_category": "language",
-  "n_postings": 19,
-  "pct_of_family": 13.7,
-  "snapshot_date": "2026-08-26T00:00:00.000"
- },
- {
-  "role_family": "ai engineer",
-  "skill": "openai_api",
-  "skill_category": "genai",
-  "n_postings": 11,
-  "pct_of_family": 7.9,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "n_postings": 17,
+  "pct_of_family": 12.8,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "javascript",
   "skill_category": "language",
-  "n_postings": 10,
-  "pct_of_family": 7.2,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "n_postings": 9,
+  "pct_of_family": 6.8,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "sap",
   "skill_category": "enterprise",
-  "n_postings": 7,
-  "pct_of_family": 5.0,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "n_postings": 8,
+  "pct_of_family": 6.0,
+  "snapshot_date": "2026-08-27T00:00:00.000"
+ },
+ {
+  "role_family": "ai engineer",
+  "skill": "openai_api",
+  "skill_category": "genai",
+  "n_postings": 8,
+  "pct_of_family": 6.0,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "azure",
   "skill_category": "cloud",
   "n_postings": 6,
-  "pct_of_family": 4.3,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "pct_of_family": 4.5,
+  "snapshot_date": "2026-08-27T00:00:00.000"
+ },
+ {
+  "role_family": "ai engineer",
+  "skill": "prompting",
+  "skill_category": "genai",
+  "n_postings": 5,
+  "pct_of_family": 3.8,
+  "snapshot_date": "2026-08-27T00:00:00.000"
+ },
+ {
+  "role_family": "ai engineer",
+  "skill": "finetuning",
+  "skill_category": "genai",
+  "n_postings": 5,
+  "pct_of_family": 3.8,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "deeplearning",
   "skill_category": "nlp_cv",
   "n_postings": 4,
-  "pct_of_family": 2.9,
-  "snapshot_date": "2026-08-26T00:00:00.000"
- },
- {
-  "role_family": "ai engineer",
-  "skill": "azureml",
-  "skill_category": "mlops",
-  "n_postings": 4,
-  "pct_of_family": 2.9,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "pct_of_family": 3.0,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "ai_eval",
   "skill_category": "genai",
   "n_postings": 4,
-  "pct_of_family": 2.9,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "pct_of_family": 3.0,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "nlp",
   "skill_category": "nlp_cv",
   "n_postings": 4,
-  "pct_of_family": 2.9,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "pct_of_family": 3.0,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
-  "skill": "prompting",
-  "skill_category": "genai",
-  "n_postings": 4,
-  "pct_of_family": 2.9,
-  "snapshot_date": "2026-08-26T00:00:00.000"
- },
- {
-  "role_family": "ai engineer",
-  "skill": "finetuning",
-  "skill_category": "genai",
-  "n_postings": 4,
-  "pct_of_family": 2.9,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "skill": "azureml",
+  "skill_category": "mlops",
+  "n_postings": 3,
+  "pct_of_family": 2.3,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "java",
   "skill_category": "language",
   "n_postings": 3,
-  "pct_of_family": 2.2,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "pct_of_family": 2.3,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "databricks",
   "skill_category": "platform",
   "n_postings": 3,
-  "pct_of_family": 2.2,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "pct_of_family": 2.3,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "ai engineer",
   "skill": "aws",
   "skill_category": "cloud",
   "n_postings": 3,
-  "pct_of_family": 2.2,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "pct_of_family": 2.3,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
   "skill": "ai_agents",
   "skill_category": "genai",
-  "n_postings": 71,
-  "pct_of_family": 31.6,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "n_postings": 68,
+  "pct_of_family": 31.3,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
   "skill": "prompting",
   "skill_category": "genai",
   "n_postings": 65,
-  "pct_of_family": 28.9,
-  "snapshot_date": "2026-08-26T00:00:00.000"
- },
- {
-  "role_family": "genai / llm",
-  "skill": "llm",
-  "skill_category": "genai",
-  "n_postings": 58,
-  "pct_of_family": 25.8,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "pct_of_family": 30.0,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
   "skill": "genai",
   "skill_category": "genai",
-  "n_postings": 58,
+  "n_postings": 56,
   "pct_of_family": 25.8,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "snapshot_date": "2026-08-27T00:00:00.000"
+ },
+ {
+  "role_family": "genai / llm",
+  "skill": "llm",
+  "skill_category": "genai",
+  "n_postings": 54,
+  "pct_of_family": 24.9,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
   "skill": "rag",
   "skill_category": "genai",
-  "n_postings": 17,
-  "pct_of_family": 7.6,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "n_postings": 16,
+  "pct_of_family": 7.4,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
   "skill": "aws",
   "skill_category": "cloud",
-  "n_postings": 12,
-  "pct_of_family": 5.3,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "n_postings": 11,
+  "pct_of_family": 5.1,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
   "skill": "python",
   "skill_category": "language",
-  "n_postings": 10,
-  "pct_of_family": 4.4,
-  "snapshot_date": "2026-08-26T00:00:00.000"
- },
- {
-  "role_family": "genai / llm",
-  "skill": "azure",
-  "skill_category": "cloud",
-  "n_postings": 7,
-  "pct_of_family": 3.1,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "n_postings": 8,
+  "pct_of_family": 3.7,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
   "skill": "sap",
   "skill_category": "enterprise",
   "n_postings": 7,
-  "pct_of_family": 3.1,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "pct_of_family": 3.2,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
   "skill": "ai_eval",
   "skill_category": "genai",
   "n_postings": 6,
-  "pct_of_family": 2.7,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "pct_of_family": 2.8,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
-  "skill": "javascript",
-  "skill_category": "language",
-  "n_postings": 4,
-  "pct_of_family": 1.8,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "skill": "azure",
+  "skill_category": "cloud",
+  "n_postings": 5,
+  "pct_of_family": 2.3,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
   "role_family": "genai / llm",
@@ -237,54 +229,14 @@
   "skill_category": "cloud",
   "n_postings": 4,
   "pct_of_family": 1.8,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "snapshot_date": "2026-08-27T00:00:00.000"
  },
  {
-  "role_family": "mlops",
-  "skill": "llm",
-  "skill_category": "genai",
-  "n_postings": 22,
-  "pct_of_family": 43.1,
-  "snapshot_date": "2026-08-26T00:00:00.000"
- },
- {
-  "role_family": "mlops",
-  "skill": "kubernetes",
-  "skill_category": "devops",
-  "n_postings": 20,
-  "pct_of_family": 39.2,
-  "snapshot_date": "2026-08-26T00:00:00.000"
- },
- {
-  "role_family": "mlops",
-  "skill": "cicd",
-  "skill_category": "devops",
-  "n_postings": 19,
-  "pct_of_family": 37.3,
-  "snapshot_date": "2026-08-26T00:00:00.000"
- },
- {
-  "role_family": "mlops",
-  "skill": "genai",
-  "skill_category": "genai",
-  "n_postings": 12,
-  "pct_of_family": 23.5,
-  "snapshot_date": "2026-08-26T00:00:00.000"
- },
- {
-  "role_family": "mlops",
-  "skill": "terraform",
-  "skill_category": "devops",
+  "role_family": "genai / llm",
+  "skill": "javascript",
+  "skill_category": "language",
   "n_postings": 3,
-  "pct_of_family": 5.9,
-  "snapshot_date": "2026-08-26T00:00:00.000"
- },
- {
-  "role_family": "mlops",
-  "skill": "aws",
-  "skill_category": "cloud",
-  "n_postings": 3,
-  "pct_of_family": 5.9,
-  "snapshot_date": "2026-08-26T00:00:00.000"
+  "pct_of_family": 1.4,
+  "snapshot_date": "2026-08-27T00:00:00.000"
  }
 ]
