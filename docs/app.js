@@ -1514,36 +1514,10 @@ get("role_breakdown").then(d => {
 const PAGE = 10;
 let POSTINGS = [], ppage = 1;
 
-/* Drill-down from the "new postings per day" bars. That chart counts
-   the day the pipeline FIRST SAW an advert, not the advert's own
-   created_date, so the row filter has to key on first_seen too -
-   created_date would pull in a year of adverts that were merely live
-   on day one. Null means no day filter. pDayN is the bar's own count,
-   kept so the table can say how many of those are still live: the
-   chart counts from the insert-only registry, the table only holds
-   what has not expired yet. */
-let pDay = null, pDayN = null;
-
 const $p = id => document.getElementById(id);
 
 /* dd/mm-agnostic: created_date arrives as an ISO string. */
 const pDate = r => String(r.created_date || "").slice(0, 10);
-const pSeen = r => String(r.first_seen || "").slice(0, 10);
-
-/* first_seen only ships once 05 has joined the registry into
-   postings_public. Older data/ snapshots do not carry it, and a day
-   filter against a missing field would silently return nothing. */
-let HAS_SEEN = false;
-
-const pDayFmt = d =>
-  `${d.slice(8, 10)}.${d.slice(5, 7)}.${d.slice(0, 4)}`;
-
-function pDayChip() {
-  const el = $p("pday");
-  if (!el) return;
-  el.hidden = !pDay;
-  if (pDay) $p("pdaylab").textContent = pDayFmt(pDay);
-}
 
 function pFill(sel, values, allLabel, label) {
   if (!sel) return;
@@ -1567,7 +1541,6 @@ function pFiltered() {
        so do several smaller names */
     (!city || `${r.country}|${r.city}` === city) &&
     (!sen  || r.seniority   === sen) &&
-    (!pDay || pSeen(r) === pDay) &&
     (!q    || (r.title   || "").toLowerCase().includes(q)
            || (r.company || "").toLowerCase().includes(q)));
 
@@ -1661,15 +1634,8 @@ function pRender() {
       <td class="num"${stale}>${r.age_days}</td>
     </tr>`;
   }).join("")
-    : `<tr><td colspan="6" class="empty">${
-         pDay && !HAS_SEEN
-           ? "This data snapshot does not record which day each advert " +
-             "was first seen, so the day cannot be opened yet. Re-run " +
-             "the pipeline to publish first_seen with the postings."
-           : pDay
-             ? "Every advert first seen on " + pDayFmt(pDay) +
-               " has already expired off the board."
-             : "No postings match those filters."}</td></tr>`;
+    : `<tr><td colspan="6" class="empty">
+         No postings match those filters.</td></tr>`;
 
   $p("pcount").textContent = rows.length
     ? `Showing ${(from + 1).toLocaleString()}-` +
@@ -1677,12 +1643,7 @@ function pRender() {
       `${rows.length.toLocaleString()} postings` +
       (last > 1 ? `  ·  page ${ppage} of ${last}` : "") +
       (rows.length < POSTINGS.length
-        ? `  ·  filtered from ${POSTINGS.length.toLocaleString()}` : "") +
-      (pDay && pDayN && rows.length <= pDayN
-        ? `  ·  ${rows.length.toLocaleString()} of the ` +
-          `${pDayN.toLocaleString()} first seen on ${pDayFmt(pDay)} ` +
-          `are still live`
-        : "")
+        ? `  ·  filtered from ${POSTINGS.length.toLocaleString()}` : "")
     : `No matches out of ${POSTINGS.length.toLocaleString()} postings`;
 
   pPager(last);
@@ -1708,15 +1669,12 @@ function openPostings(filter) {
   $p("pctry").value = filter.country  || "";
   $p("pcity").value = "";
   $p("psen").value  = filter.seniority || "";
-  pDay  = filter.day || null;
-  pDayN = filter.dayN || null;
-  pDayChip();
   pCitiesRefresh();
   if (filter.city) $p("pcity").value = filter.city;
   /* A drill-down is a "show me these" gesture, so lead with the ones
      that have been open longest: that is where a reader's eye goes
      after clicking a bar about how long postings stay open. */
-  $p("psort").value = filter.day ? "new" : "age";
+  $p("psort").value = "age";
   ppage = 1;
   pRender();
   sec.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1727,7 +1685,6 @@ get("postings").then(d => {
 
   POSTINGS = d.filter(r => r.url && isLive(r.role_family));
   if (!POSTINGS.length) return;
-  HAS_SEEN = POSTINGS.some(r => r.first_seen);
 
   $p("postings-section").hidden = false;
   initEmployers();
@@ -1793,20 +1750,7 @@ get("postings").then(d => {
     ["pq", "pfam", "pctry", "pcity", "psen"]
       .forEach(id => $p(id).value = "");
     $p("psort").value = "new";
-    pDay = pDayN = null;
-    pDayChip();
     pCities();
-    ppage = 1;
-    pRender();
-  });
-
-  /* the day is its own chip rather than a select, so it clears on its
-     own: dropping the day while keeping the role you drilled in on is
-     the move people actually want */
-  const dayClear = $p("pdayclear");
-  if (dayClear) dayClear.addEventListener("click", () => {
-    pDay = pDayN = null;
-    pDayChip();
     ppage = 1;
     pRender();
   });
@@ -2830,7 +2774,6 @@ get("history").then(h => {
         const name = role == null ? ALL : rlab(role);
         datasets.push({
           type: "bar", label: name, data: vals, order: 2,
-          roleKey: role,          /* null = every role */
           backgroundColor: col + "66", borderColor: col, borderWidth: 1
         });
         if (showAvg && days.length > 7)
@@ -2847,36 +2790,6 @@ get("history").then(h => {
         options: {
           aspectRatio: 2,
           interaction: { mode: "index", intersect: false },
-          /* a bar is a link into the postings browser: it carries the
-             day plus whatever role, country and seniority the chart is
-             filtered to, which is exactly the set of filters the table
-             below takes */
-          onClick: (e, els) => {
-            /* the chart reads in "index" mode, which hands back every
-               series at that x. Ask again in nearest/intersect mode so
-               a two-role comparison opens the bar actually clicked. */
-            const hit = chart.getElementsAtEventForMode(
-              e, "nearest", { intersect: true }, false);
-            const isBar = el =>
-              chart.data.datasets[el.datasetIndex].type === "bar";
-            const bar = hit.find(isBar) || els.find(isBar);
-            if (!bar) return;
-            const ds  = chart.data.datasets[bar.datasetIndex];
-            const day = days[bar.index];
-            openPostings({
-              day,
-              dayN: ds.data[bar.index] || 0,
-              family:    ds.roleKey || "",
-              country:   country === "all" ? "" : country,
-              seniority: sen === "all" ? "" : sen
-            });
-          },
-          onHover: (e, els) => {
-            const c = e.native && e.native.target;
-            if (c) c.style.cursor = els.some(el =>
-              chart.data.datasets[el.datasetIndex].type === "bar")
-                ? "pointer" : "default";
-          },
           plugins: {
             legend: { position: "bottom",
                       labels: { boxWidth: 16, boxHeight: 16,

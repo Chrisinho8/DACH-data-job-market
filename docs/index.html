@@ -85,15 +85,6 @@
   .pfilters button:hover{background:#F0EEE6;border-style:solid;
     color:#26241F}
   .pfilters :focus-visible{outline:2px solid #8A4A2E;outline-offset:1px}
-  .pday{display:flex;align-items:center;gap:10px;margin:0 0 12px;
-        padding:8px 12px;border-radius:999px;width:fit-content;
-        background:#FBEDE6;border:1px solid #F0CDBC;
-        font-size:13.5px;color:#8A4A2E}
-  .pday b{font-weight:700}
-  .pday button{font:inherit;font-size:13px;font-weight:600;cursor:pointer;
-        background:transparent;border:none;padding:0;color:#8A4A2E;
-        text-decoration:underline;text-underline-offset:2px}
-  .pday button:hover{color:#26241F}
   @media(max-width:720px){
     .pfilters{grid-template-columns:repeat(2,1fr)}
     .pfilters button{grid-column:1/-1}
@@ -595,12 +586,6 @@
       <button id="pclear" type="button">Clear</button>
     </div>
 
-    <div class="pday" id="pday" hidden>
-      <span>First seen <b id="pdaylab"></b></span>
-      <button type="button" id="pdayclear"
-              aria-label="Clear the day filter">clear day</button>
-    </div>
-
     <p class="note" id="pcount"></p>
     <div class="ptable-wrap">
       <table class="ptable">
@@ -893,7 +878,7 @@
 
 <div id="maptip" role="tooltip"></div>
 
-<script src="app.js?v=16"></script>
+<script src="app.js?v=15"></script>
 
 
 </body>
