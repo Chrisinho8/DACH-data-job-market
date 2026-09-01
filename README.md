@@ -9,17 +9,17 @@
 
 </div>
 
-A daily snapshot of the DACH AI/data-job market: **3,000+ live postings from 1,200+ employers** across Germany, Austria and Switzerland. Every day at 08:00 UTC+2 a Databricks pipeline queries the Adzuna API for 16 data related job titles in all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake, scans each posting against a curated 71-term skills dictionary. It then gets published to a static GitHub Page.
+A daily snapshot of the DACH AI/data-job market: **3,000+ live postings from 1,200+ employers** across Germany, Austria and Switzerland. Every day at 08:00 UTC+2 a Databricks pipeline queries the Adzuna API for 18 AI/data related job titles in all three countries, deduplicates and classifies the results through a bronze/silver/gold Delta Lake. It then gets scanned against a curated 71-term skills dictionary and published to a static GitHub Page.
 
 ## How the tracker might help you
 
-- **See the shape of the market** - volumes by role, city and country, how long postings stay open, seniority mix, tool mentions, English-language share, salary disclosure.
-- **Read the postings behind any number.** Every chart is a count of real adverts, and those adverts are browsable: search by title or employer, filter by role, country, city and seniority, sort by newest or longest-open, 20 per page. Titles link out to the aggregator.
-- **Watch it move.** Nothing is ever overwritten, so each run adds to the record and every figure gains a second dimension: not just how many AI roles are open, but whether that number is climbing.
+- **See the shape of the market** - volumes by role, city and country, how long postings stay open, seniority mix, tool mentions and many more.
+- **Read the postings behind any number.** Every chart is a count of real postings, and those postings are browsable: search by title or employer, filter by role, country, city and seniority, sort by newest or longest-open.
+- **Watch it move.** Nothing is ever overwritten, so each run adds to the record and every figure gains a second dimension: not just how many AI roles are open, but whether that number is climbing or declining.
 
-## Overview of the Map
+## Overview of the map
 
-Demo of 10/08/2026.
+Demo of 10/08/2026
  
 
 <p align="center">
@@ -27,9 +27,8 @@ Demo of 10/08/2026.
        alt="Filtering the DACH map by role and switching between the bubble and heat-map views">
 </p>
 
-Above: the map view and the capabilities of searching a job this way.
 
-## Main take-aways (State of 20.08.2026)
+## Main take-aways of the data (State of 20.08.2026)
 
 **Germany is the biggest market.** 3,133 of 3,625 postings are German - 86.4%, against 6.2% Austrian and 7.3% Swiss. The blue and green clusters on the map are Vienna, Graz, Linz, Innsbruck and the Zurich-Bern-Geneva line, and that is close to all of them. Any single-country claim about AT or CH rests on a few dozen adverts per family.
  
@@ -39,8 +38,8 @@ Above: the map view and the capabilities of searching a job this way.
  
 **Berlin and Munich are where AI hiring is the most prominent.** 37% of Berlin's postings and 42% of Munich's are AI-related roles, against 19% in Hamburg and 13% in Düsseldorf. Berlin is also the most international: 58.5% of its postings are in English, versus 14.9% in Düsseldorf.
 
- 
 
+ 
 ## Scope: what counts as a AI/Data job
 
 **Data:** data engineer, data analyst, data scientist, data architect, analytics engineer, DWH / ETL, data governance, data consultant, BI developer.
@@ -79,14 +78,6 @@ docs/data/*.json        committed to this repo
 GitHub Pages            static site, no backend
 ```
 
-
-**Browsing the postings.** Everything on the site is a count except one table. `gold.postings_public` ships as `docs/data/postings.json` and backs the searchable list: title, employer, city, role, seniority, age, and the aggregator's `redirect_url`. No descriptions (not ours to redistribute, 99.6% truncated) and no salary (mostly the aggregator's guess). Rows without a link are dropped.
-
-**Skill extraction.** A curated dictionary of 47 terms, not an LLM, so every match points at a specific string and counts are reproducible. The traps are real: "SQL" hides in "PostgreSQL", "Java" in "JavaScript", a bare "R" matches "R&D" and half of every German address. Each is pinned by a test in `tests/test_matcher.py` running in CI. See `src/matcher.py`.
-
-**Deduplication.** Hashed on title, company, city and the first 200 characters of the description; earliest listing wins. Query overlap is counted separately from genuine reposts and not published as a finding.
-
-**Location.** From each posting's own location array. In city-states (Berlin, Hamburg, Bremen, Vienna, Basel, Geneva) the third level is a district and collapses into the parent. Administrative wrappers (`(Kreis)`, `-Umgebung`, `-Land`, `Region ...`) are stripped.
 
 ## Limitations of this tracker
 
