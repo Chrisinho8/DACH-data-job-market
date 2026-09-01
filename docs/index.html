@@ -371,10 +371,7 @@
   .hm .hcell:hover{filter:brightness(.93);transform:scale(1.015)}
   .hm .hcell:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
 
-  /* ---------- city comparator ----------
-     Each picker is one card: caption, search box, dropdown. The
-     search and the select share a single border so they read as one
-     control instead of two stray boxes floating beside a label. */
+
   .cmp{display:grid;gap:16px 20px;margin:0 0 26px;
        grid-template-columns:repeat(2,minmax(0,310px));
        align-items:end}
@@ -438,7 +435,7 @@
 
 <nav class="topnav">
   <div class="wrap navwrap">
-    <a class="brand" href="#overview">DACH AI/Data Job Market</a>
+    <a class="brand" href="#overview">DACH AI/Data job market</a>
     <div class="navlinks">
       <a href="#geo">Map</a>
       <a href="#postings-section">Postings</a>
@@ -506,9 +503,9 @@
     </div>
   </section>
 
-  <!-- ============ GEOGRAPHY ============ -->
+      
   <section>
-    <h2>Main stats for Germany, Austria and Switzerland</h2>
+    <h2>Main overview for Germany, Austria and Switzerland</h2>
     <p class="note">
     </p>
     <div id="ctrycards" class="ctry"></div>
@@ -569,7 +566,7 @@
 
 
   <section id="postings-section" hidden>
-    <h2>The live postings behind the map</h2>
+    <h2>All current job postings</h2>
 
     <div class="pfilters">
       <input id="pq" type="search" autocomplete="off"
@@ -640,10 +637,9 @@
   <section id="trend-section" hidden>
     <h2>How the market moves over time</h2>
     <p class="note">
-      Every snapshot adds a point, nothing is overwritten. Days open
+      Everyday a point is added, nothing is overwritten. Days open
       and posting volume come from the same daily runs that feed the
-      rest of the page. Tracking starts on 08-08-2026, the first day
-      the current classification ran.
+      rest of the page. Tracking started on 08-08-2026.
     </p>
     <div class="mapctl">
       <div class="ctlrow ctlrow-roles">
@@ -662,8 +658,8 @@
   </section>
 
   <section id="newposts-section" hidden>
-    <h2>New job postings per day
-      <span class="np-since">(tracking since 27.08.2026)</span></h2>
+    <h2>New job postings per day (tracking since 27.08.2026)
+      <span class="np-since"></span></h2>
     <div class="mapctl">
       <div class="ctlrow ctlrow-roles">
         <span class="ctl-lab">Role</span>
@@ -696,7 +692,7 @@
     <h2>Which technical skills do postings ask for?</h2>
     <p class="note">
       Each bar is the share of postings naming that tool, so the bars do
-      not add to 100%. One advert can ask for Python, SQL and Airflow.
+      not add to 100%. One posting can ask for Python, SQL and Airflow.
       <strong>These are mention rates, not requirement rates:</strong>
       descriptions are truncated at 500 characters, so a tool only
       counts if it appears early. Roles with three or fewer extracted
@@ -721,7 +717,6 @@
     </div>
   </section>
 
-  <!-- ============ THE AI SPLIT ============ -->
   <section id="ai-section" hidden>
     <h2>Which AI roles are companies hiring for?</h2>
     <p class="note">
@@ -738,7 +733,6 @@
     </div>
   </section>
 
-  <!-- ============ ROLES AND SENIORITY ============ -->
   <section id="roles">
     <h2>Role and seniority distribution per country</h2>
     <p class="note">
@@ -793,14 +787,14 @@
     <p class="note" id="n14-note">
       Most dashboards do not publish how wrong they might be. The first
       two are measured on every run. The two matcher scores are
-      <strong>not</strong>: they come from one manual spot check on a
-      hand-labelled sample and are not recomputed on refresh.
+      <strong>not</strong>: they come from a manual spot check on a
+      hand-labelled sample and are not recomputed often.
     </p>
     <div id="n14_quality" class="stats"></div>
   </section>
 
-  <!-- ============ CAVEATS ============ -->
-  <section class="caveats" id="limitations">
+
+      <section class="caveats" id="limitations">
     <div class="foldhead">
       <h2>Limitations of this tracker</h2>
       <button type="button" class="foldbtn" id="limbtn"
