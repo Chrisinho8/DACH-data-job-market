@@ -1514,6 +1514,12 @@ get("role_breakdown").then(d => {
 const PAGE = 10;
 let POSTINGS = [], ppage = 1;
 
+/* Selected skills. AND, not OR: someone picking "python" and "spark"
+   wants jobs that ask for both, and OR would just hand them the whole
+   python pile again. */
+let PSKILLS = new Set();
+const rSkills = r => Array.isArray(r.skills) ? r.skills : [];
+
 const $p = id => document.getElementById(id);
 
 /* dd/mm-agnostic: created_date arrives as an ISO string. */
@@ -1541,8 +1547,11 @@ function pFiltered() {
        so do several smaller names */
     (!city || `${r.country}|${r.city}` === city) &&
     (!sen  || r.seniority   === sen) &&
+    (!PSKILLS.size ||
+       [...PSKILLS].every(sk => rSkills(r).includes(sk))) &&
     (!q    || (r.title   || "").toLowerCase().includes(q)
-           || (r.company || "").toLowerCase().includes(q)));
+           || (r.company || "").toLowerCase().includes(q)
+           || rSkills(r).some(sk => sk.includes(q))));
 
   const sort = $p("psort").value;
   const byTitle = (a, b) =>
@@ -1621,9 +1630,24 @@ function pRender() {
     /* 60+ days is the threshold the rest of the page treats as stale,
        so flag it here too rather than inventing a second one. */
     const stale = r.age_days > 60 ? ' class="stale"' : "";
+    /* selected skills first so a match is visible without reading
+       every tag; the rest capped so one keyword-stuffed ad does not
+       triple the row height */
+    const sk = rSkills(r);
+    const shown = [...sk.filter(x => PSKILLS.has(x)),
+                   ...sk.filter(x => !PSKILLS.has(x))].slice(0, 6);
+    const tags = sk.length
+      ? `<div class="tags">` +
+        shown.map(x =>
+          `<span class="tag${PSKILLS.has(x) ? " on" : ""}">${esc(x)}</span>`)
+          .join("") +
+        (sk.length > shown.length
+          ? `<span class="tag">+${sk.length - shown.length}</span>` : "") +
+        `</div>`
+      : "";
     return `<tr>
       <td><a href="${r.url}" target="_blank"
-             rel="noopener nofollow">${esc(r.title)}</a></td>
+             rel="noopener nofollow">${esc(r.title)}</a>${tags}</td>
       <td>${esc(r.company)}${r.is_agency
             ? ' <span class="flag">agency</span>' : ""}</td>
       <td>${esc(cityName(r.city))}
@@ -1642,9 +1666,13 @@ function pRender() {
       `${(from + slice.length).toLocaleString()} of ` +
       `${rows.length.toLocaleString()} postings` +
       (last > 1 ? `  ·  page ${ppage} of ${last}` : "") +
+      (PSKILLS.size
+        ? `  ·  naming ${[...PSKILLS].join(" + ")}` : "") +
       (rows.length < POSTINGS.length
         ? `  ·  filtered from ${POSTINGS.length.toLocaleString()}` : "")
-    : `No matches out of ${POSTINGS.length.toLocaleString()} postings`;
+    : `No matches out of ${POSTINGS.length.toLocaleString()} postings` +
+      (PSKILLS.size > 1
+        ? `  ·  try fewer skills, all selected ones must appear` : "");
 
   pPager(last);
 }
@@ -1660,6 +1688,7 @@ function esc(s) {
 /* Entry point for the chart drill-downs. Reset by pCitiesRefresh so
    a drill-down never inherits a city left over from browsing. */
 let pCitiesRefresh = () => {};
+let pSkillsRefresh = () => {};
 
 function openPostings(filter) {
   const sec = $p("postings-section");
@@ -1669,6 +1698,8 @@ function openPostings(filter) {
   $p("pctry").value = filter.country  || "";
   $p("pcity").value = "";
   $p("psen").value  = filter.seniority || "";
+  PSKILLS = new Set(filter.skills || []);
+  pSkillsRefresh();
   pCitiesRefresh();
   if (filter.city) $p("pcity").value = filter.city;
   /* A drill-down is a "show me these" gesture, so lead with the ones
@@ -1702,6 +1733,65 @@ get("postings").then(d => {
         ["junior", "mid", "senior"].filter(s =>
           POSTINGS.some(r => r.seniority === s)),
         "All levels");
+
+  /* ---- skill picker ---------------------------------------------
+     Chips, not a dropdown: a multi-select box hides what is selected
+     and nobody scrolls a 60-entry list. The top few by count are
+     shown by default and the rest sit behind "Show all". Selected
+     chips are always visible, even after collapsing, so the state of
+     the filter is never off screen. Counts are totals over all live
+     postings, not the current filtered set. */
+  const SK_TOP = 18;
+  let skOpen = false;
+  const skCount = {};
+  POSTINGS.forEach(r => rSkills(r).forEach(x =>
+    skCount[x] = (skCount[x] || 0) + 1));
+  const skAll = Object.keys(skCount).sort((a, b) =>
+    skCount[b] - skCount[a] || a.localeCompare(b));
+
+  function pSkillChips() {
+    const box = $p("pskills");
+    if (!box) return;
+    if (!skAll.length) { box.hidden = true; return; }
+    box.hidden = false;
+
+    const list = skOpen ? skAll
+      : skAll.filter((x, i) => i < SK_TOP || PSKILLS.has(x));
+    $p("pskillchips").innerHTML = list.map(x =>
+      `<button type="button" data-skill="${esc(x)}"
+               aria-pressed="${PSKILLS.has(x)}">` +
+      `${esc(x)}<span class="n">${skCount[x].toLocaleString()}</span>` +
+      `</button>`).join("");
+
+    const more = $p("pskillmore");
+    more.hidden = skAll.length <= SK_TOP;
+    more.textContent = skOpen ? "Show fewer"
+                              : `Show all ${skAll.length} skills`;
+    more.setAttribute("aria-expanded", String(skOpen));
+    $p("pskillclear").hidden = !PSKILLS.size;
+  }
+  pSkillsRefresh = pSkillChips;
+
+  $p("pskillchips").addEventListener("click", e => {
+    const b = e.target.closest("button[data-skill]");
+    if (!b) return;
+    const x = b.dataset.skill;
+    if (PSKILLS.has(x)) PSKILLS.delete(x); else PSKILLS.add(x);
+    pSkillChips();
+    ppage = 1;
+    pRender();
+  });
+  $p("pskillmore").addEventListener("click", () => {
+    skOpen = !skOpen;
+    pSkillChips();
+  });
+  $p("pskillclear").addEventListener("click", () => {
+    PSKILLS.clear();
+    pSkillChips();
+    ppage = 1;
+    pRender();
+  });
+  pSkillChips();
 
   /* ---- city list ------------------------------------------------
      Rebuilt whenever the country changes, so picking Austria does not
@@ -1750,6 +1840,8 @@ get("postings").then(d => {
     ["pq", "pfam", "pctry", "pcity", "psen"]
       .forEach(id => $p(id).value = "");
     $p("psort").value = "new";
+    PSKILLS.clear();
+    pSkillChips();
     pCities();
     ppage = 1;
     pRender();

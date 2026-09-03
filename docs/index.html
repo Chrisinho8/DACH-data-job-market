@@ -69,7 +69,42 @@
 
   .subh{font-size:19px;margin:0 0 10px;color:#5C5A54;font-weight:600}
 
- 
+
+  /* skill picker: deliberately loud, it is the main way in */
+  .pskills{margin:18px 0 6px;padding:16px 18px 14px;
+           background:#FFF9F0;border:1.5px solid rgba(229,103,67,.35);
+           border-radius:14px}
+  .pskills[hidden]{display:none}
+  .pskills-head{display:flex;flex-wrap:wrap;align-items:baseline;
+                gap:6px 14px;margin-bottom:10px}
+  .pskills-head .subh{margin:0;color:#26241F}
+  .pskills-hint{font-size:13px;color:#8A857C}
+  .pskills-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .pskills-chips button{font:inherit;font-size:14px;font-weight:600;
+    padding:8px 14px;border-radius:99px;cursor:pointer;
+    border:1.5px solid #DCD6C8;background:#FFFDF8;color:#26241F;
+    transition:background .12s,border-color .12s,color .12s}
+  .pskills-chips button .n{font-weight:500;color:#8A857C;margin-left:6px;
+    font-variant-numeric:tabular-nums}
+  .pskills-chips button:hover{border-color:var(--coral);
+    background:rgba(229,103,67,.08)}
+  .pskills-chips button[aria-pressed="true"]{background:var(--coral);
+    border-color:var(--coral);color:#fff}
+  .pskills-chips button[aria-pressed="true"] .n{color:rgba(255,255,255,.8)}
+  .pskills-chips button:focus-visible{outline:2px solid #8A4A2E;
+    outline-offset:2px}
+  .pskills-foot{display:flex;gap:14px;margin-top:10px}
+  .pskills-more,.pskills-clear{font:inherit;font-size:13px;font-weight:600;
+    background:none;border:none;padding:4px 0;cursor:pointer;
+    color:#8A4A2E;text-decoration:underline;text-underline-offset:3px}
+  .pskills-clear[hidden]{display:none}
+  /* skill tags under each title in the table */
+  .ptable .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+  .ptable .tag{font-size:11px;font-weight:600;padding:2px 7px;
+    border-radius:99px;background:#F0EEE6;color:#5C5A54;
+    letter-spacing:.02em}
+  .ptable .tag.on{background:rgba(229,103,67,.16);color:#B04A28}
+
   .pfilters{display:grid;gap:10px;margin:18px 0 12px;
             grid-template-columns:repeat(5,1fr) auto}
   .pfilters input{grid-column:1/-1}
@@ -568,10 +603,26 @@
   <section id="postings-section" hidden>
     <h2>All current job postings</h2>
 
+    <div class="pskills" id="pskills" hidden>
+      <div class="pskills-head">
+        <h3 class="subh">Filter by skill</h3>
+        <span class="pskills-hint">Pick one or more. A posting has to
+          name every selected skill (in its title or first paragraph).</span>
+      </div>
+      <div class="pskills-chips" id="pskillchips"
+           role="group" aria-label="Skills"></div>
+      <div class="pskills-foot">
+        <button id="pskillmore" type="button" class="pskills-more"
+                aria-expanded="false">Show all skills</button>
+        <button id="pskillclear" type="button" class="pskills-clear"
+                hidden>Clear skills</button>
+      </div>
+    </div>
+
     <div class="pfilters">
       <input id="pq" type="search" autocomplete="off"
-             placeholder="Search title or employer…"
-             aria-label="Search postings by title or employer">
+             placeholder="Search title, employer or skill…"
+             aria-label="Search postings by title, employer or skill">
       <select id="pfam"  aria-label="Filter by role"></select>
       <select id="pctry" aria-label="Filter by country"></select>
       <select id="pcity" aria-label="Filter by city"></select>
