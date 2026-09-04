@@ -421,8 +421,25 @@ get("age_distribution").then(d => {
 });
 
 /* ---------------- country comparison ---------------- */
-get("country_breakdown").then(d => {
+/* AI share is not in country_breakdown, so it is summed out of
+   city_role_breakdown: that file's per-country totals match
+   country_breakdown exactly, so the two columns agree. */
+Promise.all([get("country_breakdown"), get("city_role_breakdown")])
+  .then(([d, cr]) => {
   if (!d || !d.length) return;
+
+  const aiPct = {};
+  if (cr && cr.length) {
+    const tot = {}, ai = {};
+    cr.forEach(r => {
+      const c = r.country;
+      tot[c] = (tot[c] || 0) + r.n_postings;
+      if (isAI(r.role_family)) ai[c] = (ai[c] || 0) + r.n_postings;
+    });
+    Object.keys(tot).forEach(c => {
+      if (tot[c]) aiPct[c] = Math.round(1000 * (ai[c] || 0) / tot[c]) / 10;
+    });
+  }
 
   const byC = {};
   d.forEach(r => byC[r.country] = r);
@@ -438,6 +455,7 @@ get("country_breakdown").then(d => {
       <dl>
         <dt>Mean age</dt><dd>${Math.round(r.avg_age_days)} days</dd>
         <dt>Open &gt; 60 days</dt><dd>${r.pct_over_60d}%</dd>
+        <dt>AI roles</dt><dd>${aiPct[r.country] ?? "-"}%</dd>
         <dt>In English</dt><dd>${r.pct_english}%</dd>
         <dt>Salary shown</dt><dd>${r.pct_with_salary ?? "-"}%</dd>
       </dl>
@@ -1514,11 +1532,18 @@ get("role_breakdown").then(d => {
 const PAGE = 10;
 let POSTINGS = [], ppage = 1;
 
-/* Selected skills. AND, not OR: someone picking "python" and "spark"
-   wants jobs that ask for both, and OR would just hand them the whole
-   python pile again. */
+/* Selected skills. Best-match, not AND: a posting qualifies if it
+   names at least one selected skill, and the ones naming more are
+   ranked first. Strict AND kept handing back "no matches" as soon as
+   someone picked three things. */
 let PSKILLS = new Set();
 const rSkills = r => Array.isArray(r.skills) ? r.skills : [];
+const pHits = r => {
+  const sk = rSkills(r);
+  let n = 0;
+  PSKILLS.forEach(x => { if (sk.includes(x)) n++; });
+  return n;
+};
 
 const $p = id => document.getElementById(id);
 
@@ -1547,8 +1572,7 @@ function pFiltered() {
        so do several smaller names */
     (!city || `${r.country}|${r.city}` === city) &&
     (!sen  || r.seniority   === sen) &&
-    (!PSKILLS.size ||
-       [...PSKILLS].every(sk => rSkills(r).includes(sk))) &&
+    (!PSKILLS.size || pHits(r) > 0) &&
     (!q    || (r.title   || "").toLowerCase().includes(q)
            || (r.company || "").toLowerCase().includes(q)
            || rSkills(r).some(sk => sk.includes(q))));
@@ -1556,11 +1580,17 @@ function pFiltered() {
   const sort = $p("psort").value;
   const byTitle = (a, b) =>
     String(a.title).localeCompare(String(b.title), "de");
-  out = out.slice().sort(
+  const base =
     sort === "old" ? (a, b) => pDate(a).localeCompare(pDate(b))
   : sort === "age" ? (a, b) => b.age_days - a.age_days
   : sort === "az"  ? byTitle
-  :                  (a, b) => pDate(b).localeCompare(pDate(a)));
+  :                  (a, b) => pDate(b).localeCompare(pDate(a));
+  /* with several skills picked, match count outranks the chosen sort;
+     the sort still decides ties inside each match level */
+  const cmp = PSKILLS.size > 1
+    ? (a, b) => (pHits(b) - pHits(a)) || base(a, b)
+    : base;
+  out = out.slice().sort(cmp);
 
   return out;
 }
@@ -1667,12 +1697,14 @@ function pRender() {
       `${rows.length.toLocaleString()} postings` +
       (last > 1 ? `  ·  page ${ppage} of ${last}` : "") +
       (PSKILLS.size
-        ? `  ·  naming ${[...PSKILLS].join(" + ")}` : "") +
+        ? `  ·  naming ${PSKILLS.size > 1 ? "any of " : ""}` +
+          `${[...PSKILLS].join(", ")}` +
+          (PSKILLS.size > 1 ? ", best matches first" : "") : "") +
       (rows.length < POSTINGS.length
         ? `  ·  filtered from ${POSTINGS.length.toLocaleString()}` : "")
     : `No matches out of ${POSTINGS.length.toLocaleString()} postings` +
-      (PSKILLS.size > 1
-        ? `  ·  try fewer skills, all selected ones must appear` : "");
+      (PSKILLS.size
+        ? `  ·  no posting names any of the selected skills` : "");
 
   pPager(last);
 }
@@ -1900,14 +1932,47 @@ get("history").then(h => {
   const ALL = "All roles";
   let current = ALL;
   let chart = null;
+  let gran = "day";          /* "day" | "week" */
 
-  const series = (m, dim, label, colour, axis) => ({
-    label,
-    data: weeks.map(w =>
-      (rows(m, dim).find(r => r.snapshot_date === w) || {}).value),
-    borderColor: colour, backgroundColor: colour,
-    tension: .3, pointRadius: 3, fill: false, yAxisID: axis
-  });
+  /* ISO-ish week key: the Monday of the week a snapshot falls in.
+     Averaging inside the bucket, not summing: these are levels
+     (postings live on a day, days open), not daily increments. */
+  const monday = d => {
+    const t = new Date(d + "T00:00:00Z");
+    t.setUTCDate(t.getUTCDate() - ((t.getUTCDay() + 6) % 7));
+    return t.toISOString().slice(0, 10);
+  };
+  const buckets = () => {
+    if (gran === "day") return weeks.map(w => [w, [w]]);
+    const m = new Map();
+    weeks.forEach(w => {
+      const k = monday(String(w).slice(0, 10));
+      if (!m.has(k)) m.set(k, []);
+      m.get(k).push(w);
+    });
+    return [...m.entries()];
+  };
+  const labelsFor = () => buckets().map(([k, ds]) =>
+    gran === "day" ? String(k).slice(0, 10)
+                   : "week of " + String(k).slice(5));
+
+  const series = (m, dim, label, colour, axis) => {
+    const rs = rows(m, dim);
+    const at = w => (rs.find(r => r.snapshot_date === w) || {}).value;
+    const data = buckets().map(([, ds]) => {
+      const vs = ds.map(at).filter(v => v != null);
+      if (!vs.length) return null;
+      const avg = vs.reduce((a, b) => a + b, 0) / vs.length;
+      return Math.round(avg * 10) / 10;
+    });
+    return {
+      label: gran === "week" ? label + " (weekly avg)" : label,
+      data,
+      borderColor: colour, backgroundColor: colour,
+      tension: .3, pointRadius: 3, fill: false, yAxisID: axis,
+      spanGaps: true
+    };
+  };
 
   /* whole numbers only on both value axes - "47" not "47.0" */
   const intTicks = {
@@ -1944,7 +2009,7 @@ get("history").then(h => {
 
     chart = new Chart(document.getElementById("trend"), {
       type: "line",
-      data: { labels: weeks.map(w => String(w).slice(0, 10)), datasets },
+      data: { labels: labelsFor(), datasets },
       options: {
         interaction: { mode: "index", intersect: false },
         plugins: {
@@ -1964,7 +2029,13 @@ get("history").then(h => {
         },
         scales: {
           x:  { grid: { display: true, color: LINE, drawTicks: true },
-                title: { display: true, text: "snapshot date" } },
+                /* thinned out: one label per few points beats a wall
+                   of rotated dates nobody reads */
+                ticks: { autoSkip: true, maxTicksLimit: 10,
+                         maxRotation: 0, minRotation: 0 },
+                title: { display: true,
+                         text: gran === "week" ? "week"
+                                               : "snapshot date" } },
           y:  { position: "left", grid: { display: showAge(), color: LINE },
                 display: showAge(), ticks: intTicks,
                 title: { display: true, text: "avg days open" } },
@@ -1997,6 +2068,16 @@ get("history").then(h => {
 
   const ageEl = document.getElementById("tshow-age");
   if (ageEl) ageEl.addEventListener("change", draw);
+
+  const granEl = document.getElementById("trendgran");
+  if (granEl) granEl.addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b || b.dataset.g === gran) return;
+    gran = b.dataset.g;
+    granEl.querySelectorAll("button").forEach(x =>
+      x.setAttribute("aria-pressed", x === b));
+    draw();
+  });
 
   draw();
 });
@@ -2891,7 +2972,7 @@ get("history").then(h => {
           },
           scales: {
             x: { grid: { display: false },
-                 ticks: { maxTicksLimit: 15, maxRotation: 0 },
+                 ticks: { autoSkip: true, maxTicksLimit: 10, maxRotation: 0 },
                  title: { display: true,
                           text: "day the advert was first seen" } },
             y: { beginAtZero: true, grid: { color: LINE },

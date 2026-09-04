@@ -70,6 +70,27 @@
   .subh{font-size:19px;margin:0 0 10px;color:#5C5A54;font-weight:600}
 
 
+  /* collapsible filter panel */
+  .pfilters-bar{display:flex;align-items:center;gap:10px;
+    margin:18px 0 -6px;padding:0 2px}
+  .pfilters-bar .fcount{font-size:12px;font-weight:700;padding:2px 8px;
+    border-radius:99px;background:rgba(229,103,67,.16);color:#B04A28;
+    font-variant-numeric:tabular-nums}
+  .pfilters-bar .fcount[hidden]{display:none}
+  .pfilters-x{margin-left:auto;display:flex;align-items:center;gap:7px;
+    font:inherit;font-size:12.5px;font-weight:600;color:#8A857C;
+    background:transparent;border:none;padding:4px 2px;cursor:pointer;
+    transition:color .12s}
+  .pfilters-x:hover{color:#26241F}
+  .pfilters-x:focus-visible{outline:2px solid #8A4A2E;outline-offset:2px}
+  .pfilters-x .xmark{display:inline-flex;align-items:center;
+    justify-content:center;width:20px;height:20px;border-radius:6px;
+    background:#F0EEE6;font-size:12px;line-height:1;color:#5C5A54;
+    transition:transform .15s ease,background .12s}
+  .pfilters-x:hover .xmark{background:#E4E0D4;color:#26241F}
+  .pfilters-x[aria-expanded="false"] .xmark{transform:rotate(45deg)}
+  .pfilterbody[hidden]{display:none}
+
   /* skill picker: deliberately loud, it is the main way in */
   .pskills{margin:18px 0 6px;padding:16px 18px 14px;
            background:#FFF9F0;border:1.5px solid rgba(229,103,67,.35);
@@ -603,11 +624,20 @@
   <section id="postings-section" hidden>
     <h2>All current job postings</h2>
 
+    <div class="pfilters-bar">
+      <span class="fcount" id="pfiltercount" hidden></span>
+      <button class="pfilters-x" id="pfiltertoggle" type="button"
+              aria-expanded="true" aria-controls="pfilterbody">
+        <span class="xlabel">Shorten panel</span>
+        <span class="xmark" aria-hidden="true">&#10005;</span>
+      </button>
+    </div>
+    <div class="pfilterbody" id="pfilterbody">
     <div class="pskills" id="pskills" hidden>
       <div class="pskills-head">
         <h3 class="subh">Filter by skill</h3>
-        <span class="pskills-hint">Pick one or more. A posting has to
-          name every selected skill (in its title or first paragraph).</span>
+        <span class="pskills-hint">Pick one or more. Postings naming
+          the most of them come first (title or first paragraph).</span>
       </div>
       <div class="pskills-chips" id="pskillchips"
            role="group" aria-label="Skills"></div>
@@ -617,6 +647,7 @@
         <button id="pskillclear" type="button" class="pskills-clear"
                 hidden>Clear skills</button>
       </div>
+    </div>
     </div>
 
     <div class="pfilters">
@@ -696,6 +727,13 @@
       <div class="ctlrow ctlrow-roles">
         <span class="ctl-lab">Role</span>
         <div id="trendpick" class="pick"></div>
+      </div>
+      <div class="ctlrow">
+        <span class="ctl-lab">View</span>
+        <div id="trendgran" class="pick">
+          <button type="button" data-g="day"  aria-pressed="true">Daily</button>
+          <button type="button" data-g="week" aria-pressed="false">Weekly avg</button>
+        </div>
       </div>
       <div class="ctlrow">
         <span class="ctl-lab">Show</span>
@@ -923,8 +961,47 @@
 
 <div id="maptip" role="tooltip"></div>
 
-<script src="app.js?v=15"></script>
+<script src="app.js?v=20"></script>
 
 
+
+<script>
+/* collapsible filter panel */
+(function(){
+  var btn=document.getElementById('pfiltertoggle'),
+      box=document.getElementById('pfilterbody'),
+      cnt=document.getElementById('pfiltercount');
+  if(!btn||!box) return;
+  function active(){
+    return box.querySelectorAll(
+      '.pskills-chips button[aria-pressed="true"]').length;
+  }
+  var lbl=btn.querySelector('.xlabel');
+  function badge(){
+    var n=active();
+    cnt.hidden = !n;
+    cnt.textContent = n===1 ? '1 skill' : n+' skills';
+    lbl.textContent = btn.getAttribute('aria-expanded')==='true'
+      ? 'Shorten skills' : 'Show skills';
+  }
+  btn.addEventListener('click',function(){
+    var open = btn.getAttribute('aria-expanded')==='true';
+    btn.setAttribute('aria-expanded', open?'false':'true');
+    box.hidden = open;
+    badge();
+  });
+  /* the skills panel only appears once the data is in; no point
+     offering to shorten something that is not there yet */
+  var sk=document.getElementById('pskills'), bar=btn.parentNode;
+  function barVis(){ bar.hidden = !sk || sk.hidden; }
+  if(sk) new MutationObserver(barVis)
+           .observe(sk,{attributes:true,attributeFilter:['hidden']});
+  barVis();
+  box.addEventListener('input',badge);
+  box.addEventListener('change',badge);
+  box.addEventListener('click',function(){setTimeout(badge,0);});
+  badge();
+})();
+</script>
 </body>
 </html>
