@@ -25542,16 +25542,16 @@
   "value": 4.1
  },
  {
-  "snapshot_date": "2026-09-14T00:00:00.000",
-  "metric": "ai_share_of_market",
-  "dimension": "all",
-  "value": 33.1
- },
- {
   "snapshot_date": "2026-09-13T00:00:00.000",
   "metric": "ai_share_of_market",
   "dimension": "all",
   "value": 32.8
+ },
+ {
+  "snapshot_date": "2026-09-14T00:00:00.000",
+  "metric": "ai_share_of_market",
+  "dimension": "all",
+  "value": 33.1
  },
  {
   "snapshot_date": "2026-09-14T00:00:00.000",
@@ -25572,16 +25572,16 @@
   "value": 45.8
  },
  {
-  "snapshot_date": "2026-09-14T00:00:00.000",
-  "metric": "pct_over_60d",
-  "dimension": "all",
-  "value": 21.7
- },
- {
   "snapshot_date": "2026-09-13T00:00:00.000",
   "metric": "pct_over_60d",
   "dimension": "all",
   "value": 21.5
+ },
+ {
+  "snapshot_date": "2026-09-14T00:00:00.000",
+  "metric": "pct_over_60d",
+  "dimension": "all",
+  "value": 21.7
  },
  {
   "snapshot_date": "2026-09-14T00:00:00.000",
