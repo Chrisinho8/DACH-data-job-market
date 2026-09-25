@@ -29988,6 +29988,96 @@
   "value": 0.0
  },
  {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "ai consultant",
+  "value": 49.2
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "mlops",
+  "value": 44.9
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data scientist",
+  "value": 41.4
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "dwh / etl",
+  "value": 47.3
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data governance",
+  "value": 88.6
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "bi developer",
+  "value": 39.4
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data architect",
+  "value": 45.8
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "ai research",
+  "value": 44.8
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data consultant",
+  "value": 76.6
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data analyst",
+  "value": 42.3
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "genai / llm",
+  "value": 37.5
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "ml engineer",
+  "value": 49.6
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "analytics engineer",
+  "value": 50.8
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data engineer",
+  "value": 46.2
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "ai engineer",
+  "value": 45.4
+ },
+ {
   "snapshot_date": "2026-09-25T00:00:00.000",
   "metric": "role_avg_age_days",
   "dimension": "ai consultant",
@@ -29998,5 +30088,383 @@
   "metric": "role_avg_age_days",
   "dimension": "mlops",
   "value": 46.2
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data scientist",
+  "value": 42.6
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "dwh / etl",
+  "value": 53.3
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data governance",
+  "value": 88.6
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "bi developer",
+  "value": 38.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data architect",
+  "value": 46.6
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "ai research",
+  "value": 42.7
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data consultant",
+  "value": 81.9
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data analyst",
+  "value": 42.5
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "genai / llm",
+  "value": 38.4
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "ml engineer",
+  "value": 50.7
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "analytics engineer",
+  "value": 49.4
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "data engineer",
+  "value": 46.5
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_avg_age_days",
+  "dimension": "ai engineer",
+  "value": 46.3
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "ai consultant",
+  "value": 102.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data scientist",
+  "value": 342.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "dwh / etl",
+  "value": 159.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "mlops",
+  "value": 122.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data governance",
+  "value": 55.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "bi developer",
+  "value": 178.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data architect",
+  "value": 221.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "ai research",
+  "value": 39.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data consultant",
+  "value": 129.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data analyst",
+  "value": 249.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "genai / llm",
+  "value": 262.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "ml engineer",
+  "value": 160.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "analytics engineer",
+  "value": 49.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data engineer",
+  "value": 879.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "ai engineer",
+  "value": 414.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "ai consultant",
+  "value": 98.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data scientist",
+  "value": 335.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "dwh / etl",
+  "value": 146.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "mlops",
+  "value": 118.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data governance",
+  "value": 55.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "bi developer",
+  "value": 181.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data architect",
+  "value": 222.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "ai research",
+  "value": 38.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data consultant",
+  "value": 121.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data analyst",
+  "value": 234.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "genai / llm",
+  "value": 242.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "ml engineer",
+  "value": 158.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "analytics engineer",
+  "value": 48.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "data engineer",
+  "value": 853.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "role_count",
+  "dimension": "ai engineer",
+  "value": 401.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "ai_family_pct",
+  "dimension": "ai engineer",
+  "value": 37.7
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "ai_family_pct",
+  "dimension": "genai / llm",
+  "value": 23.8
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "ai_family_pct",
+  "dimension": "ml engineer",
+  "value": 14.6
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "ai_family_pct",
+  "dimension": "mlops",
+  "value": 11.1
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "ai_family_pct",
+  "dimension": "ai consultant",
+  "value": 9.3
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "ai_family_pct",
+  "dimension": "ai research",
+  "value": 3.5
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "ai_family_pct",
+  "dimension": "ai engineer",
+  "value": 38.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "ai_family_pct",
+  "dimension": "genai / llm",
+  "value": 22.9
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "ai_family_pct",
+  "dimension": "ml engineer",
+  "value": 15.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "ai_family_pct",
+  "dimension": "mlops",
+  "value": 11.2
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "ai_family_pct",
+  "dimension": "ai consultant",
+  "value": 9.3
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "ai_family_pct",
+  "dimension": "ai research",
+  "value": 3.6
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "ai_share_of_market",
+  "dimension": "all",
+  "value": 32.4
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "ai_share_of_market",
+  "dimension": "all",
+  "value": 32.7
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "live_postings",
+  "dimension": "all",
+  "value": 3360.0
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "live_postings",
+  "dimension": "all",
+  "value": 3250.0
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "avg_age_days",
+  "dimension": "all",
+  "value": 46.4
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "avg_age_days",
+  "dimension": "all",
+  "value": 47.3
+ },
+ {
+  "snapshot_date": "2026-09-25T00:00:00.000",
+  "metric": "pct_over_60d",
+  "dimension": "all",
+  "value": 26.3
+ },
+ {
+  "snapshot_date": "2026-09-24T00:00:00.000",
+  "metric": "pct_over_60d",
+  "dimension": "all",
+  "value": 26.1
  }
 ]
