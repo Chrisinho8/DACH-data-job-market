@@ -450,6 +450,13 @@
  {
   "created_date": "2026-01-02T00:00:00.000",
   "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-01-02T00:00:00.000",
+  "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
   "n": 1
@@ -536,7 +543,7 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "mid",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-01-09T00:00:00.000",
@@ -578,7 +585,7 @@
   "country": "de",
   "role_family": "ai consultant",
   "seniority": "mid",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-01-19T00:00:00.000",
@@ -830,13 +837,20 @@
   "country": "de",
   "role_family": "data scientist",
   "seniority": "senior",
-  "n": 12
+  "n": 15
  },
  {
   "created_date": "2026-02-28T00:00:00.000",
   "country": "de",
   "role_family": "data engineer",
   "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-03-01T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
   "n": 1
  },
  {
@@ -977,7 +991,7 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-03-17T00:00:00.000",
@@ -1152,7 +1166,7 @@
   "country": "de",
   "role_family": "genai / llm",
   "seniority": "senior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-03-31T00:00:00.000",
@@ -1194,7 +1208,7 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-04-09T00:00:00.000",
@@ -1369,7 +1383,7 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "senior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-04-24T00:00:00.000",
@@ -1831,7 +1845,7 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 26
+  "n": 29
  },
  {
   "created_date": "2026-05-12T00:00:00.000",
@@ -1866,7 +1880,7 @@
   "country": "de",
   "role_family": "analytics engineer",
   "seniority": "mid",
-  "n": 2
+  "n": 3
  },
  {
   "created_date": "2026-05-12T00:00:00.000",
@@ -1901,7 +1915,7 @@
   "country": "de",
   "role_family": "data architect",
   "seniority": "mid",
-  "n": 12
+  "n": 16
  },
  {
   "created_date": "2026-05-13T00:00:00.000",
@@ -2181,7 +2195,7 @@
   "country": "de",
   "role_family": "ml engineer",
   "seniority": "senior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-05-26T00:00:00.000",
@@ -2377,7 +2391,7 @@
   "country": "de",
   "role_family": "data scientist",
   "seniority": "mid",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-06-02T00:00:00.000",
@@ -2720,7 +2734,7 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "senior",
-  "n": 10
+  "n": 12
  },
  {
   "created_date": "2026-06-09T00:00:00.000",
@@ -2998,6 +3012,13 @@
  {
   "created_date": "2026-06-18T00:00:00.000",
   "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-06-18T00:00:00.000",
+  "country": "de",
   "role_family": "analytics engineer",
   "seniority": "mid",
   "n": 1
@@ -3027,6 +3048,13 @@
   "created_date": "2026-06-19T00:00:00.000",
   "country": "de",
   "role_family": "mlops",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-06-19T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
   "seniority": "mid",
   "n": 1
  },
@@ -3291,13 +3319,6 @@
  },
  {
   "created_date": "2026-06-24T00:00:00.000",
-  "country": "de",
-  "role_family": "dwh / etl",
-  "seniority": "mid",
-  "n": 1
- },
- {
-  "created_date": "2026-06-24T00:00:00.000",
   "country": "at",
   "role_family": "ml engineer",
   "seniority": "mid",
@@ -3311,6 +3332,13 @@
   "n": 1
  },
  {
+  "created_date": "2026-06-24T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
   "created_date": "2026-06-25T00:00:00.000",
   "country": "de",
   "role_family": "data engineer",
@@ -3406,7 +3434,7 @@
   "country": "de",
   "role_family": "data scientist",
   "seniority": "mid",
-  "n": 2
+  "n": 3
  },
  {
   "created_date": "2026-06-27T00:00:00.000",
@@ -3749,7 +3777,7 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 8
+  "n": 9
  },
  {
   "created_date": "2026-07-03T00:00:00.000",
@@ -4106,7 +4134,7 @@
   "country": "de",
   "role_family": "ml engineer",
   "seniority": "senior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-07-10T00:00:00.000",
@@ -4267,7 +4295,7 @@
   "country": "de",
   "role_family": "genai / llm",
   "seniority": "senior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-07-12T00:00:00.000",
@@ -4771,14 +4799,14 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "mid",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-07-17T00:00:00.000",
   "country": "de",
   "role_family": "data scientist",
   "seniority": "mid",
-  "n": 3
+  "n": 5
  },
  {
   "created_date": "2026-07-18T00:00:00.000",
@@ -5023,28 +5051,28 @@
   "country": "de",
   "role_family": "analytics engineer",
   "seniority": "junior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
   "country": "de",
   "role_family": "data engineer",
   "seniority": "junior",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
   "country": "de",
   "role_family": "data consultant",
   "seniority": "mid",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
@@ -5065,14 +5093,14 @@
   "country": "de",
   "role_family": "genai / llm",
   "seniority": "mid",
-  "n": 2
+  "n": 4
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "mid",
-  "n": 5
+  "n": 8
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
@@ -5093,7 +5121,7 @@
   "country": "de",
   "role_family": "data scientist",
   "seniority": "senior",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
@@ -5107,7 +5135,7 @@
   "country": "de",
   "role_family": "data scientist",
   "seniority": "junior",
-  "n": 1
+  "n": 3
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
@@ -5121,7 +5149,7 @@
   "country": "de",
   "role_family": "genai / llm",
   "seniority": "junior",
-  "n": 2
+  "n": 4
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
@@ -5135,14 +5163,14 @@
   "country": "de",
   "role_family": "data analyst",
   "seniority": "mid",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
   "country": "de",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 6
+  "n": 8
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
@@ -5156,14 +5184,14 @@
   "country": "de",
   "role_family": "ml engineer",
   "seniority": "mid",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
   "country": "de",
   "role_family": "ai consultant",
   "seniority": "mid",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
@@ -5184,14 +5212,14 @@
   "country": "de",
   "role_family": "ml engineer",
   "seniority": "junior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
   "country": "de",
   "role_family": "data architect",
   "seniority": "senior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-07-21T00:00:00.000",
@@ -5534,7 +5562,7 @@
   "country": "de",
   "role_family": "ml engineer",
   "seniority": "senior",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-07-24T00:00:00.000",
@@ -5636,6 +5664,13 @@
  },
  {
   "created_date": "2026-07-25T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-07-25T00:00:00.000",
   "country": "ch",
   "role_family": "data engineer",
   "seniority": "mid",
@@ -5660,7 +5695,7 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-07-25T00:00:00.000",
@@ -6699,6 +6734,13 @@
   "n": 2
  },
  {
+  "created_date": "2026-08-04T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
   "created_date": "2026-08-05T00:00:00.000",
   "country": "de",
   "role_family": "bi developer",
@@ -6906,7 +6948,7 @@
   "country": "de",
   "role_family": "data consultant",
   "seniority": "mid",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-08-06T00:00:00.000",
@@ -7011,7 +7053,7 @@
   "country": "de",
   "role_family": "data scientist",
   "seniority": "senior",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-08-06T00:00:00.000",
@@ -7249,7 +7291,7 @@
   "country": "de",
   "role_family": "bi developer",
   "seniority": "senior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-08-08T00:00:00.000",
@@ -7270,7 +7312,7 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "junior",
-  "n": 2
+  "n": 3
  },
  {
   "created_date": "2026-08-08T00:00:00.000",
@@ -7284,14 +7326,14 @@
   "country": "at",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-08-08T00:00:00.000",
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
-  "n": 5
+  "n": 6
  },
  {
   "created_date": "2026-08-08T00:00:00.000",
@@ -7326,7 +7368,7 @@
   "country": "de",
   "role_family": "ai consultant",
   "seniority": "mid",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-08-08T00:00:00.000",
@@ -7361,7 +7403,7 @@
   "country": "de",
   "role_family": "data analyst",
   "seniority": "senior",
-  "n": 2
+  "n": 3
  },
  {
   "created_date": "2026-08-08T00:00:00.000",
@@ -7389,7 +7431,7 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "senior",
-  "n": 9
+  "n": 10
  },
  {
   "created_date": "2026-08-08T00:00:00.000",
@@ -7723,6 +7765,13 @@
  {
   "created_date": "2026-08-12T00:00:00.000",
   "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-08-12T00:00:00.000",
+  "country": "de",
   "role_family": "data consultant",
   "seniority": "senior",
   "n": 2
@@ -7830,7 +7879,7 @@
   "country": "at",
   "role_family": "ai consultant",
   "seniority": "mid",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-08-12T00:00:00.000",
@@ -7948,6 +7997,13 @@
   "created_date": "2026-08-13T00:00:00.000",
   "country": "at",
   "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-08-13T00:00:00.000",
+  "country": "ch",
+  "role_family": "ml engineer",
   "seniority": "mid",
   "n": 1
  },
@@ -8495,7 +8551,7 @@
   "country": "de",
   "role_family": "bi developer",
   "seniority": "mid",
-  "n": 7
+  "n": 8
  },
  {
   "created_date": "2026-08-15T00:00:00.000",
@@ -8516,7 +8572,7 @@
   "country": "de",
   "role_family": "genai / llm",
   "seniority": "senior",
-  "n": 2
+  "n": 3
  },
  {
   "created_date": "2026-08-16T00:00:00.000",
@@ -8544,7 +8600,7 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "mid",
-  "n": 5
+  "n": 6
  },
  {
   "created_date": "2026-08-16T00:00:00.000",
@@ -9083,7 +9139,7 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 13
+  "n": 14
  },
  {
   "created_date": "2026-08-19T00:00:00.000",
@@ -9265,7 +9321,7 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
-  "n": 4
+  "n": 6
  },
  {
   "created_date": "2026-08-20T00:00:00.000",
@@ -9307,7 +9363,7 @@
   "country": "ch",
   "role_family": "data scientist",
   "seniority": "mid",
-  "n": 2
+  "n": 4
  },
  {
   "created_date": "2026-08-20T00:00:00.000",
@@ -10063,7 +10119,7 @@
   "country": "de",
   "role_family": "data scientist",
   "seniority": "senior",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-08-23T00:00:00.000",
@@ -10735,7 +10791,7 @@
   "country": "de",
   "role_family": "data analyst",
   "seniority": "mid",
-  "n": 12
+  "n": 13
  },
  {
   "created_date": "2026-08-25T00:00:00.000",
@@ -10994,7 +11050,7 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
-  "n": 6
+  "n": 7
  },
  {
   "created_date": "2026-08-26T00:00:00.000",
@@ -11071,7 +11127,7 @@
   "country": "de",
   "role_family": "data analyst",
   "seniority": "mid",
-  "n": 67
+  "n": 69
  },
  {
   "created_date": "2026-08-27T00:00:00.000",
@@ -11561,7 +11617,7 @@
   "country": "de",
   "role_family": "data analyst",
   "seniority": "senior",
-  "n": 6
+  "n": 7
  },
  {
   "created_date": "2026-08-29T00:00:00.000",
@@ -12345,7 +12401,7 @@
   "country": "ch",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 11
+  "n": 12
  },
  {
   "created_date": "2026-09-02T00:00:00.000",
@@ -12667,7 +12723,7 @@
   "country": "de",
   "role_family": "ml engineer",
   "seniority": "senior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-09-03T00:00:00.000",
@@ -12695,7 +12751,7 @@
   "country": "de",
   "role_family": "data architect",
   "seniority": "senior",
-  "n": 2
+  "n": 3
  },
  {
   "created_date": "2026-09-03T00:00:00.000",
@@ -12786,7 +12842,7 @@
   "country": "de",
   "role_family": "data scientist",
   "seniority": "mid",
-  "n": 12
+  "n": 14
  },
  {
   "created_date": "2026-09-03T00:00:00.000",
@@ -13059,7 +13115,7 @@
   "country": "de",
   "role_family": "data scientist",
   "seniority": "mid",
-  "n": 12
+  "n": 13
  },
  {
   "created_date": "2026-09-04T00:00:00.000",
@@ -13409,7 +13465,7 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
-  "n": 19
+  "n": 20
  },
  {
   "created_date": "2026-09-05T00:00:00.000",
@@ -13787,7 +13843,7 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "senior",
-  "n": 6
+  "n": 7
  },
  {
   "created_date": "2026-09-07T00:00:00.000",
@@ -13864,7 +13920,7 @@
   "country": "de",
   "role_family": "genai / llm",
   "seniority": "senior",
-  "n": 4
+  "n": 5
  },
  {
   "created_date": "2026-09-08T00:00:00.000",
@@ -14284,7 +14340,7 @@
   "country": "ch",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 9
+  "n": 10
  },
  {
   "created_date": "2026-09-10T00:00:00.000",
@@ -14606,7 +14662,7 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
-  "n": 7
+  "n": 9
  },
  {
   "created_date": "2026-09-11T00:00:00.000",
@@ -14730,6 +14786,13 @@
  {
   "created_date": "2026-09-11T00:00:00.000",
   "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-09-11T00:00:00.000",
+  "country": "de",
   "role_family": "data governance",
   "seniority": "mid",
   "n": 2
@@ -14865,7 +14928,7 @@
   "country": "de",
   "role_family": "mlops",
   "seniority": "mid",
-  "n": 4
+  "n": 5
  },
  {
   "created_date": "2026-09-12T00:00:00.000",
@@ -15096,7 +15159,7 @@
   "country": "ch",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-09-13T00:00:00.000",
@@ -15173,7 +15236,7 @@
   "country": "de",
   "role_family": "dwh / etl",
   "seniority": "mid",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-09-14T00:00:00.000",
@@ -15411,7 +15474,7 @@
   "country": "de",
   "role_family": "mlops",
   "seniority": "mid",
-  "n": 2
+  "n": 3
  },
  {
   "created_date": "2026-09-15T00:00:00.000",
@@ -15551,7 +15614,7 @@
   "country": "at",
   "role_family": "data analyst",
   "seniority": "mid",
-  "n": 2
+  "n": 3
  },
  {
   "created_date": "2026-09-16T00:00:00.000",
@@ -15675,13 +15738,6 @@
  {
   "created_date": "2026-09-16T00:00:00.000",
   "country": "de",
-  "role_family": "data architect",
-  "seniority": "mid",
-  "n": 1
- },
- {
-  "created_date": "2026-09-16T00:00:00.000",
-  "country": "de",
   "role_family": "ai engineer",
   "seniority": "mid",
   "n": 7
@@ -15743,6 +15799,13 @@
   "n": 4
  },
  {
+  "created_date": "2026-09-16T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
   "created_date": "2026-09-17T00:00:00.000",
   "country": "de",
   "role_family": "data engineer",
@@ -15775,7 +15838,7 @@
   "country": "de",
   "role_family": "genai / llm",
   "seniority": "mid",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-09-17T00:00:00.000",
@@ -15789,7 +15852,7 @@
   "country": "de",
   "role_family": "data scientist",
   "seniority": "mid",
-  "n": 4
+  "n": 5
  },
  {
   "created_date": "2026-09-17T00:00:00.000",
@@ -15922,7 +15985,7 @@
   "country": "de",
   "role_family": "genai / llm",
   "seniority": "senior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-09-17T00:00:00.000",
@@ -15957,7 +16020,7 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 11
+  "n": 12
  },
  {
   "created_date": "2026-09-18T00:00:00.000",
@@ -16083,7 +16146,7 @@
   "country": "de",
   "role_family": "genai / llm",
   "seniority": "mid",
-  "n": 2
+  "n": 3
  },
  {
   "created_date": "2026-09-18T00:00:00.000",
@@ -16104,7 +16167,7 @@
   "country": "ch",
   "role_family": "genai / llm",
   "seniority": "senior",
-  "n": 8
+  "n": 9
  },
  {
   "created_date": "2026-09-18T00:00:00.000",
@@ -16230,7 +16293,7 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
-  "n": 5
+  "n": 7
  },
  {
   "created_date": "2026-09-19T00:00:00.000",
@@ -16377,7 +16440,7 @@
   "country": "de",
   "role_family": "ai consultant",
   "seniority": "mid",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-09-19T00:00:00.000",
@@ -16391,7 +16454,7 @@
   "country": "ch",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 5
+  "n": 6
  },
  {
   "created_date": "2026-09-19T00:00:00.000",
@@ -16648,13 +16711,6 @@
  {
   "created_date": "2026-09-21T00:00:00.000",
   "country": "de",
-  "role_family": "bi developer",
-  "seniority": "senior",
-  "n": 1
- },
- {
-  "created_date": "2026-09-21T00:00:00.000",
-  "country": "de",
   "role_family": "ai engineer",
   "seniority": "mid",
   "n": 3
@@ -16766,13 +16822,6 @@
  },
  {
   "created_date": "2026-09-21T00:00:00.000",
-  "country": "de",
-  "role_family": "mlops",
-  "seniority": "senior",
-  "n": 1
- },
- {
-  "created_date": "2026-09-21T00:00:00.000",
   "country": "ch",
   "role_family": "data engineer",
   "seniority": "senior",
@@ -16789,6 +16838,20 @@
   "created_date": "2026-09-21T00:00:00.000",
   "country": "de",
   "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-09-21T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-09-21T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
   "seniority": "senior",
   "n": 1
  },
@@ -17105,7 +17168,7 @@
   "country": "de",
   "role_family": "ml engineer",
   "seniority": "mid",
-  "n": 2
+  "n": 3
  },
  {
   "created_date": "2026-09-23T00:00:00.000",
@@ -17140,7 +17203,7 @@
   "country": "de",
   "role_family": "data analyst",
   "seniority": "mid",
-  "n": 9
+  "n": 10
  },
  {
   "created_date": "2026-09-23T00:00:00.000",
@@ -17224,7 +17287,7 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 10
+  "n": 11
  },
  {
   "created_date": "2026-09-23T00:00:00.000",
@@ -17343,7 +17406,7 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 17
+  "n": 18
  },
  {
   "created_date": "2026-09-24T00:00:00.000",
@@ -17665,7 +17728,7 @@
   "country": "ch",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 2
+  "n": 3
  },
  {
   "created_date": "2026-09-25T00:00:00.000",
@@ -17847,7 +17910,7 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
-  "n": 6
+  "n": 7
  },
  {
   "created_date": "2026-09-26T00:00:00.000",
@@ -17931,7 +17994,7 @@
   "country": "de",
   "role_family": "genai / llm",
   "seniority": "mid",
-  "n": 6
+  "n": 7
  },
  {
   "created_date": "2026-09-26T00:00:00.000",
@@ -18029,14 +18092,14 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-09-27T00:00:00.000",
   "country": "de",
   "role_family": "data analyst",
   "seniority": "mid",
-  "n": 3
+  "n": 4
  },
  {
   "created_date": "2026-09-27T00:00:00.000",
@@ -18526,7 +18589,14 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
-  "n": 1
+  "n": 2
+ },
+ {
+  "created_date": "2026-09-30T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 4
  },
  {
   "created_date": "2026-09-30T00:00:00.000",
@@ -18699,13 +18769,6 @@
  {
   "created_date": "2026-09-30T00:00:00.000",
   "country": "de",
-  "role_family": "genai / llm",
-  "seniority": "mid",
-  "n": 3
- },
- {
-  "created_date": "2026-09-30T00:00:00.000",
-  "country": "de",
   "role_family": "data analyst",
   "seniority": "mid",
   "n": 9
@@ -18804,6 +18867,48 @@
  {
   "created_date": "2026-10-01T00:00:00.000",
   "country": "de",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-01T00:00:00.000",
+  "country": "ch",
+  "role_family": "analytics engineer",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-01T00:00:00.000",
+  "country": "at",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-01T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-01T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 24
+ },
+ {
+  "created_date": "2026-10-01T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-01T00:00:00.000",
+  "country": "de",
   "role_family": "ai engineer",
   "seniority": "mid",
   "n": 8
@@ -18811,23 +18916,9 @@
  {
   "created_date": "2026-10-01T00:00:00.000",
   "country": "de",
-  "role_family": "data analyst",
-  "seniority": "senior",
-  "n": 3
- },
- {
-  "created_date": "2026-10-01T00:00:00.000",
-  "country": "de",
   "role_family": "genai / llm",
   "seniority": "senior",
   "n": 10
- },
- {
-  "created_date": "2026-10-01T00:00:00.000",
-  "country": "de",
-  "role_family": "data engineer",
-  "seniority": "mid",
-  "n": 23
  },
  {
   "created_date": "2026-10-01T00:00:00.000",
@@ -18908,13 +18999,6 @@
  },
  {
   "created_date": "2026-10-01T00:00:00.000",
-  "country": "ch",
-  "role_family": "analytics engineer",
-  "seniority": "mid",
-  "n": 3
- },
- {
-  "created_date": "2026-10-01T00:00:00.000",
   "country": "de",
   "role_family": "ml engineer",
   "seniority": "mid",
@@ -18936,24 +19020,10 @@
  },
  {
   "created_date": "2026-10-01T00:00:00.000",
-  "country": "at",
-  "role_family": "data architect",
-  "seniority": "mid",
-  "n": 1
- },
- {
-  "created_date": "2026-10-01T00:00:00.000",
   "country": "de",
   "role_family": "ai research",
   "seniority": "mid",
   "n": 1
- },
- {
-  "created_date": "2026-10-01T00:00:00.000",
-  "country": "de",
-  "role_family": "data scientist",
-  "seniority": "mid",
-  "n": 4
  },
  {
   "created_date": "2026-10-01T00:00:00.000",
@@ -19027,13 +19097,6 @@
  },
  {
   "created_date": "2026-10-01T00:00:00.000",
-  "country": "de",
-  "role_family": "data consultant",
-  "seniority": "senior",
-  "n": 1
- },
- {
-  "created_date": "2026-10-01T00:00:00.000",
   "country": "at",
   "role_family": "data engineer",
   "seniority": "mid",
@@ -19091,6 +19154,13 @@
  {
   "created_date": "2026-10-02T00:00:00.000",
   "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-02T00:00:00.000",
+  "country": "de",
   "role_family": "data consultant",
   "seniority": "senior",
   "n": 5
@@ -19115,13 +19185,6 @@
   "role_family": "ml engineer",
   "seniority": "senior",
   "n": 12
- },
- {
-  "created_date": "2026-10-02T00:00:00.000",
-  "country": "de",
-  "role_family": "ml engineer",
-  "seniority": "mid",
-  "n": 2
  },
  {
   "created_date": "2026-10-02T00:00:00.000",
@@ -19324,7 +19387,7 @@
   "country": "de",
   "role_family": "ai consultant",
   "seniority": "mid",
-  "n": 5
+  "n": 6
  },
  {
   "created_date": "2026-10-02T00:00:00.000",
@@ -19399,6 +19462,13 @@
  {
   "created_date": "2026-10-03T00:00:00.000",
   "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-03T00:00:00.000",
+  "country": "de",
   "role_family": "data architect",
   "seniority": "senior",
   "n": 3
@@ -19429,6 +19499,13 @@
   "country": "ch",
   "role_family": "data engineer",
   "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-03T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "junior",
   "n": 2
  },
  {
@@ -19539,13 +19616,6 @@
  {
   "created_date": "2026-10-03T00:00:00.000",
   "country": "de",
-  "role_family": "data engineer",
-  "seniority": "junior",
-  "n": 1
- },
- {
-  "created_date": "2026-10-03T00:00:00.000",
-  "country": "de",
   "role_family": "mlops",
   "seniority": "senior",
   "n": 3
@@ -19636,13 +19706,6 @@
  },
  {
   "created_date": "2026-10-03T00:00:00.000",
-  "country": "de",
-  "role_family": "data analyst",
-  "seniority": "mid",
-  "n": 4
- },
- {
-  "created_date": "2026-10-03T00:00:00.000",
   "country": "at",
   "role_family": "genai / llm",
   "seniority": "senior",
@@ -19668,6 +19731,20 @@
   "role_family": "dwh / etl",
   "seniority": "mid",
   "n": 1
+ },
+ {
+  "created_date": "2026-10-04T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-04T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 2
  },
  {
   "created_date": "2026-10-04T00:00:00.000",
@@ -19751,13 +19828,6 @@
   "country": "de",
   "role_family": "data engineer",
   "seniority": "junior",
-  "n": 1
- },
- {
-  "created_date": "2026-10-04T00:00:00.000",
-  "country": "de",
-  "role_family": "data scientist",
-  "seniority": "senior",
   "n": 1
  },
  {
@@ -19825,6 +19895,27 @@
  },
  {
   "created_date": "2026-10-05T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-05T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-05T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 7
+ },
+ {
+  "created_date": "2026-10-05T00:00:00.000",
   "country": "de",
   "role_family": "data engineer",
   "seniority": "junior",
@@ -19836,13 +19927,6 @@
   "role_family": "data analyst",
   "seniority": "mid",
   "n": 7
- },
- {
-  "created_date": "2026-10-05T00:00:00.000",
-  "country": "ch",
-  "role_family": "data engineer",
-  "seniority": "senior",
-  "n": 2
  },
  {
   "created_date": "2026-10-05T00:00:00.000",
@@ -19918,13 +20002,6 @@
   "created_date": "2026-10-05T00:00:00.000",
   "country": "de",
   "role_family": "bi developer",
-  "seniority": "mid",
-  "n": 6
- },
- {
-  "created_date": "2026-10-05T00:00:00.000",
-  "country": "de",
-  "role_family": "bi developer",
   "seniority": "senior",
   "n": 1
  },
@@ -19948,6 +20025,13 @@
   "role_family": "data scientist",
   "seniority": "mid",
   "n": 1
+ },
+ {
+  "created_date": "2026-10-06T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 7
  },
  {
   "created_date": "2026-10-06T00:00:00.000",
@@ -20081,13 +20165,6 @@
   "role_family": "analytics engineer",
   "seniority": "mid",
   "n": 2
- },
- {
-  "created_date": "2026-10-06T00:00:00.000",
-  "country": "ch",
-  "role_family": "ai engineer",
-  "seniority": "mid",
-  "n": 6
  },
  {
   "created_date": "2026-10-06T00:00:00.000",
@@ -20168,6 +20245,34 @@
  },
  {
   "created_date": "2026-10-07T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-07T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-07T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-07T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 12
+ },
+ {
+  "created_date": "2026-10-07T00:00:00.000",
   "country": "at",
   "role_family": "data scientist",
   "seniority": "senior",
@@ -20228,13 +20333,6 @@
   "role_family": "ai consultant",
   "seniority": "mid",
   "n": 5
- },
- {
-  "created_date": "2026-10-07T00:00:00.000",
-  "country": "de",
-  "role_family": "bi developer",
-  "seniority": "mid",
-  "n": 3
  },
  {
   "created_date": "2026-10-07T00:00:00.000",
@@ -20330,20 +20428,6 @@
  {
   "created_date": "2026-10-07T00:00:00.000",
   "country": "ch",
-  "role_family": "ai engineer",
-  "seniority": "mid",
-  "n": 1
- },
- {
-  "created_date": "2026-10-07T00:00:00.000",
-  "country": "de",
-  "role_family": "data scientist",
-  "seniority": "mid",
-  "n": 11
- },
- {
-  "created_date": "2026-10-07T00:00:00.000",
-  "country": "ch",
   "role_family": "genai / llm",
   "seniority": "senior",
   "n": 1
@@ -20400,13 +20484,6 @@
  {
   "created_date": "2026-10-07T00:00:00.000",
   "country": "de",
-  "role_family": "dwh / etl",
-  "seniority": "mid",
-  "n": 1
- },
- {
-  "created_date": "2026-10-07T00:00:00.000",
-  "country": "de",
   "role_family": "data architect",
   "seniority": "senior",
   "n": 7
@@ -20449,16 +20526,79 @@
  {
   "created_date": "2026-10-08T00:00:00.000",
   "country": "ch",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-08T00:00:00.000",
+  "country": "ch",
   "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-08T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-08T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai research",
   "seniority": "mid",
-  "n": 4
+  "n": 2
  },
  {
   "created_date": "2026-10-08T00:00:00.000",
   "country": "de",
   "role_family": "data analyst",
   "seniority": "mid",
-  "n": 8
+  "n": 9
+ },
+ {
+  "created_date": "2026-10-08T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-08T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 22
+ },
+ {
+  "created_date": "2026-10-08T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-08T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-08T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-08T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 4
  },
  {
   "created_date": "2026-10-08T00:00:00.000",
@@ -20539,13 +20679,6 @@
  },
  {
   "created_date": "2026-10-08T00:00:00.000",
-  "country": "de",
-  "role_family": "data engineer",
-  "seniority": "mid",
-  "n": 21
- },
- {
-  "created_date": "2026-10-08T00:00:00.000",
   "country": "ch",
   "role_family": "bi developer",
   "seniority": "senior",
@@ -20596,13 +20729,6 @@
  {
   "created_date": "2026-10-08T00:00:00.000",
   "country": "ch",
-  "role_family": "data consultant",
-  "seniority": "senior",
-  "n": 1
- },
- {
-  "created_date": "2026-10-08T00:00:00.000",
-  "country": "ch",
   "role_family": "data architect",
   "seniority": "senior",
   "n": 1
@@ -20618,13 +20744,6 @@
   "created_date": "2026-10-08T00:00:00.000",
   "country": "de",
   "role_family": "ai consultant",
-  "seniority": "senior",
-  "n": 2
- },
- {
-  "created_date": "2026-10-08T00:00:00.000",
-  "country": "ch",
-  "role_family": "ai engineer",
   "seniority": "senior",
   "n": 2
  },
@@ -20643,80 +20762,164 @@
   "n": 3
  },
  {
-  "created_date": "2026-10-08T00:00:00.000",
+  "created_date": "2026-10-09T00:00:00.000",
   "country": "ch",
-  "role_family": "ai research",
+  "role_family": "data scientist",
   "seniority": "mid",
-  "n": 1
+  "n": 3
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "de",
-  "role_family": "ai engineer",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 23
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
   "seniority": "junior",
   "n": 1
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n": 3
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "de",
   "role_family": "data engineer",
   "seniority": "senior",
-  "n": 2
+  "n": 3
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "ch",
-  "role_family": "ai engineer",
+  "role_family": "ai consultant",
   "seniority": "senior",
   "n": 1
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
-  "country": "ch",
-  "role_family": "ai research",
+  "country": "de",
+  "role_family": "data scientist",
   "seniority": "senior",
-  "n": 1
+  "n": 4
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "de",
   "role_family": "bi developer",
   "seniority": "mid",
-  "n": 1
+  "n": 5
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "de",
   "role_family": "data scientist",
   "seniority": "mid",
-  "n": 2
- },
- {
-  "created_date": "2026-10-09T00:00:00.000",
-  "country": "de",
-  "role_family": "data scientist",
-  "seniority": "junior",
-  "n": 1
+  "n": 7
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "ch",
   "role_family": "ml engineer",
   "seniority": "mid",
-  "n": 2
+  "n": 5
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "de",
   "role_family": "analytics engineer",
   "seniority": "senior",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "senior",
+  "n": 19
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "de",
+  "role_family": "ai research",
+  "seniority": "mid",
   "n": 1
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 6
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "de",
   "role_family": "mlops",
   "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "at",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "at",
+  "role_family": "ai engineer",
+  "seniority": "senior",
   "n": 1
  },
  {
@@ -20724,20 +20927,20 @@
   "country": "de",
   "role_family": "data architect",
   "seniority": "senior",
-  "n": 1
- },
- {
-  "created_date": "2026-10-09T00:00:00.000",
-  "country": "de",
-  "role_family": "ai consultant",
-  "seniority": "mid",
-  "n": 1
+  "n": 2
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "de",
   "role_family": "genai / llm",
   "seniority": "mid",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
   "n": 2
  },
  {
@@ -20745,41 +20948,2967 @@
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "mid",
-  "n": 4
+  "n": 7
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "at",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "ch",
+  "role_family": "analytics engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "ch",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 1
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "de",
   "role_family": "ml engineer",
   "seniority": "senior",
-  "n": 1
- },
- {
-  "created_date": "2026-10-09T00:00:00.000",
-  "country": "de",
-  "role_family": "data engineer",
-  "seniority": "mid",
-  "n": 4
+  "n": 2
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "ch",
   "role_family": "data engineer",
   "seniority": "mid",
-  "n": 1
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 14
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "de",
   "role_family": "ai engineer",
   "seniority": "senior",
-  "n": 4
+  "n": 40
  },
  {
   "created_date": "2026-10-09T00:00:00.000",
   "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai research",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-09T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "ch",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 7
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "ch",
   "role_family": "data analyst",
   "seniority": "mid",
   "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "at",
+  "role_family": "dwh / etl",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "analytics engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "at",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 9
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "ch",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "ch",
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "ch",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "ch",
+  "role_family": "analytics engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "ch",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai research",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-10T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "at",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "at",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-11T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai research",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-12T00:00:00.000",
+  "country": "ch",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-12T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-12T00:00:00.000",
+  "country": "at",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-12T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-12T00:00:00.000",
+  "country": "at",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-12T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-12T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-12T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-12T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-12T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-12T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-12T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai research",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "analytics engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "ch",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 7
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "ch",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "ch",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 8
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "ai research",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 32
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "ch",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-13T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "ch",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "ch",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "analytics engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 7
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "at",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "ch",
+  "role_family": "data governance",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "ch",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-14T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 8
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "at",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "at",
+  "role_family": "data scientist",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "at",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "at",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "data governance",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "dwh / etl",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "ch",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-15T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "at",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "at",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "ch",
+  "role_family": "mlops",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "ch",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "ch",
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "at",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "ch",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 7
+ },
+ {
+  "created_date": "2026-10-16T00:00:00.000",
+  "country": "de",
+  "role_family": "analytics engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "ch",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "at",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "ch",
+  "role_family": "mlops",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "ch",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 7
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "analytics engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "ch",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "analytics engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "at",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "ch",
+  "role_family": "data governance",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-17T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "ch",
+  "role_family": "genai / llm",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "ch",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "at",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-18T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "at",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "at",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "at",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-19T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "ch",
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "at",
+  "role_family": "ai consultant",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "ch",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "at",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "at",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "at",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "at",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "at",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-20T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "at",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai research",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "at",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "at",
+  "role_family": "ai consultant",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "at",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "analytics engineer",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "ch",
+  "role_family": "genai / llm",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-21T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 7
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "at",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "data governance",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "at",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 26
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "analytics engineer",
+  "seniority": "junior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 13
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "analytics engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "data governance",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "ch",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "ch",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-22T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "data governance",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "at",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "at",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "senior",
+  "n": 7
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "ch",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "ch",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "ch",
+  "role_family": "data governance",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "ch",
+  "role_family": "genai / llm",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 13
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "ch",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "ch",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-23T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "ch",
+  "role_family": "data governance",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "at",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "at",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "ch",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "data governance",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 16
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "ch",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "at",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-24T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "at",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "ch",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "data governance",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "ch",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "at",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "ch",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "at",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "ch",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "analytics engineer",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "ch",
+  "role_family": "mlops",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 9
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-25T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "senior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "data analyst",
+  "seniority": "mid",
+  "n": 6
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "dwh / etl",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "junior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "senior",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "data scientist",
+  "seniority": "mid",
+  "n": 5
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "junior",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "mid",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "mid",
+  "n": 8
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "mlops",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "ai consultant",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "data engineer",
+  "seniority": "senior",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "bi developer",
+  "seniority": "mid",
+  "n": 3
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "ml engineer",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "ai engineer",
+  "seniority": "junior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "data consultant",
+  "seniority": "senior",
+  "n": 1
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "junior",
+  "n": 4
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "genai / llm",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "data architect",
+  "seniority": "mid",
+  "n": 2
+ },
+ {
+  "created_date": "2026-10-26T00:00:00.000",
+  "country": "de",
+  "role_family": "data governance",
+  "seniority": "mid",
+  "n": 2
  }
 ]
