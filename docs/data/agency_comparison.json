@@ -1,18 +1,18 @@
 [
  {
   "poster_type": "Recruitment agency",
-  "n_postings": 131,
-  "pct": 3.7,
-  "avg_age_days": 38.5,
-  "median_age_days": 14,
-  "pct_over_60d": 19.8
+  "n_postings": 123,
+  "pct": 3.5,
+  "avg_age_days": 38.4,
+  "median_age_days": 15,
+  "pct_over_60d": 19.5
  },
  {
   "poster_type": "Direct employer",
-  "n_postings": 3421,
-  "pct": 96.3,
-  "avg_age_days": 48.7,
+  "n_postings": 3362,
+  "pct": 96.5,
+  "avg_age_days": 48.9,
   "median_age_days": 21,
-  "pct_over_60d": 26.4
+  "pct_over_60d": 26.7
  }
 ]
