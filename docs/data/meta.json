@@ -1,14 +1,14 @@
 {
- "updated": "2026-11-03",
- "live_postings": 3541,
- "employers": 1341,
- "avg_age_days": 46.5,
- "median_age_days": 21.0,
- "pct_over_60d": 25.0,
+ "updated": "2026-11-04",
+ "live_postings": 3789,
+ "employers": 1460,
+ "avg_age_days": 43.3,
+ "median_age_days": 19.0,
+ "pct_over_60d": 23.4,
  "quarantined": 258,
- "quarantine_rate": 0.0679,
- "postings_published": 3541,
+ "quarantine_rate": 0.0638,
+ "postings_published": 3789,
  "matcher_precision": null,
  "matcher_recall": null,
- "desc_truncated_pct": 98.7
+ "desc_truncated_pct": 98.9
 }
