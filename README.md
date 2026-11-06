@@ -122,3 +122,7 @@ pathlib.Path("/Volumes/jobs/bronze/conf/adzuna.json").write_text(
 ## Licence
 
 MIT. The underlying job data belongs to Adzuna and its source boards.
+
+---
+
+<p align="center">Built by <b>Christoph Ruckensteiner</b> · <a href="https://www.linkedin.com/in/cruckensteiner112">LinkedIn</a> · <a href="https://github.com/Chrisinho8">GitHub</a></p>
