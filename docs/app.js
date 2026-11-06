@@ -103,7 +103,8 @@ const SKILL_LABEL = {
   snowflake: "Snowflake", spark: "Spark", sql: "SQL", ssis: "SSIS",
   synapse: "Synapse", tableau: "Tableau", tensorflow: "TensorFlow",
   terraform: "Terraform", vectordb: "Vector databases",
-  vertexai: "Vertex AI"
+  vertexai: "Vertex AI", mlflow: "MLflow", bentoml: "BentoML",
+  keras: "Keras", wandb: "Weights & Biases", kubeflow: "Kubeflow"
 };
 const slab = k => SKILL_LABEL[k] || String(k).replace(/_/g, " ");
 /* Generative-AI skills: the "genai" category of skill_demand.json,
@@ -3734,6 +3735,64 @@ get("skill_demand").then(sd => {
         { lw: 150, max, rank: 1 });
   hbars(document.getElementById("vocab-b"), rows.slice(half),
         { lw: 150, max, rank: half + 1 });
+  sec.hidden = false;
+});
+
+
+/* ---------------- rising and falling skills ----------------
+   history.json keeps every skill's share of live postings (skill_pct)
+   for every run. One day moves by a few tenths of a point on its own,
+   so this compares averages: the last 7 runs against the 7 runs that
+   end 30 days earlier. Only skills present in all 14 runs count, so a
+   skill added to the dictionary mid-window can't show up as "rising",
+   and skills under 0.5% of postings are left out as too thin.     */
+get("history").then(h => {
+  const sec = document.getElementById("movers-section");
+  if (!sec || !Array.isArray(h)) return;
+  const by = {};
+  h.forEach(r => {
+    if (r.metric !== "skill_pct") return;
+    const d = iso(r.snapshot_date);
+    (by[d] = by[d] || {})[r.dimension] = r.value;
+  });
+  const days = Object.keys(by).sort();
+  if (!days.length) return;
+  const last = days[days.length - 1];
+  const recent = days.slice(-7);
+  const earlier = days.filter(d => d <= addDays(last, -30)).slice(-7);
+  if (recent.length < 7 || earlier.length < 7) return;
+
+  const both = recent.concat(earlier);
+  const avg = (ds, k) => ds.reduce((t, d) => t + by[d][k], 0) / ds.length;
+  const rows = Object.keys(by[last])
+    .filter(k => both.every(d => by[d][k] != null))
+    .map(k => {
+      const a = avg(earlier, k), b = avg(recent, k);
+      return { k, a, b, d: b - a };
+    })
+    .filter(r => Math.max(r.a, r.b) >= .5 && Math.abs(r.d) >= .05);
+  const up = rows.filter(r => r.d > 0).sort((x, y) => y.d - x.d).slice(0, 6);
+  const down = rows.filter(r => r.d < 0).sort((x, y) => x.d - y.d).slice(0, 6);
+
+  /* bars use at most ~55% of the track, leaving room for the label */
+  const max = Math.max(...up.concat(down).map(r => Math.abs(r.d)), .1) / .55;
+  const pts = v => (v > 0 ? "+" : "−") + Math.abs(v).toFixed(1) + " pts";
+  const row = (r, col) => ({
+    label: slab(r.k), v: Math.abs(r.d), color: col,
+    val: `${pts(r.d)}<span class="hb-mut">${r.a.toFixed(1)} → ${r.b.toFixed(1)}%</span>`,
+    tip: `<b>${esc(slab(r.k))}</b>${pct1(r.a)} → <em>${pct1(r.b)}</em> ` +
+         `of postings<br>${pts(r.d)} in 30 days (averages of 7 runs)`
+  });
+  hbars(document.getElementById("movers-up"), up.map(r => row(r, MOSS)),
+        { lw: 150, max, empty: "No skill gained ground." });
+  hbars(document.getElementById("movers-down"), down.map(r => row(r, DEEP)),
+        { lw: 150, max, empty: "No skill lost ground." });
+
+  document.getElementById("movers-fine").textContent =
+    `Average of the last 7 runs (${fRange(recent[0], last)}) against ` +
+    `the 7 runs a month earlier (${fRange(earlier[0], earlier[6])}), in ` +
+    `percentage points of postings. Skills under 0.5% and skills added ` +
+    `to the dictionary in between are left out.`;
   sec.hidden = false;
 });
 

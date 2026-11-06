@@ -451,3 +451,11 @@ section.compact .note{font-size:15.5px;margin:4px 0 12px}
 /* Seniority and Country: two panels stacked in the middle column */
 #role-profile .rp-stack{display:flex;flex-direction:column;gap:14px;min-width:0}
 #role-profile .rp-stack .rp-card{flex:1}
+
+/* rising and falling skills */
+.movers .mv-h{display:flex;align-items:center;gap:7px;margin:0 0 6px;
+  font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:#8A857C}
+.movers .mv-h i{width:10px;height:10px;border-radius:3px}
+.hb-mut{font-weight:500;color:#8A857C;margin-left:8px}
+@media(max-width:760px){.movers > div + div{margin-top:12px}}

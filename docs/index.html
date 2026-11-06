@@ -3,21 +3,75 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DACH Data Job Market Tracker</title>
+<title>DACH Data Job Market Tracker · Christoph Ruckensteiner</title>
 <meta name="description"
-      content="How stale is the German-speaking data job market?
-               Germany, Austria and Switzerland tracked daily through
-               a Delta Lake pipeline.">
-<meta property="og:title" content="DACH Data Job Market Tracker">
+      content="Daily tracker of AI and data job postings in Germany,
+               Austria and Switzerland, built by Christoph Ruckensteiner
+               on a Databricks and Delta Lake pipeline.">
+<meta name="author" content="Christoph Ruckensteiner">
+<link rel="canonical" href="https://chrisinho8.github.io/DACH-data-job-market/">
+<meta property="og:title"
+      content="DACH Data Job Market Tracker by Christoph Ruckensteiner">
 <meta property="og:description"
-      content="Germany, Austria and Switzerland. How long do data jobs
-               really stay open? Updated daily.">
+      content="AI and data job postings in Germany, Austria and
+               Switzerland, tracked daily.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://chrisinho8.github.io/DACH-data-job-market/assets/og.png">
 <meta property="og:url" content="https://chrisinho8.github.io/DACH-data-job-market/">
 <meta name="twitter:card" content="summary_large_image">
+<!-- Tells search engines who built this and links the real name to
+     the LinkedIn and GitHub profiles (schema.org structured data). -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://chrisinho8.github.io/DACH-data-job-market/#christoph",
+      "name": "Christoph Ruckensteiner",
+      "alternateName": ["Chris Ruckensteiner", "Chrisinho8"],
+      "url": "https://www.linkedin.com/in/cruckensteiner112",
+      "sameAs": [
+        "https://www.linkedin.com/in/cruckensteiner112",
+        "https://github.com/Chrisinho8"
+      ],
+      "knowsAbout": ["Data engineering", "Databricks", "Delta Lake",
+                     "PySpark", "SQL", "Python"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://chrisinho8.github.io/DACH-data-job-market/#website",
+      "url": "https://chrisinho8.github.io/DACH-data-job-market/",
+      "name": "DACH Data Job Market Tracker",
+      "inLanguage": "en",
+      "author": { "@id": "https://chrisinho8.github.io/DACH-data-job-market/#christoph" },
+      "creator": { "@id": "https://chrisinho8.github.io/DACH-data-job-market/#christoph" }
+    },
+    {
+      "@type": "Dataset",
+      "@id": "https://chrisinho8.github.io/DACH-data-job-market/#dataset",
+      "name": "DACH AI and Data Job Market Tracker",
+      "description": "Daily snapshots of AI and data job postings in Germany, Austria and Switzerland from the Adzuna API, classified into 15 roles and aggregated through a Databricks and Delta Lake pipeline by Christoph Ruckensteiner.",
+      "url": "https://chrisinho8.github.io/DACH-data-job-market/",
+      "creator": { "@id": "https://chrisinho8.github.io/DACH-data-job-market/#christoph" },
+      "isAccessibleForFree": true,
+      "spatialCoverage": ["Germany", "Austria", "Switzerland"],
+      "temporalCoverage": "2026-07-29/..",
+      "keywords": ["data engineer jobs", "AI jobs", "job market",
+                   "Germany", "Austria", "Switzerland", "DACH",
+                   "Databricks", "Delta Lake"],
+      "codeRepository": "https://github.com/Chrisinho8/DACH-data-job-market",
+      "distribution": [{
+        "@type": "DataDownload",
+        "encodingFormat": "application/json",
+        "contentUrl": "https://chrisinho8.github.io/DACH-data-job-market/data/postings.json"
+      }]
+    }
+  ]
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link rel="stylesheet" href="style.css?v=32">
+<link rel="stylesheet" href="style.css?v=33">
 <style>
 
   @media(min-width:721px){
@@ -837,6 +891,23 @@
       of each description, so shares are floors.</p>
   </section>
 
+  <section id="movers-section" class="compact" hidden>
+    <h2>Rising and falling skills</h2>
+    <p class="note">How the share of postings that mention each skill
+      changed over the last 30 days.</p>
+    <div class="vocab-cols movers">
+      <div>
+        <h4 class="mv-h"><i style="background:#5F977F"></i>Rising</h4>
+        <div class="hb" id="movers-up"></div>
+      </div>
+      <div>
+        <h4 class="mv-h"><i style="background:#AC4123"></i>Falling</h4>
+        <div class="hb" id="movers-down"></div>
+      </div>
+    </div>
+    <p class="fine" id="movers-fine"></p>
+  </section>
+
   <section id="skillrole-section" hidden>
     <h2>Which technical skills do postings ask for?</h2>
     <p class="note">
@@ -1078,7 +1149,7 @@
 
 <div id="maptip" role="tooltip"></div>
 
-<script src="app.js?v=27"></script>
+<script src="app.js?v=28"></script>
 
 
 
