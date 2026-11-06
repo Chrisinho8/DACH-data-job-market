@@ -1,0 +1,60 @@
+name: data freshness
+
+# Daily check that the Databricks pipeline published today's data.
+# The pipeline runs around 08:00 Vienna time and stamps docs/data/meta.json
+# with the run date (UTC). If today's date is missing by 10:17 Vienna time,
+# this opens an issue labelled "stale-data" and fails, and GitHub emails you.
+# The issue closes itself on the first day the data is fresh again.
+
+on:
+  schedule:
+    - cron: "17 9 * * *"      # 09:17 UTC = 10:17 Vienna in winter, 11:17 in summer
+  workflow_dispatch:          # "Run workflow" button for a manual check
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read the publish date
+        id: fresh
+        run: |
+          updated=$(python3 -c "import json; print(json.load(open('docs/data/meta.json'))['updated'][:10])")
+          today=$(date -u +%F)
+          age=$(( ( $(date -u -d "$today" +%s) - $(date -u -d "$updated" +%s) ) / 86400 ))
+          echo "updated=$updated" >> "$GITHUB_OUTPUT"
+          echo "age=$age" >> "$GITHUB_OUTPUT"
+          echo "Data last published $updated, $age day(s) ago"
+
+      - name: Data is stale, open or update the issue
+        if: steps.fresh.outputs.age != '0'
+        run: |
+          updated="${{ steps.fresh.outputs.updated }}"
+          age="${{ steps.fresh.outputs.age }}"
+          gh label create stale-data --color E56743 \
+            --description "The pipeline did not publish today" 2>/dev/null || true
+          open=$(gh issue list --label stale-data --state open --json number --jq '.[0].number')
+          if [ -z "$open" ]; then
+            gh issue create --label stale-data \
+              --title "Tracker data is stale: last published $updated" \
+              --body "The daily pipeline has not published since **$updated** ($age day(s) ago). Check the Databricks job run and the account. This issue closes itself once docs/data/meta.json is from today again."
+          else
+            gh issue comment "$open" --body "Still stale on $(date -u +%F): last published $updated ($age day(s) ago)."
+          fi
+          echo "::error::Tracker data is $age day(s) old (last published $updated)"
+          exit 1
+
+      - name: Data is fresh, close any open stale issue
+        if: steps.fresh.outputs.age == '0'
+        run: |
+          for n in $(gh issue list --label stale-data --state open --json number --jq '.[].number'); do
+            gh issue close "$n" --comment "Data is fresh again: published ${{ steps.fresh.outputs.updated }}."
+          done
