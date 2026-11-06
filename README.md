@@ -19,7 +19,7 @@ A daily snapshot of the DACH AI/data-job market: **3,000+ live postings from 1,2
 
 ## Overview of the map
 
-Demo of 10/08/2026
+Demo of 06/11/2026
  
 
 <p align="center">
