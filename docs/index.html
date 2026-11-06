@@ -17,35 +17,46 @@
 <meta property="og:url" content="https://chrisinho8.github.io/DACH-data-job-market/">
 <meta name="twitter:card" content="summary_large_image">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link rel="stylesheet" href="style.css?v=27">
+<link rel="stylesheet" href="style.css?v=32">
 <style>
 
   @media(min-width:721px){
     html{zoom:.8}
   }
 
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
   @media(max-width:720px){.grid2{grid-template-columns:1fr}}
-  .chartbox{position:relative;height:560px}
+  .chartbox{position:relative;height:480px}
 
   .cbox{position:relative;width:100%}
   .grid2.single{grid-template-columns:1fr}
-  .grid2.single .chartbox{height:660px}
-  @media(max-width:720px){.chartbox,.grid2.single .chartbox{height:460px}}
+  .grid2.single .chartbox{height:520px}
+  @media(max-width:720px){.chartbox,.grid2.single .chartbox{height:400px}}
 
-  .maprow{display:grid;grid-template-columns:1.05fr .95fr;
-          gap:28px;align-items:start}
+  .maprow{display:grid;grid-template-columns:1.12fr .88fr;
+          gap:22px;align-items:start}
   @media(max-width:720px){.maprow{grid-template-columns:1fr}}
 
+  /* map: Natural Earth borders on a pale sea, as in the results report */
+  .map-plot{border-radius:14px;overflow:hidden;border:1px solid var(--line);
+            background:#EAF0F2;line-height:0}
   #map{width:100%;height:auto;display:block}
-  #map .outline{stroke:#E3D5BE;stroke-width:1.3}
-  #map .bub{stroke:#FFFFFF;stroke-width:1.2;cursor:pointer;
-            transition:opacity .15s}
-  #map .bub:hover{opacity:.72}
-  #map .lbl{font:600 11px "Inter",system-ui,sans-serif;fill:#26241F;
-            paint-order:stroke;stroke:#FFFFFF;stroke-width:3px}
+  #map .nb{fill:#F3EEE6;stroke:#E3D9CA;stroke-width:.8;
+           vector-effect:non-scaling-stroke}
+  #map .dach{stroke:#CBBDA7;stroke-width:1;vector-effect:non-scaling-stroke}
+  #map .lake{fill:#DCE6EA;stroke:#C9D7DD;stroke-width:.6;
+             vector-effect:non-scaling-stroke}
+  #map .clab{font:700 12px "Inter",system-ui,sans-serif;letter-spacing:.2em;
+             fill:#ADA393;pointer-events:none}
+  #map .bub{stroke:#FFFFFF;stroke-width:.8;vector-effect:non-scaling-stroke;
+            cursor:pointer;transition:fill-opacity .12s}
+  #map .bub:hover{fill-opacity:.92;stroke:#221F1A;stroke-width:1.6}
+  #map .lbl{font:650 13.5px "Inter",system-ui,sans-serif;fill:#221F1A;
+            paint-order:stroke;stroke:#FFFFFF;stroke-width:3.4px;
+            stroke-linejoin:round;pointer-events:none}
 
-  .legend{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;
+
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;
           font-size:12.5px;color:#5C5A54;align-items:center;
           justify-content:center}
   .legend .sw{display:inline-block;width:12px;height:12px;
@@ -53,7 +64,7 @@
   .legend .dots{display:inline-flex;align-items:center;gap:6px}
 
   .rank{width:100%;border-collapse:collapse;font-size:13.5px}
-  .rank td{padding:5px 8px;border-bottom:1px solid #EAE6DC}
+  .rank td{padding:4px 8px;border-bottom:1px solid #EAE6DC}
   .rank td:first-child{color:#191919;font-weight:600}
   .rank .barcell{width:44%}
   /* city + country code never wrap; the bar column gives up the room */
@@ -67,7 +78,7 @@
       vertical-align:-1px}
   .fl-ch{width:10px;border-radius:0}
 
-  .subh{font-size:19px;margin:0 0 10px;color:#5C5A54;font-weight:600}
+  .subh{font-size:17px;margin:0 0 8px;color:#5C5A54;font-weight:600}
 
 
   /* collapsible filter panel */
@@ -92,7 +103,7 @@
   .pfilterbody[hidden]{display:none}
 
   /* skill picker: deliberately loud, it is the main way in */
-  .pskills{margin:18px 0 6px;padding:16px 18px 14px;
+  .pskills{margin:14px 0 4px;padding:14px 16px 12px;
            background:#FFF9F0;border:1.5px solid rgba(229,103,67,.35);
            border-radius:14px}
   .pskills[hidden]{display:none}
@@ -126,7 +137,7 @@
     letter-spacing:.02em}
   .ptable .tag.on{background:rgba(229,103,67,.16);color:#B04A28}
 
-  .pfilters{display:grid;gap:10px;margin:18px 0 12px;
+  .pfilters{display:grid;gap:10px;margin:14px 0 10px;
             grid-template-columns:repeat(5,1fr) auto}
   .pfilters input{grid-column:1/-1}
   .pfilters input,.pfilters select,.pfilters button{
@@ -155,7 +166,7 @@
              font-weight:600;
              padding:9px 12px;border-bottom:1px solid #EAE6DC;
              background:#FAF9F5;position:sticky;top:0}
-  .ptable td{padding:9px 12px;border-bottom:1px solid #F0EEE6;
+  .ptable td{padding:8px 12px;border-bottom:1px solid #F0EEE6;
              vertical-align:top}
   .ptable tr:last-child td{border-bottom:none}
   .ptable tbody tr:hover{background:#FAF9F5}
@@ -190,12 +201,12 @@
         color:#B04A28;margin-left:8px;vertical-align:2px}
 
   .hm{display:grid;gap:3px;font-size:12px;margin-top:6px}
-  .hm div{padding:9px 6px;text-align:center;border-radius:3px;
+  .hm div{padding:7px 6px;text-align:center;border-radius:3px;
           color:#fff;font-weight:600}
   .hm .hd{background:none;color:#5C5A54;font-weight:600;
           padding:4px 6px}
   .hm .rw{background:none;color:#191919;text-align:left;
-          font-weight:600;padding:9px 8px 9px 0}
+          font-weight:600;padding:7px 8px 7px 0}
 
   .hm.hm-idx{gap:4px;margin-top:10px;font-size:12px;
              grid-auto-rows:34px;max-width:760px}
@@ -229,24 +240,24 @@
                display:inline-block}
 
   /* country cards */
-  .ctry{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
-        margin-bottom:34px}
+  .ctry{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+        margin-bottom:4px}
   @media(max-width:720px){.ctry{grid-template-columns:1fr}}
-  .cc{border:1px solid var(--line);border-radius:15px;padding:20px 22px;
+  .cc{border:1px solid var(--line);border-radius:15px;padding:16px 18px;
       background:#FEFCF8;box-shadow:var(--shadow);
       transition:transform .15s ease,box-shadow .15s ease}
   .cc:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-  .cc h4{margin:0 0 6px;font-size:24px;font-weight:700;
+  .cc h4{margin:0 0 4px;font-size:21px;font-weight:700;
          display:flex;align-items:center;gap:10px}
   .cc h4 .fl{width:30px;height:20px;margin-right:0;border-radius:3px;
              vertical-align:0;flex:0 0 auto}
   .cc h4 .fl-ch{width:20px;border-radius:0}
-  .cc .n{font-size:32px;font-weight:700;letter-spacing:-.02em;
+  .cc .n{font-size:29px;font-weight:700;letter-spacing:-.02em;
          font-family:"Inter",sans-serif;
          line-height:1.15;margin:6px 0 2px}
-  .cc .sub{font-size:13.5px;color:#5C5A54;margin:0 0 14px}
-  .cc dl{display:grid;grid-template-columns:1fr auto;gap:5px 10px;
-         margin:0;font-size:14.5px}
+  .cc .sub{font-size:13.5px;color:#5C5A54;margin:0 0 10px}
+  .cc dl{display:grid;grid-template-columns:1fr auto;gap:4px 10px;
+         margin:0;font-size:14px}
   .cc dt{color:#5C5A54}
   .cc dd{margin:0;text-align:right;font-weight:600;
          font-variant-numeric:tabular-nums}
@@ -260,30 +271,34 @@
   .h2when{font-size:inherit;font-weight:inherit;color:inherit;
           letter-spacing:inherit;white-space:nowrap}
   /* breathing room between a section title and its role pills */
-  h2 + .mapctl{margin-top:20px}
+  h2 + .mapctl{margin-top:14px}
   /* the trend section stacks role pills over the Show checkboxes,
      so the two rows need air between them */
-  #trend-section .ctlrow-roles{margin-bottom:22px}
-  .byline{margin:14px 0 0;font-size:18.5px;color:var(--slate)}
+  #trend-section .ctlrow-roles{margin-bottom:12px}
+  .byline{margin:10px 0 0;font-size:17px;color:var(--slate)}
   .byline a{display:inline-flex;align-items:center;gap:6px}
-  .byline .li{flex:0 0 auto;position:relative;top:-1px;border-radius:5px}
+  .byline .li{flex:0 0 auto;position:relative;top:-1px;border-radius:5px;
+              width:23px;height:23px}
   .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;
            clip:rect(0 0 0 0);white-space:nowrap}
   .byline a{color:var(--coral);text-decoration:none;
             border-bottom:1px solid rgba(217,119,87,.35)}
   .byline a:hover{border-bottom-color:var(--coral)}
+  /* the GitHub icon next to the LinkedIn one: icon only, no underline */
+  .byline a.gh{border-bottom:0;margin-left:8px;vertical-align:middle}
+  .byline a.gh:hover svg{opacity:.8}
 
   /* This section is nothing but the panel, so it drops the white card
      every other section sits in - otherwise it is a card in a card. */
   .kpiblock{background:none;border:0;box-shadow:none;
-            padding:0;margin-bottom:36px}
+            padding:0;margin-bottom:24px}
 
 
   .ovw{border:1px solid var(--line);border-radius:16px;
        background:var(--card);box-shadow:var(--shadow);overflow:hidden;
        margin-bottom:0}
 
-  .ovw-lead{padding:34px 26px 32px;text-align:center;
+  .ovw-lead{padding:24px 22px 22px;text-align:center;
             border-bottom:1px solid var(--line);
             background:var(--card);
             position:relative}
@@ -291,20 +306,20 @@
             font-size:13.5px;font-weight:700;letter-spacing:.16em;
             text-transform:uppercase;color:#A8A196}
   .calico{color:var(--coral);flex:0 0 auto;position:relative;top:-.5px}
-  .ovw-lead b{display:block;margin-top:10px;
-            font-size:clamp(34px,6.2vw,58px);
+  .ovw-lead b{display:block;margin-top:8px;
+            font-size:clamp(30px,5.4vw,50px);
             font-weight:700;letter-spacing:-.03em;line-height:1;
             color:var(--ink)}
-  .ovw-lead .sub2{display:block;margin-top:14px;font-size:17px;
+  .ovw-lead .sub2{display:block;margin-top:10px;font-size:16px;
             color:#8A857C}
 
   .ovw-row{display:grid;grid-template-columns:repeat(4,1fr)}
-  .ovw-cell{padding:26px 20px 28px;text-align:center;
+  .ovw-cell{padding:18px 16px 20px;text-align:center;
             position:relative}
   .ovw-cell+.ovw-cell::before{content:"";position:absolute;
             left:0;top:18px;bottom:18px;width:1px;background:var(--line)}
   /* same face, weight and tracking as the country-card figures */
-  .ovw-cell b{display:block;font-size:30px;font-weight:700;
+  .ovw-cell b{display:block;font-size:27px;font-weight:700;
             font-family:"Inter",sans-serif;letter-spacing:-.02em;
             line-height:1.1;color:var(--ink);
             font-variant-numeric:tabular-nums}
@@ -312,7 +327,7 @@
             margin-top:9px;font-size:15px;font-weight:600;
             color:var(--ink)}
   .ovw-cell .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
-  .ovw-cell .sub2{display:block;margin:5px auto 0;font-size:15px;
+  .ovw-cell .sub2{display:block;margin:4px auto 0;font-size:14px;
             line-height:1.45;color:#8A857C;max-width:24ch;
             text-wrap:pretty}
   @media(max-width:860px){
@@ -340,7 +355,7 @@
                border-radius:2px;margin-right:6px}
 
 
-  .ctot{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+  .ctot{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
   .ctot .c{display:flex;align-items:baseline;gap:6px;padding:8px 12px;
            border:1px solid var(--line);border-radius:11px;
            background:#FDFAF4;box-shadow:var(--shadow);
@@ -363,8 +378,8 @@
     .ctot .c::after{content:attr(data-ab);font-size:11px;color:#5C5A54}
   }
 
-  .mapctl{margin:0 0 20px}
-  .ctlrow{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .mapctl{margin:0 0 14px}
+  .ctlrow{display:flex;align-items:center;gap:12px;margin-bottom:9px}
   .ctlrow-roles{align-items:flex-start;margin-bottom:0}
   .mapctl .pick{margin:0;flex:1}
   .ctl-lab{flex:0 0 74px;font-size:12.5px;font-weight:600;
@@ -393,9 +408,9 @@
   #leg-heat em{font-style:normal;white-space:nowrap}
   .legend[hidden]{display:none}
 
-  .pick{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+  .pick{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
   .pick button{font:600 12.5px/1 "Inter",system-ui,sans-serif;
-    cursor:pointer;padding:8px 13px;border-radius:99px;
+    cursor:pointer;padding:7px 12px;border-radius:99px;
     border:1px solid var(--line);
     background:#FDFAF4;color:var(--slate);transition:.12s}
   .pick button:hover{border-color:var(--clay);color:var(--ink);
@@ -428,7 +443,7 @@
   .hm .hcell:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
 
 
-  .cmp{display:grid;gap:16px 20px;margin:0 0 26px;
+  .cmp{display:grid;gap:12px 18px;margin:0 0 18px;
        grid-template-columns:repeat(2,minmax(0,310px));
        align-items:end}
   @media(max-width:620px){.cmp{grid-template-columns:1fr}}
@@ -468,7 +483,7 @@
   .rank-city th.num,
   .rank-city td.num{text-align:center}
   /* drop the radar chart's neighbour to roughly the plot's eye line */
-  .subh.figs{margin-top:54px}
+  .subh.figs{margin-top:40px}
   @media(max-width:720px){.subh.figs{margin-top:18px}}
   #cmptable{font-size:15.5px}
   #cmptable td{padding:8px 10px}
@@ -495,9 +510,9 @@
     <div class="navlinks">
       <a href="#geo">Map</a>
       <a href="#postings-section">Postings</a>
-      <a href="#skillrole-section">Skills</a>
-      <a href="#ai-section">AI roles</a>
-      <a href="#roles">Roles</a>
+      <a href="#vocab-section">Skills</a>
+      <a href="#role-profile">Role profiles</a>
+      <a href="#runs-section">Runs</a>
       <a href="#limitations">Limitations</a>
     </div>
   </div>
@@ -527,7 +542,26 @@
         1.57 1.57 0 0 0 0 3.13zM19.6 19h-2.7v-4.78c0-1.14-.02-2.6-1.59-2.6
         -1.59 0-1.83 1.24-1.83 2.52V19h-2.7V9.2h2.59v1.34h.04c.36-.68
         1.24-1.4 2.55-1.4 2.73 0 3.24 1.8 3.24 4.13V19z"/></svg
-        ><span class="sr-only"> (LinkedIn)</span></a>
+        ><span class="sr-only"> (LinkedIn)</span></a><a class="gh" href="https://github.com/Chrisinho8"
+         target="_blank" rel="noopener" title="GitHub"><svg class="li"
+        viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"
+        focusable="false"><rect width="24" height="24" rx="5"
+        fill="#24292F"/><path fill="#fff" transform="translate(4 4)"
+        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+        0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82
+        -1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87
+        2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31
+        -1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32
+        -.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92
+        .08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73
+        .54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0
+        16 8c0-4.42-3.58-8-8-8z"/></svg><span class="sr-only">GitHub</span></a><a class="gh" href="#" data-mail="christoph.rucki|gmail.com"
+         title="Email"><svg class="li" viewBox="0 0 24 24" width="16"
+        height="16" aria-hidden="true" focusable="false"><rect width="24"
+        height="24" rx="5" fill="#EA4335"/><path fill="none" stroke="#fff"
+        stroke-width="1.8" stroke-linejoin="round"
+        d="M5.5 7.5h13v9h-13zM5.9 7.9 12 12.6l6.1-4.7"/></svg><span
+        class="sr-only">Email</span></a>
     </p>
   </div>
 </header>
@@ -590,8 +624,11 @@
     <div class="ctot" id="ctrytot"></div>
     <div class="maprow">
       <div>
-        <svg id="map" viewBox="0 0 640 800"
-             xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="map-plot">
+          <svg id="map" viewBox="0 0 600 727" role="img"
+               aria-label="Map of live postings by place in Germany, Austria and Switzerland"
+               xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
         <div class="legend" id="leg-bubbles">
           <span><i class="sw" style="background:#E56743"></i>Germany</span>
           <span><i class="sw" style="background:#5C87A8"></i>Austria</span>
@@ -721,7 +758,8 @@
     <p class="note">
       Everyday a point is added, nothing is overwritten. Days open
       and posting volume come from the same daily runs that feed the
-      rest of the page. Tracking started on 08-08-2026.
+      rest of the page. Tracking started on 08-08-2026. Shaded days had
+      no pipeline run and stay empty; nothing is interpolated.
     </p>
     <div class="mapctl">
       <div class="ctlrow ctlrow-roles">
@@ -749,6 +787,12 @@
   <section id="newposts-section" hidden>
     <h2>New job postings per day (tracking since 27.08.2026)
       <span class="np-since"></span></h2>
+    <p class="note">
+      Counted by the day Adzuna lists the advert. Each colour is one
+      week, Monday to Sunday. Lighter bars are lower bounds: on days
+      without a pipeline run only adverts still online at the next run
+      were counted, and the newest day is still in progress.
+    </p>
     <div class="mapctl">
       <div class="ctlrow ctlrow-roles">
         <span class="ctl-lab">Role</span>
@@ -775,6 +819,22 @@
       </div>
     </div>
     <canvas id="npchart" height="220"></canvas>
+    <ul class="nplegend" id="nplegend" hidden></ul>
+  </section>
+
+  <section id="vocab-section" class="compact" hidden>
+    <h2>The 15 most-mentioned skills</h2>
+    <p class="note">Share of postings that mention each skill.</p>
+    <ul class="leg-inline">
+      <li><i style="background:#E56743"></i>Generative-AI skills</li>
+      <li><i style="background:#5C87A8"></i>Other skills</li>
+    </ul>
+    <div class="vocab-cols">
+      <div class="hb" id="vocab-a"></div>
+      <div class="hb" id="vocab-b"></div>
+    </div>
+    <p class="fine">Matched in the title and the first 500 characters
+      of each description, so shares are floors.</p>
   </section>
 
   <section id="skillrole-section" hidden>
@@ -806,44 +866,60 @@
     </div>
   </section>
 
-  <section id="ai-section" hidden>
-    <h2>Which AI roles are companies hiring for?</h2>
-    <p class="note">
-    </p>
-    <div class="grid2">
-      <div>
-        <h3 class="subh">Postings per AI role</h3>
-        <canvas id="aivol" height="230"></canvas>
+  <section id="role-profile" class="compact" hidden>
+    <h2>Each role up close</h2>
+    <p class="note">Pick a role. Everything below is for that role only,
+      from the latest run, and the button lists its postings.</p>
+    <div class="rp-chips" id="rp-chips" role="group"
+         aria-label="Choose a role"></div>
+    <div class="rp-head">
+      <div class="rp-title"><span class="rp-tag" id="rp-tag"></span>
+        <h3 id="rp-name"></h3></div>
+      <button class="rp-go" type="button" id="rp-posts"></button>
+      <p class="rp-sum" id="rp-sum" aria-live="polite"></p>
+    </div>
+    <div class="rp-kpis" id="rp-kpis"></div>
+    <div class="rp-grid">
+      <figure class="rp-card">
+        <h4>Where</h4>
+        <p class="rp-sub" id="rp-where-sub"></p>
+        <div class="hb" id="rp-where"></div>
+        <p class="rp-foot">Click a place to list its postings</p>
+      </figure>
+      <div class="rp-stack">
+        <figure class="rp-card">
+          <h4>Seniority</h4>
+          <p class="rp-sub">Share of this role's postings by level</p>
+          <div class="hb" id="rp-sen"></div>
+          <ul class="leg-inline sm">
+            <li><i class="rp-sw"></i>This role</li>
+            <li><b class="tk"></b>All postings</li>
+          </ul>
+        </figure>
+        <figure class="rp-card">
+          <h4>Country</h4>
+          <p class="rp-sub">Share of this role's postings by country</p>
+          <div class="hb" id="rp-ctry"></div>
+          <ul class="leg-inline sm">
+            <li><i class="rp-sw"></i>This role</li>
+            <li><b class="tk"></b>All postings</li>
+          </ul>
+        </figure>
       </div>
-      <div>
-        <h3 class="subh">Average days open per AI role</h3>
-        <canvas id="aiage" height="230"></canvas>
-      </div>
+      <figure class="rp-card">
+        <h4>Skills asked for</h4>
+        <p class="rp-sub">Share of this role's postings naming each
+          skill (top 8)</p>
+        <div class="hb" id="rp-skills"></div>
+        <ul class="leg-inline sm">
+          <li><i style="background:#E56743"></i>GenAI</li>
+          <li><i style="background:#5C87A8"></i>Other</li>
+          <li><b class="tk"></b>All postings</li>
+        </ul>
+      </figure>
     </div>
   </section>
 
-  <section id="roles">
-    <h2>Role and seniority distribution per country</h2>
-    <p class="note">
-    </p>
-    <div class="seg" id="heatseg" style="margin:0 0 12px">
-      <button type="button" data-c="" aria-pressed="true">All DACH</button>
-      <button type="button" data-c="de" aria-pressed="false"><svg class="fl"
-        viewBox="0 0 15 10" aria-hidden="true"><rect width="15" height="10"
-        fill="#262626"/><rect y="3.4" width="15" height="6.6" fill="#CE2029"/><rect
-        y="6.7" width="15" height="3.3" fill="#F0B637"/></svg>Germany</button>
-      <button type="button" data-c="at" aria-pressed="false"><svg class="fl"
-        viewBox="0 0 15 10" aria-hidden="true"><rect width="15" height="10"
-        fill="#CE2029"/><rect y="3.4" width="15" height="3.3"
-        fill="#FFFFFF"/></svg>Austria</button>
-      <button type="button" data-c="ch" aria-pressed="false"><svg class="fl fl-ch"
-        viewBox="0 0 10 10" aria-hidden="true"><rect width="10" height="10"
-        rx="1.5" fill="#CE2029"/><rect x="4.1" y="2" width="1.8" height="6"
-        fill="#FFFFFF"/><rect x="2" y="4.1" width="6" height="1.8"
-        fill="#FFFFFF"/></svg>Switzerland</button>
-    </div>
-    <div id="heat" class="hm"></div>
-  </section>
   <section>
     <h2>How long do postings stay open?</h2>
     <div class="mapctl">
@@ -871,6 +947,23 @@
     <canvas id="empvol" height="260"></canvas>
   </section>
  
+  <section id="runs-section" class="compact" hidden>
+    <h2>Daily pipeline runs</h2>
+    <p class="note">Which days the pipeline ran and wrote a snapshot,
+      and what happened when it didn't.</p>
+    <div class="runs-grid">
+      <figure class="runs-cal">
+        <ul class="leg-inline sm">
+          <li><i style="background:#5C87A8"></i>Snapshot written</li>
+          <li><i class="empty"></i>No run</li>
+        </ul>
+        <div id="runcal"></div>
+        <p class="fine" id="runs-gaps"></p>
+      </figure>
+      <div class="incident" id="runs-incident"></div>
+    </div>
+  </section>
+
   <section>
     <h2>The pipeline's own error rates</h2>
     <p class="note" id="n14-note">
@@ -950,10 +1043,34 @@
         1.57 1.57 0 0 0 0 3.13zM19.6 19h-2.7v-4.78c0-1.14-.02-2.6-1.59-2.6
         -1.59 0-1.83 1.24-1.83 2.52V19h-2.7V9.2h2.59v1.34h.04c.36-.68
         1.24-1.4 2.55-1.4 2.73 0 3.24 1.8 3.24 4.13V19z"/></svg
-        ><span class="sr-only"> (LinkedIn)</span></a>
+        ><span class="sr-only"> (LinkedIn)</span></a><a class="gh" href="https://github.com/Chrisinho8"
+         target="_blank" rel="noopener" title="GitHub"><svg class="li"
+        viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"
+        focusable="false"><rect width="24" height="24" rx="5"
+        fill="#24292F"/><path fill="#fff" transform="translate(4 4)"
+        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38
+        0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82
+        -1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87
+        2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31
+        -1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32
+        -.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92
+        .08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73
+        .54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0
+        16 8c0-4.42-3.58-8-8-8z"/></svg><span class="sr-only">GitHub</span></a><a class="gh" href="#" data-mail="christoph.rucki|gmail.com"
+         title="Email"><svg class="li" viewBox="0 0 24 24" width="16"
+        height="16" aria-hidden="true" focusable="false"><rect width="24"
+        height="24" rx="5" fill="#EA4335"/><path fill="none" stroke="#fff"
+        stroke-width="1.8" stroke-linejoin="round"
+        d="M5.5 7.5h13v9h-13zM5.9 7.9 12 12.6l6.1-4.7"/></svg><span
+        class="sr-only">Email</span></a>
       &middot;
       Data from <a href="https://developer.adzuna.com"
                    target="_blank" rel="noopener">Adzuna</a>
+      &middot;
+      Map: <a href="https://www.naturalearthdata.com"
+              target="_blank" rel="noopener">Natural Earth</a>,
+      places <a href="https://www.geonames.org"
+                target="_blank" rel="noopener">GeoNames</a> (CC BY 4.0)
     </p>
   </footer>
 
@@ -961,7 +1078,7 @@
 
 <div id="maptip" role="tooltip"></div>
 
-<script src="app.js?v=20"></script>
+<script src="app.js?v=27"></script>
 
 
 

@@ -71,7 +71,7 @@ h1,h2,h3,h4{font-family:"Inter",system-ui,sans-serif}
 /* padding must live here, not on bare `main` - the `.wrap` rule's
    `padding:0 24px` shorthand outranks an element selector and was
    silently zeroing the vertical padding. */
-main.wrap{max-width:1000px;padding:72px 24px 90px}
+main.wrap{max-width:1000px;padding:44px 24px 64px}
 /* prose runs the full container width, same as charts and tables */
 main h2{max-width:none}
 main .note,
@@ -86,26 +86,26 @@ header{
     radial-gradient(520px 300px at 5% 90%,rgba(229,103,67,.10),transparent 70%),
     linear-gradient(160deg,#FBF2E3,#F6E9D6);
   border-bottom:1px solid var(--line);
-  padding:72px 0 44px;
+  padding:54px 0 34px;
   position:relative;
   overflow:hidden;
   text-align:center;
 }
 header .wrap{max-width:1040px}
 h1{
-  font-size:46px;
+  font-size:42px;
   line-height:1.1;
   letter-spacing:-.02em;
   font-weight:700;
-  margin:0 auto 18px;
+  margin:0 auto 14px;
   max-width:34ch;
   text-wrap:balance;
 }
 .sub{
-  font-size:20px;
+  font-size:18.5px;
   color:var(--slate);
   max-width:78ch;
-  margin:0 auto 22px;
+  margin:0 auto 14px;
   text-wrap:pretty;
 }
 .sub strong{color:var(--ink)}
@@ -120,7 +120,7 @@ h1{
   background:var(--card);
   border:1px solid var(--line);
   border-radius:14px;
-  padding:18px 20px;
+  padding:14px 16px;
   text-align:center;
   box-shadow:var(--shadow);
   transition:transform .15s ease,box-shadow .15s ease;
@@ -129,7 +129,7 @@ h1{
 .stat b{
   display:block;
   font-family:"Inter",sans-serif;
-  font-size:28px;
+  font-size:25px;
   font-weight:700;
   letter-spacing:-.02em;
   color:var(--ink);
@@ -148,27 +148,27 @@ section{
   border:1px solid var(--line);
   border-radius:var(--radius);
   box-shadow:var(--shadow);
-  padding:30px 34px 34px;
-  margin-bottom:36px;
+  padding:24px 28px 26px;
+  margin-bottom:24px;
 }
 h2{
-  font-size:26px;
+  font-size:24px;
   font-weight:700;
   letter-spacing:-.01em;
-  margin:0 0 6px;
+  margin:0 0 4px;
   border-bottom:0;
   position:relative;
 }
 
 .note{
-  font-size:18px;
+  font-size:16.5px;
   color:var(--slate);
-  margin:10px 0 24px;
+  margin:6px 0 16px;
 }
 .note strong{color:var(--ink)}
 /* the error-rate caveat is a footnote to the four cards below it,
    so it sits a step under the other section notes */
-#n14-note{font-size:16.5px;margin-bottom:20px}
+#n14-note{font-size:15.5px;margin-bottom:14px}
 canvas{max-width:100%}
 
 /* ---------- table ---------- */
@@ -197,11 +197,11 @@ td:first-child{color:var(--ink)}
   background:linear-gradient(160deg,#FBF3E4,#F7ECD9);
   border:1px solid #EEDFC4;
   border-radius:var(--radius);
-  padding:30px 34px;
+  padding:22px 28px;
 }
 .caveats h2{border:0;padding:0;font-size:24px;margin:0;
             flex:1 1 auto;min-width:0}
-.caveats ul{margin:14px 0 0;padding-left:20px;font-size:17px;
+.caveats ul{margin:12px 0 0;padding-left:20px;font-size:16px;
             color:var(--slate)}
 .caveats li{margin-bottom:10px}
 .caveats strong{color:var(--ink)}
@@ -233,7 +233,7 @@ td:first-child{color:var(--ink)}
 /* ---------- footer ---------- */
 footer{
   border-top:1px solid var(--line);
-  padding-top:40px;
+  padding-top:28px;
   padding-bottom:8px;
   font-size:14px;
   color:var(--slate);
@@ -242,10 +242,10 @@ footer{
 footer .byline{margin-left:auto;margin-right:auto;font-size:16px;
                line-height:1.5}
 footer .byline a{font-weight:600}
-footer .byline .li{width:16px;height:16px}
+footer .byline .li{width:21px;height:21px}
 @media(max-width:600px){
   footer .byline{font-size:15px}
-  footer .byline .li{width:15px;height:15px}
+  footer .byline .li{width:20px;height:20px}
 }
 a{color:var(--clay)}
 a:hover{color:var(--coral)}
@@ -253,7 +253,7 @@ a:hover{color:var(--coral)}
 @media(max-width:600px){
   h1{font-size:31px}
   header{padding:48px 0 36px}
-  section{padding:22px 18px 26px;border-radius:14px}
+  section{padding:18px 16px 20px;border-radius:14px}
   .stat b{font-size:23px}
 }
 
@@ -263,8 +263,8 @@ a:hover{color:var(--coral)}
 #newposts-section .np-since{
   font-size:17px;font-weight:600;color:#191919;
   vertical-align:middle;white-space:nowrap;margin-left:10px}
-#newposts-section .ctlrow-roles{margin-bottom:22px}
-#newposts-section .ctlrow{margin-bottom:14px}
+#newposts-section .ctlrow-roles{margin-bottom:12px}
+#newposts-section .ctlrow{margin-bottom:9px}
 
 .npkpis{display:flex;gap:48px;flex-wrap:wrap;justify-content:center;margin:14px 0 22px}
 .npkpi{
@@ -285,3 +285,169 @@ a:hover{color:var(--coral)}
   color:#6B6558;font-weight:600;margin-right:0;box-shadow:none}
 #nprange button:first-child[aria-pressed="true"]{
   background:#E56743;border-color:#E56743;color:#fff}
+/* same for the Daily / Weekly switch: "Daily" is not a reset pill */
+#trendgran button:first-child{background:#FDFAF4;border:1px solid #EDE4D3;
+  color:#6B6558;font-weight:600;margin-right:0;box-shadow:none}
+#trendgran button:first-child[aria-pressed="true"]{
+  background:#E56743;border-color:#E56743;color:#fff}
+
+/* ---------- legends shared by the time charts ---------- */
+.nplegend{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;
+  list-style:none;margin:10px 0 0;padding:0;font-size:12.5px;color:var(--slate)}
+.nplegend li{display:flex;align-items:center;gap:7px}
+.nplegend .wkchips{display:inline-flex;gap:2px}
+.nplegend .wkchips i{width:7px;height:12px;border-radius:2px}
+.nplegend .sw{display:inline-block;width:12px;height:12px;border-radius:3px}
+.nplegend .sw.lb{background:#5C87A859}
+.nplegend .sw.band{background:#F2EADD;box-shadow:inset 0 0 0 1px #E6DCCB}
+.nplegend .ln{display:inline-block;width:18px;height:2px;border-radius:2px;
+  background:#2E2A24}
+
+/* ---------- new compact sections (role profiles, AI vocabulary, runs) ---------- */
+section.compact{padding:22px 26px 22px}
+section.compact h2{font-size:22px}
+section.compact .note{font-size:15.5px;margin:4px 0 12px}
+.fine{font-size:12.5px;color:#8A857C;margin:10px 0 0;line-height:1.45}
+
+.leg-inline{display:flex;flex-wrap:wrap;gap:4px 16px;list-style:none;
+  margin:0 0 10px;padding:0;font-size:12.5px;color:var(--slate)}
+.leg-inline li{display:flex;align-items:center;gap:6px}
+.leg-inline i{display:inline-block;width:11px;height:11px;border-radius:3px}
+.leg-inline i.empty{background:#fff;box-shadow:inset 0 0 0 1px #C9BEAC}
+.leg-inline .tk{display:inline-block;width:2px;height:13px;border-radius:2px;
+  background:#4A453C}
+.leg-inline.sm{margin:8px 0 0;font-size:12px;gap:4px 12px}
+
+/* small HTML bar lists */
+.hb{display:grid;gap:1px}
+.hb-row{display:grid;grid-template-columns:var(--lw,104px) minmax(0,1fr);
+  align-items:center;gap:10px;min-height:23px;padding:0 4px;border-radius:6px;
+  font-size:13px;line-height:1.2}
+.hb-row.clk{cursor:pointer}
+.hb-row.clk:hover,.hb-row.clk:focus-visible{background:var(--cream);outline:none}
+.hb-lab{text-align:right;color:var(--ink);white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.hb-lab small{font-size:10.5px;font-weight:700;letter-spacing:.04em;color:#8A857C}
+.hb-lab .rk{font-style:normal;font-size:11px;color:#A8A196;margin-right:6px;
+  font-variant-numeric:tabular-nums}
+.hb-track{position:relative;height:14px;margin-right:48px}
+.hb-track::before{content:"";position:absolute;left:0;top:-5px;bottom:-5px;
+  width:1px;background:#D3C8B6}
+.hb-bar{position:absolute;left:0;top:1px;height:12px;border-radius:0 4px 4px 0}
+.hb-tick{position:absolute;top:-2px;width:2px;height:18px;margin-left:-1px;
+  border-radius:2px;background:#4A453C}
+.hb-val{position:absolute;top:50%;transform:translateY(-50%);margin-left:6px;
+  font-size:12.5px;font-weight:650;color:var(--ink);white-space:nowrap;
+  font-variant-numeric:tabular-nums}
+.hb-empty{font-size:13px;color:#8A857C;margin:4px 0}
+
+/* AI vocabulary: the top 15 in two short columns */
+.vocab-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 30px}
+@media(max-width:760px){.vocab-cols{grid-template-columns:1fr}}
+
+/* role profiles */
+.rp-chips{display:grid;gap:6px;margin:2px 0 14px}
+.rp-chiprow{display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+.rp-chiprow .lab{flex:none;width:84px;font-size:11px;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;color:#8A857C}
+.chip{font:500 13px/1.2 "Inter",system-ui,sans-serif;color:var(--ink);
+  background:#FDFAF4;border:1px solid var(--line);border-radius:99px;
+  padding:5px 11px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;
+  transition:background .12s}
+.chip i{width:8px;height:8px;border-radius:50%;flex:none}
+.chip small{font-size:11.5px;color:#8A857C;font-variant-numeric:tabular-nums}
+.chip:hover{background:var(--cream)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip[aria-pressed="true"] small{color:rgba(255,255,255,.7)}
+.chip:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
+@media(max-width:600px){
+  .rp-chiprow .lab{width:100%}
+  .chip{font-size:12px;padding:4px 9px;gap:5px}
+}
+.rp-head{display:flex;flex-wrap:wrap;align-items:center;
+  justify-content:space-between;gap:6px 16px;padding-top:14px;
+  border-top:1px solid var(--line)}
+.rp-title{display:flex;align-items:center;gap:10px}
+.rp-title h3{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em;
+  line-height:1.2}
+.rp-tag{font-size:10.5px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:#fff;border-radius:99px;padding:3px 9px}
+.rp-go{font:600 13px/1 "Inter",system-ui,sans-serif;color:#fff;
+  background:var(--ink);border:0;border-radius:9px;padding:9px 13px;cursor:pointer}
+.rp-go:hover{background:#3A352D}
+.rp-go:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
+.rp-sum{flex-basis:100%;margin:0;font-size:15px;color:var(--slate)}
+.rp-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;
+  margin:12px 0}
+.rp-kpi{border:1px solid var(--line);border-radius:12px;padding:10px 14px;
+  background:#FDFAF4}
+.rp-kpi .l{display:block;font-size:12px;font-weight:600;color:#8A857C}
+.rp-kpi b{display:block;font-size:23px;font-weight:700;letter-spacing:-.02em;
+  line-height:1.2;margin:2px 0 2px;font-variant-numeric:tabular-nums}
+.rp-kpi span:last-child{display:block;font-size:12.5px;color:var(--slate);
+  line-height:1.35}
+.rp-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.rp-card{margin:0;border:1px solid var(--line);border-radius:12px;
+  padding:12px 12px 12px;min-width:0}
+.rp-card h4{margin:0;font-size:14.5px;font-weight:650}
+.rp-sub{margin:1px 0 8px;font-size:12px;color:#8A857C;line-height:1.35}
+.rp-foot{margin:8px 0 0;font-size:12px;color:var(--slate);line-height:1.5}
+.rp-foot b{color:var(--ink);font-variant-numeric:tabular-nums}
+@media(max-width:860px){
+  .rp-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rp-grid{grid-template-columns:1fr}
+}
+
+/* runs and the outage */
+.runs-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:14px;align-items:start}
+@media(max-width:760px){.runs-grid{grid-template-columns:1fr}}
+.runs-cal{margin:0;border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px}
+.runs-cal .leg-inline{margin:0 0 6px}
+#runcal svg{display:block;width:100%;height:auto;max-width:440px}
+#runcal .cl-d,#runcal .cl-m{font:500 11px "Inter",system-ui,sans-serif;fill:#8A857C}
+#runcal .cl-m{font-weight:600}
+#runcal .cl-on{fill:#5C87A8}
+#runcal .cl-off{fill:#fff;stroke:#C9BEAC}
+#runcal .cl-c{outline:none;cursor:default}
+#runcal .cl-c:hover rect,#runcal .cl-c:focus rect{filter:brightness(1.12)}
+#runcal .cl-c:hover .cl-off{fill:#F6F1E8}
+#runcal .cl-br{fill:none;stroke:#4A453C}
+#runcal .cl-bt{font:650 12px "Inter",system-ui,sans-serif;fill:#221F1A}
+.incident{border:1px solid var(--line);border-radius:12px;padding:14px 16px;
+  background:#FDFAF4}
+.incident .tag{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;
+  font-weight:700;letter-spacing:.04em;color:#fff;background:var(--ink);
+  border-radius:99px;padding:3px 10px;margin:0 0 8px}
+.incident h3{font-size:17px;margin:0 0 8px;letter-spacing:-.01em}
+.incident dl{margin:0;display:grid;gap:8px}
+.incident dt{font-size:11px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;color:#8A857C}
+.incident dd{margin:1px 0 0;font-size:13.5px;color:var(--slate);line-height:1.45}
+
+/* role profiles, a little roomier; legends sit on the cards' bottom
+   edge so the three cards line up */
+#role-profile{padding:26px 30px 28px}
+#role-profile .note{margin:4px 0 16px}
+#role-profile .rp-chips{gap:10px;margin:0 0 20px}
+#role-profile .rp-chiprow{gap:7px}
+#role-profile .chip{padding:6px 12px}
+#role-profile .rp-head{padding-top:20px;gap:8px 16px}
+#role-profile .rp-sum{margin-top:2px}
+#role-profile .rp-kpis{gap:14px;margin:18px 0 16px}
+#role-profile .rp-kpi{padding:14px 16px}
+#role-profile .rp-kpi b{margin:4px 0 4px}
+#role-profile .rp-grid{gap:14px}
+#role-profile .rp-card{display:flex;flex-direction:column;padding:16px 16px 14px}
+#role-profile .rp-sub{margin:2px 0 10px}
+#role-profile .rp-h2{margin-top:16px}
+#role-profile .hb{gap:3px}
+#role-profile .hb-row{min-height:26px}
+#role-profile .rp-card .leg-inline,#role-profile .rp-foot{margin-top:auto;padding-top:12px}
+#role-profile .rp-foot{color:#8A857C}
+@media(max-width:600px){#role-profile{padding:20px 16px 22px}}
+
+/* Seniority and Country: two panels stacked in the middle column */
+#role-profile .rp-stack{display:flex;flex-direction:column;gap:14px;min-width:0}
+#role-profile .rp-stack .rp-card{flex:1}
