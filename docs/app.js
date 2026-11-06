@@ -3732,9 +3732,9 @@ get("skill_demand").then(sd => {
   }));
   const half = Math.ceil(rows.length / 2);
   hbars(document.getElementById("vocab-a"), rows.slice(0, half),
-        { lw: 150, max, rank: 1 });
+        { lw: 178, max, rank: 1 });
   hbars(document.getElementById("vocab-b"), rows.slice(half),
-        { lw: 150, max, rank: half + 1 });
+        { lw: 178, max, rank: half + 1 });
   sec.hidden = false;
 });
 
@@ -3742,10 +3742,12 @@ get("skill_demand").then(sd => {
 /* ---------------- rising and falling skills ----------------
    history.json keeps every skill's share of live postings (skill_pct)
    for every run. One day moves by a few tenths of a point on its own,
-   so this compares averages: the last 7 runs against the 7 runs that
-   end 30 days earlier. Only skills present in all 14 runs count, so a
-   skill added to the dictionary mid-window can't show up as "rising",
-   and skills under 0.5% of postings are left out as too thin.     */
+   so this compares averages: the last 7 runs against 7 runs that end
+   the chosen time earlier. Only skills present in all 14 runs count,
+   so a skill added to the dictionary mid-window can't show up as
+   "rising", and skills under 0.5% of postings are left out as too
+   thin. The line next to the buttons says which days are compared;
+   across the October outage the earlier window sits before it.    */
 get("history").then(h => {
   const sec = document.getElementById("movers-section");
   if (!sec || !Array.isArray(h)) return;
@@ -3756,44 +3758,74 @@ get("history").then(h => {
     (by[d] = by[d] || {})[r.dimension] = r.value;
   });
   const days = Object.keys(by).sort();
-  if (!days.length) return;
+  if (days.length < 14) return;
   const last = days[days.length - 1];
   const recent = days.slice(-7);
-  const earlier = days.filter(d => d <= addDays(last, -30)).slice(-7);
-  if (recent.length < 7 || earlier.length < 7) return;
+  /* the same clean start as the trend chart */
+  const START = "2026-08-08";
 
-  const both = recent.concat(earlier);
-  const avg = (ds, k) => ds.reduce((t, d) => t + by[d][k], 0) / ds.length;
-  const rows = Object.keys(by[last])
-    .filter(k => both.every(d => by[d][k] != null))
-    .map(k => {
-      const a = avg(earlier, k), b = avg(recent, k);
-      return { k, a, b, d: b - a };
-    })
-    .filter(r => Math.max(r.a, r.b) >= .5 && Math.abs(r.d) >= .05);
-  const up = rows.filter(r => r.d > 0).sort((x, y) => y.d - x.d).slice(0, 6);
-  const down = rows.filter(r => r.d < 0).sort((x, y) => x.d - y.d).slice(0, 6);
+  const earlierFor = span => span === "start"
+    ? days.filter(d => d >= START).slice(0, 7)
+    : days.filter(d => d <= addDays(last, -(+span))).slice(-7);
+  const RANGES = [["7", "1 week"], ["14", "2 weeks"], ["30", "1 month"],
+                  ["60", "2 months"], ["start", "Since Aug"]]
+    .filter(([v]) => {
+      const e = earlierFor(v);
+      return e.length === 7 && e[6] < recent[0];
+    });
+  if (!RANGES.length) return;
+  let span = RANGES.some(r => r[0] === "30") ? "30" : RANGES[0][0];
 
-  /* bars use at most ~55% of the track, leaving room for the label */
-  const max = Math.max(...up.concat(down).map(r => Math.abs(r.d)), .1) / .55;
   const pts = v => (v > 0 ? "+" : "−") + Math.abs(v).toFixed(1) + " pts";
-  const row = (r, col) => ({
-    label: slab(r.k), v: Math.abs(r.d), color: col,
-    val: `${pts(r.d)}<span class="hb-mut">${r.a.toFixed(1)} → ${r.b.toFixed(1)}%</span>`,
-    tip: `<b>${esc(slab(r.k))}</b>${pct1(r.a)} → <em>${pct1(r.b)}</em> ` +
-         `of postings<br>${pts(r.d)} in 30 days (averages of 7 runs)`
+  const avg = (ds, k) => ds.reduce((t, d) => t + by[d][k], 0) / ds.length;
+
+  function draw() {
+    const earlier = earlierFor(span);
+    const both = recent.concat(earlier);
+    const rows = Object.keys(by[last])
+      .filter(k => both.every(d => by[d][k] != null))
+      .map(k => {
+        const a = avg(earlier, k), b = avg(recent, k);
+        return { k, a, b, d: b - a };
+      })
+      .filter(r => Math.max(r.a, r.b) >= .5 && Math.abs(r.d) >= .05);
+    const up = rows.filter(r => r.d > 0).sort((x, y) => y.d - x.d).slice(0, 7);
+    const down = rows.filter(r => r.d < 0).sort((x, y) => x.d - y.d).slice(0, 7);
+
+    /* bars use at most ~75% of the track, leaving room for the label */
+    const max = Math.max(...up.concat(down).map(r => Math.abs(r.d)), .1) / .75;
+    const when = `${fRange(earlier[0], earlier[6])} → ${fRange(recent[0], last)}`;
+    const row = (r, col) => ({
+      label: slab(r.k), v: Math.abs(r.d), color: col, val: pts(r.d),
+      tip: `<b>${esc(slab(r.k))}</b>${pct1(r.a)} → <em>${pct1(r.b)}</em> ` +
+           `of postings<br>${pts(r.d)} · ${when}`
+    });
+    hbars(document.getElementById("movers-up"), up.map(r => row(r, MOSS)),
+          { lw: 150, max, empty: "No skill gained ground." });
+    hbars(document.getElementById("movers-down"), down.map(r => row(r, DEEP)),
+          { lw: 150, max, empty: "No skill lost ground." });
+    document.getElementById("movers-stamp").textContent =
+      `${fRange(earlier[0], earlier[6])}  vs  ${fRange(recent[0], last)}`;
+  }
+
+  const pick = document.getElementById("movers-range");
+  pick.innerHTML = RANGES.map(([v, l]) =>
+    `<button type="button" data-f="${v}" aria-pressed="${v === span}">${l}</button>`)
+    .join("");
+  pick.addEventListener("click", e => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    span = btn.dataset.f;
+    pick.querySelectorAll("button").forEach(x =>
+      x.setAttribute("aria-pressed", String(x === btn)));
+    draw();
   });
-  hbars(document.getElementById("movers-up"), up.map(r => row(r, MOSS)),
-        { lw: 150, max, empty: "No skill gained ground." });
-  hbars(document.getElementById("movers-down"), down.map(r => row(r, DEEP)),
-        { lw: 150, max, empty: "No skill lost ground." });
 
   document.getElementById("movers-fine").textContent =
-    `Average of the last 7 runs (${fRange(recent[0], last)}) against ` +
-    `the 7 runs a month earlier (${fRange(earlier[0], earlier[6])}), in ` +
-    `percentage points of postings. Skills under 0.5% and skills added ` +
-    `to the dictionary in between are left out.`;
+    "Each period is an average of 7 runs. Hover a bar for the before " +
+    "and after share.";
   sec.hidden = false;
+  draw();
 });
 
 

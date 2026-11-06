@@ -71,7 +71,7 @@
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link rel="stylesheet" href="style.css?v=33">
+<link rel="stylesheet" href="style.css?v=35">
 <style>
 
   @media(min-width:721px){
@@ -893,8 +893,13 @@
 
   <section id="movers-section" class="compact" hidden>
     <h2>Rising and falling skills</h2>
-    <p class="note">How the share of postings that mention each skill
-      changed over the last 30 days.</p>
+    <p class="note">Change in the share of postings that mention each
+      skill, in percentage points.</p>
+    <div class="ctlrow mv-ctl">
+      <span class="ctl-lab">Compare</span>
+      <div id="movers-range" class="pick"></div>
+      <span class="mv-stamp" id="movers-stamp"></span>
+    </div>
     <div class="vocab-cols movers">
       <div>
         <h4 class="mv-h"><i style="background:#5F977F"></i>Rising</h4>
@@ -1149,7 +1154,7 @@
 
 <div id="maptip" role="tooltip"></div>
 
-<script src="app.js?v=28"></script>
+<script src="app.js?v=31"></script>
 
 
 

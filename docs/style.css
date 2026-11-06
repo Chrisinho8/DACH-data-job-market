@@ -319,7 +319,7 @@ section.compact .note{font-size:15.5px;margin:4px 0 12px}
 .leg-inline.sm{margin:8px 0 0;font-size:12px;gap:4px 12px}
 
 /* small HTML bar lists */
-.hb{display:grid;gap:1px}
+.hb{display:grid;gap:1px;align-content:start}
 .hb-row{display:grid;grid-template-columns:var(--lw,104px) minmax(0,1fr);
   align-items:center;gap:10px;min-height:23px;padding:0 4px;border-radius:6px;
   font-size:13px;line-height:1.2}
@@ -459,3 +459,32 @@ section.compact .note{font-size:15.5px;margin:4px 0 12px}
 .movers .mv-h i{width:10px;height:10px;border-radius:3px}
 .hb-mut{font-weight:500;color:#8A857C;margin-left:8px}
 @media(max-width:760px){.movers > div + div{margin-top:12px}}
+
+/* the two skills sections: roomier rows and bigger text, easier to read */
+#vocab-section,#movers-section{padding:28px 32px 28px}
+#vocab-section .note,#movers-section .note{margin:6px 0 18px}
+#vocab-section .leg-inline{margin:0 0 16px;font-size:13px}
+#vocab-section .vocab-cols,#movers-section .vocab-cols{gap:0 56px}
+#vocab-section .hb,#movers-section .hb{gap:6px}
+#vocab-section .hb-row,#movers-section .hb-row{min-height:30px;font-size:14.5px}
+#vocab-section .hb-track,#movers-section .hb-track{height:18px;margin-right:64px}
+#vocab-section .hb-bar,#movers-section .hb-bar{top:1px;height:16px;
+  border-radius:0 5px 5px 0}
+#vocab-section .hb-val,#movers-section .hb-val{font-size:14px}
+#vocab-section .hb-lab .rk{font-size:12px;margin-right:8px}
+#vocab-section .fine,#movers-section .fine{margin-top:18px}
+#movers-section .mv-h{margin:0 0 12px;font-size:13.5px}
+@media(max-width:600px){
+  #vocab-section,#movers-section{padding:20px 16px 22px}
+  #movers-section .vocab-cols > div + div{margin-top:20px}
+}
+
+/* rising and falling: period buttons with the compared dates beside them */
+#movers-section .mv-ctl{flex-wrap:wrap;gap:8px 12px;margin:0 0 20px}
+#movers-section .mv-ctl .pick{margin:0}
+#movers-range button:first-child{background:#FDFAF4;border:1px solid #EDE4D3;
+  color:#6B6558;font-weight:600;margin-right:0;box-shadow:none}
+#movers-range button:first-child[aria-pressed="true"]{
+  background:#E56743;border-color:#E56743;color:#fff}
+.mv-stamp{font-size:13px;color:#8A857C;font-variant-numeric:tabular-nums;
+  white-space:pre}
