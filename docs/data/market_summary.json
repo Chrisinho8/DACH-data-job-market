@@ -1,12 +1,12 @@
 [
  {
-  "snapshot_date": "2026-11-17T00:00:00.000",
-  "live_postings": 3578,
-  "employers": 1355,
-  "avg_age_days": 44.2,
+  "snapshot_date": "2026-11-18T00:00:00.000",
+  "live_postings": 3533,
+  "employers": 1335,
+  "avg_age_days": 44.1,
   "median_age_days": 20,
-  "pct_over_7d": 69.8,
-  "pct_over_30d": 40.3,
+  "pct_over_7d": 72.5,
+  "pct_over_30d": 39.7,
   "pct_over_60d": 25.4,
   "pct_over_90d": 15.7,
   "pct_agency": 4.5,
