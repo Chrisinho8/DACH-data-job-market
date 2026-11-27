@@ -1,41 +1,41 @@
 [
  {
   "country": "de",
-  "n_postings": 2917,
-  "employers": 1122,
-  "avg_age_days": 48.7,
-  "median_age_days": 22,
-  "pct_over_30d": 41.4,
-  "pct_over_60d": 27.6,
-  "pct_over_90d": 17.8,
-  "pct_english": 27.0,
-  "pct_with_salary": 8.1,
-  "pct_agency": 4.9
+  "n_postings": 2988,
+  "employers": 1133,
+  "avg_age_days": 48.0,
+  "median_age_days": 21,
+  "pct_over_30d": 40.5,
+  "pct_over_60d": 27.1,
+  "pct_over_90d": 17.6,
+  "pct_english": 26.3,
+  "pct_with_salary": 7.9,
+  "pct_agency": 4.8
  },
  {
   "country": "ch",
-  "n_postings": 488,
-  "employers": 183,
+  "n_postings": 464,
+  "employers": 175,
   "avg_age_days": 29.7,
-  "median_age_days": 13,
-  "pct_over_30d": 24.2,
-  "pct_over_60d": 13.5,
-  "pct_over_90d": 7.4,
-  "pct_english": 64.3,
-  "pct_with_salary": 2.9,
-  "pct_agency": 3.1
+  "median_age_days": 14,
+  "pct_over_30d": 24.8,
+  "pct_over_60d": 15.9,
+  "pct_over_90d": 7.3,
+  "pct_english": 65.5,
+  "pct_with_salary": 3.0,
+  "pct_agency": 3.2
  },
  {
   "country": "at",
-  "n_postings": 174,
+  "n_postings": 170,
   "employers": 96,
-  "avg_age_days": 49.3,
+  "avg_age_days": 49.2,
   "median_age_days": 15,
-  "pct_over_30d": 43.1,
-  "pct_over_60d": 29.3,
-  "pct_over_90d": 21.3,
-  "pct_english": 40.2,
-  "pct_with_salary": 35.1,
-  "pct_agency": 5.7
+  "pct_over_30d": 42.4,
+  "pct_over_60d": 28.8,
+  "pct_over_90d": 20.6,
+  "pct_english": 41.2,
+  "pct_with_salary": 34.7,
+  "pct_agency": 5.3
  }
 ]
