@@ -685,117 +685,6 @@ get("age_distribution").then(d => {
 });
 
 
-Promise.all([get("market_summary"), get("role_breakdown")])
-  .then(([ms, rb]) => {
-  if (!ms || !ms.length) return;
-  const m = ms[0];
-  set("f-agency", m.pct_agency);
-
-  const ALL  = "All roles";
-  const pick = document.getElementById("survpick");
-
-  /* does the published role_breakdown carry survival columns? */
-  const hasSurv = Array.isArray(rb) && rb.length &&
-                  rb[0].pct_over_30d !== undefined;
-
-
-  const byRole = {};
-  if (hasSurv) live(rb).forEach(r => {
-    const k = r.role_family;
-    const a = byRole[k] = byRole[k] ||
-      { n: 0, d7: 0, d30: 0, d60: 0, d90: 0, age: 0, med: 0 };
-    const w = r.n_postings || 0;
-    a.n   += w;
-    a.d7  += w * (r.pct_over_7d  ?? 0);
-    a.d30 += w * (r.pct_over_30d ?? 0);
-    a.d60 += w * (r.pct_over_60d ?? 0);
-    a.d90 += w * (r.pct_over_90d ?? 0);
-    a.age += w * (r.avg_age_days ?? 0);
-    a.med += w * (r.median_age_days ?? 0);
-  });
-
-  const roles = Object.keys(byRole).sort((a, b) => byRole[b].n - byRole[a].n);
-
-  const stats = role => {
-    if (role === ALL) return {
-      pts: [
-        { x: 0,  y: 100 },
-        { x: 7,  y: m.pct_over_7d },
-        { x: 30, y: m.pct_over_30d },
-        { x: 60, y: m.pct_over_60d },
-        { x: 90, y: m.pct_over_90d },
-      ],
-      mean: Math.round(m.avg_age_days),
-      median: m.median_age_days
-    };
-    const a = byRole[role], n = a.n || 1, r1 = v => Math.round(10 * v / n) / 10;
-    return {
-      pts: [
-        { x: 0,  y: 100 },
-        { x: 7,  y: r1(a.d7)  },
-        { x: 30, y: r1(a.d30) },
-        { x: 60, y: r1(a.d60) },
-        { x: 90, y: r1(a.d90) },
-      ],
-      mean: Math.round(a.age / n),
-      median: Math.round(a.med / n)
-    };
-  };
-
-  let current = ALL, chart = null;
-
-  function draw() {
-    const s = stats(current);
-    set("f-mean", s.mean);
-    set("f-median", s.median);
-    if (chart) chart.destroy();
-    chart = new Chart(document.getElementById("surv"), {
-      type: "line",
-      data: { datasets: [{
-        data: s.pts, borderColor: CORAL, backgroundColor: "#D9775722",
-        fill: true, tension: .25, pointRadius: 4,
-        pointBackgroundColor: CORAL }]},
-      options: {
-        aspectRatio: window.innerWidth < 600 ? 1.5 : 2.8,
-        plugins: { legend: { display: false },
-          tooltip: { callbacks: {
-            title: () => current === ALL ? ALL : rlab(current),
-            label: c =>
-              `${c.raw.y}% still open after ${c.raw.x} days` } } },
-        scales: {
-          x: { type: "linear", title: { display: true,
-               text: "days since posted" }, grid: { color: LINE } },
-          y: { title: { display: true, text: "% still listed" },
-               min: 0, max: 100, grid: { color: LINE } }
-        }
-      }
-    });
-  }
-
-  if (pick && roles.length) {
-    const names = [ALL].concat(roles);
-    pick.innerHTML = names.map(n =>
-      `<button type="button" data-role="${n}"
-               title="${n === ALL ? "every posting"
-                        : byRole[n].n.toLocaleString() + " postings"}"
-               aria-pressed="${n === current}">` +
-      `${n === ALL ? ALL : rlab(n)}</button>`).join("");
-
-    pick.querySelectorAll("button").forEach(b => {
-      b.addEventListener("click", () => {
-        current = b.dataset.role;
-        pick.querySelectorAll("button").forEach(x =>
-          x.setAttribute("aria-pressed", x.dataset.role === current));
-        draw();
-      });
-    });
-  } else if (pick) {
-    pick.closest(".mapctl").hidden = true;
-  }
-
-  draw();
-});
-
 /* ---------------- geography ---------------- */
 /* keyed "country|city" because Baden exists in AT, CH and DE */
 const GEO = {
@@ -1730,89 +1619,6 @@ get("agency_comparison").then(d => {
         y: "days open (bar 1) · % over 60 days (bar 2)" });
 });
 
-/* ---------------- employers ----------------
-   Built from POSTINGS rather than stale_by_company, because the role
-   filter needs a company x role_family cut and the precomputed table
-   only carries company totals. POSTINGS is already fetched for the
-   postings browser, so this costs no extra request. Counts can sit a
-   little under stale_by_company: POSTINGS drops rows with no url and
-   rows in retired roles. */
-function initEmployers() {
-  if (!POSTINGS.length) return;
-
-  const EALL = "All roles";
-  const pick = document.getElementById("emppick");
-  let current = EALL;
-
-  /* roles ordered by how many postings they hold */
-  const famCount = {};
-  POSTINGS.forEach(r => {
-    if (r.role_family) famCount[r.role_family] =
-      (famCount[r.role_family] || 0) + 1;
-  });
-  const fams = Object.keys(famCount)
-    .sort((a, b) => famCount[b] - famCount[a]);
-
-  function topCompanies(role) {
-    const agg = {};
-    POSTINGS.forEach(r => {
-      if (!r.company) return;
-      if (role !== EALL && r.role_family !== role) return;
-      const a = agg[r.company] = agg[r.company] || { n: 0, age: 0 };
-      a.n++;
-      a.age += (r.age_days || 0);
-    });
-    return Object.entries(agg)
-      .map(([company, a]) => ({ company, n: a.n, avg: a.age / a.n }))
-      .sort((x, y) => y.n - x.n || x.company.localeCompare(y.company))
-      .slice(0, 15);
-  }
-
-  function draw() {
-    const vol = topCompanies(current);
-    const el = document.getElementById("empvol");
-    if (el && Chart.getChart) {
-      const old = Chart.getChart(el);
-      if (old) old.destroy();
-    }
-    if (!vol.length) return;
-    bar("empvol", vol.map(r => wrap(r.company, 24)),
-        [ds("Live postings", vol.map(r => r.n), CORAL)],
-        true, false, false,
-        { x: "live postings",
-          y: "company",
-          /* no company dropdown: the search box already matches on
-             employer, so a click just fills it in */
-          pick: i => openPostings(current === EALL
-            ? { q: vol[i].company }
-            : { q: vol[i].company, family: current }) });
-  }
-
-  if (pick && fams.length) {
-    const names = [EALL].concat(fams);
-    pick.innerHTML = names.map(n =>
-      `<button type="button" data-role="${esc(n)}"
-               title="${n === EALL
-                 ? POSTINGS.length.toLocaleString() + " postings"
-                 : famCount[n].toLocaleString() + " postings"}"
-               aria-pressed="${n === current}">` +
-      `${n === EALL ? EALL : esc(rlab(n))}</button>`).join("");
-
-    pick.querySelectorAll("button").forEach(b => {
-      b.addEventListener("click", () => {
-        current = b.dataset.role;
-        pick.querySelectorAll("button").forEach(x =>
-          x.setAttribute("aria-pressed", x.dataset.role === current));
-        draw();
-      });
-    });
-  } else if (pick) {
-    pick.closest(".mapctl").hidden = true;
-  }
-
-  draw();
-}
-
 /* ---------------- postings browser ----------------------------
    The only row-level view on the page. Everything else is a count;
    this is what was counted.
@@ -1977,7 +1783,9 @@ function pRender() {
              rel="noopener nofollow">${esc(r.title)}</a>${tags}</td>
       <td>${esc(r.company)}${r.is_agency
             ? ' <span class="flag">agency</span>' : ""}</td>
-      <td>${esc(cityName(r.city))}
+      <td>${!r.city || r.city === "unknown"
+            ? '<span class="noloc">Location not given</span>'
+            : esc(cityName(r.city))}
           <span class="flag">${String(r.country).toUpperCase()}</span></td>
       <td class="fam"><span class="dot"
             style="background:${rcol(fam, 0)}"></span>${rlab(fam)}</td>
@@ -2047,7 +1855,6 @@ get("postings").then(d => {
   if (!POSTINGS.length) return;
 
   $p("postings-section").hidden = false;
-  initEmployers();
   initRoleProfiles();
 
   const uniq = k => [...new Set(POSTINGS.map(r => r[k]).filter(Boolean))];
@@ -3626,7 +3433,7 @@ function initRoleProfiles() {
     $("rp-tag").textContent = ai ? "AI role" : "Data role";
     $("rp-tag").style.background = ai ? CORAL : STEEL;
     $("rp-name").textContent = name;
-    $("rp-posts").textContent = `See all ${nf(x.n)} ${name} postings ↓`;
+    $("rp-posts").textContent = `See all ${nf(x.n)} ${name} postings ↑`;
 
     const top = x.places[0], jr = x.sen[0];
     $("rp-sum").textContent =
@@ -3714,8 +3521,9 @@ function initRoleProfiles() {
    Top 15 skills, generative-AI ones in coral.                     */
 get("skill_demand").then(sd => {
   const sec = document.getElementById("vocab-section");
-  if (!sec || !Array.isArray(sd) || !sd.length) return;
+  if (!Array.isArray(sd) || !sd.length) return;
   sd.forEach(r => { if (r.skill_category === "genai") GENAI.add(r.skill); });
+  if (!sec) return;   /* the top-15 panel was removed from the page */
   const isG = r => GENAI.has(r.skill);
   const top = sd.slice().sort((a, b) =>
     b.pct_postings - a.pct_postings || b.n_postings - a.n_postings)
@@ -3789,8 +3597,8 @@ get("history").then(h => {
         return { k, a, b, d: b - a };
       })
       .filter(r => Math.max(r.a, r.b) >= .5 && Math.abs(r.d) >= .05);
-    const up = rows.filter(r => r.d > 0).sort((x, y) => y.d - x.d).slice(0, 7);
-    const down = rows.filter(r => r.d < 0).sort((x, y) => x.d - y.d).slice(0, 7);
+    const up = rows.filter(r => r.d > 0).sort((x, y) => y.d - x.d).slice(0, 10);
+    const down = rows.filter(r => r.d < 0).sort((x, y) => x.d - y.d).slice(0, 10);
 
     /* bars use at most ~75% of the track, leaving room for the label */
     const max = Math.max(...up.concat(down).map(r => Math.abs(r.d)), .1) / .75;
@@ -3937,17 +3745,184 @@ RUNS.then(runs => {
       `<span class="tag">⚠ Incident · ${fRange(lastOut.from, lastOut.to)} ` +
       `${lastOut.to.slice(0, 4)}</span>` +
       `<h3>${lastOut.n} days without a run</h3><dl>` +
-      `<div><dt>What happened</dt><dd>The account was blocked ` +
-      `(${lastOut.outage.why}), so the daily job couldn't run.</dd></div>` +
-      `<div><dt>Impact</dt><dd>No snapshots for ${lastOut.n} days, shaded ` +
-      `in the time charts.</dd></div>` +
-      `<div><dt>Recovered</dt><dd>Adverts from those days still online on ` +
-      `${fDay(back)} were counted, as lower bounds.</dd></div>` +
-      (set.has(back) ? `<div><dt>Since</dt><dd>Daily again from ` +
-        `${fDay(back)}` + (restart === back
-          ? `, ${nf(streak)} runs in a row.` : ".") + `</dd></div>` : "") +
+      `<div><dt>Why</dt><dd>Account blocked (${lastOut.outage.why}).</dd></div>` +
+      `<div><dt>Impact</dt><dd>No snapshots, shaded in the charts.</dd></div>` +
+      (set.has(back) ? `<div><dt>Since</dt><dd>Back daily from ${fDay(back)}` +
+        (restart === back ? `, ${nf(streak)} runs in a row.` : ".") +
+        `</dd></div>` : "") +
       `</dl>`;
   } else if (card) card.hidden = true;
 
   sec.hidden = false;
+});
+
+
+/* ---------------- skills over time ----------------
+   history.json keeps every skill's share of live postings (skill_pct)
+   per run. Pick one or more skills and each gets a line over the same
+   calendar-day axis as the market trend, with the no-run days shaded.
+   A skill added to the dictionary mid-way simply starts later.     */
+get("history").then(h => {
+  const sec = document.getElementById("sktrend-section");
+  const pick = document.getElementById("skpick");
+  const cv = document.getElementById("sktrend");
+  if (!sec || !pick || !cv || !Array.isArray(h)) return;
+
+  const START = "2026-08-08";        /* same clean start as the trend */
+  const MAX_SEL = 8, TOP = 16;
+  const by = {}, runSet = new Set();
+  h.forEach(r => {
+    const d = iso(r.snapshot_date);
+    if (d < START) return;
+    runSet.add(d);
+    if (r.metric !== "skill_pct") return;
+    (by[r.dimension] = by[r.dimension] || {})[d] = r.value;
+  });
+  const runs = [...runSet].sort();
+  if (runs.length < 2 || !Object.keys(by).length) return;
+  const lastRun = runs[runs.length - 1];
+  const days = dayList(runs[0], lastRun);
+  const latest = k => by[k][lastRun] ?? 0;
+  const skills = Object.keys(by).sort((a, b) => latest(b) - latest(a));
+
+  let sel = skills.slice(0, 3), showAll = false, gran = "day", chart = null;
+  const colOf = {};
+  sel.forEach((k, i) => colOf[k] = CATS[i]);
+  const freeCol = () => CATS.find(c => !sel.some(k => colOf[k] === c)) || CATS[0];
+
+  const buckets = () => {
+    if (gran === "day") return days.map(d => [d, runSet.has(d) ? [d] : []]);
+    const m = new Map();
+    days.forEach(d => {
+      const k = mondayOf(d);
+      if (!m.has(k)) m.set(k, []);
+      if (runSet.has(d)) m.get(k).push(d);
+    });
+    return [...m.entries()];
+  };
+
+  function chips() {
+    const shown = showAll ? skills
+      : skills.slice(0, TOP).concat(sel.filter(k => skills.indexOf(k) >= TOP));
+    pick.innerHTML = shown.map(k => {
+      const on = sel.includes(k);
+      return `<button type="button" data-k="${esc(k)}" aria-pressed="${on}"` +
+        (on ? ` style="background:${colOf[k]}"` : "") +
+        ` title="${pct1(latest(k))} of postings on ${fDay(lastRun)}">` +
+        `${esc(slab(k))}<span class="n">${pct1(latest(k))}</span></button>`;
+    }).join("");
+    document.getElementById("skmore").textContent =
+      showAll ? "Show fewer" : `Show all ${skills.length} skills`;
+  }
+
+  function draw() {
+    if (chart) chart.destroy();
+    const bk = buckets(), keys = bk.map(b => b[0]);
+    const bands = noRunBands(keys, (k, i) => !bk[i][1].length,
+      (a, b) => [a, gran === "week" ? addDays(b, 6) : b]);
+    const datasets = sel.map(k => {
+      const col = colOf[k];
+      const data = bk.map(([, ds]) => {
+        const vs = ds.map(d => by[k][d]).filter(v => v != null);
+        return vs.length
+          ? Math.round(10 * vs.reduce((a, b) => a + b, 0) / vs.length) / 10
+          : null;
+      });
+      return {
+        label: slab(k), data, borderColor: col, backgroundColor: col,
+        tension: .3, borderWidth: 2.2, fill: false, spanGaps: false,
+        pointRadius: c => {
+          if (gran === "week") return 3;
+          const d = c.dataset.data, i = c.dataIndex;
+          return d[i] != null && d[i - 1] == null && d[i + 1] == null ? 2.5 : 0;
+        },
+        pointHoverRadius: 4
+      };
+    });
+    document.getElementById("skempty").hidden = sel.length > 0;
+    chart = new Chart(cv, {
+      type: "line",
+      data: { labels: keys, datasets },
+      plugins: [NO_RUN],
+      options: {
+        aspectRatio: window.innerWidth < 600 ? 1.4 : 2.6,
+        layout: { padding: bandPad(bands) },
+        interaction: { mode: "slot", intersect: false },
+        plugins: {
+          noRun: { bands },
+          legend: { display: sel.length > 0, position: "bottom",
+                    labels: { boxWidth: 12, boxHeight: 12, padding: 14,
+                              font: { size: 13 } } },
+          tooltip: {
+            mode: "slot", intersect: false, position: "slot",
+            itemSort: (a, b) => (b.parsed.y ?? -1) - (a.parsed.y ?? -1),
+            titleFont: { size: 13 }, bodyFont: { size: 13 },
+            callbacks: {
+              title: it => it.length ? (gran === "week"
+                ? "Week of " + fDay(keys[it[0].dataIndex])
+                : fDayW(keys[it[0].dataIndex])) : "",
+              label: c => c.parsed.y == null ? ""
+                : `${c.dataset.label}: ${c.parsed.y.toFixed(1)}% of postings`,
+              afterBody: it => {
+                if (!it.length || it.some(i => i.parsed.y != null)) return "";
+                return gran === "week" ? "No runs that week" : "No run that day";
+              }
+            }
+          }
+        },
+        scales: {
+          x: { grid: { color: c => gran === "week" ||
+                         [1, 15].includes(+String(keys[c.index] || "").slice(8, 10))
+                         ? LINE : "transparent" },
+               ticks: { autoSkip: gran === "week", maxRotation: 0,
+                        callback: (v, i) => {
+                          const k = keys[i];
+                          if (gran === "week") return fDay(k);
+                          const dd = +k.slice(8, 10);
+                          return dd === 1 || dd === 15 ? fDay(k) : "";
+                        } },
+               title: { display: true, text: gran === "week"
+                 ? "week (Monday to Sunday)" : "snapshot date" } },
+          y: { beginAtZero: true, grid: { color: LINE },
+               ticks: { callback: v => v + "%" },
+               title: { display: true, text: "% of postings mentioning it" } }
+        }
+      }
+    });
+  }
+
+  const hint = document.getElementById("skhint");
+  let hintT = null;
+  pick.addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    const k = b.dataset.k;
+    if (sel.includes(k)) sel = sel.filter(x => x !== k);
+    else if (sel.length >= MAX_SEL) {
+      hint.textContent = `Up to ${MAX_SEL} skills at a time`;
+      clearTimeout(hintT);
+      hintT = setTimeout(() => hint.textContent = "", 2200);
+      return;
+    } else { colOf[k] = freeCol(); sel.push(k); }
+    chips(); draw();
+  });
+  document.getElementById("skmore").addEventListener("click", () => {
+    showAll = !showAll; chips();
+  });
+  document.getElementById("skclear").addEventListener("click", () => {
+    sel = []; chips(); draw();
+  });
+  const granEl = document.getElementById("skgran");
+  granEl.addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (!b || b.dataset.g === gran) return;
+    gran = b.dataset.g;
+    granEl.querySelectorAll("button").forEach(x =>
+      x.setAttribute("aria-pressed", String(x === b)));
+    draw();
+  });
+
+  sec.hidden = false;
+  chips();
+  draw();
 });

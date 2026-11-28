@@ -71,7 +71,7 @@
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link rel="stylesheet" href="style.css?v=35">
+<link rel="stylesheet" href="style.css?v=38">
 <style>
 
   @media(min-width:721px){
@@ -137,7 +137,7 @@
 
   /* collapsible filter panel */
   .pfilters-bar{display:flex;align-items:center;gap:10px;
-    margin:18px 0 -6px;padding:0 2px}
+    margin:-6px 0 -14px;padding:0 2px}
   .pfilters-bar .fcount{font-size:12px;font-weight:700;padding:2px 8px;
     border-radius:99px;background:rgba(229,103,67,.16);color:#B04A28;
     font-variant-numeric:tabular-nums}
@@ -157,7 +157,7 @@
   .pfilterbody[hidden]{display:none}
 
   /* skill picker: deliberately loud, it is the main way in */
-  .pskills{margin:14px 0 4px;padding:14px 16px 12px;
+  .pskills{margin:10px 0 4px;padding:14px 16px 12px;
            background:#FFF9F0;border:1.5px solid rgba(229,103,67,.35);
            border-radius:14px}
   .pskills[hidden]{display:none}
@@ -232,6 +232,7 @@
   .ptable .fam{white-space:nowrap;color:#5C5A54}
   .ptable .dot{display:inline-block;width:8px;height:8px;
                border-radius:50%;margin-right:6px;vertical-align:0}
+  .ptable .noloc{color:#8A857C;font-style:italic}
   .ptable .stale{color:#8A4A2E;font-weight:600}
   .ptable .empty{padding:26px 12px;text-align:center;color:#8A857C}
   /* pagination */
@@ -315,11 +316,19 @@
   .cc dt{color:#5C5A54}
   .cc dd{margin:0;text-align:right;font-weight:600;
          font-variant-numeric:tabular-nums}
-  .titlerow{display:flex;align-items:center;justify-content:center;gap:22px}
-  .hdmark{flex:0 0 auto;width:86px;height:auto;display:block}
+  .titlerow{display:flex;align-items:center;justify-content:space-between;
+            gap:36px;max-width:900px;margin:0 auto 4px}
+  .titlerow h1{text-align:left;margin:0;max-width:none;flex:1 1 auto;
+               font-size:46px}
+  .hdmark{flex:0 0 auto;width:150px;height:auto;display:block;
+          transform:translate(-40px,-16px) rotate(-4deg);transition:transform .25s ease}
+  .hdmark:hover{transform:translate(-40px,-16px) rotate(0) scale(1.04)}
+  header .sub{font-size:20.5px;max-width:900px}
   @media(max-width:720px){
     .titlerow{gap:14px}
-    .hdmark{width:56px}
+    .titlerow h1{font-size:30px}
+    .hdmark{width:84px;transform:rotate(-4deg)}
+    header .sub{font-size:17.5px}
   }
 
   .h2when{font-size:inherit;font-weight:inherit;color:inherit;
@@ -329,10 +338,11 @@
   /* the trend section stacks role pills over the Show checkboxes,
      so the two rows need air between them */
   #trend-section .ctlrow-roles{margin-bottom:12px}
-  .byline{margin:10px 0 0;font-size:17px;color:var(--slate)}
+  .byline{margin:10px 0 0;font-size:19.5px;color:var(--slate)}
+  header .byline{margin-top:14px}
   .byline a{display:inline-flex;align-items:center;gap:6px}
   .byline .li{flex:0 0 auto;position:relative;top:-1px;border-radius:5px;
-              width:23px;height:23px}
+              width:26px;height:26px}
   .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;
            clip:rect(0 0 0 0);white-space:nowrap}
   .byline a{color:var(--coral);text-decoration:none;
@@ -548,6 +558,23 @@
     text-align:center;width:30%}
   #cmptable td:first-child{width:40%}
 
+  /* skill trend picker: plain chips, no "All" reset styling */
+  .skpick{margin:0}
+  .skpick button:first-child{background:#FDFAF4;border-color:var(--line);
+    color:var(--slate);font-weight:600;margin-right:0;box-shadow:none}
+  .skpick button[aria-pressed="true"],
+  .skpick button:first-child[aria-pressed="true"]{color:#fff;
+    border-color:transparent;box-shadow:none}
+  .skpick button .n{font-weight:500;opacity:.6;margin-left:5px;
+    font-variant-numeric:tabular-nums}
+  .skfoot{display:flex;align-items:center;gap:16px;margin-top:8px}
+  .skhint{font-size:12.5px;color:#B04A28;font-weight:600}
+  .skbox{position:relative;margin-top:6px}
+  .skempty{position:absolute;inset:0;display:flex;align-items:center;
+    justify-content:center;margin:0;color:#8A857C;font-size:15px;
+    pointer-events:none}
+  .skempty[hidden]{display:none}
+
   #maptip{position:fixed;z-index:50;pointer-events:none;opacity:0;
     transition:opacity .1s;background:#26221B;color:#fff;
     padding:9px 12px;border-radius:10px;font-size:12px;line-height:1.45;
@@ -564,7 +591,7 @@
     <div class="navlinks">
       <a href="#geo">Map</a>
       <a href="#postings-section">Postings</a>
-      <a href="#vocab-section">Skills</a>
+      <a href="#sktrend-section">Skills</a>
       <a href="#role-profile">Role profiles</a>
       <a href="#runs-section">Runs</a>
       <a href="#limitations">Limitations</a>
@@ -575,11 +602,12 @@
 <header>
   <div class="wrap">
     <div class="titlerow">
-      <img class="hdmark" src="assets/dach.svg" alt=""
-           width="86" height="107" loading="eager"
-           onerror="this.remove()">
       <h1>What's up with the
           AI/data job market in the DACH region?</h1>
+      <img class="hdmark" src="assets/dach.svg"
+           alt="Map of Germany, Austria and Switzerland"
+           width="150" height="182" loading="eager"
+           onerror="this.remove()">
     </div>
     <p class="sub">
       Every day at 08:00 UTC+2, data from job-postings across all three DACH
@@ -876,20 +904,35 @@
     <ul class="nplegend" id="nplegend" hidden></ul>
   </section>
 
-  <section id="vocab-section" class="compact" hidden>
-    <h2>The 15 most-mentioned skills</h2>
-    <p class="note">Share of postings that mention each skill.</p>
-    <ul class="leg-inline">
-      <li><i style="background:#E56743"></i>Generative-AI skills</li>
-      <li><i style="background:#5C87A8"></i>Other skills</li>
-    </ul>
-    <div class="vocab-cols">
-      <div class="hb" id="vocab-a"></div>
-      <div class="hb" id="vocab-b"></div>
+  <section id="sktrend-section" class="compact" hidden>
+    <h2>How skills rise and fall over time</h2>
+    <p class="note">Share of live postings that mention each skill, per
+      daily run. Pick as many as you like (up to 8) to compare them.</p>
+    <div class="mapctl">
+      <div class="ctlrow ctlrow-roles">
+        <span class="ctl-lab">Skills</span>
+        <div>
+          <div id="skpick" class="pick skpick" role="group"
+               aria-label="Skills to plot"></div>
+          <div class="skfoot">
+            <button type="button" id="skmore" class="pskills-more">Show all skills</button>
+            <button type="button" id="skclear" class="pskills-more">Clear</button>
+            <span class="skhint" id="skhint"></span>
+          </div>
+        </div>
+      </div>
+      <div class="ctlrow">
+        <span class="ctl-lab">View</span>
+        <div id="skgran" class="pick">
+          <button type="button" data-g="day"  aria-pressed="true">Daily</button>
+          <button type="button" data-g="week" aria-pressed="false">Weekly avg</button>
+        </div>
+      </div>
     </div>
-    <p class="fine">Matched in the title and the first 500 characters
-      of each description, so shares are floors.</p>
+    <div class="skbox"><canvas id="sktrend"></canvas>
+      <p class="skempty" id="skempty" hidden>Pick a skill above to plot it.</p></div>
   </section>
+
 
   <section id="movers-section" class="compact" hidden>
     <h2>Rising and falling skills</h2>
@@ -996,32 +1039,10 @@
     </div>
   </section>
 
-  <section>
-    <h2>How long do postings stay open?</h2>
-    <div class="mapctl">
-      <div class="ctlrow ctlrow-roles">
-        <span class="ctl-lab">Role</span>
-        <div id="survpick" class="pick"></div>
-      </div>
-    </div>
-    <canvas id="surv" height="180"></canvas>
-  </section>
 
 
 
 
-  <section>
-    <h2>Which company has the most listings?</h2>
-    <p class="note">
-    </p>
-    <div class="mapctl">
-      <div class="ctlrow ctlrow-roles">
-        <span class="ctl-lab">Role</span>
-        <div id="emppick" class="pick"></div>
-      </div>
-    </div>
-    <canvas id="empvol" height="260"></canvas>
-  </section>
  
   <section id="runs-section" class="compact" hidden>
     <h2>Daily pipeline runs</h2>
@@ -1154,7 +1175,7 @@
 
 <div id="maptip" role="tooltip"></div>
 
-<script src="app.js?v=31"></script>
+<script src="app.js?v=36"></script>
 
 
 

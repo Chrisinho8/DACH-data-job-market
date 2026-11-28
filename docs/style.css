@@ -239,12 +239,12 @@ footer{
   color:var(--slate);
   text-align:center;
 }
-footer .byline{margin-left:auto;margin-right:auto;font-size:16px;
+footer .byline{margin-left:auto;margin-right:auto;font-size:18.5px;
                line-height:1.5}
 footer .byline a{font-weight:600}
-footer .byline .li{width:21px;height:21px}
+footer .byline .li{width:24px;height:24px}
 @media(max-width:600px){
-  footer .byline{font-size:15px}
+  footer .byline{font-size:16px}
   footer .byline .li{width:20px;height:20px}
 }
 a{color:var(--clay)}
@@ -415,16 +415,16 @@ section.compact .note{font-size:15.5px;margin:4px 0 12px}
 #runcal .cl-c:hover .cl-off{fill:#F6F1E8}
 #runcal .cl-br{fill:none;stroke:#4A453C}
 #runcal .cl-bt{font:650 12px "Inter",system-ui,sans-serif;fill:#221F1A}
-.incident{border:1px solid var(--line);border-radius:12px;padding:14px 16px;
+.incident{border:1px solid var(--line);border-radius:12px;padding:18px 20px;
   background:#FDFAF4}
-.incident .tag{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;
+.incident .tag{display:inline-flex;align-items:center;gap:6px;font-size:13px;
   font-weight:700;letter-spacing:.04em;color:#fff;background:var(--ink);
   border-radius:99px;padding:3px 10px;margin:0 0 8px}
-.incident h3{font-size:17px;margin:0 0 8px;letter-spacing:-.01em}
-.incident dl{margin:0;display:grid;gap:8px}
-.incident dt{font-size:11px;font-weight:700;letter-spacing:.06em;
+.incident h3{font-size:21px;margin:2px 0 12px;letter-spacing:-.01em}
+.incident dl{margin:0;display:grid;gap:11px}
+.incident dt{font-size:12.5px;font-weight:700;letter-spacing:.06em;
   text-transform:uppercase;color:#8A857C}
-.incident dd{margin:1px 0 0;font-size:13.5px;color:var(--slate);line-height:1.45}
+.incident dd{margin:2px 0 0;font-size:16px;color:var(--slate);line-height:1.45}
 
 /* role profiles, a little roomier; legends sit on the cards' bottom
    edge so the three cards line up */
